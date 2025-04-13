@@ -14,6 +14,7 @@ $isDevMode = false;
 
 // Define the configuration parameters the database connection
 $dbParams = [
+    "host" => "127.0.0.1",
     "driver" => "pdo_mysql",
     "user" => "root", // TO BE SECURED
     "password" => "12345678", // TO BE SECURED
