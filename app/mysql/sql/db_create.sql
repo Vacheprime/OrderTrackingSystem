@@ -35,8 +35,8 @@ CREATE TABLE employee (
 	birth_date DATE NOT NULL,
 	hire_date DATE NOT NULL,
 	is_admin BOOLEAN NOT NULL,
-	password_hash VARCHAR(500) NOT NULL,
-	secret VARCHAR(500),
+	password_hash VARCHAR(255) NOT NULL,
+	secret VARCHAR(255),
 	address_id INTEGER NOT NULL,
 	CONSTRAINT employee_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
 );
