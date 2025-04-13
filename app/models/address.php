@@ -2,19 +2,46 @@
 
 declare(strict_types = 1);
 
-namespace models;
+namespace app\models;
 
-use core\utils\Utils;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Column;
+
+use app\core\utils\Utils;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\GeneratedValue;
 use InvalidArgumentException;
 
 require_once(dirname(__DIR__)."/core/utils/utils.php");
+require_once(dirname(__DIR__)."/mysql/orm_config/doctrine_config.php");
 
+#[Entity]
+#[Table("address")]
 class Address {
+    #[Id]
+    #[Column(name: "address_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private int $addressId;
+
+    #[Column(name: "street_name", type: Types::STRING)]
     private string $streetName;
+
+    #[Column(name: "appartment_number", type: Types::STRING)]
     private ?string $appartmentNumber;
+
+    #[Column(name: "postal_code", type: Types::STRING)]
     private string $postalCode;
+
+    #[Column(name: "area", type: Types::STRING)]
     private string $area;
+
+    public function __construct(string $streetName, ?string $aptNumber, string $postalCode, string $area) {
+        $this->setStreetName($streetName);
+        $this->setAppartmentNumber($aptNumber);
+        $this->setPostalCode($postalCode);
+        $this->setArea($area);
+    }
 
     public function getAddressId(): int {
         return $this->addressId;
@@ -58,7 +85,7 @@ class Address {
     }
 
     public function setArea(string $area): void {
-        if (Address::validateArea($area)) {
+        if (!Address::validateArea($area)) {
             throw new InvalidArgumentException("The area is invalid!");
         }
         $this->area = $area;
