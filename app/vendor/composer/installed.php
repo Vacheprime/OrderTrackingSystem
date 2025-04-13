@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9553cfd2f1d9ae2de46f6b00dc406989eaa1973b',
+        'reference' => 'f1d0078c2f32c55d00269d0fdd8909aa5c0d8758',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9553cfd2f1d9ae2de46f6b00dc406989eaa1973b',
+            'reference' => 'f1d0078c2f32c55d00269d0fdd8909aa5c0d8758',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -133,6 +133,12 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'psr/clock-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+            ),
+        ),
         'psr/container' => array(
             'pretty_version' => '2.0.2',
             'version' => '2.0.2.0',
@@ -196,6 +202,15 @@
                 0 => '1.1|2.0|3.0',
             ),
         ),
+        'symfony/clock' => array(
+            'pretty_version' => 'v7.2.0',
+            'version' => '7.2.0.0',
+            'reference' => 'b81435fbd6648ea425d1ee96a2d8e68f4ceacd24',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/clock',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/console' => array(
             'pretty_version' => 'v7.2.5',
             'version' => '7.2.5.0',
@@ -247,6 +262,15 @@
             'reference' => '85181ba99b2345b0ef10ce42ecac37612d9fd341',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php83' => array(
+            'pretty_version' => 'v1.31.0',
+            'version' => '1.31.0.0',
+            'reference' => '2fb86d65e2d424369ad2905e83b236a8805ba491',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php83',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

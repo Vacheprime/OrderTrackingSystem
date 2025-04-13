@@ -3,7 +3,8 @@
         "doctrine/orm": "^3",
         "doctrine/dbal": "^4",
         "symfony/cache": "^7",
-        "spomky-labs/otphp": "^11.3"
+        "spomky-labs/otphp": "^11.3",
+        "symfony/clock": "^7.2"
     },
     "autoload": {
         "psr-0": {"": "src/"}
