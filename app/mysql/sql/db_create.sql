@@ -8,7 +8,7 @@ USE crown_granite_order_db;
 CREATE TABLE address (
 	address_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	street_name VARCHAR(75) NOT NULL,
-	appartment_number VARCHAR(15) NOT NULL,
+	appartment_number VARCHAR(15),
 	postal_code VARCHAR(10) NOT NULL,
 	area VARCHAR(50) NOT NULL
 );
