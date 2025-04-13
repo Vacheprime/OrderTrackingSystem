@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace models;
 
 use core\utils\Utils;
+use InvalidArgumentException;
 
 require_once(dirname(__DIR__)."/core/utils/utils.php");
 
@@ -23,6 +24,45 @@ class Address {
         return $this->streetName;
     }
 
+    public function setStreetName(string $streetName): void {
+        if (!Address::validateStreetName($streetName)) {
+            throw new InvalidArgumentException("The street name is invalid!");
+        }
+        $this->streetName = $streetName;
+    }
+
+    public function getAppartmentNumber(): ?string {
+        return $this->appartmentNumber;
+    }
+
+    public function setAppartmentNumber(string $aptNumber): void {
+        if (!Address::validateAptNumber($aptNumber)) {
+            throw new InvalidArgumentException("The appartment number is invalid!");
+        }
+        $this->appartmentNumber = $aptNumber;
+    }
+
+    public function getPostalCode(): string {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(string $postalCode): void {
+        if (!Address::validatePostalCode($postalCode)) {
+            throw new InvalidArgumentException("The postal code is invalid!");
+        }
+        $this->postalCode = $postalCode;
+    }
+
+    public function getArea(): string {
+        return $this->area;
+    }
+
+    public function setArea(string $area): void {
+        if (Address::validateArea($area)) {
+            throw new InvalidArgumentException("The area is invalid!");
+        }
+        $this->area = $area;
+    }
 
     /**
      * Checks whether a street name is of proper format.
