@@ -60,7 +60,7 @@ class Client {
     }
 
     public function setFirstName(string $firstName): void {
-        if (!Client::validateName($firstName)) {
+        if (!Utils::validateName($firstName)) {
             throw new InvalidArgumentException("The first name is invalid!");
         }
         $this->firstName = $firstName;
@@ -71,7 +71,7 @@ class Client {
     }
 
     public function setLastName(string $lastName): void {
-        if (!Client::validateName($lastName)) {
+        if (!Utils::validateName($lastName)) {
             throw new InvalidArgumentException("The last name is invalid!");
         }
         $this->lastName = $lastName;
@@ -97,7 +97,7 @@ class Client {
     }
 
     public function setPhoneNumber(string $phoneNumber): void {
-        if (!Client::validatePhoneNumber($phoneNumber)) {
+        if (!Utils::validatePhoneNumber($phoneNumber)) {
             throw new InvalidArgumentException("The phone number is invalid!");
         }
         $this->phoneNumber = $phoneNumber;
@@ -105,22 +105,6 @@ class Client {
 
     public function getAddress(): Address {
         return $this->address;
-    }
-
-    /**
-     * Checks whether a name, first or last, is of valid format.
-     * 
-     * The format for a name is a string ranging from 1 to 50 characters
-     * inclusively. Accepted characters are any uppercase
-     * or lowercase letter of any language, apostrophes, dashes, and spaces.
-     * The name cannot start or end with whitespace characters.
-     * 
-     * @param string $name The name to validate.
-     * @return bool A boolean indicating whether the name is valid.
-     */
-    public static function validateName(string $name): bool {
-        if (Utils::hasInvalidSpaces($name)) return false;
-        return preg_match('/[\p{L}\'\- ]{1,50}/u', $name) === 1;
     }
 
     /**
@@ -137,18 +121,5 @@ class Client {
     public static function validateClientReference(string $reference): bool {
         if (Utils::hasInvalidSpaces($reference)) return false;
         return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $reference) === 1;
-    }
-
-    /**
-     * Checks whether a phone number is of valid format.
-     * 
-     * The format for a phone number is a string of 17 characters.
-     * It has the format +D (DDD) DDD-DDDD where D is a digit.
-     * 
-     * @param string $phoneNumber The phone number to validate.
-     * @return bool A boolean indicating whether the phone number is valid.
-     */
-    public static function validatePhoneNumber(string $phoneNumber): bool {
-        return preg_match('/^\+\d \(\d{3}\) \d{3}-\d{4}$/', $phoneNumber) === 1;
     }
 }
