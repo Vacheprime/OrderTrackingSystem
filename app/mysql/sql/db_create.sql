@@ -18,7 +18,7 @@ CREATE TABLE `client` (
 	client_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
-	client_reference VARCHAR(100) NOT NULL,
+	client_reference VARCHAR(100),
 	phone_number VARCHAR(20) NOT NULL,
 	address_id INTEGER NOT NULL,
 	CONSTRAINT client_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
