@@ -10,7 +10,7 @@ CREATE TABLE address (
 	street_name VARCHAR(75) NOT NULL,
 	appartment_number VARCHAR(15) NOT NULL,
 	postal_code VARCHAR(10) NOT NULL,
-	area VARCHAR(50)
+	area VARCHAR(50) NOT NULL
 );
 
 -- Create the client table
