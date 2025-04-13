@@ -23,5 +23,6 @@ $dbParams = [
 
 // Create the configuration
 $config = ORMSetup::createAttributeMetadataConfiguration($modelClassesPath, $isDevMode);
+$config->setAutoGenerateProxyClasses(true);
 $connection = DriverManager::getConnection($dbParams, $config);
 $entityManager = new EntityManager($connection, $config);
