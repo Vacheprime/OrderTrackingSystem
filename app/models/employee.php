@@ -46,7 +46,7 @@ class Employee extends Person {
     #[Column(name: "password_hash", type: Types::STRING)]
     private string $passwordHash;
 
-    #[Column(name: "secret", type: Types::STRING, nullable: true)]
+    #[Column(name: "secret", type: Types::STRING)]
     private string $secret;
 
     public function __construct(
