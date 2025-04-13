@@ -36,7 +36,7 @@ class Client extends Person {
         $this->setClientReference($reference);
     }
 
-    public function getClientId(): int {
+    public function getClientId(): ?int {
         return $this->clientId;
     }
 

@@ -42,7 +42,7 @@ class Address {
         $this->setArea($area);
     }
 
-    public function getAddressId(): int {
+    public function getAddressId(): ?int {
         return $this->addressId;
     }
 
