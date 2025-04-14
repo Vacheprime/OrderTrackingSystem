@@ -4,7 +4,8 @@
         "doctrine/dbal": "^4",
         "symfony/cache": "^7",
         "spomky-labs/otphp": "^11.3",
-        "symfony/clock": "^7.2"
+        "symfony/clock": "^7.2",
+        "php-decimal/php-decimal": "^1.1"
     },
     "autoload": {
         "psr-0": {"": "src/"}

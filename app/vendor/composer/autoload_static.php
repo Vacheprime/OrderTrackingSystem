@@ -58,6 +58,7 @@ class ComposerStaticInit6f85502b52ffab0d6a85b356c58b065f
             'Doctrine\\Common\\Lexer\\' => 22,
             'Doctrine\\Common\\Collections\\' => 28,
             'Doctrine\\Common\\' => 16,
+            'Decimal\\' => 8,
         ),
     );
 
@@ -173,6 +174,11 @@ class ComposerStaticInit6f85502b52ffab0d6a85b356c58b065f
         'Doctrine\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+        ),
+        'Decimal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-decimal/php-decimal/src',
+            1 => __DIR__ . '/..' . '/php-decimal/stubs',
         ),
     );
 
