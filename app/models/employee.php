@@ -93,7 +93,7 @@ class Employee extends Person {
     }
 
     public function setPosition(string $position): void {
-        if (!self::validatePosition($position)) {
+        if (!Utils::validatePosition($position)) {
             throw new InvalidArgumentException("The position is invalid!");
         }
         $this->position = $position;
@@ -104,7 +104,7 @@ class Employee extends Person {
     }
 
     public function setEmail(string $email): void {
-        if (!self::validateEmail($email)) {
+        if (!Utils::validateEmail($email)) {
             throw new InvalidArgumentException("The email is invalid!");
         }
         $this->email = $email;
@@ -115,7 +115,7 @@ class Employee extends Person {
     }
 
     public function setBirthDate(DateTime $birthDate): void {
-        if (!self::validateBirthDate($birthDate)) {
+        if (!Utils::validateBirthDate($birthDate)) {
             throw new InvalidArgumentException("The birth date is invalid!");
         }
         $this->birthDate = $birthDate;
@@ -126,7 +126,7 @@ class Employee extends Person {
     }
 
     public function setHireDate(DateTime $hireDate): void {
-        if (!self::validateHireDate($hireDate)) {
+        if (!Utils::validateHireDate($hireDate)) {
             throw new InvalidArgumentException("The hire date is invalid!");
         }
         $this->hireDate = $hireDate;
@@ -145,7 +145,7 @@ class Employee extends Person {
     }
 
     public function setPassword(string $password): void {
-        if (!self::validatePassword($password)) {
+        if (!Utils::validatePassword($password)) {
             throw new InvalidArgumentException("The password is invalid!");
         }
         $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -160,98 +160,9 @@ class Employee extends Person {
     }
 
     public function setInitials(string $initials): void {
-        if (!self::validateInitials($initials)) {
+        if (!Utils::validateInitials($initials)) {
             throw new InvalidArgumentException("The initials are inbalid!");
         }
         $this->initials = $initials;
-    }
-
-    /**
-     * Checks whether a position is of proper format.
-     * 
-     * The format for a position is a string ranging from 1 to 25
-     * characters inclusively. Accepted characters are any uppercase or
-     * lowercase letters of any language, digits, apostrophes, dashes, and 
-     * spaces. The position cannot start of end with whitespace characters.
-     * 
-     * @param string $position The position to validate.
-     * @return bool A boolean indicating whether the position is valid.
-     */
-    public static function validatePosition(string $position): bool {
-        if (Utils::hasInvalidSpaces($position)) return false;
-        return preg_match('/^[\p{L}\d\'\- ]{1,25}$/u', $position) === 1;
-    }
-
-    /**
-     * Checks whether an email is of proper format.
-     * 
-     * The format for an email is defined by the FILTER_VALIDATE_EMAIL.
-     * The email must be less than or equal to 75 characters in length.
-     * 
-     * @param string $email The email to validate.
-     * @return bool A boolean indicating whether the email is valid.
-     */
-    public static function validateEmail(string $email): bool {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($email) <= 75) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks whether the birth date is valid.
-     * 
-     * A valid birth date is a date set in the past.
-     * 
-     * @param DateTime $birthDate The birth date to validate.
-     * @return bool A boolean indicating whether the birth day is valid.
-     */
-    public static function validateBirthDate(DateTime $birthDate): bool {
-        return $birthDate < new DateTime("now");
-    }
-
-    /**
-     * Checks whether the hire date is valid.
-     * 
-     * A valid hire date is a date set in the past or the present.
-     * 
-     * @param DateTime $hireDate The hire date to validate.
-     * @return bool A boolean indicating whether the hire day is valid.
-     */
-    public static function validateHireDate(DateTime $hireDate): bool {
-        return $hireDate <= new DateTime("now");
-    }
-
-    /**
-     * Checks whether a password is of valid format and is strong enough.
-     * 
-     * A password must range from 12 to 100 characters inclusively. 
-     * It must contain an uppercase and lowercase English character, a digit, and
-     * a special character. Spaces are not accepted. The regex used was found on
-     * the following website:
-     * https://uibakery.io/regex-library/password-regex-php
-     * 
-     * @param string $password The password to validate.
-     * @return bool A boolean indicating whether the password is valid.
-     */
-    public static function validatePassword(string $password): bool {
-        if (preg_match('/\s/', $password)) return false;
-        return preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,100}$/', $password) === 1;
-    }
-
-    /**
-     * Checks whether initials are of valid format.
-     * 
-     * The format for initials is a string ranging from 1 to 10
-     * characters inclusively. Accepted characters are any uppercase or
-     * lowercase letters of any language, periods, and spaces. The initials
-     * cannot start or end with whitespace characters.
-     * 
-     * @param string $initials The initials to validate.
-     * @return bool A boolean indicating whether the initials are valid.
-     */
-    public static function validateInitials(string $initials) : bool {
-        if (Utils::hasInvalidSpaces($initials)) return false;
-        return preg_match('/^[\p{L}\. ]{1,10}$/u', $initials) === 1;
     }
 }

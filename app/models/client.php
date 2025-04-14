@@ -49,25 +49,9 @@ class Client extends Person {
             $this->clientReference = null;
             return;
         }
-        if (!Client::validateClientReference($reference)) {
+        if (!Utils::validateClientReference($reference)) {
             throw new InvalidArgumentException("The reference is invalid!");
         }
         $this->clientReference = $reference;
-    }
-
-    /**
-     * Checks whether a client reference is of valid format.
-     * 
-     * The format for a reference is a string ranging from 1 to 100
-     * characters inclusively. Accepted characters are any uppercase or
-     * lowercase letter of any language, apostrophes, dashes, digits, and
-     * spaces. The reference cannot start or end with whitespace characters.
-     * 
-     * @param string $reference The reference to validate.
-     * @return bool A boolean indicating whether the reference is valid.
-     */
-    public static function validateClientReference(string $reference): bool {
-        if (Utils::hasInvalidSpaces($reference)) return false;
-        return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $reference) === 1;
     }
 }
