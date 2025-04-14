@@ -15,8 +15,10 @@ use OTPHP\TOTP;
 
 use app\core\utils\Utils;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use InvalidArgumentException;
 
 require_once(dirname(__DIR__)."/vendor/autoload.php");
@@ -67,6 +69,9 @@ class Order {
     #[ManyToOne(targetEntity: Employee::class)]
     #[JoinColumn(name: "measured_by", referencedColumnName: "employee_id")]
     private Employee $measuredBy;
+
+    #[OneToMany(targetEntity: Payment::class, mappedBy: "order")]
+    private Collection $payments;
 }
 
 enum Status: string {
