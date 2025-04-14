@@ -27,6 +27,7 @@ CREATE TABLE `client` (
 -- Create the employee table
 CREATE TABLE employee (
 	employee_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	initials VARCHAR(10) NOT NULL,
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	position VARCHAR(25) NOT NULL,
