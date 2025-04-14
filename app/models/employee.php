@@ -27,6 +27,9 @@ class Employee extends Person {
     #[Id]
     #[Column(name: "employee_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $employeeId = null;
+
+    #[Column(name: "initials", type: Types::STRING)]
+    private string $initials;
  
     #[Column(name: "position", type: Types::STRING)]
     private string $position;
@@ -54,6 +57,7 @@ class Employee extends Person {
         string $lastName,
         string $phoneNumber,
         Address $address,
+        string $initials,
         string $position,
         string $email,
         DateTime $birthDate,
@@ -69,6 +73,7 @@ class Employee extends Person {
         $this->setHireDate($hireDate);
         $this->setIsAdmin($isAdmin);
         $this->setPassword($password);
+        $this->setInitials($initials);
         $this->secret = $this->generateTOTPSecret();
     }
 
@@ -88,7 +93,7 @@ class Employee extends Person {
     }
 
     public function setPosition(string $position): void {
-        if (!Employee::validatePosition($position)) {
+        if (!self::validatePosition($position)) {
             throw new InvalidArgumentException("The position is invalid!");
         }
         $this->position = $position;
@@ -99,7 +104,7 @@ class Employee extends Person {
     }
 
     public function setEmail(string $email): void {
-        if (!Employee::validateEmail($email)) {
+        if (!self::validateEmail($email)) {
             throw new InvalidArgumentException("The email is invalid!");
         }
         $this->email = $email;
@@ -110,7 +115,7 @@ class Employee extends Person {
     }
 
     public function setBirthDate(DateTime $birthDate): void {
-        if (!Employee::validateBirthDate($birthDate)) {
+        if (!self::validateBirthDate($birthDate)) {
             throw new InvalidArgumentException("The birth date is invalid!");
         }
         $this->birthDate = $birthDate;
@@ -121,7 +126,7 @@ class Employee extends Person {
     }
 
     public function setHireDate(DateTime $hireDate): void {
-        if (!Employee::validateHireDate($hireDate)) {
+        if (!self::validateHireDate($hireDate)) {
             throw new InvalidArgumentException("The hire date is invalid!");
         }
         $this->hireDate = $hireDate;
@@ -148,6 +153,17 @@ class Employee extends Person {
 
     public function getSecret(): string {
         return $this->secret;
+    }
+
+    public function getInitials(): string {
+        return $this->initials;
+    }
+
+    public function setInitials(string $initials): void {
+        if (!self::validateInitials($initials)) {
+            throw new InvalidArgumentException("The initials are inbalid!");
+        }
+        $this->initials = $initials;
     }
 
     /**
@@ -221,5 +237,21 @@ class Employee extends Person {
     public static function validatePassword(string $password): bool {
         if (preg_match('/\s/', $password)) return false;
         return preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,100}$/', $password) === 1;
+    }
+
+    /**
+     * Checks whether initials are of valid format.
+     * 
+     * The format for initials is a string ranging from 1 to 10
+     * characters inclusively. Accepted characters are any uppercase or
+     * lowercase letters of any language, periods, and spaces. The initials
+     * cannot start or end with whitespace characters.
+     * 
+     * @param string $initials The initials to validate.
+     * @return bool A boolean indicating whether the initials are valid.
+     */
+    public static function validateInitials(string $initials) : bool {
+        if (Utils::hasInvalidSpaces($initials)) return false;
+        return preg_match('/^[\p{L}\. ]{1,10}$/u', $initials) === 1;
     }
 }
