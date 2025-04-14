@@ -21,7 +21,7 @@ require_once("person.php");
 require_once("address.php");
 
 #[Entity]
-#[Table(name: "client")]
+#[Table(name: "`client`")]
 class Client extends Person {
 
     #[Id]
