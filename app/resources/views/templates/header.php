@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html>
+<?php
 
-<body>
+function render() {
+    echo '
     <header>
         <img class="crownGraniteLogo" src="CrownGranite.png" alt="Crown Granite Logo">
         <select class="selectLanguage">
@@ -10,6 +10,6 @@
         </select>
         <button class="logoutButton">Log out</button>
     </header>
-</body>
-
-</html>
+';
+}
+?>
