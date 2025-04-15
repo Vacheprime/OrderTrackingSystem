@@ -29,8 +29,7 @@ $sidebar->render()
 </aside>
 
 <main>
-
-
+<div class='main-content'>
 <div id='account-header' class='account-div'>
     <img/>
     <div id='account-header-content'>
@@ -91,7 +90,7 @@ $sidebar->render()
     <p class='account-div-description'></p>
     <button class='regular-button' onclick='requestModification()'>Request Modification</button>
 </div>
-
+</div>
 </main>
 
 </body>
