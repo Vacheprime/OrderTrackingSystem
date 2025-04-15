@@ -8,9 +8,9 @@ USE crown_granite_order_db;
 CREATE TABLE address (
 	address_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	street_name VARCHAR(75) NOT NULL,
-	appartment_number VARCHAR(15) NOT NULL,
+	appartment_number VARCHAR(15),
 	postal_code VARCHAR(10) NOT NULL,
-	area VARCHAR(50)
+	area VARCHAR(50) NOT NULL
 );
 
 -- Create the client table
@@ -18,7 +18,7 @@ CREATE TABLE `client` (
 	client_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
-	client_reference VARCHAR(100) NOT NULL,
+	client_reference VARCHAR(100),
 	phone_number VARCHAR(20) NOT NULL,
 	address_id INTEGER NOT NULL,
 	CONSTRAINT client_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
@@ -27,6 +27,7 @@ CREATE TABLE `client` (
 -- Create the employee table
 CREATE TABLE employee (
 	employee_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	initials VARCHAR(10) NOT NULL,
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	position VARCHAR(25) NOT NULL,
@@ -35,8 +36,8 @@ CREATE TABLE employee (
 	birth_date DATE NOT NULL,
 	hire_date DATE NOT NULL,
 	is_admin BOOLEAN NOT NULL,
-	password_hash VARCHAR(500) NOT NULL,
-	secret VARCHAR(500),
+	password_hash VARCHAR(255) NOT NULL,
+	secret VARCHAR(255),
 	address_id INTEGER NOT NULL,
 	CONSTRAINT employee_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
 );
