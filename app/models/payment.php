@@ -48,3 +48,7 @@ class Payment {
     #[JoinColumn(name: "order_id", referencedColumnName: "order__id")]
     private Order $order;
 }
+
+$a = new Decimal("0.2");
+$b = new Decimal("0.1");
+var_dump(($a->div($b))->toString());
