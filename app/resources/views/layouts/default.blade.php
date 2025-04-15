@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>User Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/general.css')
+    @vite("resources/css/general.css")
 </head>
 <body>
     <header>
@@ -73,7 +73,7 @@
         </div>
     </aside>
     <main>
-        @yield('main')
+        @yield("main")
     </main>
 </body>
 </html>
