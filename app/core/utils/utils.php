@@ -6,6 +6,8 @@ namespace app\core\utils;
 use DateTime;
 use InvalidArgumentException;
 
+use DateTime;
+
 class Utils {
     public static int $decimalScale = 15;
 
@@ -301,5 +303,88 @@ class Utils {
      */
     public static function validateInvoiceNumber(string $invoiceNumber): bool {
         return preg_match('/^[a-zA-Z\d]{1,100}$/', $invoiceNumber) === 1;
+    }
+}
+    // ### OrderProduct Validation Functions ###
+    /**
+     * Checks whether a material name or sink type is of valid format.
+     * 
+     * The format for a material name or sink type is a string ranging from 1 to 100 characters
+     * inclusively. Accepted characters are any uppercase
+     * or lowercase letters of any language, apostrophes, dashes, spaces, and numbers.
+     * The material name or sink type cannot start or end with whitespace characters.
+     * 
+     * @param string $material The material name or sink type to validate.
+     * @return bool A boolean indicating whether the material name or sink type is valid.
+     */
+    public static function validateMaterial(string $material): bool {
+        if (Utils::hasInvalidSpaces($material)) return false;
+        return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $material) == 1;
+    }
+
+    /**
+     * Checks whether the slab height or width is of valid format and range.
+     * 
+     * The format for a slab dimension is an integer containing any number 
+     * between the range of 0 and 9. Characters that will not be accepted 
+     * are dots, letters, symbols and negative numbers. A slab dimension 
+     * cannot start or be of value 0.
+     * 
+     * @param int $slab The slab dimension(height or width) to validate.
+     * @return bool A boolean indicating whether the slab
+     * dimension(height or width) is valid.
+     */
+    public static function validateSlab(int $slab): bool {
+        return preg_match('/^[1-9][0-9]*$/', $slab) == 1;
+    }
+
+    /**
+     * Checks whether the slab thickness is of valid format and range.
+     * 
+     * The format for the slab thickness is a single digit integer between 
+     * '2' or '3'. Invalid characters are: dots, letters, symbols, negative numbers 
+     * and anything that does not equal to '2' or '3'.
+     * 
+     * @param int $slabThickness The slab thickness to validate.
+     * @return bool A boolean indicating whether the slab thickness is valid.
+     */
+    public static function validateSlabThickness(int $slabThickness): bool {
+        return preg_match('/^[23]$/', $slabThickness) == 1;
+    }
+
+    /**
+     * Checks whether the image path is of valid format.
+     * 
+     * The format of the image path is a string ranging from 1 to 70, excluding the
+     * dot and file extension(for a total of 75 characters inclusively). 
+     * Accepted characters are any uppercase or lowercase letters of any language, apostrophes,
+     * dashes,slashes, spaces, numbers, and symbols. No trailing spaces will be accepted, as well 
+     * as illegal Window characters: \ / : * ? " < > |
+     * 
+     * Valid extensions are: 
+     * png | jpg | jpeg | gif | webp | bmp
+     * 
+     * @param string $imagePath The image path to validate.
+     * @return bool A boolean indicating whether the image path or extension is valid.
+     */
+    public static function validateImagePath(string $imagePath):bool {
+        if (Utils::hasInvalidSpaces($imagePath)) return false;
+        return preg_match('/^(?! )[^\s<>:"\/\\|?*\n]{1,70}\.(png|jpg|jpeg|gif|webp|bmp)$/i', $imagePath) == 1;
+    }
+
+    /**
+     * Checks whether the square footage is of valid format
+     * 
+     * The format of the product square footage is a decimal
+     *  containing 8 digits before the dot and 2 digits after the dot, for a total of
+     * 10 digits. Accepted characters are positive digits(1-6 digits before the dot 
+     * and 1-2 digits after the dot) and a dot. No trailing spaces will be accepted.
+     * 
+     * @param string $squareFootage The product square footage to validate.
+     * @return bool A boolean indicating whether the product square footage is valid.
+     */
+    public static function validateProductSquareFootage(string $squareFootage):bool {
+        if (Utils::hasInvalidSpaces($squareFootage)) return false;
+        return preg_match('^\d{1,6}(\.\d{1,2})?$', $squareFootage) == 1;
     }
 }
