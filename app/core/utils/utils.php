@@ -6,7 +6,7 @@ namespace app\core\utils;
 use DateTime;
 use InvalidArgumentException;
 
-use DateTime;
+
 
 class Utils {
     public static int $decimalScale = 15;
@@ -304,7 +304,7 @@ class Utils {
     public static function validateInvoiceNumber(string $invoiceNumber): bool {
         return preg_match('/^[a-zA-Z\d]{1,100}$/', $invoiceNumber) === 1;
     }
-}
+
     // ### OrderProduct Validation Functions ###
     /**
      * Checks whether a material name or sink type is of valid format.
@@ -335,7 +335,7 @@ class Utils {
      * dimension(height or width) is valid.
      */
     public static function validateSlab(int $slab): bool {
-        return preg_match('/^[1-9][0-9]*$/', $slab) == 1;
+        return $slab > 0;
     }
 
     /**
@@ -349,7 +349,7 @@ class Utils {
      * @return bool A boolean indicating whether the slab thickness is valid.
      */
     public static function validateSlabThickness(int $slabThickness): bool {
-        return preg_match('/^[23]$/', $slabThickness) == 1;
+        return $slabThickness == 2 || $slabThickness == 3;
     }
 
     /**
