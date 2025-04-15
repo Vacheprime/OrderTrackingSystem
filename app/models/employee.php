@@ -115,7 +115,7 @@ class Employee extends Person {
     }
 
     public function setBirthDate(DateTime $birthDate): void {
-        if (!Utils::validateBirthDate($birthDate)) {
+        if (!Utils::validateDateInPast($birthDate)) {
             throw new InvalidArgumentException("The birth date is invalid!");
         }
         $this->birthDate = $birthDate;
@@ -126,7 +126,7 @@ class Employee extends Person {
     }
 
     public function setHireDate(DateTime $hireDate): void {
-        if (!Utils::validateHireDate($hireDate)) {
+        if (!Utils::validateDateInPastOrNow($hireDate)) {
             throw new InvalidArgumentException("The hire date is invalid!");
         }
         $this->hireDate = $hireDate;
