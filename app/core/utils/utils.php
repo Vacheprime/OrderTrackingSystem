@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace app\core\utils;
 use DateTime;
+use InvalidArgumentException;
 
 class Utils {
+    public static int $decimalScale = 15;
 
     //  ### Global Validation Function
     /**
@@ -15,6 +19,48 @@ class Utils {
      */
     public static function hasInvalidSpaces(string $str): bool {
         return preg_match('/(^\s|\s$)/', $str) === 1;
+    }
+
+    /**
+     * Checks whether a string is a valid decimal value.
+     * 
+     * @param string $str The decimal string to validate.
+     * @param int $intDigits The number of integer digits in the decimal. Must be greater than or equal to 1.
+     * @param int $fractDigits The number of fractional digits in the decimal. Must be greater than or equal to 1.
+     * @return bool A boolean indicating whether the string is a valid decimal value. 
+     */
+    public static function validateStringDecimal(string $str, int $intDigits, int $fractDigits): bool {
+        // Validate integer part
+        if ($intDigits < 1) {
+            throw new InvalidArgumentException("The number of integer digits must be greater than or equal to one!");
+        }
+        // Validate fractional part
+        if ($fractDigits < 1) {
+            throw new InvalidArgumentException("The number of fractional digits must be greater than or equal to one!");
+        }
+        $pattern = "/^-?\\d{1,$intDigits}(.\\d{1,$fractDigits})?\$/";
+        return preg_match($pattern, $str) === 1;
+    }
+
+    /**
+     * Checks whether a date is set in the past.
+     * 
+     * @param DateTime $date The date to validate.
+     * @return bool A boolean indicating whether the date is set in the past.
+     */
+    public static function validateDateInPast(DateTime $date): bool {
+        return $date < new DateTime("now");
+    }
+
+    /**
+     * Checks whether a date is set in the past or the present moment.
+     * 
+     * @param DateTime $date The date to validate.
+     * @return bool A boolean indicating whether the date is set in the past or the 
+     * present moment.
+     */
+    public static function validateDateInPastOrNow(DateTime $date): bool {
+        return $date <= new DateTime("now");
     }
 
     //  ### Address Validation Functions ###
@@ -136,30 +182,6 @@ class Utils {
     }
 
     /**
-     * Checks whether the birth date is valid.
-     * 
-     * A valid birth date is a date set in the past.
-     * 
-     * @param DateTime $birthDate The birth date to validate.
-     * @return bool A boolean indicating whether the birth day is valid.
-     */
-    public static function validateBirthDate(DateTime $birthDate): bool {
-        return $birthDate < new DateTime("now");
-    }
-
-    /**
-     * Checks whether the hire date is valid.
-     * 
-     * A valid hire date is a date set in the past or the present.
-     * 
-     * @param DateTime $hireDate The hire date to validate.
-     * @return bool A boolean indicating whether the hire day is valid.
-     */
-    public static function validateHireDate(DateTime $hireDate): bool {
-        return $hireDate <= new DateTime("now");
-    }
-
-    /**
      * Checks whether a password is of valid format and is strong enough.
      * 
      * A password must range from 12 to 100 characters inclusively. 
@@ -220,5 +242,37 @@ class Utils {
     public static function validateName(string $name): bool {
         if (Utils::hasInvalidSpaces($name)) return false;
         return preg_match('/[\p{L}\'\- ]{1,50}/u', $name) === 1;
+    }
+
+    // ### Payment Validation Functions ###
+    /**
+     * Checks whether a payment amount is valid.
+     * 
+     * The payment amount is a string that must represent a valid
+     * decimal number which contains 8 integer digits and 2 fractional digits.
+     * The amount must be greater than 0.
+     * 
+     * @param string $amount The string decimal payment amount to validate.
+     * @return bool A boolean indicating whether the amount is valid.
+     */
+    public static function validatePaymentAmount(string $amount): bool {
+        if (!self::validateStringDecimal($amount, 8, 2)) return false;
+        return bccomp($amount, "0", self::$decimalScale) === 1;
+    }
+
+    /**
+     * Checks whether a payment method is valid.
+     * 
+     * The format for a payment method is a string ranging from 1 to 50
+     * characters inclusively. Accepted characters are uppercase and lowercase
+     * English letters, dashes, apostrophes, and spaces. The payment method
+     * must not start or end with whitespace characters.
+     * 
+     * @param string $method The payment method to valid.
+     * @return bool A boolean indicating whether the method is valid.
+     */
+    public static function validatePaymentMethod(string $method): bool {
+        if (!self::hasInvalidSpaces($method)) return false;
+        return preg_match('/^[a-zA-Z\-\' ]{1,50}$/', $method) === 1;
     }
 }
