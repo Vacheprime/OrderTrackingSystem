@@ -1,5 +1,9 @@
 <?php
 
+namespace resources\views\templates;
+
+class Header {
+
 function render() {
     echo '
     <header>
@@ -8,8 +12,8 @@ function render() {
             <option value="en">En</option>
             <option value="fr">Fr</option>
         </select>
-        <button class="logoutButton">Log out</button>
+        <button class="logoutButton" onclick="">Log out</button>
     </header>
 ';
 }
-?>
+}

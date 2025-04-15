@@ -15,7 +15,6 @@ class UserAccountPage {
         $user = ""; ### TODO: implement get logged in user in UserAccountPage
         $header = new Header(); ### TODO: implement header in UserAccountPage
         $sidebar = $user->isAdmin()? new SidebarAdmin() : new SidebarEmployee; ### TODO: implement sidebar in UserAccountPage
-
         $html = "
 <!DOCTYPE html>
 <html lang='en'>
