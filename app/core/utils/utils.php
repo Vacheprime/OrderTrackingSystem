@@ -43,6 +43,31 @@ class Utils {
     }
 
     /**
+     * Checks whether an amount is greater than zero.
+     * 
+     * The amount is a string that must represent a valid
+     * decimal number which contains 8 integer digits and 2 fractional digits.
+     * The amount must be greater than 0.
+     * 
+     * @param string $amount The string decimal amount to validate.
+     * @return bool A boolean indicating whether the amount is valid.
+     */
+    public static function validatePositiveAmount(string $amount): bool {
+        if (!self::validateStringDecimal($amount, 8, 2)) return false;
+        return bccomp($amount, "0", self::$decimalScale) === 1;
+    }
+
+    /**
+     * Checks whether a date is set in the future.
+     * 
+     * @param DateTime $date The date to validate.
+     * @return bool A boolean indicating whether the date is set in the future.
+     */
+    public static function validateDateInFuture(DateTime $date): bool {
+        return $date > new DateTime("now");
+    }
+
+    /**
      * Checks whether a date is set in the past.
      * 
      * @param DateTime $date The date to validate.
@@ -245,20 +270,7 @@ class Utils {
     }
 
     // ### Payment Validation Functions ###
-    /**
-     * Checks whether a payment amount is valid.
-     * 
-     * The payment amount is a string that must represent a valid
-     * decimal number which contains 8 integer digits and 2 fractional digits.
-     * The amount must be greater than 0.
-     * 
-     * @param string $amount The string decimal payment amount to validate.
-     * @return bool A boolean indicating whether the amount is valid.
-     */
-    public static function validatePaymentAmount(string $amount): bool {
-        if (!self::validateStringDecimal($amount, 8, 2)) return false;
-        return bccomp($amount, "0", self::$decimalScale) === 1;
-    }
+    
 
     /**
      * Checks whether a payment method is valid.
@@ -274,5 +286,20 @@ class Utils {
     public static function validatePaymentMethod(string $method): bool {
         if (!self::hasInvalidSpaces($method)) return false;
         return preg_match('/^[a-zA-Z\-\' ]{1,50}$/', $method) === 1;
+    }
+
+    // ### Order Validation Functions ###
+    /**
+     * Checks whether an invoice number is valid.
+     * 
+     * The format for an invoice number is a string ranging from
+     * 1 to 100 characters inclusively. Accepted characters are uppercase
+     * and lowercase English letters and digits.
+     * 
+     * @param string $invoiceNumber The invoice number to validate.
+     * @return bool A boolean indicating whether the invoice number is valid.
+     */
+    public static function validateInvoiceNumber(string $invoiceNumber): bool {
+        return preg_match('/^[a-zA-Z\d]{1,100}$/', $invoiceNumber) === 1;
     }
 }
