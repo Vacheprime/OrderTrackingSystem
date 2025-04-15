@@ -70,7 +70,7 @@ class Payment {
     }
 
     public function setAmount(string $amount): void {
-        if (!Utils::validatePaymentAmount($amount)) {
+        if (!Utils::validatePositiveAmount($amount)) {
             throw new InvalidArgumentException("The payment amount is invalid!");
         }
         $this->amount = $amount;
