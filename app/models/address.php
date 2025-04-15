@@ -61,9 +61,9 @@ class Address {
         return $this->appartmentNumber;
     }
 
-    public function setAppartmentNumber(string $aptNumber): void {
+    public function setAppartmentNumber(?string $aptNumber): void {
         if ($aptNumber == null) {
-            $this->aptNumber = null;
+            $this->appartmentNumber = null;
             return;
         }
         if (!Utils::validateAptNumber($aptNumber)) {
