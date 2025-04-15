@@ -3,14 +3,18 @@
 namespace resources\views;
 
 class UserAccountPage {
-
     private function resetPassword() {
         echo "password reset"; #
     }
+
+    private function requestModification() {
+        echo "request modification";
+    }
+
     public function render() {
-        $header = ""; ### TODO: implement header in UserAccountPage
-        $footer = ""; ### TODO: implement footer in UserAccountPage
         $user = ""; ### TODO: implement get logged in user in UserAccountPage
+        $header = new Header(); ### TODO: implement header in UserAccountPage
+        $sidebar = $user->isAdmin()? new SidebarAdmin() : new SidebarEmployee; ### TODO: implement sidebar in UserAccountPage
 
         $html = "
 <!DOCTYPE html>
@@ -19,12 +23,15 @@ class UserAccountPage {
 
 </head>
 <body>
-$header->render()
+$header->render();
 
 <aside>
-
+$sidebar->render()
 </aside>
+
 <main>
+
+
 <div id='account-header' class='account-div'>
     <img/>
     <div id='account-header-content'>
@@ -75,7 +82,7 @@ $header->render()
                 <label id='password-name-label' class='account-details-label' for='password-name-input'>First Name</label>
                 <input id='password-name-input' class='account-details-input' name='password-name-input' placeholder=\"$user->getPassword()\" readonly/>
             </div>
-            <button class='regular-button' onclick='resetPassword()'>Reset Button</button>
+            <button class='regular-button' onclick='resetPassword()'>Reset Password</button>
         </div>
     </div>
 </div>
@@ -83,12 +90,11 @@ $header->render()
 <div id='account-others' class='account-div'>
     <h2 class='account-heading'>Other</h2>
     <p class='account-div-description'></p>
-    <button class='regular-button' onclick='resetPassword()'>Reset Button</button>
+    <button class='regular-button' onclick='requestModification()'>Request Modification</button>
 </div>
 
 </main>
 
-$footer
 </body>
 </html>
         ";
