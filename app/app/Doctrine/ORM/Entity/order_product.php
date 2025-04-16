@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/core/utils/utils.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
 require_once("order.php");
 
 #[Entity]
