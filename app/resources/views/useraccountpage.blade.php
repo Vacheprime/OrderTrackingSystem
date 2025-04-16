@@ -50,11 +50,11 @@
         <div>
             <p class="account-div-description"></p>
             <div>
-                <div id="address-name-div" class=\"account-input-div\">
+                <div id="address-name-div" class="account-input-div">
                     <label id="password-name-label" class="account-details-label" for="password-name-input">First Name</label>
                     <input id="password-name-input" class="account-details-input" type="text" name="password-name-input" placeholder="{{$user->getPassword()}}" readonly />
                 </div>
-                <a href="">
+                <a href="/reset-password">
                     <button class="regular-button">Reset Password</button>
                 </a>
             </div>
