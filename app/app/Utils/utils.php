@@ -2,11 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace app\core\utils;
+namespace app\Utils;
 use DateTime;
 use InvalidArgumentException;
-
-
 
 class Utils {
     public static int $decimalScale = 15;
@@ -103,7 +101,7 @@ class Utils {
      * @return bool A boolean indicating whether the street name is valid.
      */
     public static function validateStreetName(string $streetName): bool {
-        if (Utils::hasInvalidSpaces($streetName)) return false;
+        if (self::hasInvalidSpaces($streetName)) return false;
         return preg_match('/^[\p{L}\d \.\-\'\"]{1,75}$/u', $streetName) === 1;
     }
 
@@ -120,7 +118,7 @@ class Utils {
      * @return bool A boolean indicating whether the appartment number is valid.
      */
     public static function validateAptNumber(string $aptNumber): bool {
-        if (Utils::hasInvalidSpaces($aptNumber)) return false;
+        if (self::hasInvalidSpaces($aptNumber)) return false;
         return preg_match('/^[\p{L}\d\-\/\.]{1,15}$/u', $aptNumber) === 1;
     }
 
@@ -138,7 +136,7 @@ class Utils {
      * @return bool A boolean indicating whether the postal code is valid.
      */
     public static function validatePostalCode(string $postalCode): bool {
-        if (Utils::hasInvalidSpaces($postalCode)) return false;
+        if (self::hasInvalidSpaces($postalCode)) return false;
         return preg_match('/^[ABCEGHJKLMNPRSTVXY]\d[A-Z] \d[A-Z]\d$/', $postalCode) === 1;
     }
 
@@ -154,7 +152,7 @@ class Utils {
      * @return bool A boolean indicating whether the area is valid.
      */
     public static function validateArea(string $area): bool {
-        if (Utils::hasInvalidSpaces($area)) return false;
+        if (self::hasInvalidSpaces($area)) return false;
         return preg_match('/^[\p{L}\-\.\'\" ]{1,50}$/u', $area) === 1;
     }
 
@@ -171,7 +169,7 @@ class Utils {
      * @return bool A boolean indicating whether the reference is valid.
      */
     public static function validateClientReference(string $reference): bool {
-        if (Utils::hasInvalidSpaces($reference)) return false;
+        if (self::hasInvalidSpaces($reference)) return false;
         return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $reference) === 1;
     }
 
@@ -188,7 +186,7 @@ class Utils {
      * @return bool A boolean indicating whether the position is valid.
      */
     public static function validatePosition(string $position): bool {
-        if (Utils::hasInvalidSpaces($position)) return false;
+        if (self::hasInvalidSpaces($position)) return false;
         return preg_match('/^[\p{L}\d\'\- ]{1,25}$/u', $position) === 1;
     }
 
@@ -237,7 +235,7 @@ class Utils {
      * @return bool A boolean indicating whether the initials are valid.
      */
     public static function validateInitials(string $initials) : bool {
-        if (Utils::hasInvalidSpaces($initials)) return false;
+        if (self::hasInvalidSpaces($initials)) return false;
         return preg_match('/^[\p{L}\. ]{1,10}$/u', $initials) === 1;
     }
 
@@ -267,7 +265,7 @@ class Utils {
      * @return bool A boolean indicating whether the name is valid.
      */
     public static function validateName(string $name): bool {
-        if (Utils::hasInvalidSpaces($name)) return false;
+        if (self::hasInvalidSpaces($name)) return false;
         return preg_match('/[\p{L}\'\- ]{1,50}/u', $name) === 1;
     }
 
@@ -318,7 +316,7 @@ class Utils {
      * @return bool A boolean indicating whether the material name or sink type is valid.
      */
     public static function validateMaterial(string $material): bool {
-        if (Utils::hasInvalidSpaces($material)) return false;
+        if (self::hasInvalidSpaces($material)) return false;
         return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $material) == 1;
     }
 
@@ -368,7 +366,7 @@ class Utils {
      * @return bool A boolean indicating whether the image path or extension is valid.
      */
     public static function validateImagePath(string $imagePath):bool {
-        if (Utils::hasInvalidSpaces($imagePath)) return false;
+        if (self::hasInvalidSpaces($imagePath)) return false;
         return preg_match('/^(?! )[^\s<>:"\/\\|?*\n]{1,70}\.(png|jpg|jpeg|gif|webp|bmp)$/i', $imagePath) == 1;
     }
 
@@ -384,7 +382,7 @@ class Utils {
      * @return bool A boolean indicating whether the product square footage is valid.
      */
     public static function validateProductSquareFootage(string $squareFootage):bool {
-        if (Utils::hasInvalidSpaces($squareFootage)) return false;
+        if (self::hasInvalidSpaces($squareFootage)) return false;
         return preg_match('^\d{1,6}(\.\d{1,2})?$', $squareFootage) == 1;
     }
 }
