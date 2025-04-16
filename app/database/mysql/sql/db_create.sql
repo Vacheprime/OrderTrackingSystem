@@ -97,5 +97,5 @@ CREATE TABLE activity_history (
     order_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
     CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
-    CONSTRAINT activity_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id);
+    CONSTRAINT activity_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
 );
