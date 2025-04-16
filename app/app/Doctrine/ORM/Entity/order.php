@@ -20,8 +20,8 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/vendor/autoload.php");
-require_once(dirname(__DIR__)."/core/utils/utils.php");
+//require_once(dirname(__DIR__)."/vendor/autoload.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
 require_once("address.php");
 require_once("client.php");
 require_once("employee.php");
@@ -33,10 +33,10 @@ class Order {
     #[Column(name: "order_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $orderId = null;
 
-    // FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM]
-    // EX: ORD-1-1-UHASD35
+    // FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
+    // EX: ORD-1-1-UHAS
     #[Column(name: "reference_number", type: Types::STRING)]
-    private string $referenceNumber;
+    private ?string $referenceNumber = null;
 
     #[Column(name: "is_plan_ready", type: Types::BOOLEAN)]
     private bool $isPlanReady;
@@ -79,9 +79,39 @@ class Order {
     #[OneToMany(targetEntity: Payment::class, mappedBy: "order", cascade: ["persist"])]
     private Collection $payments;
 
+    public function __construct(
+        bool $isPlanReady,
+        bool $isInFabrication,
+        bool $isCompleted,
+        ?DateTime $fabricationStartDate,
+        string $price,
+        string $taxes,
+        ?DateTime $estimatedInstallDate,
+        ?DateTime $orderCompletedDate,
+        string $invoiceNumber,
+        Status $status,
+        Client $client,
+        Employee $measuredBy,
+        Collection $payments
+    )
+    {
+        $this->setIsPlanReady($isPlanReady);
+        $this->setIsInFabrication($isInFabrication);
+        $this->setIsCompleted($isCompleted);
+        $this->setFabricationStartDate($fabricationStartDate);
+        $this->setPrice($price);
+        $this->setTaxes($taxes);
+        $this->setEstimatedInstallDate($estimatedInstallDate);
+        $this->setOrderCompletedDate($orderCompletedDate);
+        $this->setInvoiceNumber($invoiceNumber);
+        $this->setStatus($status);
+        $this->client = $client;
+        $this->measuredBy = $measuredBy;
+        $this->payments = $payments;
+    }
 
     private function generateReferenceNumber(): string {
-        return "";
+        return strtoupper(substr(md5(random_bytes(15)), 0, 5));
     }
 
     public function getOrderId(): ?int {
@@ -151,6 +181,67 @@ class Order {
             throw new InvalidArgumentException("The taxes must be greater than zero!");
         }
         $this->taxes = $taxes;
+    }
+
+    public function getEstimatedInstallDate(): ?DateTime {
+        return $this->estimatedInstallDate;
+    }
+
+    public function setEstimatedInstallDate(?DateTime $date) {
+        if ($date == null) {
+            $this->estimatedInstallDate = null;
+            return;
+        }
+        if (!Utils::validateDateInFuture($date)) {
+            throw new InvalidArgumentException("The estimated installation date must be in the future!");
+        }
+        $this->estimatedInstallDate = $date;
+    }
+
+    public function getOrderCompletedDate(): ?DateTime {
+        return $this->orderCompletedDate;
+    }
+
+    public function setOrderCompletedDate(?DateTime $date) {
+        if ($date == null) {
+            $this->orderCompletedDate = null;
+            return;
+        }
+        if (!Utils::validateDateInPastOrNow($date)) {
+            throw new InvalidArgumentException("The order completion date must be in the past or present!");
+        }
+        $this->orderCompletedDate = $date;
+    }
+
+    public function getInvoiceNumber(): string {
+        return $this->invoiceNumber;
+    }
+
+    public function setInvoiceNumber(string $invoiceNumber): void {
+        if (!Utils::validateInvoiceNumber($invoiceNumber)) {
+            throw new InvalidArgumentException("The invoice number is invalid!");
+        }
+        $this->invoiceNumber = $invoiceNumber;
+    }
+
+    public function getStatus(): Status {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): void {
+        $this->status = $status;
+    }
+
+    public function getClient(): Client {
+        return $this->client;
+    }
+
+    public function getMeasuredBy(): Employee {
+        return $this->measuredBy;
+    }
+
+    public function getPayments(): Collection {
+        return $this->payments;
     }
 }
 
