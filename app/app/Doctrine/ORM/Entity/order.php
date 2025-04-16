@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 
-namespace app\models;
+namespace app\Doctrine\ORM\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
-use app\core\utils\Utils;
+use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\JoinColumn;

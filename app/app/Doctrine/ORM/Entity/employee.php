@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace app\models;
+namespace app\Doctrine\ORM\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -12,7 +12,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use OTPHP\TOTP;
 
-use app\core\utils\Utils;
+use app\Utils\Utils;
 use DateTime;
 use InvalidArgumentException;
 
