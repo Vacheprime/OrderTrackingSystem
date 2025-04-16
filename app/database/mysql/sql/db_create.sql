@@ -88,3 +88,14 @@ CREATE TABLE payment (
 	order_id INTEGER NOT NULL,
 	CONSTRAINT payment_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
 );
+
+-- Create activity history table
+CREATE TABLE activity_history (
+	activity_history_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    activity_type VARCHAR(6) NOT NULL,
+    activity_date DATE NOT NULL,
+    order_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
+    CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
+    CONSTRAINT activity_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id);
+);
