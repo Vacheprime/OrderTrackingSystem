@@ -8,6 +8,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaymentController;
 
+Route::get('/', function () {
+    //  return main
+});
+
 // ### Address Routing ###
 Route::resource('addresses', AddressController::class);
 
