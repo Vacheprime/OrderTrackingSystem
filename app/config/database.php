@@ -47,7 +47,7 @@ return [
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'laravel'),
+            'database' => env('DB_DATABASE', 'crown_granite_order_db'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', '12345678'),
             'unix_socket' => env('DB_SOCKET', ''),
