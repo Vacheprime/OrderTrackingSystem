@@ -110,8 +110,9 @@ class Order {
         $this->payments = $payments;
     }
 
-    private function generateReferenceNumber(): string {
-        return strtoupper(substr(md5(random_bytes(15)), 0, 5));
+    public function generateReferenceNumber(): string {
+        $randomChars = strtoupper(substr(md5(random_bytes(15)), 0, 5));
+        return "ORD-{$this->orderId}-{$this->client->getClientId()}-{$randomChars}";
     }
 
     public function getOrderId(): ?int {
