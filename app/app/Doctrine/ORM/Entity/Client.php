@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Entity;
 
+use app\Doctrine\ORM\Repository\ClientRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
@@ -18,7 +19,7 @@ require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("Person.php");
 require_once("Address.php");
 
-#[Entity]
+#[Entity(repositoryClass: ClientRepository::class)]
 #[Table(name: "`client`")]
 class Client extends Person {
 

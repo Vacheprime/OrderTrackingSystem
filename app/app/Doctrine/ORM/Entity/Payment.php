@@ -17,9 +17,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/vendor/autoload.php");
-require_once(dirname(__DIR__)."/mysql/orm_config/doctrine_config.php");
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("order.php");
 
 #[Entity]
