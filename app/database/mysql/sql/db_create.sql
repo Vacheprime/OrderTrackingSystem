@@ -58,7 +58,7 @@ CREATE TABLE `order` (
 );
 
 -- Create order product table
-CREATE TABLE order_product (
+CREATE TABLE product (
 	order_id INTEGER PRIMARY KEY,
 	material_name VARCHAR(100), -- Only for slabs
 	slab_height DECIMAL(6, 2), -- Only for slabs
@@ -69,7 +69,7 @@ CREATE TABLE order_product (
 	sink_type VARCHAR(100), -- Only for sinks
     product_description TEXT NOT NULL,
 	product_notes TEXT NOT NULL,
-	CONSTRAINT order_product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
+	CONSTRAINT product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
 );
 
 -- Create payment table

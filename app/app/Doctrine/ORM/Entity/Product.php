@@ -19,12 +19,12 @@ require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("Order.php");
 
 #[Entity]
-#[Table("order_product")]
-class OrderProduct {
+#[Table("product")]
+class Product {
     #[Id]
-    #[OneToOne(targetEntity: Order::class)]
-    #[JoinColumn(name:"order_id", referencedColumnName: "order_id")]
-    private Order $order;
+    #[OneToOne(targetEntity: Order::class, inversedBy: "product")]
+    #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
+    private ?Order $order = null;
 
     #[Column(name:"material_name", type: Types::STRING, nullable: true)]
     private ?string $materialName;
@@ -35,10 +35,10 @@ class OrderProduct {
     #[Column(name:"slab_width", type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
     private ?string $slabWidth;
     
-    #[Column(name:"slab_thickness", type: Types::INTEGER, precision: 6, scale: 2, nullable: true)]
+    #[Column(name:"slab_thickness", type: Types::INTEGER, precision: 4, scale: 2, nullable: true)]
     private ?string $slabThickness;
 
-    #[Column(name:"slab_square_footage", type: Types::DECIMAL, precision:8, scale:2, nullable: true)]
+    #[Column(name:"slab_square_footage", type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
     private ?string $slabSquareFootage;
 
     #[Column(name:"plan_image_path", type: Types::STRING, nullable: true)]
@@ -54,6 +54,7 @@ class OrderProduct {
     private string $productNotes;
 
     public function __construct(
+        Order $order,
         ?string $materialName,
         ?int $slabHeight,
         ?int $slabWidth,
@@ -64,6 +65,7 @@ class OrderProduct {
         string $productDescription,
         string $productNotes
     ) {
+        $this->order = $order;
         $this->setMaterialName($materialName);
         $this->setSlabHeight($slabHeight);
         $this->setSlabWidth($slabWidth);
@@ -75,7 +77,7 @@ class OrderProduct {
         $this->setProductNotes($productNotes);
     }
 
-    public function getOrder(): Order {
+    public function getOrder(): ?Order {
         return $this->order;
     }
 
@@ -139,7 +141,7 @@ class OrderProduct {
         $this->slabThickness = $slabThickness;
     }
 
-    public function getSlabSquareFootage(): string {
+    public function getSlabSquareFootage(): ?string {
         return $this->slabSquareFootage;
     }
 
@@ -154,7 +156,7 @@ class OrderProduct {
         $this->slabSquareFootage = $slabSquareFootage;
     }
 
-    public function getPlanImagePath(): string {
+    public function getPlanImagePath(): ?string {
         return $this->planImagePath;
     }
 
@@ -169,7 +171,7 @@ class OrderProduct {
         $this->planImagePath = $imagePath;
     }
 
-    public function getSinkType():string {
+    public function getSinkType(): ?string {
         return $this->sinkType;
     }
 
