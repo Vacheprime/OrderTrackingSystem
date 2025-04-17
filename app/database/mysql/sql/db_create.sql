@@ -44,7 +44,7 @@ CREATE TABLE employee (
 -- Create the order table
 CREATE TABLE `order` (
 	order_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	reference_number VARCHAR(100), -- Required, but has to be not null because its generated in PHP.
+	reference_number VARCHAR(100), -- Required, but has to be nullable because of how it's generated in PHP.
 	price DECIMAL(10, 2) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
