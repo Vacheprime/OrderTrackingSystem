@@ -19,7 +19,6 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use InvalidArgumentException;
 
-//require_once(dirname(__DIR__)."/vendor/autoload.php");
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
 require_once("address.php");
 require_once("client.php");
@@ -37,35 +36,23 @@ class Order {
     #[Column(name: "reference_number", type: Types::STRING)]
     private ?string $referenceNumber = null;
 
-    #[Column(name: "is_plan_ready", type: Types::BOOLEAN)]
-    private bool $isPlanReady;
-
-    #[Column(name: "is_in_fabrication", type: Types::BOOLEAN)]
-    private bool $isInFabrication;
-
-    #[Column(name: "is_completed", type: Types::BOOLEAN)]
-    private bool $isCompleted;
-
-    #[Column(name: "fabrication_start_date", type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTime $fabricationStartDate;
-
     #[Column(name: "price", type: Types::DECIMAL, precision: 10, scale: 2)]
     private string $price;
 
-    #[Column(name: "taxes", type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string $taxes;
+    #[Column(name: "`status`", enumType: Status::class, nullable: true)]
+    private Status $status;
+
+    #[Column(name: "invoice_number", type: Types::STRING, nullable: true)]
+    private string $invoiceNumber;
+
+    #[Column(name: "fabrication_start_date", type: Types::DATE_MUTABLE, nullable: true)]
+    private ?DateTime $fabricationStartDate;
 
     #[Column(name: "estimated_install_date", type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTime $estimatedInstallDate;
 
     #[Column(name: "order_completed_date", type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTime $orderCompletedDate;
-
-    #[Column(name: "invoice_number", type: Types::STRING, nullable: true)]
-    private string $invoiceNumber;
-
-    #[Column(name: "`status`", enumType: Status::class, nullable: true)]
-    private Status $status;
 
     #[ManyToOne(targetEntity: Client::class, cascade: ["persist"])]
     #[JoinColumn(name: "`client_id`", referencedColumnName: "`client_id`")]
@@ -79,27 +66,19 @@ class Order {
     private Collection $payments;
 
     public function __construct(
-        bool $isPlanReady,
-        bool $isInFabrication,
-        bool $isCompleted,
-        ?DateTime $fabricationStartDate,
         string $price,
-        string $taxes,
+        Status $status,
+        string $invoiceNumber,
+        ?DateTime $fabricationStartDate,
         ?DateTime $estimatedInstallDate,
         ?DateTime $orderCompletedDate,
-        string $invoiceNumber,
-        Status $status,
         Client $client,
         Employee $measuredBy,
         Collection $payments
     )
     {
-        $this->setIsPlanReady($isPlanReady);
-        $this->setIsInFabrication($isInFabrication);
-        $this->setIsCompleted($isCompleted);
         $this->setFabricationStartDate($fabricationStartDate);
         $this->setPrice($price);
-        $this->setTaxes($taxes);
         $this->setEstimatedInstallDate($estimatedInstallDate);
         $this->setOrderCompletedDate($orderCompletedDate);
         $this->setInvoiceNumber($invoiceNumber);
@@ -120,30 +99,6 @@ class Order {
 
     public function getReferenceNumber(): string {
         return $this->referenceNumber;
-    }
-
-    public function isPlanReady(): bool {
-        return $this->isPlanReady;
-    }
-
-    public function setIsPlanReady(bool $isPlanReady): void {
-        $this->isPlanReady = $isPlanReady;
-    }
-
-    public function isInFabrication(): bool {
-        return $this->isInFabrication;
-    }
-
-    public function setIsInFabrication(bool $isInFabrication): void {
-        $this->isInFabrication = $isInFabrication;
-    }
-
-    public function isCompleted(): bool {
-        return $this->isCompleted;
-    }
-
-    public function setIsCompleted(bool $isCompleted): void {
-        $this->isCompleted = $isCompleted;
     }
 
     public function getFabricationStartDate(): ?DateTime {
@@ -170,17 +125,6 @@ class Order {
             throw new InvalidArgumentException("The price must be greater than zero!");
         }
         $this->price = $price;
-    }
-
-    public function getTaxes(): string {
-        return $this->taxes;
-    }
-
-    public function setTaxes(string $taxes): void {
-        if (!Utils::validatePositiveAmount($taxes)) {
-            throw new InvalidArgumentException("The taxes must be greater than zero!");
-        }
-        $this->taxes = $taxes;
     }
 
     public function getEstimatedInstallDate(): ?DateTime {
@@ -245,10 +189,16 @@ class Order {
     }
 }
 
+/**
+ * Enum Status
+ * 
+ * Represents the different stages of a client's order.
+ */
 enum Status: string {
-    case CONFIRMED_MS_NOT_READY = "CONFIRMED_MS_NOT_READY";
-    case READY_FOR_MEASUREMENTS = "READY_FOR_MEASUREMENTS";
-    case CONFIRMED_MS_READY = "CONFIRMED_MS_READY";
+    case MEASURING = "MEASURING";
+    case ORDERING_MATERIAL = "ORDERING_MATERIAL";
+    case FABRICATING = "FABRICATING";
+    case READY_TO_HANDOVER = "READY_TO_HANDOVER";
     case INSTALLED = "INSTALLED";
     case PICKED_UP = "PICKED_UP";
 }
