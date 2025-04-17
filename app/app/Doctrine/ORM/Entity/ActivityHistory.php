@@ -27,7 +27,7 @@ class ActivityHistory {
     #[Column(name:'activity_history_id', type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $activityHistoryId = null;
 
-    #[Column(name:'activity_type', enumType: Status::class)]
+    #[Column(name:'activity_type', enumType: Activity::class)]
     private Activity $activityType;
 
     #[Column(name:'activity_date', type: Types::STRING)]
@@ -73,6 +73,12 @@ class ActivityHistory {
     }
 }
 
+/**
+ * Enum Activity
+ * 
+ * Represents the action performed on an order,
+ * such as viewing or editing
+ */
 enum Activity: string {
     case VIEWED = "VIEWED";
     case EDITED = "EDITED";
