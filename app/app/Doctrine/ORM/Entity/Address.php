@@ -4,18 +4,24 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Entity;
 
+
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\DBAL\Types\Types;
 
 use app\Utils\Utils;
-use Doctrine\ORM\Mapping\Embeddable;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 
-#[Embeddable]
+#[Entity]
+#[Table(name: "address")]
 class Address {
-    #[Column(name: "address_id", type: Types::INTEGER)]
+    #[Id]
+    #[Column(name: "address_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $addressId = null;
 
     #[Column(name: "street_name", type: Types::STRING)]
