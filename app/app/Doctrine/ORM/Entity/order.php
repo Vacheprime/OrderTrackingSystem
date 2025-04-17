@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-
 namespace app\Doctrine\ORM\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
