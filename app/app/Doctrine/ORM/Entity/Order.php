@@ -19,10 +19,10 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use InvalidArgumentException;
 
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
-require_once("address.php");
-require_once("client.php");
-require_once("employee.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Address.php");
+require_once("Client.php");
+require_once("Employee.php");
 
 #[Entity]
 #[Table("`order`")]
@@ -32,7 +32,7 @@ class Order {
     private ?int $orderId = null;
 
     // FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
-    // EX: ORD-1-1-UHAS
+    // EX: ORD-1-1-U1AS
     #[Column(name: "reference_number", type: Types::STRING)]
     private ?string $referenceNumber = null;
 
@@ -77,12 +77,12 @@ class Order {
         Collection $payments
     )
     {
-        $this->setFabricationStartDate($fabricationStartDate);
         $this->setPrice($price);
+        $this->setStatus($status);
+        $this->setInvoiceNumber($invoiceNumber);
+        $this->setFabricationStartDate($fabricationStartDate);
         $this->setEstimatedInstallDate($estimatedInstallDate);
         $this->setOrderCompletedDate($orderCompletedDate);
-        $this->setInvoiceNumber($invoiceNumber);
-        $this->setStatus($status);
         $this->client = $client;
         $this->measuredBy = $measuredBy;
         $this->payments = $payments;
@@ -101,6 +101,36 @@ class Order {
         return $this->referenceNumber;
     }
 
+    public function getPrice(): string {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): void {
+        if (!Utils::validatePositiveAmount($price)) {
+            throw new InvalidArgumentException("The price must be greater than zero!");
+        }
+        $this->price = $price;
+    }
+
+    public function getStatus(): Status {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): void {
+        $this->status = $status;
+    }
+
+    public function getInvoiceNumber(): string {
+        return $this->invoiceNumber;
+    }
+
+    public function setInvoiceNumber(string $invoiceNumber): void {
+        if (!Utils::validateInvoiceNumber($invoiceNumber)) {
+            throw new InvalidArgumentException("The invoice number is invalid!");
+        }
+        $this->invoiceNumber = $invoiceNumber;
+    }
+
     public function getFabricationStartDate(): ?DateTime {
         return $this->fabricationStartDate;
     }
@@ -114,17 +144,6 @@ class Order {
             throw new InvalidArgumentException("The start date must be set in the past or present!");
         }
         $this->fabricationStartDate = $startDate;
-    }
-
-    public function getPrice(): string {
-        return $this->price;
-    }
-
-    public function setPrice(string $price): void {
-        if (!Utils::validatePositiveAmount($price)) {
-            throw new InvalidArgumentException("The price must be greater than zero!");
-        }
-        $this->price = $price;
     }
 
     public function getEstimatedInstallDate(): ?DateTime {
@@ -155,25 +174,6 @@ class Order {
             throw new InvalidArgumentException("The order completion date must be in the past or present!");
         }
         $this->orderCompletedDate = $date;
-    }
-
-    public function getInvoiceNumber(): string {
-        return $this->invoiceNumber;
-    }
-
-    public function setInvoiceNumber(string $invoiceNumber): void {
-        if (!Utils::validateInvoiceNumber($invoiceNumber)) {
-            throw new InvalidArgumentException("The invoice number is invalid!");
-        }
-        $this->invoiceNumber = $invoiceNumber;
-    }
-
-    public function getStatus(): Status {
-        return $this->status;
-    }
-
-    public function setStatus(Status $status): void {
-        $this->status = $status;
     }
 
     public function getClient(): Client {
