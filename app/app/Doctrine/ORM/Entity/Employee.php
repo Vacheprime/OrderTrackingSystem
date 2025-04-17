@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use OTPHP\TOTP;
 
 use app\Utils\Utils;
-use DateTime;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
@@ -36,14 +35,11 @@ class Employee extends Person {
     #[Column(name: "email", type: Types::STRING)]
     private string $email;
 
-    #[Column(name: "birth_date", type: Types::DATE_MUTABLE)]
-    private DateTime $birthDate;
-
-    #[Column(name: "hire_date", type: Types::DATE_MUTABLE)]
-    private DateTime $hireDate;
-
     #[Column(name: "is_admin", type: Types::BOOLEAN)]
     private bool $isAdmin;
+
+    #[Column(name: "has_set_up_2fa", type: Types::BOOLEAN)]
+    private bool $hasSetUp2fa = false;
 
     #[Column(name: "password_hash", type: Types::STRING)]
     private string $passwordHash;
@@ -59,20 +55,16 @@ class Employee extends Person {
         string $initials,
         string $position,
         string $email,
-        DateTime $birthDate,
-        DateTime $hireDate,
         bool $isAdmin,
         string $password
     ) {
         // Use setters because they include input validation.
         parent::__construct($firstName, $lastName, $phoneNumber, $address);
+        $this->setInitials($initials);
         $this->setPosition($position);
         $this->setEmail($email);
-        $this->setBirthDate($birthDate);
-        $this->setHireDate($hireDate);
         $this->setIsAdmin($isAdmin);
         $this->setPassword($password);
-        $this->setInitials($initials);
         $this->secret = $this->generateTOTPSecret();
     }
 
@@ -85,6 +77,17 @@ class Employee extends Person {
 
     public function getEmployeeId(): ?int {
         return $this->employeeId;
+    }
+
+    public function getInitials(): string {
+        return $this->initials;
+    }
+
+    public function setInitials(string $initials): void {
+        if (!Utils::validateInitials($initials)) {
+            throw new InvalidArgumentException("The initials are inbalid!");
+        }
+        $this->initials = $initials;
     }
 
     public function getPosition(): string {
@@ -109,34 +112,20 @@ class Employee extends Person {
         $this->email = $email;
     }
 
-    public function getBirthDate(): DateTime {
-        return $this->birthDate;
-    }
-
-    public function setBirthDate(DateTime $birthDate): void {
-        if (!Utils::validateDateInPast($birthDate)) {
-            throw new InvalidArgumentException("The birth date is invalid!");
-        }
-        $this->birthDate = $birthDate;
-    }
-
-    public function getHireDate(): DateTime {
-        return $this->hireDate;
-    }
-
-    public function setHireDate(DateTime $hireDate): void {
-        if (!Utils::validateDateInPastOrNow($hireDate)) {
-            throw new InvalidArgumentException("The hire date is invalid!");
-        }
-        $this->hireDate = $hireDate;
-    }
-
     public function isAdmin(): bool {
         return $this->isAdmin;
     }
 
     public function setIsAdmin(bool $isAdmin): void {
         $this->isAdmin = $isAdmin;
+    }
+
+    public function hasSetUp2fa(): bool {
+        return $this->hasSetUp2fa;
+    }
+
+    public function setHasSetUp2fa(bool $hasSetUp2fa) {
+        $this->hasSetUp2fa = $hasSetUp2fa;
     }
 
     public function getPasswordHash(): string {
@@ -152,16 +141,5 @@ class Employee extends Person {
 
     public function getSecret(): string {
         return $this->secret;
-    }
-
-    public function getInitials(): string {
-        return $this->initials;
-    }
-
-    public function setInitials(string $initials): void {
-        if (!Utils::validateInitials($initials)) {
-            throw new InvalidArgumentException("The initials are inbalid!");
-        }
-        $this->initials = $initials;
     }
 }
