@@ -87,7 +87,7 @@ CREATE TABLE payment (
 CREATE TABLE activity (
 	activity_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     activity_type VARCHAR(6) NOT NULL,
-    logged_on DATE NOT NULL,
+    log_date DATE NOT NULL,
     order_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
     CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
