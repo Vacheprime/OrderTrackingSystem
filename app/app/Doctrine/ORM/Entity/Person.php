@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
-require_once("address.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Address.php");
 
 #[MappedSuperclass]
 abstract class Person {

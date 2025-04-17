@@ -15,9 +15,9 @@ use OTPHP\TOTP;
 use app\Utils\Utils;
 use InvalidArgumentException;
 
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
-require_once("address.php");
-require_once("person.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Address.php");
+require_once("Person.php");
 
 #[Entity]
 #[Table(name: "employee")]

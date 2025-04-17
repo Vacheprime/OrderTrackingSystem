@@ -15,79 +15,71 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
-require_once("order.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Order.php");
 
 #[Entity]
 #[Table("order_product")]
-
 class OrderProduct {
     #[Id]
     #[OneToOne(targetEntity: Order::class)]
     #[JoinColumn(name:"order_id", referencedColumnName: "order_id")]
-    private Order $orderId;
+    private Order $order;
 
     #[Column(name:"material_name", type: Types::STRING, nullable: true)]
     private ?string $materialName;
 
-    #[Column(name:"is_material_available", type: Types::BOOLEAN)]
-    private bool $isMaterialAvailable;
+    #[Column(name:"slab_height", type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
+    private ?string $slabHeight;
 
-    #[Column(name:"slab_height", type: Types::INTEGER, nullable: true)]
-    private ?int $slabHeight;
-
-    #[Column(name:"slab_width", type: Types::INTEGER, nullable: true)]
-    private ?int $slabWidth;
+    #[Column(name:"slab_width", type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
+    private ?string $slabWidth;
     
-    #[Column(name:"slab_thickness", type: Types::INTEGER, nullable: true)]
-    private ?int $slabThickness;
+    #[Column(name:"slab_thickness", type: Types::INTEGER, precision: 6, scale: 2, nullable: true)]
+    private ?string $slabThickness;
+
+    #[Column(name:"slab_square_footage", type: Types::DECIMAL, precision:8, scale:2, nullable: true)]
+    private ?string $slabSquareFootage;
 
     #[Column(name:"plan_image_path", type: Types::STRING, nullable: true)]
     private ?string $planImagePath;
 
-    #[Column(name:"product_description", type: Types::STRING)]
-    private string $productDescription;
-
     #[Column(name:"sink_type", type: Types::STRING, nullable: true)]
     private ?string $sinkType;
 
-    #[Column(name:"product_square_footage", type: Types::DECIMAL, precision:10, scale:2, nullable: true)]
-    private ?string $productSquareFootage;
+    #[Column(name:"product_description", type: Types::TEXT)]
+    private string $productDescription;
 
-    #[Column(name:"product_notes", type: Types::STRING, nullable: true)]
-    private ?string $productNotes;
+    #[Column(name:"product_notes", type: Types::TEXT)]
+    private string $productNotes;
 
     public function __construct(
-        Order $orderId,
         ?string $materialName,
-        bool $isMaterialAvailable,
         ?int $slabHeight,
         ?int $slabWidth,
         ?int $slabThickness,
+        ?string $slabSquareFootage,
         ?string $planImagePath,
-        string $productDescription,
         ?string $sinkType,
-        ?string $productSquareFootage,
-        ?string $productNotes
+        string $productDescription,
+        string $productNotes
     ) {
-        $this->orderId = $orderId;
         $this->setMaterialName($materialName);
-        $this->setIsMaterialAvailable($isMaterialAvailable);
         $this->setSlabHeight($slabHeight);
         $this->setSlabWidth($slabWidth);
         $this->setSlabThickness($slabThickness);
+        $this->setSlabSquareFootage($slabSquareFootage);
         $this->setPlanImagePath($planImagePath);
-        $this->setProductDescription($productDescription);
         $this->setSinkType($sinkType);
-        $this->setProductSquareFootage($productSquareFootage);
+        $this->setProductDescription($productDescription);
         $this->setProductNotes($productNotes);
     }
 
-    public function getOrderId():int {
-        return $this->orderId->getOrderId();
+    public function getOrder(): Order {
+        return $this->order;
     }
 
-    public function getMaterialName():string {
+    public function getMaterialName(): ?string {
         return $this->materialName;
     }
 
@@ -102,19 +94,11 @@ class OrderProduct {
         $this->materialName = $materialName;
     }
 
-    public function getIsMaterialAvailable(): bool {
-        return $this->isMaterialAvailable;
-    }
-
-    public function setIsMaterialAvailable(bool $isMaterialAvailable) {
-        $this->isMaterialAvailable = $isMaterialAvailable;
-    }
-
-    public function getSlabHeight():int {
+    public function getSlabHeight(): ?string {
         return $this->slabHeight;
     }
 
-    public function setSlabHeight(?int $slabHeight){
+    public function setSlabHeight(?string $slabHeight){
         if ($slabHeight == null) {
             $this->slabHeight = $slabHeight;
             return;
@@ -125,11 +109,11 @@ class OrderProduct {
         $this->slabHeight = $slabHeight;
     }
 
-    public function getSlabWidth(): int {
+    public function getSlabWidth(): ?string {
         return $this->slabWidth;
     }
 
-    public function setSlabWidth(?int $slabWidth){
+    public function setSlabWidth(?string $slabWidth){
         if ($slabWidth == null) {
             $this->slabWidth = $slabWidth;
             return;
@@ -140,11 +124,11 @@ class OrderProduct {
         $this->slabWidth = $slabWidth;
     }
 
-    public function getSlabThickness():int {
+    public function getSlabThickness(): ?string {
         return $this->slabThickness;
     }
 
-    public function setSlabThickness(?int $slabThickness) {
+    public function setSlabThickness(?string $slabThickness) {
         if ($slabThickness == null) {
             $this->slabThickness = null;
             return;
@@ -155,7 +139,22 @@ class OrderProduct {
         $this->slabThickness = $slabThickness;
     }
 
-    public function getPlanImagePath():string {
+    public function getSlabSquareFootage(): string {
+        return $this->slabSquareFootage;
+    }
+
+    public function setSlabSquareFootage(?string $slabSquareFootage) {
+        if ($slabSquareFootage == null) {
+            $this->slabSquareFootage = null;
+            return;
+        }
+        if (!Utils::validateProductSquareFootage($slabSquareFootage)) {
+            throw new InvalidArgumentException("The product square footage is invalid!");
+        }
+        $this->slabSquareFootage = $slabSquareFootage;
+    }
+
+    public function getPlanImagePath(): string {
         return $this->planImagePath;
     }
 
@@ -168,14 +167,6 @@ class OrderProduct {
             throw new InvalidArgumentException("The image path is invalid!");
         }
         $this->planImagePath = $imagePath;
-    }
-
-    public function getProductDescription():string {
-        return $this->productDescription;
-    }
-
-    public function setProductDescription(string $productDescription) {
-        $this->productDescription = $productDescription;
     }
 
     public function getSinkType():string {
@@ -193,26 +184,19 @@ class OrderProduct {
         $this->sinkType = $sinkType;
     }
 
-    public function getProductSquareFootage():string {
-        return $this->productSquareFootage;
+    public function getProductDescription(): string {
+        return $this->productDescription;
     }
 
-    public function setProductSquareFootage(?string $productSquareFootage) {
-        if ($productSquareFootage == null) {
-            $this->productSquareFootage = null;
-            return;
-        }
-        if (!Utils::validateProductSquareFootage($productSquareFootage)) {
-            throw new InvalidArgumentException("The product square footage is invalid!");
-        }
-        $this->productSquareFootage = $productSquareFootage;
+    public function setProductDescription(string $productDescription) {
+        $this->productDescription = $productDescription;
     }
 
-    public function getProductNotes():string {
+    public function getProductNotes(): string {
         return $this->productNotes;
     }
 
-    public function setProductNotes(?string $productNotes) {
+    public function setProductNotes(string $productNotes) {
         $this->productNotes = $productNotes;
     }
 }
