@@ -24,7 +24,7 @@ class Product {
     #[Id]
     #[OneToOne(targetEntity: Order::class, inversedBy: "product")]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
-    private ?Order $order = null;
+    private Order $order;
 
     #[Column(name:"material_name", type: Types::STRING, nullable: true)]
     private ?string $materialName;
@@ -77,7 +77,7 @@ class Product {
         $this->setProductNotes($productNotes);
     }
 
-    public function getOrder(): ?Order {
+    public function getOrder(): Order {
         return $this->order;
     }
 
@@ -105,7 +105,7 @@ class Product {
             $this->slabHeight = $slabHeight;
             return;
         }
-        if (!Utils::validateSlab($slabHeight)) {
+        if (!Utils::validateSlabDimension($slabHeight)) {
             throw new InvalidArgumentException("The slab height is invalid!");
         }
         $this->slabHeight = $slabHeight;
@@ -120,7 +120,7 @@ class Product {
             $this->slabWidth = $slabWidth;
             return;
         }
-        if (!Utils::validateSlab($slabWidth)) {
+        if (!Utils::validateSlabDimension($slabWidth)) {
             throw new InvalidArgumentException("The slab height is invalid!");
         }
         $this->slabWidth = $slabWidth;
@@ -150,7 +150,7 @@ class Product {
             $this->slabSquareFootage = null;
             return;
         }
-        if (!Utils::validateProductSquareFootage($slabSquareFootage)) {
+        if (!Utils::validateSlabSquareFootage($slabSquareFootage)) {
             throw new InvalidArgumentException("The product square footage is invalid!");
         }
         $this->slabSquareFootage = $slabSquareFootage;
