@@ -26,7 +26,7 @@ class Client extends Person {
     #[Column(name: "client_id", type:Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $clientId = null;
 
-    #[Column(name: "client_reference", type:Types::STRING)]
+    #[Column(name: "client_reference", type:Types::STRING, nullable: true)]
     private ?string $clientReference;
 
     public function __construct(string $firstName, string $lastName, string $phoneNumber, Address $address, ?string $reference = null) {
@@ -38,7 +38,7 @@ class Client extends Person {
         return $this->clientId;
     }
 
-    public function getClientReference(): string {
+    public function getClientReference(): ?string {
         return $this->clientReference;
     }
 
