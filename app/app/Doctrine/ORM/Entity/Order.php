@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
@@ -65,6 +66,9 @@ class Order {
     #[OneToMany(targetEntity: Payment::class, mappedBy: "order", cascade: ["persist"])]
     private Collection $payments;
 
+    #[OnetoOne(targetEntity: Product::class, mappedBy: "order", cascade: ["persist"])]
+    private Product $product;
+
     public function __construct(
         string $price,
         Status $status,
@@ -74,7 +78,8 @@ class Order {
         ?DateTime $orderCompletedDate,
         Client $client,
         Employee $measuredBy,
-        Collection $payments
+        Collection $payments,
+        Product $product
     )
     {
         $this->setPrice($price);
@@ -86,6 +91,7 @@ class Order {
         $this->client = $client;
         $this->measuredBy = $measuredBy;
         $this->payments = $payments;
+        $this->product = $product;
     }
 
     public function generateReferenceNumber(): string {
@@ -186,6 +192,10 @@ class Order {
 
     public function getPayments(): Collection {
         return $this->payments;
+    }
+
+    public function getProduct(): Product {
+        return $this->product;
     }
 }
 
