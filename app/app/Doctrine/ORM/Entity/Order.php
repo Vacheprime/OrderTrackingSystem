@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\EntityListeners;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -34,6 +35,9 @@ class Order {
 
     // FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
     // EX: ORD-1-1-U1AS
+    // Should not be null, but has to because it is generated using PK ids, 
+    // and those are only generated after the Order is inserted into the
+    // database.  
     #[Column(name: "reference_number", type: Types::STRING)]
     private ?string $referenceNumber = null;
 
@@ -94,9 +98,9 @@ class Order {
         $this->product = $product;
     }
 
-    public function generateReferenceNumber(): string {
+    public function assignReferenceNumber(): void {
         $randomChars = strtoupper(substr(md5(random_bytes(15)), 0, 5));
-        return "ORD-{$this->orderId}-{$this->client->getClientId()}-{$randomChars}";
+        $this->referenceNumber = "ORD-{$this->orderId}-{$this->client->getClientId()}-{$randomChars}";
     }
 
     public function getOrderId(): ?int {
