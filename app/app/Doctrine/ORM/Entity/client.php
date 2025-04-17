@@ -12,8 +12,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
 use app\Utils\Utils;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
