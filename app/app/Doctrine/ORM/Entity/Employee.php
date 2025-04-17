@@ -11,9 +11,12 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Embeddable;
+use Doctrine\ORM\Mapping\Embedded;
+use Doctrine\ORM\Mapping\AttributeOverrides;
 use OTPHP\TOTP;
 
 use app\Utils\Utils;
+use Doctrine\ORM\Mapping\AttributeOverride;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
@@ -33,20 +36,15 @@ class Employee extends Person {
     #[Column(name: "position", type: Types::STRING)]
     private string $position;
 
-    #[Column(name: "email", type: Types::STRING)]
-    private string $email;
-
-    #[Column(name: "is_admin", type: Types::BOOLEAN)]
-    private bool $isAdmin;
-
-    #[Column(name: "has_set_up_2fa", type: Types::BOOLEAN)]
-    private bool $hasSetUp2fa = false;
-
-    #[Column(name: "password_hash", type: Types::STRING)]
-    private string $passwordHash;
-
-    #[Column(name: "secret", type: Types::STRING)]
-    private string $secret;
+    #[Embedded(class: Account::class)]
+    #[AttributeOverrides([
+        new AttributeOverride(name: 'email', column: new Column(name:'email', type: Types::STRING)),
+        new AttributeOverride(name: 'passwordHash', column: new Column(name:'password_hash', type: Types::STRING)),
+        new AttributeOverride(name: 'isAdmin', column: new Column(name:'is_admin', type: Types::BOOLEAN)),
+        new AttributeOverride(name: 'hasSetUp2fa', column: new Column(name:'has_set_up_2fa', type: Types::BOOLEAN)),
+        new AttributeOverride(name: 'secret', column: new Column(name:'secret', type: Types::STRING)),
+    ])]
+    private Account $account;
 
     public function __construct(
         string $firstName,
@@ -55,25 +53,13 @@ class Employee extends Person {
         Address $address,
         string $initials,
         string $position,
-        string $email,
-        bool $isAdmin,
-        string $password
+        Account $account
     ) {
         // Use setters because they include input validation.
         parent::__construct($firstName, $lastName, $phoneNumber, $address);
         $this->setInitials($initials);
         $this->setPosition($position);
-        $this->setEmail($email);
-        $this->setIsAdmin($isAdmin);
-        $this->setPassword($password);
-        $this->secret = $this->generateTOTPSecret();
-    }
-
-    private function generateTOTPSecret(): string {
-        // Create the TOTP object 
-        $totp = TOTP::generate();
-        // Return the TOTP secret
-        return $totp->getSecret();
+        $this->account = $account;
     }
 
     public function getEmployeeId(): ?int {
@@ -102,46 +88,8 @@ class Employee extends Person {
         $this->position = $position;
     }
 
-    public function getEmail(): string {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void {
-        if (!Utils::validateEmail($email)) {
-            throw new InvalidArgumentException("The email is invalid!");
-        }
-        $this->email = $email;
-    }
-
-    public function isAdmin(): bool {
-        return $this->isAdmin;
-    }
-
-    public function setIsAdmin(bool $isAdmin): void {
-        $this->isAdmin = $isAdmin;
-    }
-
-    public function hasSetUp2fa(): bool {
-        return $this->hasSetUp2fa;
-    }
-
-    public function setHasSetUp2fa(bool $hasSetUp2fa) {
-        $this->hasSetUp2fa = $hasSetUp2fa;
-    }
-
-    public function getPasswordHash(): string {
-        return $this->passwordHash;
-    }
-
-    public function setPassword(string $password): void {
-        if (!Utils::validatePassword($password)) {
-            throw new InvalidArgumentException("The password is invalid!");
-        }
-        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
-    }
-
-    public function getSecret(): string {
-        return $this->secret;
+    public function getAccount(): Account {
+        return $this->account;
     }
 }
 
@@ -162,7 +110,6 @@ class Account {
 
     #[Column(type: Types::STRING)]
     private string $secret;
-
 
     public function __construct(string $email, string $password, bool $isAdmin, bool $hasSetUp2fa) {
         $this->setEmail($email);
