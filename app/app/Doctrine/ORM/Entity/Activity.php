@@ -27,8 +27,8 @@ class Activity {
     #[Column(name:'activity_history_id', type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $activityHistoryId = null;
 
-    #[Column(name:'activity_type', enumType: Activity::class)]
-    private Activity $activityType;
+    #[Column(name:'activity_type', enumType: ActivityType::class)]
+    private ActivityType $activityType;
 
     #[Column(name:'logged_on', type: Types::DATE_MUTABLE)]
     private DateTime $loggedOn;
@@ -41,7 +41,7 @@ class Activity {
     #[JoinColumn(name: "employee_id", referencedColumnName: "employee_id")]
     private Employee $employee;
 
-    public function __construct(Activity $activityType, Order $order, Employee $employee) {
+    public function __construct(ActivityType $activityType, Order $order, Employee $employee) {
         $this->setActivityType($activityType);
         $this->loggedOn = new DateTime();
         $this->order = $order;
@@ -52,11 +52,11 @@ class Activity {
         return $this->activityHistoryId;
     }
 
-    public function getActivityType():Activity {
+    public function getActivityType():ActivityType {
         return $this->activityType;
     }
 
-    public function setActivityType(Activity $activityType):void {
+    public function setActivityType(ActivityType $activityType):void {
         $this->activityType = $activityType;
     }
 
@@ -79,7 +79,7 @@ class Activity {
  * Represents the action performed on an order,
  * such as viewing or editing
  */
-enum Activity: string {
+enum ActivityType: string {
     case VIEWED = "VIEWED";
     case EDITED = "EDITED";
 }
