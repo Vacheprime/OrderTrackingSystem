@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Embeddable;
 use OTPHP\TOTP;
 
 use app\Utils\Utils;
@@ -141,5 +142,82 @@ class Employee extends Person {
 
     public function getSecret(): string {
         return $this->secret;
+    }
+}
+
+
+#[Embeddable]
+class Account {
+    #[Column(type: Types::STRING)]
+    private string $email;
+
+    #[Column(type: Types::STRING)]
+    private string $passwordHash;
+
+    #[Column(type: Types::BOOLEAN)]
+    private bool $isAdmin;
+
+    #[Column(type: Types::BOOLEAN)]
+    private bool $hasSetUp2fa;
+
+    #[Column(type: Types::STRING)]
+    private string $secret;
+
+
+    public function __construct(string $email, string $password, bool $isAdmin, bool $hasSetUp2fa) {
+        $this->setEmail($email);
+        $this->setIsAdmin($isAdmin);
+        $this->setPassword($password);
+        $this->setHasSetUp2fa($hasSetUp2fa);
+        $this->secret = $this->generateTOTPSecret();
+    }
+
+    public function getSecret(): string {
+        return $this->secret;
+    }
+
+    private function generateTOTPSecret(): string {
+        // Create the TOTP object 
+        $totp = TOTP::generate();
+        // Return the TOTP secret
+        return $totp->getSecret();
+    }
+
+    public function getEmail(): string {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void {
+        if (!Utils::validateEmail($email)) {
+            throw new InvalidArgumentException("The email is invalid!");
+        }
+        $this->email = $email;
+    }
+
+    public function isAdmin(): bool {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): void {
+        $this->isAdmin = $isAdmin;
+    }
+
+    public function hasSetUp2fa(): bool {
+        return $this->hasSetUp2fa;
+    }
+
+    public function setHasSetUp2fa(bool $hasSetUp2fa) {
+        $this->hasSetUp2fa = $hasSetUp2fa;
+    }
+
+    public function getPasswordHash(): string {
+        return $this->passwordHash;
+    }
+
+    public function setPassword(string $password): void {
+        if (!Utils::validatePassword($password)) {
+            throw new InvalidArgumentException("The password is invalid!");
+        }
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
     }
 }

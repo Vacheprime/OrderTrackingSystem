@@ -24,14 +24,14 @@ require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
 #[Table("activity")]
 class Activity {
     #[Id]
-    #[Column(name:'activity_history_id', type: Types::INTEGER), GeneratedValue("AUTO")]
-    private ?int $activityHistoryId = null;
+    #[Column(name:'activity_id', type: Types::INTEGER), GeneratedValue("AUTO")]
+    private ?int $activityId = null;
 
     #[Column(name:'activity_type', enumType: ActivityType::class)]
     private ActivityType $activityType;
 
-    #[Column(name:'logged_on', type: Types::DATE_MUTABLE)]
-    private DateTime $loggedOn;
+    #[Column(name:'log_date', type: Types::DATE_MUTABLE)]
+    private DateTime $logDate;
 
     #[ManyToOne(targetEntity: Order::class, cascade: ["persist"])]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
@@ -43,13 +43,13 @@ class Activity {
 
     public function __construct(ActivityType $activityType, Order $order, Employee $employee) {
         $this->setActivityType($activityType);
-        $this->loggedOn = new DateTime();
+        $this->logDate = new DateTime();
         $this->order = $order;
         $this->employee = $employee;
     }
 
-    public function getActivityHistoryId():int {
-        return $this->activityHistoryId;
+    public function getActivityId():int {
+        return $this->activityId;
     }
 
     public function getActivityType():ActivityType {
@@ -60,8 +60,8 @@ class Activity {
         $this->activityType = $activityType;
     }
 
-    public function getLoggedOn():DateTime {
-        return $this->loggedOn;
+    public function getLogDate():DateTime {
+        return $this->logDate;
     }
 
     public function getOrder():Order {
