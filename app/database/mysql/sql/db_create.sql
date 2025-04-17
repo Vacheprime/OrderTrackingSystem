@@ -60,16 +60,15 @@ CREATE TABLE `order` (
 -- Create order product table
 CREATE TABLE order_product (
 	order_id INTEGER PRIMARY KEY,
-	material_name VARCHAR(100), -- Not required because it can be a sink.
-	is_material_available BOOLEAN NOT NULL,
-	slab_height INTEGER,
-	slab_width INTEGER,
-	slab_thickness INTEGER,
-	plan_image_path VARCHAR(75),
-	product_description TEXT NOT NULL,
-	sink_type VARCHAR(100),
-	product_square_footage DECIMAL(8, 2),
-	product_notes TEXT,
+	material_name VARCHAR(100), -- Only for slabs
+	slab_height DECIMAL(6, 2), -- Only for slabs
+	slab_width DECIMAL(6, 2), -- Only for slabs
+	slab_thickness DECIMAL(4, 2), -- Only for slabs
+    slab_square_footage DECIMAL(8, 2), -- Only for slabs
+	plan_image_path VARCHAR(75), -- Only for slabs
+	sink_type VARCHAR(100), -- Only for sinks
+    product_description TEXT NOT NULL,
+	product_notes TEXT NOT NULL,
 	CONSTRAINT order_product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
 );
 
@@ -88,7 +87,7 @@ CREATE TABLE payment (
 CREATE TABLE activity (
 	activity_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     activity_type VARCHAR(6) NOT NULL,
-    activity_date DATE NOT NULL,
+    logged_on DATE NOT NULL,
     order_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
     CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
