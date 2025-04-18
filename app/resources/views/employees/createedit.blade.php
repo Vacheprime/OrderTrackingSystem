@@ -5,8 +5,9 @@
         @else
             <h2>Update Employee</h2>
         @endif
+        {{--   ["First Name", "Last Name", "Email", ...]     --}}
         @foreach($employeeproperties as $property)
-            <x-input-property :property="{{$property}}"/>
+            <x-input-property :property="{{$property}}" :propertyName="{{trim(strtolower($property))}}"/>
         @endforeach
         @if($isCreate)
             @php
