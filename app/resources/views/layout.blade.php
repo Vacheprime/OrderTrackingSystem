@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<x-header :loggedin="{{--TODO: Implement authorization--}}}"/>
-@if($loggedin)
+<x-header/>
+@auth
     <x-sidebar :admin="{{--TODO: Implement authorization--}}"/>
-@endif
+@endauth
 <main>
     {{$slot}}
 </main>

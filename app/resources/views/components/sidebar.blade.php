@@ -1,5 +1,3 @@
-@props(['admin' => false])
-
 <aside>
     <div>
         <button><img src="{{url('public/images/arrow_icon.png')}}"></button>
@@ -23,7 +21,7 @@
                         :active="{{request()->is("/payments")}}">
                 Payments
             </x-nav-link>
-            @if($admin)
+            @if(auth()->user()->getAuthIdentifierName() == "admin")
                 <x-nav-link href="{{url('/employees')}}" img="{{url('public/images/home_icon.png')}}"
                             :active="{{request()->is("/employees")}}">
                     Employees
