@@ -128,7 +128,7 @@ class Utils {
      * The format for a postal code is defined on the Canada Post website:
      * https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page
      * It is of the format: ZDL DLD
-     * where L is one of the following letters: 
+     * where Z is one of the following letters: 
      * A B C E G H J K L M N P R S T V X Y
      * D is a digit, and L is an uppercase letter A-Z.
      * 
