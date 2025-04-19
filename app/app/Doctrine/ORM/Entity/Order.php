@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Entity;
 
+use app\Doctrine\ORM\Repository\OrderRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
@@ -14,11 +15,11 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\EntityListeners;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
+
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
@@ -26,7 +27,7 @@ require_once("Address.php");
 require_once("Client.php");
 require_once("Employee.php");
 
-#[Entity]
+#[Entity(repositoryClass: OrderRepository::class)]
 #[Table("`order`")]
 class Order {
     #[Id]
