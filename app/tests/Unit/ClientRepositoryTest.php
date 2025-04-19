@@ -8,8 +8,10 @@ use PHPUnit\Framework\TestCase;
 use Doctrine\ORM\EntityManager;
 use Tests\DoctrineSetup;
 use Closure;
+use FetchesFromPaginator;
 
 require_once(dirname(__DIR__) . "/DoctrineSetup.php");
+require_once("tests/FetchesFromPaginator.php");
 require_once("app/Doctrine/ORM/Repository/ClientRepository.php");
 
 class ClientRepositoryTest extends TestCase
@@ -17,6 +19,7 @@ class ClientRepositoryTest extends TestCase
     private EntityManager $em;
     private ClientRepository $repository;
 
+    use FetchesFromPaginator;
     /**
      * Setup the test.
      * 
@@ -84,17 +87,5 @@ class ClientRepositoryTest extends TestCase
         });
         $actualFirstNames = array_map(fn($client) => $client->getFirstName(), $clients);
         $this->assertEqualsCanonicalizing($expectedFirstNames, $actualFirstNames);
-    }
-
-    private static function getAllItemsFromPaginator(int $nbrItems, int $pageNum, callable $paginatorClosure): array {
-        $paginator = $paginatorClosure($nbrItems, $pageNum);
-        // Get all the firstnames of the dataset
-        $items = [... $paginator->items()];
-        // The paginator has to be refetched for each page
-        while ($paginator->hasMorePages()) {
-            $paginator = $paginatorClosure($nbrItems, $paginator->currentPage() + 1);
-            $items = [...$items, $paginator->items()];
-        }
-        return $items;
     }
 }
