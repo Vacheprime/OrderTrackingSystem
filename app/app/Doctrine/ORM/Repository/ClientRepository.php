@@ -28,8 +28,8 @@ class ClientRepository extends EntityRepository {
         // Build the Query
         // Use LOWER() SQL function to ignore case
         $qb->where($expr->orX(
-                $expr()->like("LOWER(c.first_name)", "LOWER(:target)"),
-                $expr()->like("LOWER(c.last_name)", "LOWER(:target)")
+                "LOWER(c.firstName) LIKE :target",
+                "LOWER(c.lastName) LIKE :target"
             )
         )->setParameter(":target", $searchTarget);
         
