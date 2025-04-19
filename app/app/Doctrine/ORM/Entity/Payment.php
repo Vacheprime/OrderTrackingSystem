@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
-require_once("order.php");
+require_once("Order.php");
 
 #[Entity]
 #[Table(name: "payment")]

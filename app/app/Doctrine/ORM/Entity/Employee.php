@@ -37,13 +37,13 @@ class Employee extends Person {
     private string $position;
 
     #[Embedded(class: Account::class)]
-    #[AttributeOverrides([
-        new AttributeOverride(name: 'email', column: new Column(name:'email', type: Types::STRING)),
-        new AttributeOverride(name: 'passwordHash', column: new Column(name:'password_hash', type: Types::STRING)),
-        new AttributeOverride(name: 'isAdmin', column: new Column(name:'is_admin', type: Types::BOOLEAN)),
-        new AttributeOverride(name: 'hasSetUp2fa', column: new Column(name:'has_set_up_2fa', type: Types::BOOLEAN)),
-        new AttributeOverride(name: 'secret', column: new Column(name:'secret', type: Types::STRING)),
-    ])]
+    // #[AttributeOverrides([
+    //     new AttributeOverride(name: 'email', column: new Column(name:'email', type: Types::STRING)),
+    //     new AttributeOverride(name: 'passwordHash', column: new Column(name:'password_hash', type: Types::STRING)),
+    //     new AttributeOverride(name: 'isAdmin', column: new Column(name:'is_admin', type: Types::BOOLEAN)),
+    //     new AttributeOverride(name: 'hasSetUp2fa', column: new Column(name:'has_set_up_2fa', type: Types::BOOLEAN)),
+    //     new AttributeOverride(name: 'secret', column: new Column(name:'secret', type: Types::STRING)),
+    // ])]
     private Account $account;
 
     public function __construct(

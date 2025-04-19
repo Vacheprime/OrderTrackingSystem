@@ -26,6 +26,7 @@ require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("Address.php");
 require_once("Client.php");
 require_once("Employee.php");
+require_once("Product.php");
 
 #[Entity(repositoryClass: OrderRepository::class)]
 #[Table("`order`")]
