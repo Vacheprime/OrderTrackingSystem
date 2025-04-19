@@ -34,7 +34,15 @@ class OrderRepositoryTest extends TestCase
         $this->repository = $this->em->getRepository(Order::class);
     }
 
+    /**
+     * Test for the getOrdersByStatusAscPaginated() method.
+     * 
+     * Only the statuses of the orders received are checked.
+     * If the order matches, then the orders are assumed to be
+     * fully populated and in the right order.
+     */
     public function testGetOrdersByStatusAscPaginated() {
+        // List the ordering of the expected order statuses
         $expectedStatuses = [
             "MEASURING",
             "MEASURING",
@@ -47,15 +55,12 @@ class OrderRepositoryTest extends TestCase
             "INSTALLED",
             "PICKED_UP"
         ];
+        // Fetch orders from test data
         $orders = self::getAllItemsFromPaginator(3, 1, function (int $rows, int $page) {
             return $this->repository->getOrdersByStatusAscPaginated($rows, $page);
         });
-        foreach($orders as $ord) {
-            if (gettype($ord) == "array") {
-                var_dump($ord);
-            }
-            echo gettype($ord);
-        }
+
+        // Compare the ordering
         $actualStatuses = array_map(fn($order) => $order->getStatus()->value, $orders);
         $this->assertEquals($expectedStatuses, $actualStatuses);
     }
