@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <title>User Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 <x-header/>
-@auth
-    <x-sidebar :admin="{{--TODO: Implement authorization--}}"/>
-@endauth
+
+    <x-test_sidebar/>
+
 <main>
-    {{$slot}}
+   
 </main>
 </body>
 </html>

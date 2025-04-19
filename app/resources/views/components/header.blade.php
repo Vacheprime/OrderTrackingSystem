@@ -1,5 +1,5 @@
 <header>
-    <img class="crownGraniteLogo" src="CrownGranite.png" alt="Crown Granite Logo">
+    <img class="crownGraniteLogo" src="images/logo.png" alt="Crown Granite Logo">
     <select class="selectLanguage">
         <option value="en">En</option>
         <option value="fr">Fr</option>
