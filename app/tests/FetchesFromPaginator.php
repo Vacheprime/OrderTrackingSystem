@@ -1,6 +1,5 @@
 <?php
 
-
 trait FetchesFromPaginator {
 
     private static function getAllItemsFromPaginator(int $nbrItems, int $pageNum, callable $paginatorClosure): array {

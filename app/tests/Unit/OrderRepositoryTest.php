@@ -3,14 +3,12 @@
 namespace Tests\Unit;
 
 use app\Doctrine\ORM\Entity\Order;
+use app\Doctrine\ORM\Repository\OrderFilter;
 use app\Doctrine\ORM\Repository\OrderRepository;
 use PHPUnit\Framework\TestCase;
 use Doctrine\ORM\EntityManager;
 use Tests\DoctrineSetup;
-use Closure;
 use FetchesFromPaginator;
-
-use function PHPUnit\Framework\assertEquals;
 
 require_once(dirname(__DIR__) . "/DoctrineSetup.php");
 require_once("tests/FetchesFromPaginator.php");
@@ -63,5 +61,22 @@ class OrderRepositoryTest extends TestCase
         // Compare the ordering
         $actualStatuses = array_map(fn($order) => $order->getStatus()->value, $orders);
         $this->assertEquals($expectedStatuses, $actualStatuses);
+    }
+
+    /**
+     * Test for the searchByNamePaginated() method.
+     * 
+     * 
+     */
+    public function testSearchByNamePaginated() {
+        // The ordering of the expected order Ids
+        $expectedOrderIds = [6, 1];
+        // Fetch the orders
+        $orders = self::getAllItemsFromPaginator(3, 1, function (int $rows, int $page) {
+            return $this->repository->searchByNamePaginated("doe", $rows, $page, null, OrderFilter::OLDEST);
+        });
+        // Compare the order Ids and the ordering
+        $actualIds = array_map(fn($order) => $order->getOrderId(), $orders);
+        $this->assertEquals($expectedOrderIds, $actualIds);
     }
 }

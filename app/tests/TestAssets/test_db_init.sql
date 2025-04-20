@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 	price DECIMAL(10, 2) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
+    creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
     fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,
@@ -144,20 +145,20 @@ VALUES
 -- Order table
 INSERT INTO `order` (
 	reference_number, price, `status`, invoice_number, 
-	fabrication_start_date, estimated_install_date, order_completed_date, 
+	creation_date, fabrication_start_date, estimated_install_date, order_completed_date, 
 	client_id, measured_by
 )
 VALUES
-  ('ORD-1001', 2500.00, 'MEASURING', NULL, NULL, NULL, NULL, 1, 2),
-  ('ORD-1002', 3200.50, 'ORDERING_MATERIAL', NULL, '2024-12-01', NULL, NULL, 2, 3),
-  ('ORD-1003', 4500.00, 'FABRICATING', 'INV-883', '2024-12-05', '2024-12-15', NULL, 3, 1),
-  ('ORD-1004', 5200.75, 'READY_TO_HANDOVER', 'INV-884', '2024-12-10', '2024-12-20', NULL, 4, 4),
-  ('ORD-1005', 1999.99, 'INSTALLED', 'INV-885', '2024-11-20', '2024-11-30', '2024-12-01', 5, 1),
-  ('ORD-1006', 2799.00, 'PICKED_UP', 'INV-886', '2024-12-01', '2024-12-10', '2024-12-11', 1, 2),
-  ('ORD-1007', 3400.00, 'MEASURING', NULL, NULL, NULL, NULL, 2, 2),
-  ('ORD-1008', 3900.25, 'ORDERING_MATERIAL', NULL, '2024-12-02', NULL, NULL, 3, 3),
-  ('ORD-1009', 4700.50, 'FABRICATING', 'INV-887', '2024-12-08', '2024-12-18', NULL, 4, 5),
-  ('ORD-1010', 6100.00, 'INSTALLED', 'INV-888', '2024-11-25', '2024-12-05', '2024-12-06', 5, 1);
+  ('ORD-1001', 2500.00, 'MEASURING', NULL, '2024-12-20 13:36:28', NULL, NULL, NULL, 1, 2),
+  ('ORD-1002', 3200.50, 'ORDERING_MATERIAL', NULL, '2024-11-30 14:00:56', '2024-12-01', NULL, NULL, 2, 3),
+  ('ORD-1003', 4500.00, 'FABRICATING', 'INV-883', '2024-12-04 09:36:28', '2024-12-05', '2024-12-15', NULL, 3, 1),
+  ('ORD-1004', 5200.75, 'READY_TO_HANDOVER', 'INV-884', '2024-12-08 11:36:28', '2024-12-10', '2024-12-20', NULL, 4, 4),
+  ('ORD-1005', 1999.99, 'INSTALLED', 'INV-885', '2024-11-06 16:36:28', '2024-11-20', '2024-11-30', '2024-12-01', 5, 1),
+  ('ORD-1006', 2799.00, 'PICKED_UP', 'INV-886', '2024-11-25 18:36:28', '2024-12-01', '2024-12-10', '2024-12-11', 1, 2),
+  ('ORD-1007', 3400.00, 'MEASURING', NULL, '2024-12-20 10:36:28', NULL, NULL, NULL, 2, 2),
+  ('ORD-1008', 3900.25, 'ORDERING_MATERIAL', NULL, '2024-11-25 08:36:28', '2024-12-02', NULL, NULL, 3, 3),
+  ('ORD-1009', 4700.50, 'FABRICATING', 'INV-887', '2024-12-04 12:36:28', '2024-12-08', '2024-12-18', NULL, 4, 5),
+  ('ORD-1010', 6100.00, 'INSTALLED', 'INV-888', '2024-11-19 11:36:28', '2024-11-25', '2024-12-05', '2024-12-06', 5, 1);
 
 -- Payment table
 INSERT INTO payment (
