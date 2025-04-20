@@ -21,7 +21,7 @@ class ClientManagement
       
     <button class="searchButton" onclick="">Seach</button>
 
-    <button class="createOrderButton" onclick="">Create order</button>
+    <button class="createOrderButton" onclick="">Create Client</button>
 
     <hr>
     
