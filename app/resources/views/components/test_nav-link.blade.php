@@ -1,6 +1,6 @@
-@props(["active" => false, "img" => ""])
+@props(["active" => false, "img" => "", "href" => ""])
 
-<a class="nav-link {{$active ? "nav-link-active" : ""}}">
+<a class="nav-link {{$active ? "nav-link-active" : ""}}" href="{{$href}}">
     <img src="{{$img}}"/>
-    <p>{{$slot}}</p>
+    <p class="title">{{$slot}}</p>
 </a>

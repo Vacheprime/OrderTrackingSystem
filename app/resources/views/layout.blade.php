@@ -11,7 +11,7 @@
     <x-sidebar :admin="{{--TODO: Implement authorization--}}"/>
 @endauth
 <main>
-    {{$slot}}
+    <!-- {{$slot}} -->
 </main>
 </body>
 </html>
