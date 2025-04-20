@@ -11,7 +11,7 @@
                 </form>
             </div>
             <div id="clients-table-content" class="table-content-div">
-                <x-client-table/>
+                <x-client-table :clients="{{$clients}}"/>
                 {{-- Component not added yet --}}
             </div>
         </div>
