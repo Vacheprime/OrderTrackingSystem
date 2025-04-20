@@ -67,3 +67,11 @@ class BaseRepository extends EntityRepository {
         $this->qb = clone $this->qb;
     }
 }
+
+/**
+ * Enum SortOrder represents the sorting order.
+ */
+enum SortOrder: string {
+    case DESCENDING = "DESC";
+    case ASCENDING = "ASC";
+}
