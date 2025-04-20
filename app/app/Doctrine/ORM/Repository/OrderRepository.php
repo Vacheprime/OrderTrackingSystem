@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Repository;
 
+use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Status;
 use BaseRepository;
 use SortOrder;
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use InvalidArgumentException;
 
 require_once("BaseRepository.php");
 
@@ -22,20 +24,95 @@ class OrderRepository extends BaseRepository {
         parent::__construct($em, $metadata, self::$alias);
     }
 
+    /**
+     * MAYBE REMOVE.
+     */
     public function getOrdersByStatusAscPaginated(int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
         return $this->sortByStatus(SortOrder::ASCENDING)->retrievePaginated($rowsPerPage, $pageNumber);
     }
 
+    /**
+     * MAYBE REMOVE.
+     */
     public function getOrdersByStatusPaginated(Status $status, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
-        // $qb = $this->createQueryBuilder(self::$alias);
-        // $qb->where("o.status = :status")
-        //     ->setParameter(":status", $status->value);
-        // return $this->paginate($qb->getQuery(), $rowsPerPage, $pageNumber);
         return $this->ofStatus($status)->retrievePaginated($rowsPerPage, $pageNumber);
     }
 
+    /**
+     * MAYBE REMOVE
+     */
     public function searchByNamePaginated(string $name, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
         return $this->searchByName($name)->sortByCreationDate(SortOrder::ASCENDING)->retrievePaginated($rowsPerPage, $pageNumber);
+    }
+
+    /**
+     * Insert an order into the database.
+     * 
+     * @param Order $order The order to insert.
+     * @throws InvalidArgumentException Thrown when the order already exists
+     * in the database.
+     */
+    public function insertOrder(Order $order): void {
+        if ($order->getOrderId() != null) {
+            throw new InvalidArgumentException("The order provided is already in the database!");
+        }
+        // Get the EntityManager
+        $em = $this->getEntityManager();
+        // Wrap the insert logic into a transaction.
+        // If an error occurs while the reference number is being generated,
+        // rollback everything.
+        $em->wrapInTransaction(function(EntityManagerInterface $em) use ($order) {
+            // Persist and insert the order
+            $em->persist($order);
+            $em->flush();
+            // Generate the reference number and flush
+            $order->assignReferenceNumber();
+            $em->flush();
+        });
+    }
+
+    /**
+     * Save the changes made to an order into the database.
+     * 
+     * @param Order $order The order to update.
+     * @throws InvalidArgumentException Thrown when the order has not yet
+     * been inserted into the database.
+     */
+    public function updateOrder(Order $order): void {
+        if ($order->getOrderId() == null) {
+            throw new InvalidArgumentException("The order must first be inserted in the database!");
+        }
+        $em = $this->getEntityManager();
+        $em->persist($order);
+        $em->flush();
+    }
+
+    /**
+     * Deletes an order if no payments have been made.
+     * Also deletes the order's client if the client has 
+     * made only this order.
+     * 
+     * @param Order $order The order to delete.
+     */
+    public function deleteOrder(Order $order): void {
+        // Check if an order has payments
+        if ($order->getPayments()->count() != 0) {
+            throw new InvalidArgumentException("The order cannot be deleted because it has payments!");
+        }
+        // Get the EntityManager
+        $em = $this->getEntityManager();
+        // Check if the client has other orders
+        $client = $order->getClient();
+        if ($client->getOrders()->count() == 1) {
+            // Update association
+            $client->removeOrder($order);
+            // Schedule removal of client
+            $em->remove($client);
+        }
+        // Schedule removal of order
+        $em->remove($order);
+        // Remove the order
+        $em->flush();
     }
 
     /**
