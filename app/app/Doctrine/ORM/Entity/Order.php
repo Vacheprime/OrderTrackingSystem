@@ -52,6 +52,9 @@ class Order {
     #[Column(name: "invoice_number", type: Types::STRING, nullable: true)]
     private string $invoiceNumber;
 
+    #[Column(name: "creation_date", type: Types::DATETIME_MUTABLE, generated: "ALWAYS")]
+    private ?DateTime $creationDate = null;
+
     #[Column(name: "fabrication_start_date", type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTime $fabricationStartDate;
 
@@ -141,6 +144,10 @@ class Order {
             throw new InvalidArgumentException("The invoice number is invalid!");
         }
         $this->invoiceNumber = $invoiceNumber;
+    }
+
+    public function getCreationDate(): ?DateTime {
+        return $this->creationDate;
     }
 
     public function getFabricationStartDate(): ?DateTime {

@@ -48,6 +48,7 @@ CREATE TABLE `order` (
 	price DECIMAL(10, 2) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
+    creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
     fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,
