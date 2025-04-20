@@ -12,11 +12,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\AttributeOverrides;
 use OTPHP\TOTP;
 
 use app\Utils\Utils;
-use Doctrine\ORM\Mapping\AttributeOverride;
 use InvalidArgumentException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
@@ -36,14 +34,7 @@ class Employee extends Person {
     #[Column(name: "position", type: Types::STRING)]
     private string $position;
 
-    #[Embedded(class: Account::class)]
-    // #[AttributeOverrides([
-    //     new AttributeOverride(name: 'email', column: new Column(name:'email', type: Types::STRING)),
-    //     new AttributeOverride(name: 'passwordHash', column: new Column(name:'password_hash', type: Types::STRING)),
-    //     new AttributeOverride(name: 'isAdmin', column: new Column(name:'is_admin', type: Types::BOOLEAN)),
-    //     new AttributeOverride(name: 'hasSetUp2fa', column: new Column(name:'has_set_up_2fa', type: Types::BOOLEAN)),
-    //     new AttributeOverride(name: 'secret', column: new Column(name:'secret', type: Types::STRING)),
-    // ])]
+    #[Embedded(class: Account::class, columnPrefix: false)]
     private Account $account;
 
     public function __construct(
@@ -96,19 +87,19 @@ class Employee extends Person {
 
 #[Embeddable]
 class Account {
-    #[Column(type: Types::STRING)]
+    #[Column(name: "email", type: Types::STRING)]
     private string $email;
 
-    #[Column(type: Types::STRING)]
+    #[Column(name: "password_hash", type: Types::STRING)]
     private string $passwordHash;
 
-    #[Column(type: Types::BOOLEAN)]
+    #[Column(name: "is_admin", type: Types::BOOLEAN)]
     private bool $isAdmin;
 
-    #[Column(type: Types::BOOLEAN)]
+    #[Column(name: "has_set_up_2fa", type: Types::BOOLEAN)]
     private bool $hasSetUp2fa;
 
-    #[Column(type: Types::STRING)]
+    #[Column(name: "secret", type: Types::STRING)]
     private string $secret;
 
     public function __construct(string $email, string $password, bool $isAdmin, bool $hasSetUp2fa) {
