@@ -64,7 +64,7 @@ class Order {
     #[Column(name: "order_completed_date", type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTime $orderCompletedDate;
 
-    #[ManyToOne(targetEntity: Client::class, cascade: ["persist"])]
+    #[ManyToOne(targetEntity: Client::class, inversedBy: "orders", cascade: ["persist"])]
     #[JoinColumn(name: "`client_id`", referencedColumnName: "`client_id`")]
     private Client $client;
 
@@ -75,7 +75,7 @@ class Order {
     #[OneToMany(targetEntity: Payment::class, mappedBy: "order", cascade: ["persist"])]
     private Collection $payments;
 
-    #[OnetoOne(targetEntity: Product::class, mappedBy: "order", cascade: ["persist"])]
+    #[OnetoOne(targetEntity: Product::class, mappedBy: "order", cascade: ["persist", "remove"])]
     private Product $product;
 
     public function __construct(
