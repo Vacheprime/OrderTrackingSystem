@@ -46,13 +46,13 @@ CREATE TABLE IF NOT EXISTS `order` (
 	order_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	reference_number VARCHAR(100), -- Required, but has to be nullable because of how it's generated in PHP.
 	price DECIMAL(10, 2) NOT NULL,
-    `status` VARCHAR(25) NOT NULL,
-    invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
-    creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
-    fabrication_start_date DATE,
+  `status` VARCHAR(25) NOT NULL,
+  invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
+  creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
+  fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,
-	`client_id` INTEGER NOT NULL,
+	client_id INTEGER NOT NULL,
 	measured_by INTEGER NOT NULL,
 	CONSTRAINT order_client_fk FOREIGN KEY (client_id) REFERENCES `client`(client_id),
 	CONSTRAINT order_measured_by_fk FOREIGN KEY (measured_by) REFERENCES employee(employee_id)
@@ -65,10 +65,10 @@ CREATE TABLE IF NOT EXISTS product (
 	slab_height DECIMAL(6, 2), -- Only for slabs
 	slab_width DECIMAL(6, 2), -- Only for slabs
 	slab_thickness DECIMAL(4, 2), -- Only for slabs
-    slab_square_footage DECIMAL(8, 2), -- Only for slabs
+  slab_square_footage DECIMAL(8, 2), -- Only for slabs
 	plan_image_path VARCHAR(75), -- Only for slabs
 	sink_type VARCHAR(100), -- Only for sinks
-    product_description TEXT NOT NULL,
+  product_description TEXT NOT NULL,
 	product_notes TEXT NOT NULL,
 	CONSTRAINT product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
 );
@@ -119,7 +119,8 @@ VALUES
   ('Oak Drive', '15A', 'M4N 5P6', 'Central'),
   ('Riverbank Ln', '', 'P7R 8S9', 'West End'),
   ('Crown Heights', NULL, 'R1S 2T3', 'Harbor View'),
-  ('Sunset Road', 'Apt 303', 'T4V 5X6', 'Lakeside');
+  ('Sunset Road', 'Apt 303', 'T4V 5X6', 'Lakeside'),
+  ('Another Riad', NULL, 'H8U 2R4', 'View Another');
   
 -- Client table
 INSERT INTO client (first_name, last_name, client_reference, phone_number, address_id)
@@ -128,7 +129,8 @@ VALUES
   ('Emily', 'Clark', 'EC-202', '+1 (555)-234-5678', 2),
   ('Michael', 'Nguyen', 'MN-333', '+1 (555)-345-6789', 3),
   ('Sofia', 'Martinez', NULL, '+1 (555)-456-7890', 4),
-  ('Liam', 'O\'Connor', 'LOC-999', '+1 (555)-567-8901', 5);
+  ('Liam', 'O\'Connor', 'LOC-999', '+1 (555)-567-8901', 5),
+  ('Just', 'Some', 'REF', '+1 (555)-567-8901', 11);
 
 -- Employee table
 INSERT INTO employee (
@@ -158,7 +160,8 @@ VALUES
   ('ORD-1007', 3400.00, 'MEASURING', NULL, '2024-12-20 10:36:28', NULL, NULL, NULL, 2, 2),
   ('ORD-1008', 3900.25, 'ORDERING_MATERIAL', NULL, '2024-11-25 08:36:28', '2024-12-02', NULL, NULL, 3, 3),
   ('ORD-1009', 4700.50, 'FABRICATING', 'INV-887', '2024-12-04 12:36:28', '2024-12-08', '2024-12-18', NULL, 4, 5),
-  ('ORD-1010', 6100.00, 'INSTALLED', 'INV-888', '2024-11-19 11:36:28', '2024-11-25', '2024-12-05', '2024-12-06', 5, 1);
+  ('ORD-1010', 6100.00, 'INSTALLED', 'INV-888', '2024-11-19 11:36:28', '2024-11-25', '2024-12-05', '2024-12-06', 5, 1),
+  ('ORD-1011', 5000.00, 'MEASURING', NULL, '2024-12-20 05:10:10', NULL, NULL, NULL, 6, 1);
 
 -- Payment table
 INSERT INTO payment (

@@ -49,7 +49,8 @@ class ClientRepositoryTest extends TestCase
             "Emily",
             "Michael",
             "Sofia",
-            "Liam"
+            "Liam",
+            "Just"
         ];
         $paginator = $this->repository->getAllPaginated(2, 1);
         // Get all the firstnames of the dataset
