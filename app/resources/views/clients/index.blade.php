@@ -57,26 +57,6 @@
                 <p><span><b>City:</b></span> <span>Montreal</span></p>
                 <p><span><b>Province:</b></span> <span>Quebec</span></p>
             </div>
-            {{--            <div id="order-history-details" class="details-subsection">--}}
-            {{--                <h4>Order History</h4>--}}
-            {{--                <hr/>--}}
-            {{--                <p><span><b>Orders from Client:</b></span> <a href="">View Orders</a></p>--}}
-            {{--                @foreach ($orders as $order)--}}
-            {{--                    <div class="order-div">--}}
-            {{--                        <p><span><b>ORDER ID:</b></span>{{$order->getOrderId()}}<span></span></p>--}}
-            {{--                    </div>--}}
-            {{--                @endforeach--}}
-            {{--            </div>--}}
-            {{--            <div id="payments-details" class="details-subsection">--}}
-            {{--                <h4>Payment History</h4>--}}
-            {{--                <hr/>--}}
-            {{--                <p><span><b>Payments from Client:</b></span> <a href="">View Payments</a></p>--}}
-            {{--                @foreach ($payments as $payment)--}}
-            {{--                    <div class="playment-div">--}}
-            {{--                        <p><span><b>ORDER ID:</b></span>{{$payment->getPaymentId()}}<span></span></p>--}}
-            {{--                    </div>--}}
-            {{--                @endforeach--}}
-            {{--            </div>--}}
         </div>
         <a href="/edit-client">
             <button class="regular-button">Edit Client</button>

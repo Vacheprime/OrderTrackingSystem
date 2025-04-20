@@ -1,6 +1,4 @@
-@extends("layouts.default")
-
-@section("main")
+<x-layout>
     <div class="main-content">
         <h2>Settings</h2>
         <div id="settings-scroll-div">
@@ -37,4 +35,5 @@
                 </div>
             </div>
         </div>
-@endsection
+    </div>
+</x-layout>
