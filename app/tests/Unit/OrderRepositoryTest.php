@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use app\Doctrine\ORM\Entity\Order;
-use app\Doctrine\ORM\Repository\OrderFilter;
 use app\Doctrine\ORM\Repository\OrderRepository;
 use PHPUnit\Framework\TestCase;
 use Doctrine\ORM\EntityManager;
@@ -73,7 +72,7 @@ class OrderRepositoryTest extends TestCase
         $expectedOrderIds = [6, 1];
         // Fetch the orders
         $orders = self::getAllItemsFromPaginator(3, 1, function (int $rows, int $page) {
-            return $this->repository->searchByNamePaginated("doe", $rows, $page, null, OrderFilter::OLDEST);
+            return $this->repository->searchByNamePaginated("doe", $rows, $page);
         });
         // Compare the order Ids and the ordering
         $actualIds = array_map(fn($order) => $order->getOrderId(), $orders);

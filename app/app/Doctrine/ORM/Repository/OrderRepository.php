@@ -4,107 +4,151 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Repository;
 
-use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Status;
+use BaseRepository;
+use SortOrder;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use LaravelDoctrine\ORM\Pagination\PaginatesFromParams;
 
-class OrderRepository extends EntityRepository {
+require_once("BaseRepository.php");
+
+class OrderRepository extends BaseRepository {
     private static string $alias = "o";
 
-    use PaginatesFromParams;
+    public function __construct(EntityManagerInterface $em, ClassMetadata $metadata) {
+        parent::__construct($em, $metadata, self::$alias);
+    }
 
     public function getOrdersByStatusAscPaginated(int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
-        $qb = $this->createQueryBuilder(self::$alias);
-        $qb->addSelect("
-            CASE o.status
-                WHEN 'MEASURING' THEN 1
-                WHEN 'ORDERING_MATERIAL' THEN 2
-                WHEN 'FABRICATING' THEN 3
-                WHEN 'READY_TO_HANDOVER' THEN 4
-                WHEN 'INSTALLED' THEN 5
-                WHEN 'PICKED_UP' THEN 6
-            ELSE 999
-            END AS HIDDEN sort_status_col
-        ")->orderBy("sort_status_col", "ASC");
-        return $this->paginate($qb->getQuery(), $rowsPerPage, $pageNumber);
+        return $this->sortByStatus(SortOrder::ASCENDING)->retrievePaginated($rowsPerPage, $pageNumber);
     }
 
     public function getOrdersByStatusPaginated(Status $status, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
-        $qb = $this->createQueryBuilder(self::$alias);
-        $qb->where("o.status = :status")
-            ->setParameter(":status", $status->value);
-        return $this->paginate($qb->getQuery(), $rowsPerPage, $pageNumber);
+        // $qb = $this->createQueryBuilder(self::$alias);
+        // $qb->where("o.status = :status")
+        //     ->setParameter(":status", $status->value);
+        // return $this->paginate($qb->getQuery(), $rowsPerPage, $pageNumber);
+        return $this->ofStatus($status)->retrievePaginated($rowsPerPage, $pageNumber);
     }
 
-    public function searchByNamePaginated(string $name, $rowsPerPage, int $pageNumber = 1, ?Status $status = null, OrderFilter $filter = OrderFilter::NONE) {
+    public function searchByNamePaginated(string $name, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
+        return $this->searchByName($name)->sortByCreationDate(SortOrder::ASCENDING)->retrievePaginated($rowsPerPage, $pageNumber);
+    }
+
+    /**
+     * Sorts the current query in ASCENDING or DESCENDING
+     * order of its status as specified by the $sortOrder argument.
+     * 
+     * ASCENDING order will retrieve orders that are currently being worked
+     * on. MEASURING first and PICKED_UP last. DESCENDING order will do the
+     * opposite.
+     * 
+     * @param SortOrder $sortOrder The order in which to sort.
+     * @return self A clone of the OrderRepository with the sorting applied.
+     */
+    public function sortByStatus(SortOrder $sortOrder): self {
+        return $this->filter(static function(QueryBuilder $qb) use ($sortOrder) {
+            $qb->addSelect("
+                CASE o.status
+                    WHEN 'MEASURING' THEN 1
+                    WHEN 'ORDERING_MATERIAL' THEN 2
+                    WHEN 'FABRICATING' THEN 3
+                    WHEN 'READY_TO_HANDOVER' THEN 4
+                    WHEN 'INSTALLED' THEN 5
+                    WHEN 'PICKED_UP' THEN 6
+                ELSE 999
+                END AS HIDDEN sort_status_col
+            ")->orderBy("sort_status_col", $sortOrder->value);
+        });
+    }
+
+    /**
+     * Sorts the current query by the order's creation date.
+     * 
+     * @param SortOrder $sortOrder The order in which to sort.
+     * @return self A clone of the OrderRepository with the sorting applied.
+     */
+    public function sortByCreationDate(SortOrder $sortOrder): self {
+        return $this->filter(static function(QueryBuilder $qb) use ($sortOrder) {
+            $qb->orderBy("o.creationDate", $sortOrder->value);
+        });
+    }
+
+    /**
+     * Filters the current query to return only orders with the specified status.
+     * 
+     * @param Status $status The status of the orders to select.
+     * @return self A clone of the OrderRepository with the filter applied.
+     */
+    public function ofStatus(Status $status): self {
+        return $this->filter(static function(QueryBuilder $qb) use ($status){
+            $qb->andWhere("o.status = :status")->setParameter(":status", $status);
+        });
+    }
+
+    /**
+     * Filters the current query to return only orders 
+     * where the client matches the search name.
+     * 
+     * @param string $name The name of the client to search by. This
+     * can be a partial name and not an exact match.
+     * @return self A clone of the OrderRepository with the filter applied.
+     */
+    public function searchByName(string $name): self {
         // Create the SQL search string
         $searchTarget = "%" . strtolower($name) . "%";
-
-        // Create the QueryBuilder and Expr
-        $qb = $this->createQueryBuilder(self::$alias);
-        $expr = $qb->expr();
-        
-        // Build the search query
-        $qb->innerJoin("o.client", "c", 
-            Expr\Join::WITH,
-            $expr->orX(
-                "LOWER(c.firstName) LIKE :target",
-                "LOWER(c.lastName) LIKE :target"
-            )
-        )->setParameter(":target", $searchTarget);
-        
-        // Select only orders with the given status
-        if (!$status == null) {
-            $this->ofStatus($qb, $status);
-        }
-        
-        // Order the results
-        $this->filterBy($qb, $filter);
-
-        // Paginate the results
-        return $this->paginate($qb->getQuery(), $rowsPerPage, $pageNumber);
+        // Apply the search filter
+        return $this->filter(static function(QueryBuilder $qb) use ($searchTarget) {
+            $expr = $qb->expr();
+            $qb->innerJoin("o.client", "c", 
+                Expr\Join::WITH,
+                $expr->orX(
+                    "LOWER(c.firstName) LIKE LOWER(:target)",
+                    "LOWER(c.lastName) LIKE LOWER(:target)"
+                ))->setParameter(":target", $searchTarget);
+        });
     }
 
-    public function searchByAreaPaginated() {
-        
+    /**
+     * Filters the current query to return only orders
+     * where the area matches the search area.
+     * 
+     * @param string $area The area to search. This area can
+     * be a partial name. It does not have to be an exact match.
+     * @return self A clone of the OrderRepository with the filter applied.
+     */
+    public function searchByArea(string $area): self {
+        // Create the SQL search string
+        $searchTarget = "%" . strtolower($area) . "%";
+        // Apply the search filter
+        return $this->filter(static function(QueryBuilder $qb) use ($searchTarget) {
+            $expr = $qb->expr();
+            $qb->where(
+                $expr->like("LOWER(o.area)", "LOWER(:target)")
+            )->setParameter(":target", $searchTarget);
+        });
     }
 
-    public function searchByOrderIdPaginated() {
-
+    /**
+     * Filters the current query to return only orders with
+     * the given client Id.
+     * 
+     * @param int $id The client Id to filter by.
+     * @return self A clone of the OrderRepository with the filter applied.
+     */
+    public function withClientId(int $id): self {
+        return $this->filter(static function(QueryBuilder $qb) use ($id) {
+            $expr = $qb->expr();
+            $qb->innerJoin("o.client", "c",
+                Expr\Join::WITH,
+                $expr->eq(
+                    "c.clientId",
+                    ":id"
+                )
+            )->setParameter(":id", $id);
+        });
     }
-
-    public function searchByClientIdPaginated() {
-
-    }
-
-    private function filterBy(QueryBuilder $qb, OrderFilter $filter): QueryBuilder {
-        if ($filter == OrderFilter::NONE) return $qb;
-        switch ($filter) {
-            case OrderFilter::NEWEST:
-                $qb->orderBy("o.creationDate", "DESC");
-                break;
-            case OrderFilter::OLDEST:
-                $qb->orderBy("o.creationDate", "ASC");
-                break;
-        }
-        return $qb;
-    }
-
-    private function ofStatus(QueryBuilder $qb, Status $status): QueryBuilder {
-        return $qb->andWhere("o.status = :status")->setParameter(":status", $status->value);
-    }
-}
-
-/**
- * Enum OrderFilter represents the different filters
- * that can be used when fetching orders.
- */
-enum OrderFilter {
-    case NONE;
-    case NEWEST;
-    case OLDEST;
 }
