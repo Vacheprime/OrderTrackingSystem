@@ -1,6 +1,6 @@
 <?php
 
-namespace resources\views\templates;
+namespace resources\views\layouts;
 
 class OrderManagement
 {
