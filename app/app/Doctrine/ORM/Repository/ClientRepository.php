@@ -24,10 +24,10 @@ class ClientRepository extends BaseRepository {
     }
 
     public function getByNamePaginated(string $name, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
-        return $this->filterByName($name)->retrievePaginated($rowsPerPage, $pageNumber);
+        return $this->searchByName($name)->retrievePaginated($rowsPerPage, $pageNumber);
     }
 
-    public function filterByName(string $name): self {
+    public function searchByName(string $name): self {
         // Create the SQL search string
         $searchTarget = "%" . strtolower($name) . "%";
         return $this->filter(function (QueryBuilder $qb) use ($searchTarget) {
