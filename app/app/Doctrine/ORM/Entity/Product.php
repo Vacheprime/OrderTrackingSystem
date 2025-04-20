@@ -24,7 +24,7 @@ class Product {
     #[Id]
     #[OneToOne(targetEntity: Order::class, inversedBy: "product")]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
-    private Order $order;
+    private ?Order $order = null;
 
     #[Column(name:"material_name", type: Types::STRING, nullable: true)]
     private ?string $materialName;
@@ -54,18 +54,16 @@ class Product {
     private string $productNotes;
 
     public function __construct(
-        Order $order,
         ?string $materialName,
-        ?int $slabHeight,
-        ?int $slabWidth,
-        ?int $slabThickness,
+        ?string $slabHeight,
+        ?string $slabWidth,
+        ?string $slabThickness,
         ?string $slabSquareFootage,
         ?string $planImagePath,
         ?string $sinkType,
         string $productDescription,
         string $productNotes
     ) {
-        $this->order = $order;
         $this->setMaterialName($materialName);
         $this->setSlabHeight($slabHeight);
         $this->setSlabWidth($slabWidth);
@@ -79,6 +77,11 @@ class Product {
 
     public function getOrder(): Order {
         return $this->order;
+    }
+
+    // TO BE REMOVED IN THE FUTURE
+    public function setOrder(Order $order): void {
+        $this->order = $order;
     }
 
     public function getMaterialName(): ?string {
