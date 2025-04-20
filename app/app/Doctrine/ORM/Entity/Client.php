@@ -32,8 +32,8 @@ class Client extends Person {
     #[Column(name: "client_reference", type:Types::STRING, nullable: true)]
     private ?string $clientReference;
 
-    #[OneToMany(targetEntity: Order::class, mappedBy: "client", fetch: "EAGER")]
-    private ?Collection $orders = null;
+    #[OneToMany(targetEntity: Order::class, mappedBy: "client", cascade: ["persist"])]
+    private Collection $orders;
 
     public function __construct(string $firstName, string $lastName, string $phoneNumber, Address $address, ?string $reference = null) {
         parent::__construct($firstName, $lastName, $phoneNumber, $address);

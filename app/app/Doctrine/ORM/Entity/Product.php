@@ -22,7 +22,7 @@ require_once("Order.php");
 #[Table("product")]
 class Product {
     #[Id]
-    #[OneToOne(targetEntity: Order::class, inversedBy: "product")]
+    #[OneToOne(targetEntity: Order::class, inversedBy: "product", cascade: ["persist"])]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
     private ?Order $order = null;
 
