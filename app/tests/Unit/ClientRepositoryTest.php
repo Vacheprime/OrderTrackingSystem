@@ -10,6 +10,9 @@ use Tests\DoctrineSetup;
 use Closure;
 use FetchesFromPaginator;
 
+use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertTrue;
+
 require_once(dirname(__DIR__) . "/DoctrineSetup.php");
 require_once("tests/FetchesFromPaginator.php");
 require_once("app/Doctrine/ORM/Repository/ClientRepository.php");
@@ -88,5 +91,21 @@ class ClientRepositoryTest extends TestCase
         });
         $actualFirstNames = array_map(fn($client) => $client->getFirstName(), $clients);
         $this->assertEqualsCanonicalizing($expectedFirstNames, $actualFirstNames);
+    }
+
+    /**
+     * Test the updateClient method.
+     */
+    public function testUpdateClient() {
+        // Fetch client 1.
+        $client = $this->repository->find(1);
+        // Modify his first name
+        $client->setFirstName("SOME OTHER FS");
+        // Update the first name
+        $this->repository->updateClient($client);
+        // Fetch the client again
+        $client = $this->repository->find(1);
+        // Assert
+        assertEquals("SOME OTHER FS", $client->getFirstName());
     }
 }
