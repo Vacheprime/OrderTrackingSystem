@@ -35,15 +35,24 @@ body {
 
 main {
     flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
     background-color: #fff;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .regular-button {
-    /* background-color: aqua; */
     margin-left: 2%;
     margin-right: 3%;
     align-self: center;
