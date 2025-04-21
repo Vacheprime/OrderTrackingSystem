@@ -42,7 +42,7 @@ class Payment {
 
     #[ManyToOne(targetEntity: Order::class, inversedBy: "payments", cascade: ["persist"])]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
-    private Order $order;
+    private ?Order $order;
 
     public function __construct(
         string $amount,
@@ -106,6 +106,10 @@ class Payment {
 
     public function getOrder(): Order {
         return $this->order;
+    }
+
+    public function removeOrder(): void {
+        $this->order = null;
     }
 }
 
