@@ -13,9 +13,9 @@
 <body>
 <x-header/>
 <div class="main-layout">
-    @auth
+{{--    @auth--}}
     <x-sidebar/>
-    @endauth
+{{--    @endauth--}}
     <main>
         {{$slot}}
     </main>

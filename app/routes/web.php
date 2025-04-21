@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use app\models\Order;
 
 Route::get('/', function () {
     $clients = null;
@@ -22,7 +23,16 @@ Route::get('/account', function() {
 });
 
 Route::get('/orders', function() {
-    return view('orders.index');
+    return view('orders.index')->with('orders',
+        [
+            ["1", "1", "1", "AC", "23-12-2025", "COMPLETED"],
+            ["2", "2", "2", "DA", "23-12-2025", "COMPLETED"],
+            ["3", "3", "3", "LY", "23-12-2025", "COMPLETED"],
+        ]);
+});
+
+Route::get('/orders/create', function() {
+    return view('orders.createedit');
 });
 
 Route::get('/clients', function() {
