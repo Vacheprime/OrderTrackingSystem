@@ -1,8 +1,8 @@
-@props(['property' => "default", 'propertyName' => "default", 'label' => true])
+@props(['property' => "default", 'propertyName' => "default", 'label' => true, 'password' => false])
 
 <div class="property-div">
     @if($label)
-    <label id="{{$propertyName}}-label" for="{{$propertyName}}-input">{{$property}}</label>
+    <label id="{{$propertyName}}-label" for="{{$propertyName}}-input">{{$property}}:</label>
     @endif
-    <input id="{{$propertyName}}-input" name="{{$propertyName}}-input" placeholder="{{$property}}"/>
+    <input type="{{$password ? "password": "text"}}" id="{{$propertyName}}-input" name="{{$propertyName}}-input" placeholder="{{$property}}"/>
 </div>

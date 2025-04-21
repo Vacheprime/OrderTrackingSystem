@@ -4,26 +4,29 @@
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
-            <form class="table-header" action="" method="POST">
-                <input class="searchBar" type="text" placeholder="Search">
+            <div class="table-header">
+                <form class="table-header" action="" method="POST">
+                    <input class="searchBar" type="text" placeholder="Search">
 
-                <select class="searchByDropdown">
-                    <option value="" disabled selected>Search by</option>
-                    <option value="searchArea">Area</option>
-                    <option value="searchName">Name</option>
-                    <option value="searchOrderID">OrderID</option>
-                    <option value="searchClientID">ClientID</option>
-                </select>
+                    <select name="search-by" class="search-by-select">
+                        <option value="" hidden selected>Search by</option>
+                        <option value="searchArea">Area</option>
+                        <option value="searchName">Name</option>
+                        <option value="searchOrderID">OrderID</option>
+                        <option value="searchClientID">ClientID</option>
+                    </select>
 
-                <select class="filterByDropdown">
-                    <option value="" disabled selected>Filter by</option>
-                    <option value="filterNewest">Newest</option>
-                    <option value="filterOldest">Oldest</option>
-                    <option value="filterStatus">Status</option>
-                </select>
+                    <select name="filter-by" class="filter-by-select">
+                        <option value="" hidden selected>Filter by</option>
+                        <option value="filterNewest">Newest</option>
+                        <option value="filterOldest">Oldest</option>
+                        <option value="filterStatus">Status</option>
+                    </select>
 
-                <button class="searchButton" onclick="">Search</button>
-            </form>
+                    <button class="searchButton" onclick="">Search</button>
+                </form>
+                <a href="/orders/create"><button>Create</button></a>
+            </div>
             <table>
                 <thead>
                 <tr>
@@ -147,7 +150,7 @@
                         <p id="label">Product notes</p>
                         <p id="value"></p>
                     </div>
-                    <button class="editButton" onclick="">Edit</button>
+                    <a href="/orders/edit"><button class="editButton" onclick="">Edit</button></a>
                 </div>
             </div>
         @endif

@@ -80,6 +80,14 @@ main {
     overflow-y: scroll;
 }
 
+
+
+.create-edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
 .regular-button {
     margin-left: 2%;
     margin-right: 3%;
