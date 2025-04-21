@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 
 use InvalidArgumentException;
+use LogicException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("Address.php");
@@ -52,17 +53,17 @@ class Order {
     #[Column(name: "invoice_number", type: Types::STRING, nullable: true)]
     private string $invoiceNumber;
 
-    #[Column(name: "creation_date", type: Types::DATETIME_MUTABLE, generated: "ALWAYS")]
+    #[Column(name: "creation_date", type: Types::DATETIME_MUTABLE)]
     private ?DateTime $creationDate = null;
 
     #[Column(name: "fabrication_start_date", type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTime $fabricationStartDate;
+    private ?DateTime $fabricationStartDate = null;
 
     #[Column(name: "estimated_install_date", type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTime $estimatedInstallDate;
+    private ?DateTime $estimatedInstallDate = null;
 
     #[Column(name: "order_completed_date", type: Types::DATE_MUTABLE, nullable: true)]
-    private ?DateTime $orderCompletedDate;
+    private ?DateTime $orderCompletedDate = null;
 
     #[ManyToOne(targetEntity: Client::class, inversedBy: "orders", cascade: ["persist"])]
     #[JoinColumn(name: "`client_id`", referencedColumnName: "`client_id`")]
@@ -148,6 +149,13 @@ class Order {
 
     public function getCreationDate(): ?DateTime {
         return $this->creationDate;
+    }
+
+    public function setCreationDateNow(): void {
+        if ($this->orderId != null) {
+            throw new LogicException("The creation date cannot be set as the current time, as the order was already created.");
+        }
+        $this->creationDate = new DateTime("now");
     }
 
     public function getFabricationStartDate(): ?DateTime {

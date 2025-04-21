@@ -103,12 +103,16 @@ class Account {
     #[Column(name: "secret", type: Types::STRING)]
     private string $secret;
 
-    public function __construct(string $email, string $password, bool $isAdmin, bool $hasSetUp2fa) {
+    #[Column(name: "account_status", type: Types::BOOLEAN)]
+    private bool $accountStatus;
+
+    public function __construct(string $email, string $password, bool $isAdmin, bool $hasSetUp2fa, bool $accountStatus) {
         $this->setEmail($email);
         $this->setIsAdmin($isAdmin);
         $this->setPassword($password);
         $this->setHasSetUp2fa($hasSetUp2fa);
         $this->secret = $this->generateTOTPSecret();
+        $this->setAccountStatus($accountStatus);
     }
 
     public function getSecret(): string {
@@ -158,5 +162,13 @@ class Account {
             throw new InvalidArgumentException("The password is invalid!");
         }
         $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function isAccountEnabled(): bool {
+        return $this->accountStatus;
+    }
+
+    public function setAccountStatus(bool $status): void {
+        $this->accountStatus = $status;
     }
 }

@@ -62,6 +62,8 @@ class OrderRepository extends BaseRepository {
         // If an error occurs while the reference number is being generated,
         // rollback everything.
         $em->wrapInTransaction(function(EntityManagerInterface $em) use ($order) {
+            // Set the current insertion time for the order
+            $order->setCreationDateNow();
             // Persist and insert the order
             $em->persist($order);
             $em->flush();
