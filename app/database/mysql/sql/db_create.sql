@@ -34,6 +34,7 @@ CREATE TABLE employee (
 	phone_number VARCHAR(25) NOT NULL,
 	email VARCHAR(75) NOT NULL,
 	is_admin BOOLEAN NOT NULL,
+    account_status BOOLEAN NOT NULL,
     has_set_up_2fa BOOLEAN NOT NULL, -- Needed for first time access
 	password_hash VARCHAR(255) NOT NULL,
 	secret VARCHAR(255) NOT NULL, 
@@ -48,7 +49,7 @@ CREATE TABLE `order` (
 	price DECIMAL(10, 2) NOT NULL,
     `status` VARCHAR(25) NOT NULL,
     invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
-    creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
+    creation_date DATETIME NOT NULL,
     fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,

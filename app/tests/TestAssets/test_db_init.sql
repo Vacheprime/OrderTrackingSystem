@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS employee (
 	phone_number VARCHAR(25) NOT NULL,
 	email VARCHAR(75) NOT NULL,
 	is_admin BOOLEAN NOT NULL,
-    has_set_up_2fa BOOLEAN NOT NULL, -- Needed for first time access
+  account_status BOOLEAN NOT NULL,
+  has_set_up_2fa BOOLEAN NOT NULL, -- Needed for first time access
 	password_hash VARCHAR(255) NOT NULL,
 	secret VARCHAR(255) NOT NULL, 
 	address_id INTEGER NOT NULL,
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 	price DECIMAL(10, 2) NOT NULL,
   `status` VARCHAR(25) NOT NULL,
   invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
-  creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Default to current time of insertion
+  creation_date DATETIME NOT NULL,
   fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,
@@ -135,14 +136,14 @@ VALUES
 -- Employee table
 INSERT INTO employee (
 	initials, first_name, last_name, position, phone_number, email, 
-	is_admin, has_set_up_2fa, password_hash, secret, address_id
+	is_admin, account_status, has_set_up_2fa, password_hash, secret, address_id
 )
 VALUES
-  ('JD', 'Jane', 'Doe', 'Manager', '+1 (555) 123-4567', 'jane.doe@example.com', TRUE, TRUE, 'hashed_password_1', 'secret_key_1', 5),
-  ('RT', 'Robert', 'Taylor', 'Sales', '+1 (555) 234-5678', 'robert.taylor@example.com', FALSE, FALSE, 'hashed_password_2', 'secret_key_2', 6),
-  ('AL', 'Alice', 'Liu', 'Designer', '+1 (555) 345-6789', 'alice.liu@example.com', FALSE, TRUE, 'hashed_password_3', 'secret_key_3', 7),
-  ('MK', 'Mohammed', 'Khan', 'Technician', '+1 (555) 456-7890', 'mohammed.khan@example.com', FALSE, FALSE, 'hashed_password_4', 'secret_key_4', 8),
-  ('SC', 'Sophie', 'Chan', 'Installer', '+1 (555) 567-8901', 'sophie.chan@example.com', FALSE, TRUE, 'hashed_password_5', 'secret_key_5', 9);
+  ('JD', 'Jane', 'Doe', 'Manager', '+1 (555) 123-4567', 'jane.doe@example.com', TRUE, TRUE, TRUE, 'hashed_password_1', 'secret_key_1', 5),
+  ('RT', 'Robert', 'Taylor', 'Sales', '+1 (555) 234-5678', 'robert.taylor@example.com', FALSE, FALSE, FALSE, 'hashed_password_2', 'secret_key_2', 6),
+  ('AL', 'Alice', 'Liu', 'Designer', '+1 (555) 345-6789', 'alice.liu@example.com', FALSE, TRUE, TRUE, 'hashed_password_3', 'secret_key_3', 7),
+  ('MK', 'Mohammed', 'Khan', 'Technician', '+1 (555) 456-7890', 'mohammed.khan@example.com', FALSE, FALSE, FALSE, 'hashed_password_4', 'secret_key_4', 8),
+  ('SC', 'Sophie', 'Chan', 'Installer', '+1 (555) 567-8901', 'sophie.chan@example.com', FALSE, TRUE, TRUE, 'hashed_password_5', 'secret_key_5', 9);
 
 -- Order table
 INSERT INTO `order` (

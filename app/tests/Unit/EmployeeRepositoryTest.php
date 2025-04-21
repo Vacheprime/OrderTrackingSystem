@@ -43,7 +43,7 @@ class EmployeeRepositoryTest extends TestCase {
     public function testInsertEmployee() {
         // Create a new address and a new employee
         $addr = new Address("NOWHERE", null, "J8B 2K9", "SOME AREA");
-        $acc = new Account("john@gmail.com", "askjdgh28347A!", false, false);
+        $acc = new Account("john@gmail.com", "askjdgh28347A!", false, false, false);
         $employee = new Employee("JOHN", "MAC", "+1 (555) 999-0283", $addr, "JM", "JANITOR", $acc);
         // Insert into the db
         $this->repository->insertEmployee($employee);
