@@ -15,7 +15,7 @@ header {
     width: calc(100vw - 60px);
     display: flex;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    margin: 0 0 20px 0;
+    margin: 0 0 25px 0;
     align-items: center;
     justify-content: center;
     padding: 0 20px;
@@ -67,7 +67,7 @@ aside {
     border-radius: 10px;
     background-color: #E9E9E9;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    height: calc(100vh - 120px);
+    height: calc(100vh - 125px);
     width: 70px;
     display: flex;
     flex-direction: column;
