@@ -2,19 +2,19 @@
 
 declare(strict_types = 1);
 
-namespace app\models;
+namespace app\Doctrine\ORM\Entity;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\DBAL\Types\Types;
 
-use app\core\utils\Utils;
+use app\Utils\Utils;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Mapping\OneToOne;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/core/utils/utils.php");
-require_once("address.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Address.php");
 
 #[MappedSuperclass]
 abstract class Person {

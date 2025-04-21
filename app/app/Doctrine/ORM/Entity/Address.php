@@ -2,22 +2,23 @@
 
 declare(strict_types = 1);
 
-namespace app\models;
+namespace app\Doctrine\ORM\Entity;
+
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\DBAL\Types\Types;
 
-use app\core\utils\Utils;
+use app\Utils\Utils;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/core/utils/utils.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 
 #[Entity]
-#[Table("address")]
+#[Table(name: "address")]
 class Address {
     #[Id]
     #[Column(name: "address_id", type: Types::INTEGER), GeneratedValue("AUTO")]

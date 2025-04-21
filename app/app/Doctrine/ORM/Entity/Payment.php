@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace app\models;
+namespace app\Doctrine\ORM\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -11,16 +11,14 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
-use app\core\utils\Utils;
+use app\Utils\Utils;
 use DateTime;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use InvalidArgumentException;
 
-require_once(dirname(__DIR__)."/vendor/autoload.php");
-require_once(dirname(__DIR__)."/mysql/orm_config/doctrine_config.php");
-require_once(dirname(__DIR__)."/core/utils/utils.php");
-require_once("order.php");
+require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
+require_once("Order.php");
 
 #[Entity]
 #[Table(name: "payment")]
@@ -44,7 +42,7 @@ class Payment {
 
     #[ManyToOne(targetEntity: Order::class, inversedBy: "payments", cascade: ["persist"])]
     #[JoinColumn(name: "order_id", referencedColumnName: "order_id")]
-    private Order $order;
+    private ?Order $order;
 
     public function __construct(
         string $amount,
@@ -108,6 +106,10 @@ class Payment {
 
     public function getOrder(): Order {
         return $this->order;
+    }
+
+    public function removeOrder(): void {
+        $this->order = null;
     }
 }
 
