@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Entity;
 
+use app\Doctrine\ORM\Repository\PaymentRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
@@ -20,7 +21,7 @@ use InvalidArgumentException;
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
 require_once("Order.php");
 
-#[Entity]
+#[Entity(repositoryClass: PaymentRepository::class)]
 #[Table(name: "payment")]
 class Payment {
     #[Id]
