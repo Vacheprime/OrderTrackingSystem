@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\layouts;
 
 class OrderManagement
 {
@@ -9,7 +8,7 @@ class OrderManagement
     {
         echo '
     <h1 class="titleManagement"ORDER MANAGEMENT</h1>
-    
+
     <div class="main-content-management">
     <input class="searchBar" type="text" placeholder="Search">
 
@@ -27,15 +26,15 @@ class OrderManagement
     <option value="filterOldest">Oldest</option>
     <option value="filterStatus">Status</option>
     </select>
-      
+
     <button class="searchButton" onclick="">Seach</button>
 
     <button class="createOrderButton" onclick="">Create order</button>
 
     <hr> <!-- This is for the kind of big separator line under the search bar-->
-    
+
     <h2 class="subTitleManagement">View Orders</h2>
-    
+
     <table>
     <thead>
         <tr>
@@ -146,7 +145,7 @@ class OrderManagement
     <p id="label">Product notes</p>
     <p id="value"></p>
     </div>
-    <button class="editButton" onclick="">Edit</button>   
+    <button class="editButton" onclick="">Edit</button>
     </div>
     ';
     }
@@ -217,7 +216,7 @@ class EditOrderManagement
         <label for="sinkType">Sink type</label>
         <input type="text" id="sinkType" name="sinkType" value="Null">
         <br>
-    <div class="uploadFabPlanImage" onclick=""> 
+    <div class="uploadFabPlanImage" onclick="">
         <img src="cloud-icon.png" alt="Upload Icon">
         <p>Fabrication plan image</p>
     </div>
@@ -228,7 +227,7 @@ class EditOrderManagement
         <br>
     <label for="productNotes">Product Notes</label>
     <input type="text" id="productNotes" name="productNotes" value="Null">
-        <br>  
+        <br>
     </div>
     <button class="saveButton" onclick="">Save</button>
     <button class="cancelButton" onclick="">Cancel</button>
@@ -300,7 +299,7 @@ class CreateOrderManagement
         <label for="sinkType">Sink type</label>
         <input type="text" id="sinkType" name="sinkType" value="Null">
         <br>
-    <div class="uploadFabPlanImage" onclick=""> 
+    <div class="uploadFabPlanImage" onclick="">
         <img src="cloud-icon.png" alt="Upload Icon">
         <p>Fabrication plan image</p>
     </div>
@@ -311,7 +310,7 @@ class CreateOrderManagement
         <br>
     <label for="productNotes">Product Notes</label>
     <input type="text" id="productNotes" name="productNotes" value="Null">
-        <br>  
+        <br>
     </div>
     <button class="createButton" onclick="">Create</button>
         ';

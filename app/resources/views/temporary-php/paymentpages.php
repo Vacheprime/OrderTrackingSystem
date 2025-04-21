@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\layouts;
 
 class PaymentManagement
 {
@@ -8,7 +7,7 @@ class PaymentManagement
     {
         echo '
     <h1 class="titleManagement"PAYMENT MANAGEMENT</h1>
-    
+
     <div class="main-content-management">
     <input class="searchBar" type="text" placeholder="Search">
 
@@ -17,15 +16,15 @@ class PaymentManagement
     <option value="paymentID">PaymentID</option>
     <option value="orderID">OrderID</option>
     </select>
-      
+
     <button class="searchButton" onclick="">Seach</button>
 
     <button class="createPaymentButton" onclick="">Create Payment</button>
 
     <hr>
-    
+
     <h2 class="subTitleManagement">View Payments</h2>
-    
+
     <table>
     <thead>
         <tr>
@@ -73,8 +72,8 @@ class PaymentManagement
     <p id="label">Method</p>
     <p id="value"></p>
     </div>
-    
-    <button class="editButton" onclick="">Edit</button>   
+
+    <button class="editButton" onclick="">Edit</button>
     </div>
     ';
     }

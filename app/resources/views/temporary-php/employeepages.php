@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\layouts;
 
 class EmployeeManagement
 {
@@ -8,7 +7,7 @@ class EmployeeManagement
     {
         echo '
     <h1 class="titleManagement"EMPLOYEE MANAGEMENT</h1>
-    
+
     <div class="main-content-management">
     <input class="searchBar" type="text" placeholder="Search">
 
@@ -18,15 +17,15 @@ class EmployeeManagement
     <option value="name">Name</option>
     <option value="position">Position</option>
     </select>
-      
+
     <button class="searchButton" onclick="">Search</button>
 
     <button class="createEmployeeButton" onclick="">Create Employee</button>
 
     <hr>
-    
+
     <h2 class="subTitleManagement">View Employees</h2>
-    
+
     <table>
     <thead>
         <tr>
@@ -82,7 +81,7 @@ class EmployeeManagement
 <div id="phoneNumber">
     <p id="label">Phone number</p>
     <p id="value"></p>
-    </div>        
+    </div>
 <div id="address">
     <p id="label">Address</p>
     <p id="value"></p>
@@ -104,7 +103,7 @@ class EmployeeManagement
     <p id="value"></p>
     </div>
 
-    <button class="editButton" onclick="">Edit</button>   
+    <button class="editButton" onclick="">Edit</button>
     </div>
     ';
     }

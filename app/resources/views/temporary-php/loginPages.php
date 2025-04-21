@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\layouts;
 
 class LoginPage
 {
@@ -86,7 +85,7 @@ class ResetPasswordPage
     <label for="password">Password:</label>
     <input type="password" id="password" name="password">
     <button class="executeButton" onclick="">Confirm</button>
-    </form>    
+    </form>
     </div>
     ';
     }

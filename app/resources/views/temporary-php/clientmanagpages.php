@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\layouts;
 
 class ClientManagement
 {
@@ -8,7 +7,7 @@ class ClientManagement
     {
         echo '
     <h1 class="titleManagement"CLIENT MANAGEMENT</h1>
-    
+
     <div class="main-content-management">
     <input class="searchBar" type="text" placeholder="Search">
 
@@ -18,15 +17,15 @@ class ClientManagement
     <option value="searchName">Name</option>
     <option value="searchClientID">ClientID</option>
     </select>
-      
+
     <button class="searchButton" onclick="">Seach</button>
 
     <button class="createOrderButton" onclick="">Create Client</button>
 
     <hr>
-    
+
     <h2 class="subTitleManagement">View Clients</h2>
-    
+
     <table>
     <thead>
         <tr>
@@ -91,7 +90,7 @@ class ClientManagement
     <p id="label">Area(neighborhood)</p>
     <p id="value"></p>
     </div>
-    <button class="editButton" onclick="">Edit</button>   
+    <button class="editButton" onclick="">Edit</button>
     </div>
     ';
     }
@@ -135,7 +134,7 @@ class EditClientManagement
 <br>
 <label for="area">Area(neighborhood)</label>
 <input type="text" id="area" name="area" value="Null">
-<br> 
+<br>
     </div>
     <button class="saveButton" onclick="">Save</button>
     <button class="cancelButton" onclick="">Cancel</button>
@@ -180,7 +179,7 @@ class CreateClientManagement
 <br>
 <label for="area">Area(neighborhood)</label>
 <input type="text" id="area" name="area" value="Null">
-<br> 
+<br>
     </div>
     <button class="createButton" onclick="">Create</button>
         ';
