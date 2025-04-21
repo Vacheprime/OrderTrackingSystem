@@ -61,7 +61,17 @@ Route::get('/clients', function() {
 });
 
 Route::get('/payments', function() {
-    return view('payments.index');
+    return view('payments.index')->with('payments', [
+        ["1", "1", "1", "1"]
+    ]);
+});
+
+Route::get('/payments/create', function() {
+    return view('payments.create');
+});
+
+Route::get('/payments/edit', function() {
+    return view('payments.edit');
 });
 
 Route::get('/employees', function() {
