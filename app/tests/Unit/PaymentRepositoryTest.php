@@ -20,6 +20,7 @@ use Tests\DoctrineSetup;
 use FetchesFromPaginator;
 use InvalidArgumentException;
 
+use function PHPUnit\Framework\assertEmpty;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertNull;
@@ -60,5 +61,24 @@ class PaymentRepositoryTest extends TestCase
         $this->repository->insertPayment($payment);
         // Check whether the primary key has been assigned
         assertNotNull($payment->getPaymentId());
+    }
+
+    /**
+     * Test for the updatePayment method.
+     */
+    public function testUpdatePayment() {
+        // Fetch a payment
+        $payment = $this->repository->find(1);
+        // Update amount
+        $payment->setAmount("10.0");
+        $this->repository->updatePayment($payment);
+
+        // Get another EntityManager and refetch the payment.
+        $em = DoctrineSetup::initEntityManager();
+        $newRepository = $em->getRepository(Payment::class);
+        // Refetch and check
+        $payment2 = $newRepository->find(1);
+
+        assertTrue(bccomp("10.0", $payment2->getAmount()) === 0);
     }
 }
