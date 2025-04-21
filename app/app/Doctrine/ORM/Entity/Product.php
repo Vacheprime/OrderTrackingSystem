@@ -79,7 +79,9 @@ class Product {
         return $this->order;
     }
 
-    // TO BE REMOVED IN THE FUTURE
+    /**
+     * Necessary for order/product object creation.
+     */
     public function setOrder(Order $order): void {
         $this->order = $order;
     }

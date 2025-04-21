@@ -101,7 +101,10 @@ class Order {
         $this->client = $client;
         $this->measuredBy = $measuredBy;
         $this->payments = $payments;
+        // Assign the product to the order
         $this->product = $product;
+        // Assign the order to the product
+        $product->setOrder($this);
     }
 
     public function assignReferenceNumber(): void {

@@ -108,9 +108,6 @@ class OrderRepositoryTest extends TestCase
         // Create the order
         $order = new Order("1000.00", Status::MEASURING, "73845", null, null, null, $client, $employee, new ArrayCollection(), $product);
 
-        // Set the product's order
-        $product->setOrder($order);
-
         // Insert the order
         $this->repository->insertOrder($order);
 
