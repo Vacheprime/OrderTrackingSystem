@@ -19,7 +19,7 @@ CREATE TABLE `client` (
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	client_reference VARCHAR(100),
-	phone_number VARCHAR(20) NOT NULL,
+	phone_number VARCHAR(25) NOT NULL,
 	address_id INTEGER NOT NULL,
 	CONSTRAINT client_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
 );
@@ -31,13 +31,13 @@ CREATE TABLE employee (
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	position VARCHAR(25) NOT NULL,
-	phone_number VARCHAR(20) NOT NULL,
+	phone_number VARCHAR(25) NOT NULL,
 	email VARCHAR(75) NOT NULL,
-	birth_date DATE NOT NULL,
-	hire_date DATE NOT NULL,
 	is_admin BOOLEAN NOT NULL,
+    account_status BOOLEAN NOT NULL,
+    has_set_up_2fa BOOLEAN NOT NULL, -- Needed for first time access
 	password_hash VARCHAR(255) NOT NULL,
-	secret VARCHAR(255),
+	secret VARCHAR(255) NOT NULL, 
 	address_id INTEGER NOT NULL,
 	CONSTRAINT employee_address_fk FOREIGN KEY (address_id) REFERENCES address(address_id)
 );
@@ -45,17 +45,14 @@ CREATE TABLE employee (
 -- Create the order table
 CREATE TABLE `order` (
 	order_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	reference_number VARCHAR(100) NOT NULL,
-	is_plan_ready BOOLEAN NOT NULL,
-	is_in_fabrication BOOLEAN NOT NULL,
-	is_completed BOOLEAN NOT NULL,
-	fabrication_start_date DATE,
+	reference_number VARCHAR(100), -- Required, but has to be nullable because of how it's generated in PHP.
 	price DECIMAL(10, 2) NOT NULL,
-	taxes DECIMAL(10, 2) NOT NULL,
+    `status` VARCHAR(25) NOT NULL,
+    invoice_number VARCHAR(100), -- Not required because the invoice is not generated from the start.
+    creation_date DATETIME NOT NULL,
+    fabrication_start_date DATE,
 	estimated_install_date DATE,
 	order_completed_date DATE,
-	invoice_number VARCHAR(100),
-	`status` VARCHAR(25),
 	`client_id` INTEGER NOT NULL,
 	measured_by INTEGER NOT NULL,
 	CONSTRAINT order_client_fk FOREIGN KEY (client_id) REFERENCES `client`(client_id),
@@ -63,19 +60,18 @@ CREATE TABLE `order` (
 );
 
 -- Create order product table
-CREATE TABLE order_product (
+CREATE TABLE product (
 	order_id INTEGER PRIMARY KEY,
-	material_name VARCHAR(100),
-	is_material_available BOOLEAN NOT NULL,
-	slab_height INTEGER,
-	slab_width INTEGER,
-	slab_thickness INTEGER,
-	plan_image_path VARCHAR(75),
-	product_description TEXT NOT NULL,
-	sink_type VARCHAR(100),
-	product_square_footage DECIMAL(8, 2),
-	product_notes TEXT,
-	CONSTRAINT order_product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
+	material_name VARCHAR(100), -- Only for slabs
+	slab_height DECIMAL(6, 2), -- Only for slabs
+	slab_width DECIMAL(6, 2), -- Only for slabs
+	slab_thickness DECIMAL(4, 2), -- Only for slabs
+    slab_square_footage DECIMAL(8, 2), -- Only for slabs
+	plan_image_path VARCHAR(75), -- Only for slabs
+	sink_type VARCHAR(100), -- Only for sinks
+    product_description TEXT NOT NULL,
+	product_notes TEXT NOT NULL,
+	CONSTRAINT product_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
 );
 
 -- Create payment table
@@ -87,4 +83,15 @@ CREATE TABLE payment (
 	payment_date DATE NOT NULL,
 	order_id INTEGER NOT NULL,
 	CONSTRAINT payment_order_fk FOREIGN KEY (order_id) REFERENCES `order`(order_id)
+);
+
+-- Create activity table
+CREATE TABLE activity (
+	activity_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    activity_type VARCHAR(6) NOT NULL,
+    log_date DATE NOT NULL,
+    order_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
+    CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
+    CONSTRAINT activity_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
 );

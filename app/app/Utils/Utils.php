@@ -128,7 +128,7 @@ class Utils {
      * The format for a postal code is defined on the Canada Post website:
      * https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page
      * It is of the format: ZDL DLD
-     * where L is one of the following letters: 
+     * where Z is one of the following letters: 
      * A B C E G H J K L M N P R S T V X Y
      * D is a digit, and L is an uppercase letter A-Z.
      * 
@@ -323,31 +323,34 @@ class Utils {
     /**
      * Checks whether the slab height or width is of valid format and range.
      * 
-     * The format for a slab dimension is an integer containing any number 
-     * between the range of 0 and 9. Characters that will not be accepted 
-     * are dots, letters, symbols and negative numbers. A slab dimension 
-     * cannot start or be of value 0.
+     * The format for a slab dimension is a string that must represent a valid
+     * decimal number as defined in the validateStringDecimal() method. The value must be
+     * positive and greater than zero. It must contain at most 6 digits, two of which
+     * are decimal digits.
      * 
-     * @param int $slab The slab dimension(height or width) to validate.
+     * @param string $slab The slab dimension(height or width) to validate.
      * @return bool A boolean indicating whether the slab
      * dimension(height or width) is valid.
      */
-    public static function validateSlab(int $slab): bool {
-        return $slab > 0;
+    public static function validateSlabDimension(string $slabDimension): bool {
+        if (!self::validateStringDecimal($slabDimension, 4, 2)) return false;
+        return bccomp($slabDimension, "0", self::$decimalScale) === 1;
     }
 
     /**
      * Checks whether the slab thickness is of valid format and range.
      * 
-     * The format for the slab thickness is a single digit integer between 
-     * '2' or '3'. Invalid characters are: dots, letters, symbols, negative numbers 
-     * and anything that does not equal to '2' or '3'.
+     * The format for a slab thickness is a string that must represent a valid
+     * decimal number as defined in the validateStringDecimal() method. The value
+     * must be positive and greater than zero. It must contain at most 4 digits, two of which
+     * are decimal digits.
      * 
-     * @param int $slabThickness The slab thickness to validate.
+     * @param string $slabThickness The slab thickness to validate.
      * @return bool A boolean indicating whether the slab thickness is valid.
      */
-    public static function validateSlabThickness(int $slabThickness): bool {
-        return $slabThickness == 2 || $slabThickness == 3;
+    public static function validateSlabThickness(string $slabThickness): bool {
+        if (!self::validateStringDecimal($slabThickness, 2, 2)) return false;
+        return bccomp($slabThickness, "0", self::$decimalScale) === 1;
     }
 
     /**
@@ -365,24 +368,24 @@ class Utils {
      * @param string $imagePath The image path to validate.
      * @return bool A boolean indicating whether the image path or extension is valid.
      */
-    public static function validateImagePath(string $imagePath):bool {
+    public static function validateImagePath(string $imagePath): bool {
         if (self::hasInvalidSpaces($imagePath)) return false;
         return preg_match('/^(?! )[^\s<>:"\/\\|?*\n]{1,70}\.(png|jpg|jpeg|gif|webp|bmp)$/i', $imagePath) == 1;
     }
 
     /**
-     * Checks whether the square footage is of valid format
+     * Checks whether the square footage is of valid format.
      * 
-     * The format of the product square footage is a decimal
-     *  containing 8 digits before the dot and 2 digits after the dot, for a total of
-     * 10 digits. Accepted characters are positive digits(1-6 digits before the dot 
-     * and 1-2 digits after the dot) and a dot. No trailing spaces will be accepted.
+     * The format of the product square footage is a string that must represent a valid
+     * decimal number as defined in the validateStringDecimal() method. Tbe value must be
+     * positive and greater than zero. It must contain at most 8 digits, two of which
+     * are decimal digits.
      * 
      * @param string $squareFootage The product square footage to validate.
      * @return bool A boolean indicating whether the product square footage is valid.
      */
-    public static function validateProductSquareFootage(string $squareFootage):bool {
-        if (self::hasInvalidSpaces($squareFootage)) return false;
-        return preg_match('^\d{1,6}(\.\d{1,2})?$', $squareFootage) == 1;
+    public static function validateSlabSquareFootage(string $squareFootage): bool {
+        if (!self::validateStringDecimal($squareFootage, 6, 2)) return false;
+        return bccomp($squareFootage, "0", self::$decimalScale) === 1;
     }
 }
