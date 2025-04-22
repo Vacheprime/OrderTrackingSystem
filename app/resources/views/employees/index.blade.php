@@ -7,21 +7,19 @@
         <div id="employees-content" class="main-content">
             <div class="table-header">
                 <form class="search-form" action="" method="POST">
-                    <input class="search-bar" type="text" placeholder="Search">
+                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <select name="search-by" class="search-by-select">
-                        <option value="" hidden selected>Search by</option>
+                    <x-select-input-property labelText="Search By" name="search-by">
                         <option value="client-id">Employee ID</option>
                         <option value="first-name">First Name</option>
                         <option value="last-name">Last Name</option>
-                    </select>
+                    </x-select-input-property>
 
-                    <select name="filter-by" class="filter-by-select">
-                        <option value="" hidden selected>Filter by</option>
-                        <option value="filter-newest">Newest</option>
-                        <option value="filter-oldest">Oldest</option>
-                        <option value="filter-status">Status</option>
-                    </select>
+                    <x-select-input-property labelText="Filter By" name="filter-by">
+                        <option value="newest" selected>Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="status">Status</option>
+                    </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
                 </form>
@@ -65,13 +63,17 @@
                 <div class="side-content-scrollable">
                     <h3><b>Employee ID:</b><span>#</span></h3>
                     <p><b>Initials:</b><span>#</span></p>
-                    <p><b>:</b><span>#</span></p>
+                    <p><b>First Name:</b><span>#</span></p>
+                    <p><b>Last Name:</b><span>#</span></p>
+                    <p><b>Hired Date:</b><span>#</span></p>
+                    <p><b>Position:</b><span>#</span></p>
+                    <p><b>Email:</b><span>#</span></p>
                     <p><b>Phone Number:</b><span>#</span></p>
                     <p><b>Address:</b><span>#</span></p>
                     <p><b>Postal Code:</b><span>#</span></p>
                     <p><b>City:</b><span>#</span></p>
                     <p><b>Province:</b><span>#</span></p>
-                    <p><b>Area (Neighborhood):</b><span>#</span></p>
+                    <p><b>Account Status:</b><span>#</span></p>
                 </div>
                 <a href="/employees/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>

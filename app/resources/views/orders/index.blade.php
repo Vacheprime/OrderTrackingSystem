@@ -1,33 +1,32 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <x-layout>
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
             <div class="table-header">
-                <form class="table-header" action="" method="POST">
-                    <input class="searchBar" type="text" placeholder="Search">
+                <form class="search-form" action="" method="POST">
+                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <select name="search-by" class="search-by-select">
-                        <option value="" hidden selected>Search by</option>
-                        <option value="searchArea">Area</option>
-                        <option value="searchName">Name</option>
-                        <option value="searchOrderID">OrderID</option>
-                        <option value="searchClientID">ClientID</option>
-                    </select>
+                    <x-select-input-property labelText="Search By" name="search-by">
+                        <option value="order-id" selected>OrderID</option>
+                        <option value="client-id">ClientID</option>
+                        <option value="area">Area</option>
+                        <option value="name">Name</option>
+                    </x-select-input-property>
 
-                    <select name="filter-by" class="filter-by-select">
-                        <option value="" hidden selected>Filter by</option>
-                        <option value="filterNewest">Newest</option>
-                        <option value="filterOldest">Oldest</option>
-                        <option value="filterStatus">Status</option>
-                    </select>
+                    <x-select-input-property labelText="Filter By" name="filter-by">
+                        <option value="newest" selected>Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="status">Status</option>
+                    </x-select-input-property>
 
-                    <button class="searchButton" onclick="">Search</button>
+                    <button class="regular-button" onclick="">Search</button>
                 </form>
-                <a href="/orders/create"><button>Create</button></a>
+                <a href="/orders/create"><button class="regular-button">Create</button></a>
             </div>
-            <table>
+            <table class="search-table">
                 <thead>
                 <tr>
                     <th>OrderID</th>
@@ -63,95 +62,30 @@
         </div>
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
-                <div id="detailsOfSelectedRow">
-                    <h2>Viewing Order Details</h2>
-                    <div id="ID">
-                        <p id="label">ORDER ID</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="client">
-                        <p id="label">Client</p>
-                        <a href=""></a>
-                    </div>
-                    <div id="measuredBy">
-                        <p id="label">Measured by</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="referenceNumber">
-                        <p id="label">Reference number</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="invoiceNumber">
-                        <p id="label">Invoice number</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="totalPrice">
-                        <p id="label">Total price</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="status">
-                        <p id="label">Status</p>
-                        <select class="statusDropdown">
-                            <option value="" disabled selected>Choose</option>
-                            <option value="confirmedMsNotReady">Confirmed ms not ready</option>
-                            <option value="confirmedMsReady">Confirmed ms ready</option>
-                            <option value="readyForMs">Ready for ms</option>
-                            <option value="pickedUp">Picked up</option>
-                            <option value="installed">Installed</option>
-                        </select>
-                    </div>
-                    <div id="fabrication_startDate">
-                        <p id="label">Fabrication_start date</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="installationDate">
-                        <p id="label">Installation date</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="picked_upDate">
-                        <p id="label">Picked_up date</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="materialName">
-                        <p id="label">Material name</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="slabHeight">
-                        <p id="label">Slab height</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="slabWidth">
-                        <p id="label">Slab width</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="slabThickness">
-                        <p id="label">Slab thickness</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="slabSquareFootage">
-                        <p id="label">Slab square footage</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="sinkType">
-                        <p id="label">Sink type</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="fabrication_plan image">
-                        <p id="label"></p>
-                        <div class="fabPlanImage">
-                            <img class="fabricationPlanImage" src="" alt="fabricationPlanImage">
-                        </div>
-                    </div>
-                    <div id="productDescription">
-                        <p id="label">Product description</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="productNotes">
-                        <p id="label">Product notes</p>
-                        <p id="value"></p>
-                    </div>
-                    <a href="/orders/edit"><button class="editButton" onclick="">Edit</button></a>
+                <h2>ORDER DETAILS</h2>
+                <hr>
+                <div class="side-content-scrollable">
+                    <h3><b>ORDER ID:</b><span>#</span></h3>
+                    <p><b>CLIENT ID:</b><span>#</span></p>
+                    <p><b>Measured By:</b><span>#</span></p>
+                    <p><b>Reference Number:</b><span>#</span></p>
+                    <p><b>Invoice Number:</b><span>#</span></p>
+                    <p><b>Total Price:</b><span>#</span></p>
+                    <p><b>Status:</b><span>#</span></p>
+                    <p><b>Fabrication Start Date:</b><span>#</span></p>
+                    <p><b>Installation Start Date:</b><span>#</span></p>
+                    <p><b>Pick Up Date:</b><span>#</span></p>
+                    <p><b>Material Name:</b><span>#</span></p>
+                    <p><b>Slab Height:</b><span>#</span></p>
+                    <p><b>Slab Width:</b><span>#</span></p>
+                    <p><b>Slab Thickness:</b><span>#</span></p>
+                    <p><b>Slab Square Footage:</b><span>#</span></p>
+                    <p><b>Sink Type:</b><span>#</span></p>
+                    <p><b>Fabrication Plan Image:</b><img src="" alt=""/></p>
+                    <p><b>Product Description:</b><textarea placeholder="Product Description"></textarea></p>
+                    <p><b>Product Notes:</b><textarea placeholder="Product Notes"></textarea></p>
                 </div>
+                <a href="/orders/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

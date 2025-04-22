@@ -7,27 +7,25 @@
             <a href="{{url()->previous()}}"><button>Go Back</button></a>
             <h2>Edit Employee</h2>
             <hr/>
-            <form action="/clients/update" method="POST">
+            <form action="/employee/store" method="POST">
                 <div class="flex-input-div">
-                    <x-text-input-property property="Initials" propertyName="initials"/>
-                    <x-text-input-property property="First Name" propertyName="first-name"/>
-                    <x-text-input-property property="Last Name" propertyName="last-name"/>
-                    <x-text-input-property property="Email" propertyName="last-name"/>
-                    <x-text-input-property property="Phone Number" propertyName="phone-number"/>
-                    <label for="hire-date-input">Hired Date</label>
-                    <input type="date" name="hire-date-input" id="hire-date-input">
-                    <x-text-input-property property="Address" propertyName="address"/>
-                    <x-text-input-property property="Postal Code" propertyName="postal-code"/>
-                    <x-text-input-property property="City" propertyName="city"/>
-                    <x-text-input-property property="Province" propertyName="province"/>
-                    <x-text-input-property property="Area (Neighborhood)" propertyName="area"/>
-                    <label for="account-status-select">Account Status</label>
-                    <select name="account-status-select" id="account-status-select" class="regular-select">
+                    <x-text-input-property labelText="Initials" name="initials"/>
+                    <x-text-input-property labelText="First Name" name="first-name"/>
+                    <x-text-input-property labelText="Last Name" name="last-name"/>
+                    <x-text-input-property labelText="Email" name="last-name"/>
+                    <x-text-input-property labelText="Phone Number" name="phone-number"/>
+                    <x-date-input-property labelText="Hired Date" name="hire-date" />
+                    <x-text-input-property labelText="Address" name="address"/>
+                    <x-text-input-property labelText="Postal Code" name="postal-code"/>
+                    <x-text-input-property labelText="City" name="city"/>
+                    <x-text-input-property labelText="Province" name="province"/>
+                    <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
+                    <x-select-input-property name="account-status" labelText="Account Status">
                         <option value="disabled" selected>Disabled</option>
                         <option value="enabled">Enabled</option>
-                    </select>
+                    </x-select-input-property>
                 </div>
-                <input class="regular-button" value="Create"/>
+                <input class="regular-button" type="submit" value="Save"/>
             </form>
             <a href="/employees">
                 <button class="regular-button">Cancel</button>

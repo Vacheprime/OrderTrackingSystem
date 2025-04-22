@@ -1,10 +1,13 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 <x-layout>
-    <div id="home-content" class="main-content">
-        <h1>home</h1>
-    </div>
-    <div id="side-content" class="main-content">
-        <h1>home</h1>
+    <h1 class="content-title">Home</h1>
+    <div class="content-container">
+        <div id="home-content" class="main-content">
+            <h1>Next 7 Weeks</h1>
+        </div>
+        <div id="home-side-content" class="main-content">
+            <h1>Recently Changed</h1>
+        </div>
     </div>
 </x-layout>

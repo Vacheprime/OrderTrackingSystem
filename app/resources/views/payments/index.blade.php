@@ -1,31 +1,30 @@
 <link rel="stylesheet" href="{{ asset('css/payments.css') }}">
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <x-layout title="Payment Management">
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
-        <div id="orders-content" class="main-content">
+        <div id="payments-content" class="main-content">
             <div class="table-header">
-                <form class="table-header" action="" method="POST">
-                    <input class="searchBar" type="text" placeholder="Search">
+                <form class="search-form" action="" method="POST">
+                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <select name="search-by" class="search-by-select">
-                        <option value="" hidden selected>Search by</option>
-                        <option value="paymentID">Payment ID</option>
-                        <option value="orderID">Order ID</option>
-                    </select>
+                    <x-select-input-property labelText="Search By" name="search-by">
+                        <option value="payment-id" selected>Payment ID</option>
+                        <option value="order-id">Order ID</option>
+                    </x-select-input-property>
 
-                    <select name="filter-by" class="filter-by-select">
-                        <option value="" hidden selected>Filter by</option>
-                        <option value="filterNewest">Newest</option>
-                        <option value="filterOldest">Oldest</option>
-                        <option value="filterStatus">Status</option>
-                    </select>
+                    <x-select-input-property labelText="Filter By" name="filter-by">
+                        <option value="newest" selected>Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="status">Status</option>
+                    </x-select-input-property>
 
-                    <button class="searchButton" onclick="">Search</button>
+                    <button class="regular-button" onclick="">Search</button>
                 </form>
-                <a href="/payments/create"><button>Create</button></a>
+                <a href="/payments/create"><button class="regular-button">Create</button></a>
             </div>
-            <table>
+            <table class="search-table">
                 <thead>
                 <tr>
                     <th>PaymentID</th>
@@ -34,13 +33,13 @@
                     <th>Amount</th>
                 </tr>
                 </thead>
-                <tbody id="orders-tbody">
+                <tbody id="payments-tbody">
                 @forelse($payments as $payment)
                     <tr onclick="">
-                        <th>$payment[0]</th>
-                        <th>$payment[1]</th>
-                        <th>$payment[2]</th>
-                        <th>$payment[3]</th>
+                        <th>{{$payment[0]}}</th>
+                        <th>{{$payment[1]}}</th>
+                        <th>{{$payment[2]}}</th>
+                        <th>{{$payment[3]}}</th>
                     </tr>
                 @empty
                     <tr>
@@ -54,35 +53,19 @@
             </table>
         </div>
         @if(!empty($payments))
-            <div id="orders-side-content" class="side-content">
-                <div id="detailsOfSelectedRow">
-                    <h2>Viewing Order Details</h2>
-                    <div id="ID">
-                        <p id="label">PAYMENT ID</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="order">
-                        <p id="label">Order</p>
-                        <a href="/orders" id="value">View Order</a>
-                    </div>
-                    <div id="date">
-                        <p id="label">Date</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="amountPayed">
-                        <p id="label">Amount payed</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="type">
-                        <p id="label">Type</p>
-                        <p id="value"></p>
-                    </div>
-                    <div id="method">
-                        <p id="label">Method</p>
-                        <p id="value"></p>
-                    </div>
-                    <a href="/payments/edit"><button class="editButton" onclick="">Edit</button></a>
+            <div id="payments-side-content" class="side-content">
+                <h2>PAYMENT DETAILS</h2>
+                <hr>
+                <div class="side-content-scrollable">
+                    <h3><b>Payment ID:</b><span>#</span></h3>
+                    <p><b>Order ID:</b><span>#</span></p>
+                    <p><b>Date:</b><span>#</span></p>
+                    <p><b>Amount Payed:</b><span>#</span></p>
+                    <p><b>Address:</b><span>#</span></p>
+                    <p><b>Type:</b><span>#</span></p>
+                    <p><b>Method:</b><span>#</span></p>
                 </div>
+                <a href="/payments/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

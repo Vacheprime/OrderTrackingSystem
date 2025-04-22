@@ -76,7 +76,7 @@ aside {
     transition: opacity 0.4s ease-in-out;
 }
 
-#sidebar nav a.nav-link-active{
+.nav-link-active{
     background-color: #9E8C76;
     color:#E9E9E9;
     border-radius: 10px;
