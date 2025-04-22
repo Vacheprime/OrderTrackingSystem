@@ -2,7 +2,8 @@
 
 <div class="text-input-property-div">
     @if($isLabel)
-    <label id="{{$name}}-label" for="{{$name}}-input">{{$labeText}}:</label>
+        <label id="{{$name}}-label" for="{{$name}}-input">{{$labelText}}:</label>
     @endif
-    <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input" name="{{$name}}-input" placeholder="{{$labeText}}"/>
+    <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input"
+           name="{{$name}}-input" placeholder="{{$labelText}}"/>
 </div>
