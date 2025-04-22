@@ -1,6 +1,6 @@
 <aside id="sidebar" class="sidebar">
-    <div>
-        <button id="button" onclick="shrink()"><img src="{{url('images/arrow_icon.png')}}"></button>
+    <div id="sidebar-arrow-div">
+        <button id="sidebar-arrow"><img src="{{url('images/arrow_icon.png')}}"></button>
     </div>
     <hr/>
     <nav>
@@ -28,8 +28,8 @@
                 </x-nav-link>
 {{--            @endif--}}
         </div>
-        <hr>
         <div>
+            <hr>
             <x-nav-link href="{{url('/account')}}" img="{{url('images/account_icon.png')}}"
                         :active="request()->is('/account')">
                 Account
