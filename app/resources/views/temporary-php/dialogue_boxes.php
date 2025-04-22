@@ -1,6 +1,5 @@
 <?php
 
-namespace resources\views\templates;
 
 class DialogueBoxes
 {
