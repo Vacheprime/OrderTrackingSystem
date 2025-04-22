@@ -1,17 +1,6 @@
 @props(['labelText' => "default", 'name' => "default", 'isLabel' => true])
 
-<script>
-    const fileInput = document.getElementById("{{$name}}-input")
-    const image = document.getElementById("{{$name}}-image")
 
-    fileInput.addEventListener('onchange', (event) => {
-        const [file] = fileInput.files;
-        if (file) {
-            image.attributes.removeNamedItem("hidden")
-            image.src = URL.createObjectURL(file);
-        }
-    })
-</script>
 
 <div class="file-input-property-div">
     @if($isLabel)
@@ -21,3 +10,18 @@
            name="{{$name}}-input" placeholder="{{$labelText}}"/>
     <img alt="Inserted Image" id="{{$name}}-image" hidden src="#">
 </div>
+
+<script>
+    const fileInput = document.getElementById("{{$name}}-input")
+    const image = document.getElementById("{{$name}}-image")
+
+    fileInput.addEventListener('change', (event) => {
+        const files = event.target.files;
+        let fr = new FileReader();
+        fr.onload = () => {
+            image.src = fr.result;
+            image.attributes.removeNamedItem('hidden');
+        }
+        fr.readAsDataURL(files[0]);
+    })
+</script>
