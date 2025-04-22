@@ -7,14 +7,14 @@
             <a href="{{url()->previous()}}"><button>Go Back</button></a>
             <form action="" class="create-edit-form">
                 <h2 class="title">Create Payment</h2>
-                <x-input-property property="Order ID" propertyName="order-id"/>
+                <x-text-input-property property="Order ID" propertyName="order-id"/>
                 <div>
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date">
                 </div>
-                <x-input-property property="Amount" propertyName="amount"/>
-                <x-input-property property="Type" propertyName="type"/>
-                <x-input-property property="Method" propertyName="method"/>
+                <x-text-input-property property="Amount" propertyName="amount"/>
+                <x-text-input-property property="Type" propertyName="type"/>
+                <x-text-input-property property="Method" propertyName="method"/>
                 <input type="submit" value="Create"/>
                 <a href="{{url()->previous()}}"><button>Cancel</button></a>
             </form>

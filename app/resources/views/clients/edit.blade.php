@@ -8,15 +8,15 @@
             <hr/>
             <form action="/clients/update" method="POST">
                 <div class="flex-input-div">
-                    <x-input-property property="First Name" propertyName="first-name"/>
-                    <x-input-property property="Last Name" propertyName="last-name"/>
-                    <x-input-property property="Address" propertyName="address"/>
-                    <x-input-property property="Reference Number" propertyName="reference-number"/>
-                    <x-input-property property="Phone Number" propertyName="phone-number"/>
-                    <x-input-property property="Postal Code" propertyName="postal-code"/>
-                    <x-input-property property="City" propertyName="city"/>
-                    <x-input-property property="Province" propertyName="province"/>
-                    <x-input-property property="Area (Neighborhood)" propertyName="area"/>
+                    <x-text-input-property property="First Name" propertyName="first-name"/>
+                    <x-text-input-property property="Last Name" propertyName="last-name"/>
+                    <x-text-input-property property="Address" propertyName="address"/>
+                    <x-text-input-property property="Reference Number" propertyName="reference-number"/>
+                    <x-text-input-property property="Phone Number" propertyName="phone-number"/>
+                    <x-text-input-property property="Postal Code" propertyName="postal-code"/>
+                    <x-text-input-property property="City" propertyName="city"/>
+                    <x-text-input-property property="Province" propertyName="province"/>
+                    <x-text-input-property property="Area (Neighborhood)" propertyName="area"/>
                 </div>
                 <input class="regular-button" value="Create"/>
             </form>

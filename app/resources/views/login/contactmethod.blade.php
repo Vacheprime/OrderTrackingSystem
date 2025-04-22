@@ -4,7 +4,7 @@
     <div id="login-content" class="main-content">
         <h1>Enter Confirmation Contact</h1>
         <form action="" method="POST">
-            <x-input-property property="Enter Email or Phone Number" propertyName="contact-method"/>
+            <x-text-input-property property="Enter Email or Phone Number" propertyName="contact-method"/>
             <button class="executeButton" onclick="">Confirm</button>
         </form>
         <a href="/code2fa">temp confirm</a>
