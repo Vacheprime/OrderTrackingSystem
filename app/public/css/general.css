@@ -35,13 +35,17 @@ body {
 
 main {
     height: 100%;
-
     flex: 1;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.content-title {
+    padding: 0;
+    margin: 20px;
 }
 
 .content-container {
@@ -56,6 +60,7 @@ main {
 
 .main-content {
     margin: 10px;
+    padding: 10px;
 
     display: flex;
     flex-direction: column;
@@ -68,6 +73,7 @@ main {
 
 .side-content {
     margin: 10px;
+    padding: 10px;
 
     display: flex;
     flex-direction: column;
@@ -76,11 +82,25 @@ main {
 
     background-color: #fff;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-
-    overflow-y: scroll;
 }
 
+.side-content-scrollable {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    overflow-y: auto;
+}
 
+.side-content-scrollable > p, h3 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .create-edit-form {
     display: flex;
@@ -89,15 +109,12 @@ main {
 
 
 .regular-button {
-    margin-left: 2%;
-    margin-right: 3%;
-    align-self: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-decoration: none;
     color: black;
     font-size: 12px;
     background-color: #9E8C76;
-    padding: 2px 20px 2px 20px;
+    padding: 2px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

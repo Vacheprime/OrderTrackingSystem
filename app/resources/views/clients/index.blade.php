@@ -1,66 +1,83 @@
-@extends("layouts.default")
+<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
-@section("main")
-<div class="main-content">
-    <div id="clients-table-div" class="table-div">
-        <div id="clients-table-header" class="table-header-div">
-            <form action="/clients">
-                <input type="text">
-                <select>
-                    <option>None</option>
-                </select>
-                <input type="submit" value="Search"/>
-            </form>
-            <a href="/create-client">
-                <button class="regular-button">Create Client</button>
-            </a>
-        </div>
-        <div id="clients-table-content" class="table-content-div">
-            <div id="clients-table-content-heading" class="table-content-heading">
-                <p>Client ID</p>
-                <p>First Name</p>
-                <p>Last Name</p>
-                <p>Reference</p>
-                <p>Phone Number</p>
-                <p>Postal Code</p>
+<x-layout title="Client Management">
+    <h1 class="content-title">CLIENT MANAGEMENT</h1>
+    <div class="content-container">
+        <div id="clients-content" class="main-content">
+            <div class="table-header">
+                <form class="search-form" action="" method="POST">
+                    <input class="search-bar" type="text" placeholder="Search">
+
+                    <select name="search-by" class="search-by-select">
+                        <option value="" hidden selected>Search by</option>
+                        <option value="client-id">Client ID</option>
+                        <option value="first-name">First Name</option>
+                        <option value="last-name">Last Name</option>
+                    </select>
+
+                    <select name="filter-by" class="filter-by-select">
+                        <option value="" hidden selected>Filter by</option>
+                        <option value="filter-newest">Newest</option>
+                        <option value="filter-oldest">Oldest</option>
+                        <option value="filter-status">Status</option>
+                    </select>
+
+                    <button class="regular-button" onclick="">Search</button>
+                </form>
+                <a href="/payments/create"><button class="regular-button">Create</button></a>
             </div>
-            @forelse($clients as $client)
-                <div class="table-content-entry">
-                    <p>{{$client.getClientId()}}</p>
-                    <p>{{$client.getFirstName()}}</p>
-                    <p>{{$client.getLastName()}}</p>
-                    <p>{{$client.getClientReference()}}</p>
-                    <p>{{$client.getPhoneNumber()}}</p>
-                    <p>{{$client.getPostalCode()}}</p>
+            <table class="search-table">
+                <thead>
+                <tr>
+                    <th>ClientID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>Reference Number</th>
+                    <th>Phone Number</th>
+                    <th>Area</th>
+                </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                @forelse($clients as $client)
+                    <tr onclick="">
+                        <td>{{$client[0]}}</td>
+                        <td>{{$client[1]}}</td>
+                        <td>{{$client[2]}}</td>
+                        <td>{{$client[3]}}</td>
+                        <td>{{$client[4]}}</td>
+                        <td>{{$client[5]}}</td>
+                        <td>{{$client[6]}}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+        @if(!empty($client))
+            <div id="clients-side-content" class="side-content">
+                <h2>CLIENT DETAILS</h2>
+                <hr>
+                <div class="side-content-scrollable">
+                    <h3><b>First Name:</b><span>#</span></h3>
+                    <p><b>Last Name:</b><span>#</span></p>
+                    <p><b>Reference Number:</b><span>#</span></p>
+                    <p><b>Phone Number:</b><span>#</span></p>
+                    <p><b>Address:</b><span>#</span></p>
+                    <p><b>Postal Code:</b><span>#</span></p>
+                    <p><b>City:</b><span>#</span></p>
+                    <p><b>Province:</b><span>#</span></p>
+                    <p><b>Area (Neighborhood):</b><span>#</span></p>
                 </div>
-            @empty
-                <p>No Clients</p>
-            @endforelse
-        </div>
-    </div>
-</div>
-<div class="side-content">
-    <div id="clients-details-div" class="details-div">
-        <h2>Viewing Client Details</h2>
-        <hr/>
-        <div id="client-details-scrollable" class="details-scrollable">
-            <h3><span>CLIENT ID</span><span>0001</span></h3>
-            <div id="personal-information-details" class="details-subsection">
-                <h4>Personal Information</h4>
-                <hr/>
-                <p><span><b>First Name:</b></span> <span>John</span></p>
-                <p><span><b>Last Name:</b></span> <span>Smith</span></p>
-                <p><span><b>Client Reference:</b></span> <span>null</span></p>
-                <p><span><b>Phone Number:</b></span> <span>121-121-1212</span></p>
-                <p><span><b>Address:</b></span> <span>1212 av. Asada</span></p>
-                <p><span><b>Postal Code:</b></span> <span>F3F 3F3</span></p>
-                <p><span><b>City:</b></span> <span>Montreal</span></p>
-                <p><span><b>Province:</b></span> <span>Quebec</span></p>
+                <a href="/payments/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
-        </div>
-        <a href="/edit-client">
-            <button class="regular-button">Edit Client</button>
-        </a>
+        @endif
     </div>
-</div>
-@endsection
+</x-layout>

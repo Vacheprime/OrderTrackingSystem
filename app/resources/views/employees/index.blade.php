@@ -1,23 +1,80 @@
-@vite("resources/js/tables.js")
-<x-layout>
-    <div class="main-content">
-        <div id="employees-table-div" class="table-div">
-            <div id="employees-table-header" class="table-header-div">
-                <form action="" method="POST">
-                    <x-input-property :label="false" property="Enter Field" propertyName="search-input"/>
-                    <x-select selectId="search-by"  :properties="{{["Employee ID", "First Name", "Last Name"]}}"/>
-                    <x-select selectId="filter-by" :properties="{{["Newest", "Oldest", "Status"]}}"/>
-                    <input type="submit" value="Search" onclick="searchTable()"/>
+<link rel="stylesheet" href="{{ asset('css/employees.css') }}">
+<link rel="stylesheet" href="{{ asset('css/table.css') }}">
+
+<x-layout title="Employee Management">
+    <h1 class="content-title">EMPLOYEE MANAGEMENT</h1>
+    <div class="content-container">
+        <div id="employees-content" class="main-content">
+            <div class="table-header">
+                <form class="search-form" action="" method="POST">
+                    <input class="search-bar" type="text" placeholder="Search">
+
+                    <select name="search-by" class="search-by-select">
+                        <option value="" hidden selected>Search by</option>
+                        <option value="client-id">Employee ID</option>
+                        <option value="first-name">First Name</option>
+                        <option value="last-name">Last Name</option>
+                    </select>
+
+                    <select name="filter-by" class="filter-by-select">
+                        <option value="" hidden selected>Filter by</option>
+                        <option value="filter-newest">Newest</option>
+                        <option value="filter-oldest">Oldest</option>
+                        <option value="filter-status">Status</option>
+                    </select>
+
+                    <button class="regular-button" onclick="">Search</button>
                 </form>
+                <a href="/employees/create"><button class="regular-button">Create</button></a>
             </div>
-            <div id="clients-table-content" class="table-content-div">
-                <x-client-table :clients="{{$clients}}"/>
-                {{-- Component not added yet --}}
-            </div>
+            <table class="search-table">
+                <thead>
+                <tr>
+                    <th>EmployeeID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                </tr>
+                </thead>
+                <tbody id="employees-tbody">
+                @forelse($employees as $employee)
+                    <tr onclick="">
+                        <td>{{$employee[0]}}</td>
+                        <td>{{$employee[1]}}</td>
+                        <td>{{$employee[2]}}</td>
+                        <td>{{$employee[3]}}</td>
+                        <td>{{$employee[4]}}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
         </div>
-    </div>
-
-    <div class="side-content">
-
+        @if(!empty($employees))
+            <div id="employees-side-content" class="side-content">
+                <h2>CLIENT DETAILS</h2>
+                <hr>
+                <div class="side-content-scrollable">
+                    <h3><b>Employee ID:</b><span>#</span></h3>
+                    <p><b>Initials:</b><span>#</span></p>
+                    <p><b>:</b><span>#</span></p>
+                    <p><b>Phone Number:</b><span>#</span></p>
+                    <p><b>Address:</b><span>#</span></p>
+                    <p><b>Postal Code:</b><span>#</span></p>
+                    <p><b>City:</b><span>#</span></p>
+                    <p><b>Province:</b><span>#</span></p>
+                    <p><b>Area (Neighborhood):</b><span>#</span></p>
+                </div>
+                <a href="/employees/edit"><button class="regular-button" onclick="">Edit</button></a>
+            </div>
+        @endif
     </div>
 </x-layout>

@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\models\Order;
 
+// TODO: ROUTING TO BE IMPLEMENTED CORRECTLY THIS IS FOR TO SEE IF THINGS WORK
+
+// LOGINS
 Route::get('/', function () {
     return view('login.index');
 });
 
-// TODO: ROUTING TO BE IMPLEMENTED CORRECTLY THIS IS FOR TO SEE IF THINGS WORK
-// LOGINS
 Route::get('/qr2fa', function () {
     return view('login.qrverification');
 });
@@ -26,19 +26,19 @@ Route::get('/newpassword', function () {
 });
 
 // NORMAL SHIT
-Route::get('/home', function() {
+Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/settings', function() {
+Route::get('/settings', function () {
     return view('user.settings');
 });
 
-Route::get('/account', function() {
+Route::get('/account', function () {
     return view('user.account');
 });
 
-Route::get('/orders', function() {
+Route::get('/orders', function () {
     return view('orders.index')->with('orders',
         [
             ["1", "1", "1", "AC", "23-12-2025", "COMPLETED"],
@@ -47,35 +47,53 @@ Route::get('/orders', function() {
         ]);
 });
 
-Route::get('/orders/edit', function() {
+Route::get('/orders/edit', function () {
     return view('orders.edit');
 });
 
-Route::get('/orders/create', function() {
+Route::get('/orders/create', function () {
     return view('orders.create');
 });
 
 
-Route::get('/clients', function() {
-    return view('clients.index');
+Route::get('/clients', function () {
+    return view('clients.index')->with('clients', [
+        ["1", "1", "1", "1", "1", "1", "1"]
+    ]);
 });
 
-Route::get('/payments', function() {
+Route::get('/clients/create', function () {
+    return view('clients.create');
+});
+
+Route::get('/clients/edit', function () {
+    return view('clients.edit');
+});
+
+Route::get('/payments', function () {
     return view('payments.index')->with('payments', [
         ["1", "1", "1", "1"]
     ]);
 });
 
-Route::get('/payments/create', function() {
+Route::get('/payments/create', function () {
     return view('payments.create');
 });
 
-Route::get('/payments/edit', function() {
+Route::get('/payments/edit', function () {
     return view('payments.edit');
 });
 
-Route::get('/employees', function() {
-    return view('employees.index');
+Route::get('/employees', function () {
+    return view('employees.index')->with('employees', [
+        ["", "","","","","","",""]
+    ]);
 });
 
+Route::get('/employees/create', function () {
+    return view('employees.create');
+});
+Route::get('/employees/edit', function () {
+    return view('employees.edit');
+});
 
