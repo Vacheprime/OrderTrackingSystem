@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>User Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/general.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <header>

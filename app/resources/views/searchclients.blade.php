@@ -24,7 +24,7 @@
                 <p>Phone Number</p>
                 <p>Postal Code</p>
             </div>
-            @forelse($clients as $client)
+            @foreach($clients as $client)
                 <div class="table-content-entry">
                     <p>{{$client.getClientId()}}</p>
                     <p>{{$client.getFirstName()}}</p>
@@ -33,9 +33,7 @@
                     <p>{{$client.getPhoneNumber()}}</p>
                     <p>{{$client.getPostalCode()}}</p>
                 </div>
-            @empty
-                <p>No Clients</p>
-            @endforelse
+            @endforeach
         </div>
     </div>
 </div>
