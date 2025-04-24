@@ -40,12 +40,12 @@
                 <tbody id="orders-tbody">
                     @forelse($orders as $order)
                         <tr onclick="">
-                            <td>{{$order[0]}}</td>
-                            <td>{{$order[1]}}</td>
-                            <td>{{$order[2]}}</td>
-                            <td>{{$order[3]}}</td>
-                            <td>{{$order[4]}}</td>
-                            <td>{{$order[5]}}</td>
+                            <td>{{$order->getOrderId()}}</td>
+                            <td>{{$order->getClient()->getClientId()}}</td>
+                            <td>{{$order->getReferenceNumber()}}</td>
+                            <td>{{$order->getMeasuredBy()->getInitials()}}</td>
+                            <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y -m -d")}}</td>
+                            <td>{{$order->getStatus()->value}}</td>
                         </tr>
                     @empty
                         <tr>

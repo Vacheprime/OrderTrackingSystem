@@ -45,22 +45,20 @@ Route::get('/account', function () {
     return view('user.account');
 });
 
-Route::get('/orders', function () {
-    return view('orders.index')->with('orders',
-        [
-            ["1", "1", "1", "AC", "23-12-2025", "COMPLETED"],
-            ["2", "2", "2", "DA", "23-12-2025", "COMPLETED"],
-            ["3", "3", "3", "LY", "23-12-2025", "COMPLETED"],
-        ]);
-});
 
-Route::get('/orders/edit', function () {
-    return view('orders.edit');
-});
+Route::resource('orders', \App\Http\Controllers\OrdersController::class);
 
-Route::get('/orders/create', function () {
-    return view('orders.create');
-});
+//Route::get('/orders', function () {
+//    return view('orders.index')->with('orders', );
+//});
+//
+//Route::get('/orders/edit', function () {
+//    return view('orders.edit');
+//});
+//
+//Route::get('/orders/create', function () {
+//    return view('orders.create');
+//});
 
 
 Route::get('/clients', function () {
