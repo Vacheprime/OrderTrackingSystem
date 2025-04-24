@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<script src="{{ asset('js/tables.js') }}"></script>
 
 <x-layout>
     <h1 class="content-title">ORDER MANAGEMENT</h1>
@@ -39,7 +40,7 @@
                 </thead>
                 <tbody id="orders-tbody">
                     @forelse($orders as $order)
-                        <tr onclick="">
+                        <tr onclick="selectRecord(this)">
                             <td>{{$order[0]}}</td>
                             <td>{{$order[1]}}</td>
                             <td>{{$order[2]}}</td>

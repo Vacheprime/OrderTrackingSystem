@@ -1,3 +1,7 @@
+/* GENERAL */
+.content-title {
+    font-weight: 300;
+}
 
 #orders-content {
     width: 100%;
@@ -7,4 +11,52 @@
 #orders-side-content {
     width: 500px;
     height: 100%;
+}
+
+
+/* COMPONENTS */
+.select-input-property-div {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.select-input-property-div select{
+    margin-left: 5px;
+    align-self: flex-end;
+}
+
+.text-input-property-div input{
+    height: 25px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+/* SIDE CONTENT*/
+.side-content-scrollable h3{
+    font-size: 20px;
+}
+
+.side-content-scrollable b{
+    font-weight: 400;
+}
+
+.side-content-scrollable p{
+    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+}
+
+.side-content-scrollable p:nth-child(17),
+.side-content-scrollable p:nth-child(18),
+.side-content-scrollable p:nth-child(19){
+    border:none;
+}
+
+#orders-side-content h2{
+    margin-bottom: 0;
+    width: 200px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1px solid black;
 }

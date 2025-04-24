@@ -112,12 +112,15 @@ main {
 .regular-button {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 12px;
+    font-weight: 400;
     background-color: #9E8C76;
     padding: 2px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
 }
 
 .regular-button:hover {
