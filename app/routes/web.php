@@ -8,30 +8,99 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaymentController;
 
+// TODO: ROUTING TO BE IMPLEMENTED CORRECTLY THIS IS FOR TO SEE IF THINGS WORK
+
+// LOGINS
 Route::get('/', function () {
-    //  return main
+
+    return view('login.index');
 });
 
-// ### Address Routing ###
-Route::resource('addresses', AddressController::class);
+Route::get('/qr2fa', function () {
+    return view('login.qrverification');
+});
+
+Route::get('/code2fa', function () {
+    return view('login.codeverification');
+});
+
+Route::get('/contactmethod', function () {
+    return view('login.contactmethod');
+});
+
+Route::get('/newpassword', function () {
+    return view('login.newpassword');
+});
+
+// NORMAL SHIT
+Route::get('/home', function () {
+    return view('home');
+});
+
+Route::get('/settings', function () {
+    return view('user.settings');
+});
+
+Route::get('/account', function () {
+    return view('user.account');
+});
+
+Route::get('/orders', function () {
+    return view('orders.index')->with('orders',
+        [
+            ["1", "1", "1", "AC", "23-12-2025", "COMPLETED"],
+            ["2", "2", "2", "DA", "23-12-2025", "COMPLETED"],
+            ["3", "3", "3", "LY", "23-12-2025", "COMPLETED"],
+        ]);
+});
+
+Route::get('/orders/edit', function () {
+    return view('orders.edit');
+});
+
+Route::get('/orders/create', function () {
+    return view('orders.create');
+});
 
 
-// ### Client Routing ###
-Route::resource('clients', ClientController::class);
+Route::get('/clients', function () {
+    return view('clients.index')->with('clients', [
+        ["1", "1", "1", "1", "1", "1", "1"]
+    ]);
+});
 
+Route::get('/clients/create', function () {
+    return view('clients.create');
+});
 
-// ### Employee Routing ###
-Route::resource('employees', EmployeeController::class);
+Route::get('/clients/edit', function () {
+    return view('clients.edit');
+});
 
+Route::get('/payments', function () {
+    return view('payments.index')->with('payments', [
+        ["1", "1", "1", "1"]
+    ]);
+});
 
-// ### Order Routing ###
-Route::resource('orders', OrderController::class);
+Route::get('/payments/create', function () {
+    return view('payments.create');
+});
 
+Route::get('/payments/edit', function () {
+    return view('payments.edit');
+});
 
-// ### OrderProduct Routing ###
-Route::resource('products', OrderProductController::class);
+Route::get('/employees', function () {
+    return view('employees.index')->with('employees', [
+        ["", "","","","","","",""]
+    ]);
+});
 
-
-// ### Payment Routing ###
-Route::resource('payments', PaymentController::class);
+Route::get('/employees/create', function () {
+    return view('employees.create');
+});
+Route::get('/employees/edit', function () {
+    return view('employees.edit');
+});
 
