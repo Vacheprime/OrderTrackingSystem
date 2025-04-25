@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
-<x-layout>
+<x-login-layout>
     <div id="login-content" class="main-content">
         <h1>Login</h1>
         <form class="login-form" action="" method="POST">
@@ -17,4 +17,4 @@
             </div>
         </form>
     </div>
-</x-layout>
+</x-login-layout>

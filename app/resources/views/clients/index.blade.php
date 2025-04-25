@@ -40,13 +40,13 @@
                 <tbody id="orders-tbody">
                 @forelse($clients as $client)
                     <tr onclick="">
-                        <td>{{$client[0]}}</td>
-                        <td>{{$client[1]}}</td>
-                        <td>{{$client[2]}}</td>
-                        <td>{{$client[3]}}</td>
-                        <td>{{$client[4]}}</td>
-                        <td>{{$client[5]}}</td>
-                        <td>{{$client[6]}}</td>
+                        <td>{{$client->getClientId()}}</td>
+                        <td>{{$client->getFirstName()}}</td>
+                        <td>{{$client->getLastName()}}</td>
+                        <td>{{$client->getAddress()->getAddressId() . $client->getAddress()->getStreetName()}}</td>
+                        <td>{{$client->getClientReference()}}</td>
+                        <td>{{$client->getPhoneNumber()}}</td>
+                        <td>{{$client->getAddress()->getArea()}}</td>
                     </tr>
                 @empty
                     <tr>

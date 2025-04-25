@@ -38,11 +38,11 @@
                 <tbody id="employees-tbody">
                 @forelse($employees as $employee)
                     <tr onclick="">
-                        <td>{{$employee[0]}}</td>
-                        <td>{{$employee[1]}}</td>
-                        <td>{{$employee[2]}}</td>
-                        <td>{{$employee[3]}}</td>
-                        <td>{{$employee[4]}}</td>
+                        <td>{{$employee->getEmployeeId()}}</td>
+                        <td>{{$employee->getFirstName()}}</td>
+                        <td>{{$employee->getLastName()}}</td>
+                        <td>{{$employee->getAccount()->getEmail()}}</td>
+                        <td>{{$employee->getPhoneNumber()}}</td>
                     </tr>
                 @empty
                     <tr>
