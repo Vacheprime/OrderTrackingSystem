@@ -41,10 +41,10 @@
                 <x-text-input-property labelText="Product Notes" name="product-notes" />
                 </div>
                 <div class="action-input-div">
-                <a href="/orders">
-                </a>
                 <input class="regular-button" type="submit" value="Create"/>
+                <a href="/orders">
                 <button class="regular-button">Cancel</button>
+                </a>
                 </div>
             </form>
         </div>
