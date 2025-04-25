@@ -8,6 +8,23 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use LaravelDoctrine\ORM\Pagination\PaginatesFromParams;
 
+
+/**
+ * BaseRepository class is used as a superclass
+ * for all repositories used in this project.
+ * 
+ * It contains methods for applying filters, counting, and retrieving
+ * results.
+ * 
+ * Querying using the BaseRepository and its subclasses is similar to using 
+ * Java streams, or C# LINQ.
+ * 
+ * For example, to get all orders, in an array, of a certain status ordered
+ * by the creation date in descending order (oldest), you would do, using a
+ * OrderRepository instance:
+ *   
+ * $orders = $orderRepository->ofStatus(Status::MEASURING)->sortByCreationDate(SortOrder::DESCENDING)->retrieve();
+ */
 class BaseRepository extends EntityRepository {
 
     use PaginatesFromParams;
