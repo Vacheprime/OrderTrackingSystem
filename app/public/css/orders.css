@@ -13,6 +13,9 @@
     height: 100%;
 }
 
+#orders-side-content a {
+    align-self: center;
+}
 
 /* COMPONENTS */
 .select-input-property-div {
@@ -59,4 +62,130 @@
     font-weight: 400;
     text-align: center;
     border-bottom: 1px solid black;
+}
+
+/* CREATE ORDER PAGE */
+.create-edit-form {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+    justify-content: flex-start;
+    /* gap: 50px;
+    top: 1px; */
+}
+
+h2 {
+    margin: 0;
+    align-self: center;
+    font-weight: 500;
+}
+
+.content-container a {
+    align-self: flex-start;
+}
+
+.create-edit-form h3 {
+    font-weight: 500;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    
+}
+
+.details-div:first-of-type {
+    align-self: center;
+    column-gap: 60px;
+    row-gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.details-div:nth-of-type(2){
+    column-gap: 60px;
+    row-gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+}
+
+.details-div:nth-of-type(3){
+    align-self: center;
+    column-gap: 60px;
+    row-gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.create-edit-form .text-input-property-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-edit-form .select-input-property-div {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.create-edit-form .select-input-property-div label{
+    align-self: flex-start;
+}
+
+.create-edit-form .select-input-property-div select{
+    margin: 0;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    height: 25px;
+}
+
+.date-input-property-div {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 167px;
+}
+
+.date-input-property-div input {
+    height: 25px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    color: grey;
+    color-scheme: light;
+    /* width: 100%; */
+}
+
+
+
+ .file-input-property-div {
+    flex-direction: row;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.file-input-property-div label{
+    align-self: flex-start;
+    margin: 0;
+}
+
+.file-input-property-div input{
+    margin: 0;
+}
+
+.action-input-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 1%;
+}
+
+.action-input-div input {
+    margin-right: 1%;
 }

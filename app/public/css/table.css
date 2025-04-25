@@ -5,7 +5,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.table-header a  {
+    align-self: center;
 }
 
 .search-form {
@@ -40,18 +44,7 @@
     align-self: center;
 }
 
-TABLE HEADER
-.table-header {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-
 /* TABLE */
-/* MOVE TO TABLE CSS */
 .search-table {
     margin-top: 1%;
 }

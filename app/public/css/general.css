@@ -103,12 +103,6 @@ main {
     align-items: center;
 }
 
-.create-edit-form {
-    display: flex;
-    flex-direction: column;
-}
-
-
 .regular-button {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-decoration: none;
