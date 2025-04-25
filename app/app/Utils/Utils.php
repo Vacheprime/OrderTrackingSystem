@@ -284,7 +284,7 @@ class Utils {
      * @return bool A boolean indicating whether the method is valid.
      */
     public static function validatePaymentMethod(string $method): bool {
-        if (!self::hasInvalidSpaces($method)) return false;
+        if (self::hasInvalidSpaces($method)) return false;
         return preg_match('/^[a-zA-Z\-\' ]{1,50}$/', $method) === 1;
     }
 
