@@ -1,18 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaymentController;
-
-// TODO: ROUTING TO BE IMPLEMENTED CORRECTLY THIS IS FOR TO SEE IF THINGS WORK
 
 // LOGINS
 Route::get('/', function () {
-
     return view('login.index');
 });
 
@@ -46,59 +41,10 @@ Route::get('/account', function () {
 });
 
 
-Route::resource('orders', \App\Http\Controllers\OrdersController::class);
+Route::resource('orders', OrderController::class);
 
-//Route::get('/orders', function () {
-//    return view('orders.index')->with('orders', );
-//});
-//
-//Route::get('/orders/edit', function () {
-//    return view('orders.edit');
-//});
-//
-//Route::get('/orders/create', function () {
-//    return view('orders.create');
-//});
+Route::resource('clients', ClientController::class);
 
+Route::resource('payments', PaymentController::class);
 
-Route::get('/clients', function () {
-    return view('clients.index')->with('clients', [
-        ["1", "1", "1", "1", "1", "1", "1"]
-    ]);
-});
-
-Route::get('/clients/create', function () {
-    return view('clients.create');
-});
-
-Route::get('/clients/edit', function () {
-    return view('clients.edit');
-});
-
-Route::get('/payments', function () {
-    return view('payments.index')->with('payments', [
-        ["1", "1", "1", "1"]
-    ]);
-});
-
-Route::get('/payments/create', function () {
-    return view('payments.create');
-});
-
-Route::get('/payments/edit', function () {
-    return view('payments.edit');
-});
-
-Route::get('/employees', function () {
-    return view('employees.index')->with('employees', [
-        ["", "","","","","","",""]
-    ]);
-});
-
-Route::get('/employees/create', function () {
-    return view('employees.create');
-});
-Route::get('/employees/edit', function () {
-    return view('employees.edit');
-});
-
+Route::resource('employees', EmployeeController::class);

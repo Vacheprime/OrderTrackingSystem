@@ -5,7 +5,7 @@
     <div class="content-container">
         <div id="orders-content" class="main-content">
             <a href="{{url()->previous()}}"><button>Go Back</button></a>
-            <form action="/orders/update" class="create-edit-form">
+            <form method="PATCH" action="/orders/{{$order->getOrderId()}}" class="create-edit-form">
                 <h2>Edit Order</h2>
                 <x-text-input-property labelText="Client ID" name="client-id" />
                 <x-text-input-property labelText="Measured By" name="measured-by" />

@@ -36,10 +36,10 @@
                 <tbody id="payments-tbody">
                 @forelse($payments as $payment)
                     <tr onclick="">
-                        <th>{{$payment[0]}}</th>
-                        <th>{{$payment[1]}}</th>
-                        <th>{{$payment[2]}}</th>
-                        <th>{{$payment[3]}}</th>
+                        <th>{{$payment->getPaymentId()}}</th>
+                        <th>{{$payment->getOrder()->getOrderId()}}</th>
+                        <th>{{$payment->getPaymentDate()}}</th>
+                        <th>{{$payment->getAmount()}}</th>
                     </tr>
                 @empty
                     <tr>
