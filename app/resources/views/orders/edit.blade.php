@@ -43,7 +43,7 @@
                 <div class="action-input-div">
                 <a href="/orders">
                 </a>
-                <input class="regular-button" type="submit" value="Create"/>
+                <input class="regular-button" type="submit" value="Save"/>
                 <button class="regular-button">Cancel</button>
                 </div>
             </form>
