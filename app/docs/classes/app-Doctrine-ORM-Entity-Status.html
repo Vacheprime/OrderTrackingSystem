@@ -136,7 +136,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">231</span>
+    <span class="phpdocumentor-element-found-in__line">401</span>
 
     </aside>
 
@@ -176,36 +176,51 @@
     <span>
                 &nbsp;= &quot;FABRICATING&quot;                    </span>
 </dt>
+<dd>The FABRICATING stage is the stage when the order
+is being fabricated.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -case -">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Status.html#enumcase_INSTALLED">INSTALLED</a>
     <span>
                 &nbsp;= &quot;INSTALLED&quot;                    </span>
 </dt>
+<dd>The INSTALLED stage is a final/completion stage when
+the product was installed by the company.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -case -">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Status.html#enumcase_MEASURING">MEASURING</a>
     <span>
                 &nbsp;= &quot;MEASURING&quot;                    </span>
 </dt>
+<dd>The MEASURING stage is the stage when the order has been
+confirmed, but no materials have been ordered yet. The company
+is waiting on measurements.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -case -">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Status.html#enumcase_ORDERING_MATERIAL">ORDERING_MATERIAL</a>
     <span>
                 &nbsp;= &quot;ORDERING_MATERIAL&quot;                    </span>
 </dt>
+<dd>The ORDERING_MATERIAL stage is the stage when the material
+has been ordered, but it is still shipping. The company
+is waiting on the material to arrive.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -case -">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Status.html#enumcase_PICKED_UP">PICKED_UP</a>
     <span>
                 &nbsp;= &quot;PICKED_UP&quot;                    </span>
 </dt>
+<dd>The PICKED_UP stage is a final/completion stage when the
+product was picked up by the client.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -case -">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Status.html#enumcase_READY_TO_HANDOVER">READY_TO_HANDOVER</a>
     <span>
                 &nbsp;= &quot;READY_TO_HANDOVER&quot;                    </span>
 </dt>
+<dd>The READY_TO_HANDOVER stage is the stage when the order
+has been fabricated, but is waiting on the client to come
+pick it up or on the company to install the product.</dd>
 
     </dl>
 
@@ -234,11 +249,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">232</span>
+    <span class="phpdocumentor-element-found-in__line">407</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The MEASURING stage is the stage when the order has been
+confirmed, but no materials have been ordered yet. The company
+is waiting on measurements.</p>
+
     
     
     
@@ -261,11 +279,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">233</span>
+    <span class="phpdocumentor-element-found-in__line">414</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The ORDERING_MATERIAL stage is the stage when the material
+has been ordered, but it is still shipping. The company
+is waiting on the material to arrive.</p>
+
     
     
     
@@ -288,11 +309,13 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">420</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The FABRICATING stage is the stage when the order
+is being fabricated.</p>
+
     
     
     
@@ -315,11 +338,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">235</span>
+    <span class="phpdocumentor-element-found-in__line">427</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The READY_TO_HANDOVER stage is the stage when the order
+has been fabricated, but is waiting on the client to come
+pick it up or on the company to install the product.</p>
+
     
     
     
@@ -342,11 +368,13 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">236</span>
+    <span class="phpdocumentor-element-found-in__line">433</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The INSTALLED stage is a final/completion stage when
+the product was installed by the company.</p>
+
     
     
     
@@ -369,11 +397,13 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">237</span>
+    <span class="phpdocumentor-element-found-in__line">439</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">The PICKED_UP stage is a final/completion stage when the
+product was picked up by the client.</p>
+
     
     
     
