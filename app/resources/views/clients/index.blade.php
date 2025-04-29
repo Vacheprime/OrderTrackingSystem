@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<script src="{{ asset('js/tables.js') }}"></script>
 
 <x-layout title="Client Management">
     <h1 class="content-title">CLIENT MANAGEMENT</h1>

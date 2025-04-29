@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<script src="{{ asset('js/tables.js') }}"></script>
 
 <x-layout>
     <h1 class="content-title">ORDER MANAGEMENT</h1>
