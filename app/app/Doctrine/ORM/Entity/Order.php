@@ -38,13 +38,12 @@ class Order {
     #[Id]
     #[Column(name: "order_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $orderId = null;
-
     /**  FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
      * EX: ORD-1-1-U1AS
      * Should not be null, but has to because it is generated using PK ids, 
      * and those are only generated after the Order is inserted into the
      * database.
-     */   
+     */  
     #[Column(name: "reference_number", type: Types::STRING)]
     private ?string $referenceNumber = null;
 
@@ -395,7 +394,7 @@ class Order {
 
 /**
  * Enum Status
- * 
+ *
  * Represents the different stages of a client's order.
  */
 enum Status: string {

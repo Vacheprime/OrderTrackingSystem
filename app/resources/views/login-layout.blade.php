@@ -13,9 +13,8 @@
     <script src="{{ asset('js/sidebar.js') }}"></script>
 </head>
 <body>
-<x-header/>
+<x-header :logout="false"/>
 <div class="main-layout">
-    <x-sidebar/>
     <main>
         {{$slot}}
     </main>

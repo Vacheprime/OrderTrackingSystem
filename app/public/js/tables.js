@@ -36,3 +36,16 @@ function selectClientEntry(clientid) {
             window.history.pushState({}, '', url);
         });
 }
+
+function selectRecord(record) {
+    record.classList.add('active');
+    document.querySelectorAll('tr').forEach((row) => {
+        if (row !== record) {
+            row.classList.add('inactive');
+        } else {
+            row.classList.remove('inactive');
+        }
+    });
+}
+
+
