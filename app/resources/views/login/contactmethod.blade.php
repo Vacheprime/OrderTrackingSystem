@@ -7,6 +7,6 @@
             <x-text-input-property labelText="Enter Email or Phone Number" name="contact-method"/>
             <button class="executeButton" onclick="">Confirm</button>
         </form>
-        <a href="/code2fa">temp confirm</a>
+        <a href="/code2fa">Temp Confirm</a>
     </div>
 </x-layout>
