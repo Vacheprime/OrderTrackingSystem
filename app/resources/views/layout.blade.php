@@ -15,9 +15,7 @@
 <body>
 <x-header/>
 <div class="main-layout">
-{{--    @auth--}}
     <x-sidebar/>
-{{--    @endauth--}}
     <main>
         {{$slot}}
     </main>
