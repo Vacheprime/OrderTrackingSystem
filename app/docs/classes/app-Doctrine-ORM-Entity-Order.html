@@ -138,11 +138,12 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
-        
+            <p class="phpdocumentor-summary">Order class is used to represent orders stored in the database.</p>
+
 
 
 
@@ -264,6 +265,11 @@
     <span>
                         &nbsp;: string|null            </span>
 </dt>
+<dd>FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
+EX: ORD-1-1-U1AS
+Should not be null, but has to because it is generated using PK ids,
+and those are only generated after the Order is inserted into the
+database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#property_status">$status</a>
@@ -284,132 +290,154 @@
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Default constructor for an order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_assignReferenceNumber">assignReferenceNumber()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Assign a reference number to this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getClient">getClient()</a>
     <span>
                                 &nbsp;: <a href="classes/app-Doctrine-ORM-Entity-Client.html"><abbr title="\app\Doctrine\ORM\Entity\Client">Client</abbr></a>    </span>
 </dt>
+<dd>Get the client that placed this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getCreationDate">getCreationDate()</a>
     <span>
                                 &nbsp;: <abbr title="\DateTime">DateTime</abbr>|null    </span>
 </dt>
+<dd>Get the creation date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getEstimatedInstallDate">getEstimatedInstallDate()</a>
     <span>
                                 &nbsp;: <abbr title="\DateTime">DateTime</abbr>|null    </span>
 </dt>
+<dd>Get the estimated installation date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getFabricationStartDate">getFabricationStartDate()</a>
     <span>
                                 &nbsp;: <abbr title="\DateTime">DateTime</abbr>|null    </span>
 </dt>
+<dd>Get the fabrication start date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getInvoiceNumber">getInvoiceNumber()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Get the invoice number of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getMeasuredBy">getMeasuredBy()</a>
     <span>
                                 &nbsp;: <a href="classes/app-Doctrine-ORM-Entity-Employee.html"><abbr title="\app\Doctrine\ORM\Entity\Employee">Employee</abbr></a>    </span>
 </dt>
+<dd>Get the employee that took the measurements for this order&#039;s product.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getOrderCompletedDate">getOrderCompletedDate()</a>
     <span>
                                 &nbsp;: <abbr title="\DateTime">DateTime</abbr>|null    </span>
 </dt>
+<dd>Get the completion date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getOrderId">getOrderId()</a>
     <span>
                                 &nbsp;: int|null    </span>
 </dt>
+<dd>Get the order ID of this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getPayments">getPayments()</a>
     <span>
                                 &nbsp;: <abbr title="\Doctrine\Common\Collections\Collection">Collection</abbr>    </span>
 </dt>
+<dd>Get the payments that were made for this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getPrice">getPrice()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Get the price of the order&#039;s product.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getProduct">getProduct()</a>
     <span>
                                 &nbsp;: <a href="classes/app-Doctrine-ORM-Entity-Product.html"><abbr title="\app\Doctrine\ORM\Entity\Product">Product</abbr></a>    </span>
 </dt>
+<dd>Get the product of this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getReferenceNumber">getReferenceNumber()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: string|null    </span>
 </dt>
+<dd>Get the reference number of this order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_getStatus">getStatus()</a>
     <span>
                                 &nbsp;: <a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a>    </span>
 </dt>
+<dd>Get the status of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setCreationDateNow">setCreationDateNow()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the creation date of the order to the current date.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setEstimatedInstallDate">setEstimatedInstallDate()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Set the estimated installation date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setFabricationStartDate">setFabricationStartDate()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the fabrication start date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setInvoiceNumber">setInvoiceNumber()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the invoice number of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setOrderCompletedDate">setOrderCompletedDate()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Set the order completion date of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setPrice">setPrice()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the price of the order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/app-Doctrine-ORM-Entity-Order.html#method_setStatus">setStatus()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the status of the order.</dd>
 
     </dl>
 
@@ -441,7 +469,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -508,7 +536,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -561,7 +589,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">62</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -617,7 +645,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -673,7 +701,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -729,7 +757,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 
     </aside>
 
@@ -793,7 +821,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
@@ -849,7 +877,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -915,7 +943,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
@@ -971,7 +999,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -1030,7 +1058,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">79</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 
@@ -1086,11 +1114,16 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
+EX: ORD-1-1-U1AS
+Should not be null, but has to because it is generated using PK ids,
+and those are only generated after the Order is inserted into the
+database.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1139,7 +1172,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -1200,11 +1233,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Default constructor for an order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$price</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$invoiceNumber</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fabricationStartDate</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$estimatedInstallDate</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$orderCompletedDate</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Client.html"><abbr title="\app\Doctrine\ORM\Entity\Client">Client</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$client</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Employee.html"><abbr title="\app\Doctrine\ORM\Entity\Employee">Employee</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$measuredBy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\Common\Collections\Collection">Collection</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$payments</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Product.html"><abbr title="\app\Doctrine\ORM\Entity\Product">Product</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$product</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -1212,7 +1246,12 @@
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>It is important to create the product before the order, so
+that it is possible to pass the product object in this constructor.
+The product's order property will automatically be set to the new
+order by this constructor.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1220,70 +1259,97 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The price of the order in
+string format.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$status</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The order status of the order.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$invoiceNumber</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The invoice number of the order.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$fabricationStartDate</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The date when the order
+was put on fabrication.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$estimatedInstallDate</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The date when the order's
+product is estimated to be installed.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$orderCompletedDate</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The date when the order
+was completely fulfilled.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$client</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Client.html"><abbr title="\app\Doctrine\ORM\Entity\Client">Client</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The client who placed the order.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$measuredBy</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Employee.html"><abbr title="\app\Doctrine\ORM\Entity\Employee">Employee</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The employee who took the measurements
+for the order.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$payments</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\Common\Collections\Collection">Collection</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The payments made to this order. It is
+normal to have no payments for a new order.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$product</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Product.html"><abbr title="\app\Doctrine\ORM\Entity\Product">Product</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The product of the order. The product's order
+property is automatically set to the new order object by this constructor.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1307,11 +1373,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Assign a reference number to this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">assignReferenceNumber</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1319,7 +1386,14 @@
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>This method SHOULD NOT be called anywhere other than
+inside the OrderRepository's insertOrder() method.
+It is necessary to have this method to delay the creation
+of a reference number because the reference number includes
+the primary keys of this order and its client, both of which
+are only available after being inserted into the order table.</p>
+</section>
+
     
     
 
@@ -1341,11 +1415,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">209</span>
+    <span class="phpdocumentor-element-found-in__line">364</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the client that placed this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getClient</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Client.html"><abbr title="\app\Doctrine\ORM\Entity\Client">Client</abbr></a></span></code>
@@ -1362,6 +1437,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Client.html"><abbr title="\app\Doctrine\ORM\Entity\Client">Client</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The client that placed this order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1379,11 +1458,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">153</span>
+    <span class="phpdocumentor-element-found-in__line">249</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the creation date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getCreationDate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span></code>
@@ -1400,6 +1480,11 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The creation date of the order if the order
+exists in the database. Null if the order was not yet inserted.</p>
+</section>
+
             </section>
 
 </article>
@@ -1417,11 +1502,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">305</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the estimated installation date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getEstimatedInstallDate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span></code>
@@ -1438,6 +1524,11 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The estimated installation date of the order. Null
+if no estimation has been given to the order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1455,11 +1546,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">164</span>
+    <span class="phpdocumentor-element-found-in__line">275</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the fabrication start date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getFabricationStartDate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span></code>
@@ -1476,6 +1568,11 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The fabrication start date of the order. Null
+if the order has not reached the fabrication stage yet.</p>
+</section>
+
             </section>
 
 </article>
@@ -1493,11 +1590,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">142</span>
+    <span class="phpdocumentor-element-found-in__line">223</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the invoice number of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getInvoiceNumber</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -1514,6 +1612,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The invoice number of the order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1531,11 +1633,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">213</span>
+    <span class="phpdocumentor-element-found-in__line">373</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the employee that took the measurements for this order&#039;s product.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getMeasuredBy</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Employee.html"><abbr title="\app\Doctrine\ORM\Entity\Employee">Employee</abbr></a></span></code>
@@ -1552,6 +1655,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Employee.html"><abbr title="\app\Doctrine\ORM\Entity\Employee">Employee</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The employee that took the measurements for this order's product.</p>
+</section>
+
             </section>
 
 </article>
@@ -1569,11 +1676,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the completion date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getOrderCompletedDate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span></code>
@@ -1590,6 +1698,11 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\DateTime">DateTime</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The order completion date. Null if the
+order has not been completed yet.</p>
+</section>
+
             </section>
 
 </article>
@@ -1607,11 +1720,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">115</span>
+    <span class="phpdocumentor-element-found-in__line">161</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the order ID of this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getOrderId</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|null</span></code>
@@ -1628,6 +1742,11 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The order ID of this order, if the order
+exists in the database. Null if the order was never inserted.</p>
+</section>
+
             </section>
 
 </article>
@@ -1645,11 +1764,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">217</span>
+    <span class="phpdocumentor-element-found-in__line">382</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the payments that were made for this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getPayments</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Doctrine\Common\Collections\Collection">Collection</abbr></span></code>
@@ -1666,6 +1786,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Doctrine\Common\Collections\Collection">Collection</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The payments that were made for this order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1683,11 +1807,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">180</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the price of the order&#039;s product.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getPrice</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -1704,6 +1829,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The price of the order's product.</p>
+</section>
+
             </section>
 
 </article>
@@ -1721,11 +1850,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">391</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the product of this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getProduct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Product.html"><abbr title="\app\Doctrine\ORM\Entity\Product">Product</abbr></a></span></code>
@@ -1742,6 +1872,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Product.html"><abbr title="\app\Doctrine\ORM\Entity\Product">Product</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The product of this order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1759,14 +1893,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">119</span>
+    <span class="phpdocumentor-element-found-in__line">171</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the reference number of this order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getReferenceNumber</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getReferenceNumber</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1779,7 +1914,12 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The reference number of the order if the
+order exists in the database. Null if the order was never inserted.</p>
+</section>
+
             </section>
 
 </article>
@@ -1797,11 +1937,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">205</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the status of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">getStatus</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a></span></code>
@@ -1818,6 +1959,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The status of the order.</p>
+</section>
+
             </section>
 
 </article>
@@ -1835,11 +1980,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">262</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the creation date of the order to the current date.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setCreationDateNow</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1847,9 +1993,30 @@
     <div class="phpdocumentor-label-line">
         </div>
     
+        <section class="phpdocumentor-description"><p>This method SHOULD NOT be called anywhere other than inside
+the OrderRepository's insertOrder() method.</p>
+</section>
+
     
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setCreationDateNow#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\LogicException">LogicException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Thrown when the order was already inserted in the database,
+which means that it was already created some time in the past.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1869,14 +2036,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">183</span>
+    <span class="phpdocumentor-element-found-in__line">318</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the estimated installation date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setEstimatedInstallDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$date</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setEstimatedInstallDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$date</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1889,11 +2057,42 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The new estimated installation date of the order.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setEstimatedInstallDate#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Thrown when the $date argument is set in
+the past or present.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/app-Utils-Utils.html#method_validateDateInFuture"><abbr title="\app\Utils\Utils::validateDateInFuture()">Utils::validateDateInFuture()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>for the validation of the $date
+argument.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1913,11 +2112,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">288</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the fabrication start date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setFabricationStartDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$startDate</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1933,11 +2133,42 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The fabrication start date of order.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setFabricationStartDate#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Thrown when the start date is set in
+the future in relation to the current date and time.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/app-Utils-Utils.html#method_validateDateInPastOrNow"><abbr title="\app\Utils\Utils::validateDateInPastOrNow()">Utils::validateDateInPastOrNow()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>for the validation of the
+$startDate argument.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1957,11 +2188,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">236</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the invoice number of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setInvoiceNumber</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$invoiceNumber</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1977,11 +2209,42 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The new invoice number of the order.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setInvoiceNumber#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Thrown when the $invoiceNumber argument
+is of invalid format.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/app-Utils-Utils.html#method_validateInvoiceNumber"><abbr title="\app\Utils\Utils::validateInvoiceNumber()">Utils::validateInvoiceNumber()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>for the format of the invoice
+number.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -2001,14 +2264,15 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">198</span>
+    <span class="phpdocumentor-element-found-in__line">348</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the order completion date of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setOrderCompletedDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$date</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setOrderCompletedDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$date</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2021,11 +2285,42 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\DateTime">DateTime</abbr>|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The new order completion date of the order.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setOrderCompletedDate#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Thrown when the $date argument is set
+in the future.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/app-Utils-Utils.html#method_validateDateInPastOrNow"><abbr title="\app\Utils\Utils::validateDateInPastOrNow()">Utils::validateDateInPastOrNow()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>for the validation of the
+$date argument.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -2045,11 +2340,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">193</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the price of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setPrice</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$price</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -2065,11 +2361,42 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The new price for this order.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/app-Doctrine-ORM-Entity-Order.html#method_setPrice#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\InvalidArgumentException">InvalidArgumentException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>Exception thrown when the $price
+argument is of invalid format.</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/app-Utils-Utils.html#method_validatePositiveAmount"><abbr title="\app\Utils\Utils::validatePositiveAmount()">Utils::validatePositiveAmount()</abbr></a></span>
+                                        
+                                                 <section class="phpdocumentor-description"><p>for the format of the
+$price argument.</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
 
@@ -2089,11 +2416,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Doctrine/ORM/Entity/Order.php"><a href="files/app-doctrine-orm-entity-order.html"><abbr title="app/Doctrine/ORM/Entity/Order.php">Order.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the status of the order.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setStatus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -2109,7 +2437,9 @@
                 : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/app-Doctrine-ORM-Entity-Status.html"><abbr title="\app\Doctrine\ORM\Entity\Status">Status</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The new status of the order.</p>
+</section>
+
             </dd>
             </dl>
 

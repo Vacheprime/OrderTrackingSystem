@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
-<x-layout title="Resetting Password">
+<x-login-layout title="Resetting Password">
     <div id="login-content" class="main-content">
         <h1>Enter New Password</h1>
         <form action="" method="POST">
@@ -10,4 +10,4 @@
         </form>
         <a href="/">temp confirm</a>
     </div>
-</x-layout>
+</x-login-layout>

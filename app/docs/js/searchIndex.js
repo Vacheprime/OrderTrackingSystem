@@ -368,117 +368,117 @@ Search.appendIndex(
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order",
             "name": "Order",
-            "summary": "",
+            "summary": "Order\u0020class\u0020is\u0020used\u0020to\u0020represent\u0020orders\u0020stored\u0020in\u0020the\u0020database.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Default\u0020constructor\u0020for\u0020an\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method___construct"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AassignReferenceNumber\u0028\u0029",
             "name": "assignReferenceNumber",
-            "summary": "",
+            "summary": "Assign\u0020a\u0020reference\u0020number\u0020to\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_assignReferenceNumber"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetOrderId\u0028\u0029",
             "name": "getOrderId",
-            "summary": "",
+            "summary": "Get\u0020the\u0020order\u0020ID\u0020of\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getOrderId"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetReferenceNumber\u0028\u0029",
             "name": "getReferenceNumber",
-            "summary": "",
+            "summary": "Get\u0020the\u0020reference\u0020number\u0020of\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getReferenceNumber"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetPrice\u0028\u0029",
             "name": "getPrice",
-            "summary": "",
+            "summary": "Get\u0020the\u0020price\u0020of\u0020the\u0020order\u0027s\u0020product.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getPrice"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetPrice\u0028\u0029",
             "name": "setPrice",
-            "summary": "",
+            "summary": "Set\u0020the\u0020price\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setPrice"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetStatus\u0028\u0029",
             "name": "getStatus",
-            "summary": "",
+            "summary": "Get\u0020the\u0020status\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getStatus"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetStatus\u0028\u0029",
             "name": "setStatus",
-            "summary": "",
+            "summary": "Set\u0020the\u0020status\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setStatus"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetInvoiceNumber\u0028\u0029",
             "name": "getInvoiceNumber",
-            "summary": "",
+            "summary": "Get\u0020the\u0020invoice\u0020number\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getInvoiceNumber"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetInvoiceNumber\u0028\u0029",
             "name": "setInvoiceNumber",
-            "summary": "",
+            "summary": "Set\u0020the\u0020invoice\u0020number\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setInvoiceNumber"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetCreationDate\u0028\u0029",
             "name": "getCreationDate",
-            "summary": "",
+            "summary": "Get\u0020the\u0020creation\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getCreationDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetCreationDateNow\u0028\u0029",
             "name": "setCreationDateNow",
-            "summary": "",
+            "summary": "Set\u0020the\u0020creation\u0020date\u0020of\u0020the\u0020order\u0020to\u0020the\u0020current\u0020date.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setCreationDateNow"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetFabricationStartDate\u0028\u0029",
             "name": "getFabricationStartDate",
-            "summary": "",
+            "summary": "Get\u0020the\u0020fabrication\u0020start\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getFabricationStartDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetFabricationStartDate\u0028\u0029",
             "name": "setFabricationStartDate",
-            "summary": "",
+            "summary": "Set\u0020the\u0020fabrication\u0020start\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setFabricationStartDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetEstimatedInstallDate\u0028\u0029",
             "name": "getEstimatedInstallDate",
-            "summary": "",
+            "summary": "Get\u0020the\u0020estimated\u0020installation\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getEstimatedInstallDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetEstimatedInstallDate\u0028\u0029",
             "name": "setEstimatedInstallDate",
-            "summary": "",
+            "summary": "Set\u0020the\u0020estimated\u0020installation\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setEstimatedInstallDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetOrderCompletedDate\u0028\u0029",
             "name": "getOrderCompletedDate",
-            "summary": "",
+            "summary": "Get\u0020the\u0020completion\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getOrderCompletedDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AsetOrderCompletedDate\u0028\u0029",
             "name": "setOrderCompletedDate",
-            "summary": "",
+            "summary": "Set\u0020the\u0020order\u0020completion\u0020date\u0020of\u0020the\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_setOrderCompletedDate"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetClient\u0028\u0029",
             "name": "getClient",
-            "summary": "",
+            "summary": "Get\u0020the\u0020client\u0020that\u0020placed\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getClient"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetMeasuredBy\u0028\u0029",
             "name": "getMeasuredBy",
-            "summary": "",
+            "summary": "Get\u0020the\u0020employee\u0020that\u0020took\u0020the\u0020measurements\u0020for\u0020this\u0020order\u0027s\u0020product.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getMeasuredBy"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetPayments\u0028\u0029",
             "name": "getPayments",
-            "summary": "",
+            "summary": "Get\u0020the\u0020payments\u0020that\u0020were\u0020made\u0020for\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getPayments"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003AgetProduct\u0028\u0029",
             "name": "getProduct",
-            "summary": "",
+            "summary": "Get\u0020the\u0020product\u0020of\u0020this\u0020order.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#method_getProduct"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003A\u0024orderId",
@@ -488,7 +488,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003A\u0024referenceNumber",
             "name": "referenceNumber",
-            "summary": "",
+            "summary": "FORMAT\u003A\u0020ORD\u002D\u005BORDERID\u005D\u002D\u005BCLIENTID\u005D\u002D\u005BRANDOM4\u005D\nEX\u003A\u0020ORD\u002D1\u002D1\u002DU1AS\nShould\u0020not\u0020be\u0020null,\u0020but\u0020has\u0020to\u0020because\u0020it\u0020is\u0020generated\u0020using\u0020PK\u0020ids,\nand\u0020those\u0020are\u0020only\u0020generated\u0020after\u0020the\u0020Order\u0020is\u0020inserted\u0020into\u0020the\ndatabase.",
             "url": "classes/app-Doctrine-ORM-Entity-Order.html#property_referenceNumber"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Order\u003A\u003A\u0024price",
@@ -553,32 +553,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003AMEASURING",
             "name": "MEASURING",
-            "summary": "",
+            "summary": "The\u0020MEASURING\u0020stage\u0020is\u0020the\u0020stage\u0020when\u0020the\u0020order\u0020has\u0020been\nconfirmed,\u0020but\u0020no\u0020materials\u0020have\u0020been\u0020ordered\u0020yet.\u0020The\u0020company\nis\u0020waiting\u0020on\u0020measurements.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_MEASURING"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003AORDERING_MATERIAL",
             "name": "ORDERING_MATERIAL",
-            "summary": "",
+            "summary": "The\u0020ORDERING_MATERIAL\u0020stage\u0020is\u0020the\u0020stage\u0020when\u0020the\u0020material\nhas\u0020been\u0020ordered,\u0020but\u0020it\u0020is\u0020still\u0020shipping.\u0020The\u0020company\nis\u0020waiting\u0020on\u0020the\u0020material\u0020to\u0020arrive.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_ORDERING_MATERIAL"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003AFABRICATING",
             "name": "FABRICATING",
-            "summary": "",
+            "summary": "The\u0020FABRICATING\u0020stage\u0020is\u0020the\u0020stage\u0020when\u0020the\u0020order\nis\u0020being\u0020fabricated.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_FABRICATING"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003AREADY_TO_HANDOVER",
             "name": "READY_TO_HANDOVER",
-            "summary": "",
+            "summary": "The\u0020READY_TO_HANDOVER\u0020stage\u0020is\u0020the\u0020stage\u0020when\u0020the\u0020order\nhas\u0020been\u0020fabricated,\u0020but\u0020is\u0020waiting\u0020on\u0020the\u0020client\u0020to\u0020come\npick\u0020it\u0020up\u0020or\u0020on\u0020the\u0020company\u0020to\u0020install\u0020the\u0020product.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_READY_TO_HANDOVER"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003AINSTALLED",
             "name": "INSTALLED",
-            "summary": "",
+            "summary": "The\u0020INSTALLED\u0020stage\u0020is\u0020a\u0020final\/completion\u0020stage\u0020when\nthe\u0020product\u0020was\u0020installed\u0020by\u0020the\u0020company.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_INSTALLED"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Status\u003A\u003APICKED_UP",
             "name": "PICKED_UP",
-            "summary": "",
+            "summary": "The\u0020PICKED_UP\u0020stage\u0020is\u0020a\u0020final\/completion\u0020stage\u0020when\u0020the\nproduct\u0020was\u0020picked\u0020up\u0020by\u0020the\u0020client.",
             "url": "classes/app-Doctrine-ORM-Entity-Status.html#enumcase_PICKED_UP"
         },                {
             "fqsen": "\\app\\Doctrine\\ORM\\Entity\\Payment",

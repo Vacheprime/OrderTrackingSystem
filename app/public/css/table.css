@@ -5,7 +5,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.table-header a  {
+    align-self: center;
 }
 
 .search-form {
@@ -36,10 +40,45 @@
    text-align: start;
 }
 
-.search-table > tbody {
-
+.table-header button{
+    align-self: center;
 }
 
-.search-table td {
+/* TABLE */
+.search-table {
+    margin-top: 1%;
+}
 
+.search-table thead tr th{
+    text-align: center;
+    font-weight: 500;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+
+.search-table thead th{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.search-table tbody tr td {
+    padding: 2px;
+    margin: 10%;
+    font-size: 15px;
+}
+
+.search-table tbody tr {
+   background-color: rgba(128, 128, 128, 0.1);
+}
+
+.search-table tbody tr.active {
+    background-color: rgb(225, 218, 207);
+}
+
+.search-table tbody tr.inactive {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.search-table  {
+    border-collapse: separate;
+    border-spacing: 2px 5px;
+    border-color: black;
 }
