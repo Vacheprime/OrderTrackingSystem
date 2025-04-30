@@ -13,12 +13,7 @@
                         <option value="client-id">Employee ID</option>
                         <option value="first-name">First Name</option>
                         <option value="last-name">Last Name</option>
-                    </x-select-input-property>
-
-                    <x-select-input-property labelText="Filter By" name="filter-by">
-                        <option value="newest" selected>Newest</option>
-                        <option value="oldest">Oldest</option>
-                        <option value="status">Status</option>
+                        <option value="last-name">Position</option>
                     </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
@@ -58,7 +53,7 @@
         </div>
         @if(!empty($employees))
             <div id="employees-side-content" class="side-content">
-                <h2>CLIENT DETAILS</h2>
+                <h2>EMPLOYEE DETAILS</h2>
                 <hr>
                 <div class="side-content-scrollable">
                     <h3><b>Employee ID:</b><span>#</span></h3>

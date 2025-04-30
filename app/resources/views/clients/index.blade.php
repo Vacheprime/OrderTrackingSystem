@@ -11,15 +11,10 @@
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                     <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="client-id" selected>Client ID</option>
+                        <option value="client-id" selected>Area</option>
                         <option value="first-name">First Name</option>
                         <option value="last-name">Last Name</option>
-                    </x-select-input-property>
-
-                    <x-select-input-property labelText="Filter By" name="filter-by">
-                        <option value="newest" selected>Newest</option>
-                        <option value="oldest">Oldest</option>
-                        <option value="status">Status</option>
+                        <option value="last-name">ClientID</option>
                     </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
@@ -32,8 +27,6 @@
                     <th>ClientID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Address</th>
-                    <th>Reference Number</th>
                     <th>Phone Number</th>
                     <th>Area</th>
                 </tr>

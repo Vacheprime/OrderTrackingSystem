@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
-<x-layout>
-    <h1 class="content-title">Home</h1>
+<x-layout> <!-- This Blade component refers to layout.blade.php. It's used to define reusable layout structure-->
+    <h1 class="content-title">HOME</h1>
     <div class="content-container">
         <div id="home-content" class="main-content">
             <h1>Next 7 Weeks</h1>

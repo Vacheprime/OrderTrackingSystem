@@ -3,7 +3,7 @@
 <x-login-layout title="Resetting Password">
     <div id="login-content" class="main-content">
         <h1>Enter New Password</h1>
-        <form action="" method="POST">
+        <form class="login-form" action="" method="POST">
             <x-text-input-property labelText="New Password" name="new-password" :password="true"/>
             <x-text-input-property labelText="Confirm Password" name="confirm-password" :password="true"/>
             <button class="executeButton" onclick="">Confirm</button>

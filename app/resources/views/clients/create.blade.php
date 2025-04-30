@@ -7,7 +7,6 @@
            <h2>Create Client</h2>
            <hr/>
            <form action="/clients/update" method="POST">
-           <h3>Client Details</h3>
                <div class="flex-input-div">
                    <x-text-input-property labelText="First Name" name="first-name"/>
                    <x-text-input-property labelText="Last Name" name="last-name"/>
