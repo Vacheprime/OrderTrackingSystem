@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 
 <x-layout title="Create Payment">
-    <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
             <a href="{{url()->previous()}}">
