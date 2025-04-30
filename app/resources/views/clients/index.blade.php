@@ -21,37 +21,41 @@
                 </form>
                 <a href="/clients/create"><button class="regular-button">Create</button></a>
             </div>
-            <table class="search-table">
-                <thead>
-                <tr>
-                    <th>ClientID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone Number</th>
-                    <th>Area</th>
-                </tr>
-                </thead>
-                <tbody id="orders-tbody">
-                @forelse($clients as $client)
-                    <tr onclick="">
-                        <td>{{$client->getClientId()}}</td>
-                        <td>{{$client->getFirstName()}}</td>
-                        <td>{{$client->getLastName()}}</td>
-                        <td>{{$client->getAddress()->getAddressId() . $client->getAddress()->getStreetName()}}</td>
-                        <td>{{$client->getClientReference()}}</td>
-                        <td>{{$client->getPhoneNumber()}}</td>
-                        <td>{{$client->getAddress()->getArea()}}</td>
-                    </tr>
-                @empty
+            <div class="search-table-div">
+                <table class="search-table">
+                    <thead>
                     <tr>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
+                        <th>ClientID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Client Reference #</th>
+                        <th>Phone</th>
+                        <th>Area</th>
                     </tr>
-                @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="orders-tbody">
+                    @forelse($clients as $client)
+                        <tr onclick="">
+                            <td>{{$client->getClientId()}}</td>
+                            <td>{{$client->getFirstName()}}</td>
+                            <td>{{$client->getLastName()}}</td>
+                            <td>{{$client->getAddress()->getAddressId() . $client->getAddress()->getStreetName()}}</td>
+                            <td>{{$client->getClientReference()}}</td>
+                            <td>{{$client->getPhoneNumber()}}</td>
+                            <td>{{$client->getAddress()->getArea()}}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td>Empty</td>
+                            <td>Empty</td>
+                            <td>Empty</td>
+                            <td>Empty</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
         @if(!empty($client))
             <div id="clients-side-content" class="side-content">

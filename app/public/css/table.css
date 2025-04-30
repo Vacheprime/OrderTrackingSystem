@@ -27,6 +27,11 @@
     margin: 0 5px;
 }
 
+.search-table-div {
+    width: 100%;
+    overflow-x: scroll;
+}
+
 .search-table {
     width: 100%;
     height: min-content;
