@@ -2,32 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use app\Doctrine\ORM\Entity\Payment;
+use app\Doctrine\ORM\Repository\PaymentRepository;
+use Doctrine\ORM\EntityManager;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
+
+    protected EntityManager $entityManager;
+    protected PaymentRepository $repository;
+
+    public function __construct(EntityManager $entityManager) {
+        $this->entityManager = $entityManager;
+        $this->repository = ($entityManager->getRepository(Payment::class));
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): View
     {
-        //
+        $page = $request->input('page', 1);
+        $search = $request->input('search', "");
+        $searchBy = $request->input('searchby', "order-id");
+        $orderBy = $request->input('orderby', "newest");
+        $payments = $this->repository->retrievePaginated(10, $page);
+        return view('payments.index')->with('payments', $payments->items());
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view("payments.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        return redirect()->route("payments.index");
     }
 
     /**
@@ -41,17 +60,18 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
-        //
+        $payment = $this->repository->find($id);
+        return view("payments.edit")->with("payment", $payment);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
-        //
+        return redirect()->route("payments.index");
     }
 
     /**

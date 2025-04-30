@@ -16,9 +16,7 @@
 <body>
 <x-header/>
 <div class="main-layout">
-{{--    @auth--}}  <!-- This is to show content only when authenticated--> 
     <x-sidebar/>
-{{--    @endauth--}}
     <main>
         {{$slot}} <!-- The content injected into slot depends on the child view or component that uses layout.blade.php.-->
     </main>
