@@ -82,7 +82,7 @@
                     <p><b>Slab Thickness:</b><span>#</span></p>
                     <p><b>Slab Square Footage:</b><span>#</span></p>
                     <p><b>Sink Type:</b><span>#</span></p>
-                    <p><b>Fabrication Plan Image:</b><img src="" alt=""/></p>
+                    <p><b>Fabrication Plan Image:</b><img src="" id="fabPLanImg"/></p>
                     <p><b>Product Description:</b><textarea placeholder="Product Description"></textarea></p>
                     <p><b>Product Notes:</b><textarea placeholder="Product Notes"></textarea></p>
                 </div>

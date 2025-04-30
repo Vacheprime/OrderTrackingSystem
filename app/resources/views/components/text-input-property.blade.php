@@ -6,4 +6,5 @@
     @endif
     <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input"
            name="{{$name}}-input" placeholder="{{$labelText}}"/>
+    
 </div>

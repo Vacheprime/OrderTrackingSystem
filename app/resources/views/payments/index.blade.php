@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <x-layout title="Payment Management">
-    <h1 class="content-title">ORDER MANAGEMENT</h1>
+    <h1 class="content-title">PAYMENT MANAGEMENT</h1>
     <div class="content-container">
         <div id="payments-content" class="main-content">
             <div class="table-header">
@@ -12,12 +12,6 @@
                     <x-select-input-property labelText="Search By" name="search-by">
                         <option value="payment-id" selected>Payment ID</option>
                         <option value="order-id">Order ID</option>
-                    </x-select-input-property>
-
-                    <x-select-input-property labelText="Filter By" name="filter-by">
-                        <option value="newest" selected>Newest</option>
-                        <option value="oldest">Oldest</option>
-                        <option value="status">Status</option>
                     </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
@@ -61,7 +55,6 @@
                     <p><b>Order ID:</b><span>#</span></p>
                     <p><b>Date:</b><span>#</span></p>
                     <p><b>Amount Payed:</b><span>#</span></p>
-                    <p><b>Address:</b><span>#</span></p>
                     <p><b>Type:</b><span>#</span></p>
                     <p><b>Method:</b><span>#</span></p>
                 </div>

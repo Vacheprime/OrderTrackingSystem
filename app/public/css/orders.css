@@ -1,7 +1,4 @@
 /* GENERAL */
-.content-title {
-    font-weight: 300;
-}
 
 #orders-content {
     width: 100%;
@@ -30,25 +27,18 @@
     align-self: flex-end;
 }
 
-.text-input-property-div input{
-    height: 25px;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
-}
-
 /* SIDE CONTENT*/
-.side-content-scrollable h3{
+/* .side-content-scrollable h3{
     font-size: 20px;
-}
+} */
 
-.side-content-scrollable b{
+/* .side-content-scrollable b{
     font-weight: 400;
-}
-
+} */
+/* 
 .side-content-scrollable p{
     border-bottom: 1px solid rgba(128, 128, 128, 0.5);
-}
+} */
 
 .side-content-scrollable p:nth-child(17),
 .side-content-scrollable p:nth-child(18),
@@ -56,13 +46,22 @@
     border:none;
 }
 
-#orders-side-content h2{
+.side-content-scrollable p:nth-child(17) img{
+    border: 2px solid black;
+    width: 227px;
+    height: 151px;
+    object-fit: fill;
+    display: block;
+    margin: 10px auto;
+}
+
+/* #orders-side-content h2{
     margin-bottom: 0;
     width: 200px;
     font-weight: 400;
     text-align: center;
     border-bottom: 1px solid black;
-}
+} */
 
 /* CREATE ORDER PAGE */
 .create-edit-form {
@@ -76,21 +75,21 @@
     top: 1px; */
 }
 
-h2 {
+/* h2 {
     margin: 0;
     align-self: center;
     font-weight: 500;
-}
+} */
 
 .content-container a {
     align-self: flex-start;
 }
 
-.create-edit-form h3 {
+/* .create-edit-form h3 {
     font-weight: 500;
     border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     
-}
+} */
 
 .details-div:first-of-type {
     align-self: center;
@@ -189,3 +188,36 @@ h2 {
 .action-input-div input {
     margin-right: 1%;
 }
+
+.insertedImage-image {
+    border: 2px solid black;
+    width: 227px;
+    height: 151px;
+    object-fit: fill;
+    display: block;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.createClient{
+    margin-left: -160px;
+    margin-bottom: -220px;
+    font-size: 8px;
+}
+
+.textarea-group {
+    display: flex;
+    flex-direction: column;
+    width: 25%; /* Adjust based on your layout needs */
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 150px;
+    max-height: 150px;
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px;
+    resize: vertical; /* Allows vertical resizing */
+}
+
