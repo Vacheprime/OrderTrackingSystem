@@ -1,23 +1,28 @@
-<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
+<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
+<link rel="stylesheet" href="{{ asset('css/payments.css') }}">
 
 <x-layout title="Edit Payment">
-    <div class="content-container">
-        <div id="orders-content" class="main-content">
-            <a href="{{url()->previous()}}">
-                <button>Go Back</button>
-            </a>
-            <form action="/payments/update" class="create-edit-form">
-                <h2 class="title">Edit Payment</h2>
-                <x-text-input-property labelText="Order ID" name="order-id"/>
-                <x-date-input-property labelText="Date" name="payment-date"/>
-                <x-text-input-property labelText="Amount" name="amount"/>
-                <x-text-input-property labelText="Type" name="type"/>
-                <x-text-input-property labelText="Method" name="method"/>
-                <input class="regular-button" type="submit" value="Save"/>
+    <div class="layout-container">
+        <div class="main-content">
+            <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
+            <h2 class="title">Edit Payment</h2>
+            <hr/>
+            <form action="/payments/store" class="create-edit-form">
+                <div class="flex-input-div">
+                    <x-text-input-property labelText="Order ID" name="order-id"/>
+                    <x-date-input-property labelText="Date" name="payment-date"/>
+                    <x-text-input-property labelText="Amount" name="amount"/>
+                    <x-text-input-property labelText="Type" name="type"/>
+                    <x-text-input-property labelText="Method" name="method"/>
+                </div>
+
+                <div class="action-input-div">
+                    <input class="regular-button" type="submit" value="Save"/>
+                    <a href="/payments">
+                        <button class="regular-button">Cancel</button>
+                    </a>
+               </div>
             </form>
-            <a href="/payments">
-                <button class="regular-button">Cancel</button>
-            </a>
         </div>
     </div>
 </x-layout>

@@ -1,10 +1,11 @@
-<link rel="stylesheet" href="{{ asset('css/employees.css') }}">
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
-
+<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
+<link rel="stylesheet" href="{{ asset('css/employee.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('css/table.css') }}"> -->
+ 
 <x-layout title="Edit Employee">
-    <div class="content-container">
-        <div id="employees-content" class="main-content">
-            <a href="{{url()->previous()}}"><button>Go Back</button></a>
+<div class="layout-container">
+       <div class="main-content">
+            <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
             <h2>Edit Employee</h2>
             <hr/>
             <form action="/employee/store" method="POST">
@@ -23,13 +24,16 @@
                     <x-select-input-property name="account-status" labelText="Account Status">
                         <option value="disabled" selected>Disabled</option>
                         <option value="enabled">Enabled</option>
-                    </x-select-input-property>
+                    </x-select-input>
                 </div>
-                <input class="regular-button" type="submit" value="Save"/>
+
+                <div class="action-input-div">
+                    <input class="regular-button" type="submit" value="Save"/>
+                    <a href="/employees">
+                        <button class="regular-button">Cancel</button>
+                    </a>
+               </div>
             </form>
-            <a href="/employees">
-                <button class="regular-button">Cancel</button>
-            </a>
         </div>
     </div>
 </x-layout>

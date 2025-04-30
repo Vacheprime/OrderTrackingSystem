@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/payments.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<script src="{{ asset('js/tables.js') }}"></script>
 
 <x-layout title="Payment Management">
     <h1 class="content-title">PAYMENT MANAGEMENT</h1>

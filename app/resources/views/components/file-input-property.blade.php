@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
 @props(['labelText' => "Fabrication Plan Image", 'name' => "default", 'isLabel' => true])
 
 <div class="file-input-property-div">
@@ -9,8 +12,6 @@
         <img alt="Inserted Image" id="insertedImage-image" class="insertedImage-image" hidden src="#">
     </a>
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 
 <script>
    const fileInput = document.getElementById("insertedImage-input");

@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
-
 <x-layout title="Create Order">
-    <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
+
+        
             <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
             <h2>Create Order</h2>
             <form action="/orders/store" class="create-edit-form">
@@ -43,7 +43,9 @@
                         <textarea id="productNotes-input" placeholder="Product Notes"></textarea>
                     </div>
 
-                    <x-file-input-property labelText="Fabrication Plan Image" name="fabrication-image"/>
+                    <div class="image-upload">
+                        <x-file-input-property labelText="Fabrication Plan Image" name="fabrication-image"/>
+                    </div>
 
                     <div class="action-input-div">
                         <input class="regular-button" type="submit" value="Create"/>

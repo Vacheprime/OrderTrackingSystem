@@ -7,7 +7,7 @@
             <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
             <h2>Edit Order</h2>
             <form action="/orders/store" class="create-edit-form">
-            <div class="details-div">
+                <div class="details-div">
                     <x-text-input-property labelText="Client ID" name="client-id" />
                     <x-text-input-property labelText="Measured By(Initials)" name="measured-by" />
                     <x-text-input-property labelText="Reference Number" name="reference-number" />

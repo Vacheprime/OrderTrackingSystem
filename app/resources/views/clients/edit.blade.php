@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
-<x-layout>
+
+<x-layout title="Edit Client">
     <div class="layout-container">
         <div class="main-content">
             <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
@@ -18,6 +19,7 @@
                     <x-text-input-property labelText="Province" name="province" />
                     <x-text-input-property labelText="Area (Neighborhood)" name="area" />
                 </div>
+                
                 <div class="action-input-div">
                     <input class="regular-button" type="submit" value="Save" />
                     <a href="/clients">
