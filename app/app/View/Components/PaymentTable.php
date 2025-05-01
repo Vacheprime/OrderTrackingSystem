@@ -21,6 +21,6 @@ class PaymentTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.payment-table');
+        return view('components.tables.payment-table');
     }
 }

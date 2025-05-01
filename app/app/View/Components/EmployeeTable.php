@@ -21,6 +21,6 @@ class EmployeeTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.employee-table');
+        return view('components.tables.employee-table');
     }
 }

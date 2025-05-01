@@ -21,6 +21,6 @@ class OrderTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.order-table');
+        return view('components.tables.order-table');
     }
 }
