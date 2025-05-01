@@ -22,7 +22,7 @@
     align-self: center;
 }
 
-.select-input-property-div select{
+.select-input-property-div select {
     margin-left: 5px;
     align-self: flex-end;
 }
@@ -42,11 +42,11 @@
 
 .side-content-scrollable p:nth-child(17),
 .side-content-scrollable p:nth-child(18),
-.side-content-scrollable p:nth-child(19){
-    border:none;
+.side-content-scrollable p:nth-child(19) {
+    border: none;
 }
 
-.side-content-scrollable p:nth-child(17) img{
+.side-content-scrollable p:nth-child(17) img {
     border: 2px solid black;
     width: 227px;
     height: 151px;
@@ -101,15 +101,15 @@
     justify-content: flex-start;
 }
 
-.details-div:nth-of-type(2){
+.details-div:nth-of-type(2) {
     column-gap: 60px;
     row-gap: 10px;
     display: flex;
     flex-direction: row;
-    justify-content:flex-start;
+    justify-content: flex-start;
 }
 
-.details-div:nth-of-type(3){
+.details-div:nth-of-type(3) {
     align-self: center;
     column-gap: 60px;
     row-gap: 10px;
@@ -131,11 +131,11 @@
     align-self: flex-start;
 }
 
-.create-edit-form .select-input-property-div label{
+.create-edit-form .select-input-property-div label {
     align-self: flex-start;
 }
 
-.create-edit-form .select-input-property-div select{
+.create-edit-form .select-input-property-div select {
     margin: 0;
     border-color: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
@@ -161,19 +161,19 @@
 
 
 
- .file-input-property-div {
+.file-input-property-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-self: center;
 }
 
-.file-input-property-div label{
+.file-input-property-div label {
     margin: 0;
     margin-top: -10;
 }
 
-.file-input-property-div input{
+.file-input-property-div input {
     display: flex;
     align-self: center;
     justify-content: center;
@@ -205,7 +205,7 @@
     justify-content: center;
 }
 
-.createClient{
+.createClient {
     margin-left: -160px;
     margin-bottom: -220px;
     font-size: 8px;
@@ -214,7 +214,8 @@
 .textarea-group {
     display: flex;
     flex-direction: column;
-    width: 25%; /* Adjust based on your layout needs */
+    width: 25%;
+    /* Adjust based on your layout needs */
     margin-bottom: 15px;
 }
 
@@ -222,9 +223,11 @@ textarea {
     width: 100%;
     min-height: 150px;
     max-height: 150px;
-    border-radius: 5px; /* Rounded corners */
+    border-radius: 5px;
+    /* Rounded corners */
     padding: 8px;
-    resize: vertical; /* Allows vertical resizing */
+    resize: vertical;
+    /* Allows vertical resizing */
 }
 
 .image-upload {
@@ -236,3 +239,17 @@ textarea {
     justify-content: center;
 }
 
+.status.measuring,
+.status.ordering_material,
+.status.fabricating {
+    color: red;
+}
+
+.status.ready_to_handover {
+    color: blue;
+}
+
+.status.installed,
+.status.picked_up {
+    color: green;
+}
