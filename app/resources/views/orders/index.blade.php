@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <script src="{{ asset('js/tables.js') }}"></script>
 
-<x-layout>
+<x-layout title="Order Management">
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
