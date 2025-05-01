@@ -21,6 +21,6 @@ class SelectInputProperty extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.select-input-property');
+        return view('components.inputs.select-input-property');
     }
 }
