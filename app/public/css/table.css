@@ -1,0 +1,89 @@
+
+.table-header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.table-header a  {
+    align-self: center;
+}
+
+.search-form {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+}
+
+.search-form > * {
+    margin: 0 5px;
+}
+
+.search-table-div {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.search-table {
+    width: 100%;
+    height: min-content;
+}
+
+.search-table > thead {
+    width: 100%;
+}
+
+.search-table th {
+   text-align: start;
+}
+
+.table-header button{
+    align-self: center;
+}
+
+/* TABLE */
+.search-table {
+    margin-top: 1%;
+}
+
+.search-table thead tr th{
+    text-align: center;
+    font-weight: 500;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+
+.search-table thead th{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.search-table tbody tr td {
+    padding: 2px;
+    margin: 10%;
+    font-size: 15px;
+}
+
+.search-table tbody tr {
+   background-color: rgba(128, 128, 128, 0.1);
+}
+
+.search-table tbody tr.active {
+    background-color: rgb(225, 218, 207);
+}
+
+.search-table tbody tr.inactive {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.search-table  {
+    border-collapse: separate;
+    border-spacing: 2px 5px;
+    border-color: black;
+}
