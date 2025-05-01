@@ -64,32 +64,32 @@
             </table>
         </div>
         @if(!empty($orders))
-        <div id="orders-side-content" class="side-content">
-            <h2>ORDER DETAILS</h2>
-            <hr>
-            <div class="side-content-scrollable">
-                <h3><b>ORDER ID:</b><span>#</span></h3>
-                <p><b>Client id:</b><span>#</span></p>
-                <p><b>Measured By:</b><span>#</span></p>
-                <p><b>Reference Number:</b><span>#</span></p>
-                <p><b>Invoice Number:</b><span>#</span></p>
-                <p><b>Total Price:</b><span>#</span></p>
-                <p><b>Status:</b><span>#</span></p>
-                <p><b>Fabrication Start Date:</b><span>#</span></p>
-                <p><b>Installation Start Date:</b><span>#</span></p>
-                <p><b>Pick Up Date:</b><span>#</span></p>
-                <p><b>Material Name:</b><span>#</span></p>
-                <p><b>Slab Height:</b><span>#</span></p>
-                <p><b>Slab Width:</b><span>#</span></p>
-                <p><b>Slab Thickness:</b><span>#</span></p>
-                <p><b>Slab Square Footage:</b><span>#</span></p>
-                <p><b>Sink Type:</b><span>#</span></p>
-                <p><b>Fabrication Plan Image:</b><img src="" id="fabPLanImg" /></p>
-                <p><b>Product Description:</b><textarea placeholder="Product Description"></textarea></p>
-                <p><b>Product Notes:</b><textarea placeholder="Product Notes"></textarea></p>
+            <div id="orders-side-content" class="side-content">
+                <h2>ORDER DETAILS</h2>
+                <hr>
+                <div class="side-content-scrollable">
+                    <h3><b>ORDER ID:</b><span>#</span></h3>
+                    <p><b>CLIENT ID:</b><span>#</span></p>
+                    <p><b>Measured By:</b><span>#</span></p>
+                    <p><b>Reference Number:</b><span>#</span></p>
+                    <p><b>Invoice Number:</b><span>#</span></p>
+                    <p><b>Total Price:</b><span>#</span></p>
+                    <p><b>Status:</b><span>#</span></p>
+                    <p><b>Fabrication Start Date:</b><span>#</span></p>
+                    <p><b>Installation Start Date:</b><span>#</span></p>
+                    <p><b>Pick Up Date:</b><span>#</span></p>
+                    <p><b>Material Name:</b><span>#</span></p>
+                    <p><b>Slab Height:</b><span>#</span></p>
+                    <p><b>Slab Width:</b><span>#</span></p>
+                    <p><b>Slab Thickness:</b><span>#</span></p>
+                    <p><b>Slab Square Footage:</b><span>#</span></p>
+                    <p><b>Sink Type:</b><span>#</span></p>
+                    <p><b>Fabrication Plan Image:</b><img src="" id="fabPLanImg"/></p>
+                    <p><b>Product Description:</b><textarea placeholder="Product Description"></textarea></p>
+                    <p><b>Product Notes:</b><textarea placeholder="Product Notes"></textarea></p>
+                </div>
+                <a href="/orders/{{$order->getOrderId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
-            <a href="/orders/edit"><button class="regular-button" onclick="">Edit</button></a>
-        </div>
         @endif
     </div>
 </x-layout>

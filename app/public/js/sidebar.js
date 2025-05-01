@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Highlight the active sidebar link
     const currentPath = window.location.pathname;
     document.querySelectorAll("#sidebar .nav-link").forEach((link) => {
-        if (link.href.includes(currentPath)) {
+        if (currentPath.startsWith(new URL(link.href).pathname)) {
             link.classList.add("nav-link-active");
         } else {
             link.classList.remove("nav-link-active");

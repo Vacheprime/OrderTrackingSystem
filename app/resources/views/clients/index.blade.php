@@ -10,12 +10,12 @@
                 <form class="search-form" action="" method="POST">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="client-id" selected>Area</option>
-                        <option value="first-name">First Name</option>
-                        <option value="last-name">Last Name</option>
-                        <option value="last-name">ClientID</option>
-                    </x-select-input-property>
+                        <x-select-input-property labelText="Search By" name="search-by">
+                            <option value="client-id" selected>Area</option>
+                            <option value="first-name">First Name</option>
+                            <option value="last-name">Last Name</option>
+                            <option value="last-name">ClientID</option>
+                        </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
                 </form>
@@ -73,7 +73,7 @@
                     <p><b>Province:</b><span>#</span></p>
                     <p><b>Area (Neighborhood):</b><span>#</span></p>
                 </div>
-                <a href="/clients/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a href="/clients/{{$client->getClientId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

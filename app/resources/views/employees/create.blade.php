@@ -17,12 +17,12 @@
                     <x-text-input-property labelText="Last Name" name="last-name"/>
                     <x-text-input-property labelText="Email" name="last-name"/>
                     <x-text-input-property labelText="Phone Number" name="phone-number"/>
-                    <x-date-input-property labelText="Hired Date" name="hire-date" />
                     <x-text-input-property labelText="Address" name="address"/>
+                    <x-date-input-property labelText="Hired Date" name="hire-date" />
+                    <x-text-input-property labelText="Position" name="position"/>
                     <x-text-input-property labelText="Postal Code" name="postal-code"/>
                     <x-text-input-property labelText="City" name="city"/>
                     <x-text-input-property labelText="Province" name="province"/>
-                    <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
                 </div>
 
                 <div class="action-input-div">

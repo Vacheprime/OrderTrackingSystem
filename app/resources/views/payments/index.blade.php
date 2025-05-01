@@ -59,7 +59,7 @@
                     <p><b>Type:</b><span>#</span></p>
                     <p><b>Method:</b><span>#</span></p>
                 </div>
-                <a href="/payments/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a href="/payments/{{$payment->getPaymentId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

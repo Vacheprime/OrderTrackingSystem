@@ -15,17 +15,6 @@
 }
 
 /* COMPONENTS */
-.select-input-property-div {
-    font-size: 15px;
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-}
-
-.select-input-property-div select {
-    margin-left: 5px;
-    align-self: flex-end;
-}
 
 /* SIDE CONTENT*/
 /* .side-content-scrollable h3{
@@ -159,8 +148,6 @@
     /* width: 100%; */
 }
 
-
-
 .file-input-property-div {
     display: flex;
     flex-direction: column;
@@ -215,7 +202,6 @@
     display: flex;
     flex-direction: column;
     width: 25%;
-    /* Adjust based on your layout needs */
     margin-bottom: 15px;
 }
 
@@ -224,10 +210,8 @@ textarea {
     min-height: 150px;
     max-height: 150px;
     border-radius: 5px;
-    /* Rounded corners */
     padding: 8px;
     resize: vertical;
-    /* Allows vertical resizing */
 }
 
 .image-upload {
@@ -242,7 +226,7 @@ textarea {
 .status.measuring,
 .status.ordering_material,
 .status.fabricating {
-    color: red;
+    color: red; 
 }
 
 .status.ready_to_handover {
@@ -251,5 +235,5 @@ textarea {
 
 .status.installed,
 .status.picked_up {
-    color: green;
+    color: green; 
 }
