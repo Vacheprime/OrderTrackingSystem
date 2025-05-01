@@ -73,7 +73,7 @@
                     <p><b>Province:</b><span>#</span></p>
                     <p><b>Area (Neighborhood):</b><span>#</span></p>
                 </div>
-                <a href="/clients/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a href="/clients/{{$client->getClientId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

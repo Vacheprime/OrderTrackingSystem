@@ -86,7 +86,7 @@
                     <p><b>Product Description:</b><textarea placeholder="Product Description"></textarea></p>
                     <p><b>Product Notes:</b><textarea placeholder="Product Notes"></textarea></p>
                 </div>
-                <a href="/orders/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a href="/orders/{{$order->getOrderId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>
