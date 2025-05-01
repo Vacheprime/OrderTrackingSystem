@@ -71,7 +71,7 @@
                     <p><b>Province:</b><span>#</span></p>
                     <p><b>Account Status:</b><span>#</span></p>
                 </div>
-                <a href="/employees/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a href="/employees/{{$employee->getEmployeeId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>
