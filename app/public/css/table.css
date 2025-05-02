@@ -60,9 +60,9 @@
     background-color: rgba(128, 128, 128, 0.2);
 }
 
-.search-table thead th{
+/* .search-table thead th{
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
+} */
 
 .search-table tbody tr td {
     padding: 2px;

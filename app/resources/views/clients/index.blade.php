@@ -10,12 +10,12 @@
                 <form class="search-form" action="" method="POST">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="client-id" selected>Area</option>
-                        <option value="first-name">First Name</option>
-                        <option value="last-name">Last Name</option>
-                        <option value="last-name">ClientID</option>
-                    </x-select-input-property>
+                        <x-select-input-property labelText="Search By" name="search-by">
+                            <option value="client-id" selected>Area</option>
+                            <option value="first-name">First Name</option>
+                            <option value="last-name">Last Name</option>
+                            <option value="last-name">ClientID</option>
+                        </x-select-input-property>
 
                     <button class="regular-button" onclick="">Search</button>
                 </form>

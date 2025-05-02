@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
-<x-login-layout>
+<x-login-layout title="Login">
     <div id="login-content" class="main-content">
         <h1>Login</h1>
         <form class="login-form" action="" method="POST">

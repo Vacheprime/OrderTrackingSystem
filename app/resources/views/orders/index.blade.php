@@ -2,13 +2,13 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <script src="{{ asset('js/tables.js') }}"></script>
 
-<x-layout>
+<x-layout title="Order Management">
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
             <div class="table-header">
                 <form class="search-form" action="" method="POST">
-                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
+                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
 
                     <x-select-input-property labelText="Search By" name="search-by">
                         <option value="order-id" selected>OrderID</option>
@@ -29,34 +29,36 @@
             </div>
             <table class="search-table">
                 <thead>
-                <tr>
-                    <th>OrderID</th>
-                    <th>ClientID</th>
-                    <th>Reference Number</th>
-                    <th>Measured by</th>
-                    <th>Fabrication start date</th>
-                    <th>Status</th>
-                </tr>
+                    <tr>
+                        <th>OrderID</th>
+                        <th>ClientID</th>
+                        <th>Reference Number</th>
+                        <th>Measured by</th>
+                        <th>Fabrication start date</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody id="orders-tbody">
                     @forelse($orders as $order)
-                        <tr onclick="">
-                            <td>{{$order->getOrderId()}}</td>
-                            <td>{{$order->getClient()->getClientId()}}</td>
-                            <td>{{$order->getReferenceNumber()}}</td>
-                            <td>{{$order->getMeasuredBy()->getInitials()}}</td>
-                            <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y -m -d")}}</td>
-                            <td>{{$order->getStatus()->value}}</td>
-                        </tr>
+                    <tr onclick="">
+                        <td>{{$order->getOrderId()}}</td>
+                        <td>{{$order->getClient()->getClientId()}}</td>
+                        <td>{{$order->getReferenceNumber()}}</td>
+                        <td>{{$order->getMeasuredBy()->getInitials()}}</td>
+                        <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y -m -d")}}</td>
+                        <td class="status {{ strtolower($order->getStatus()->value) }}">
+                            {{$order->getStatus()->value}}
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                        </tr>
+                    <tr>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                        <td>Empty</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

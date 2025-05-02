@@ -11,6 +11,7 @@
 /* .side-content-scrollable h3 {
     font-size: 20px;
 } */
+
 /* 
 .side-content-scrollable b {
     font-weight: 400;
@@ -87,4 +88,21 @@
 
 .action-input-div input {
     margin-right: 1%;
+}
+
+.annoying-select .select-input-property-div {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.annoying-select .select-input-property-div label {
+    align-self: flex-start;
+}
+
+.annoying-select .select-input-property-div select {
+    margin: 0;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    height: 25px;
 }

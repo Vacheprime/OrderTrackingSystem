@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/payments.css') }}">
+<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 
 <x-layout title="Edit Payment">
     <div class="layout-container">

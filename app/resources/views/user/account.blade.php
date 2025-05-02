@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/account.css') }}">
 
-<x-layout>
+<x-layout title="Account">
     <h1 class="content-title">ACCOUNT</h1>
     <div class="content-container">
     <div id="account-content" class="main-content">

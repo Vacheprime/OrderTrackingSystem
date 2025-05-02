@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Settings">
     <h1 class="content-title">SETTINGS</h1>
     <div class="content-container">
         <div id="settings-content" class="main-content">

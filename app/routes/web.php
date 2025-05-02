@@ -1,10 +1,21 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+
+// ORDER TRACKING FOR CLIENTS
+
+Route::get('/tracking', function () {
+    return view('tracking.order-input');
+});
+
+Route::get('/tracking/display', function (Request $request) {
+    return view('tracking.order-display');
+});
 
 // LOGINS
 Route::get('/', function () {
