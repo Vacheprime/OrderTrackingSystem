@@ -13,11 +13,12 @@
                     <x-text-input-property labelText="Invoice Number" name="invoice-number" />
                     <x-text-input-property labelText="Total Price" name="total-price" />
                     <x-select-input-property labelText="Status" name="order-status">
-                        <option value="confirmedMsNotReady" selected>Confirmed ms not ready</option>
-                        <option value="confirmedMsReady">Confirmed ms ready</option>
-                        <option value="readyForMs">Ready for ms</option>
-                        <option value="pickedUp">Picked up</option>
+                        <option value="measuring" selected>Measuring</option>
+                        <option value="ordering_material">Ordering material</option>
+                        <option value="fabricating">Fabricating</option>
+                        <option value="ready_for_handover">Ready for handover</option>
                         <option value="installed">Installed</option>
+                        <option value="picked_up">Picked up</option>
                     </x-select-input-property>
                     <div class="image-upload">
                             <x-file-input-property labelText="Fabrication Plan Image" name="fabrication-image"/>
@@ -61,7 +62,7 @@
 </x-layout>
 
 
-<!-- ********************************************************************************* DO NOT DELETE THE FOLLOWING CODE, THIS IS THE EDIT ORDER PAGE IBRAHIM VERSION, WHILE WHAT IS ABOVE IS ALEXANDRU OLD VERSION BUT KIND OF UPDATED *********************************************************************************
+<!-- ********************************************************************************* DO NOT DELETE THE FOLLOWING CODE, THIS IS THE EDIT ORDER PAGE IBRAHIM VERSION, WHILE WHAT IS ABOVE IS ALEXANDRU OLD VERSION BUT UPDATED *********************************************************************************
 
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <x-layout title="Edit Order">
