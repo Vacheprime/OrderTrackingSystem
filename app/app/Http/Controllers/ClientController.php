@@ -46,8 +46,13 @@ class ClientController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $orders = $this->repository->retrievePaginated(10, $page);
-        return view('clients.index')->with('clients', $orders->items());
+        $clients = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.client-table')->with('clients', $clients->items());
+        }
+
+        return view('clients.index')->with('clients', $clients->items());
     }
 
     /**

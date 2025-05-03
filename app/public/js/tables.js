@@ -1,4 +1,3 @@
-
 function changeOrderDetails(orderIdString) {
     const url = new URL(window.location.href);
     url.searchParams.set('orderId', orderIdString.substring(orderIdString.lastIndexOf("-") + 1));
@@ -8,27 +7,28 @@ function changeOrderDetails(orderIdString) {
             'x-change-details': true,
         }
     }).then(response => response.json())
-      .then(order => {
-          document.getElementById("detail-order-id").innerText = order.objectId;
-          document.getElementById("detail-client-id").innerText = order.clientId;
-          document.getElementById("detail-measured-by").innerText = order.measuredBy;
-          document.getElementById("detail-reference-number").innerText = order.referenceNumber;
-          // document.getElementById("detail-invoice-number").innerText = order.invoiceNumber;
-          document.getElementById("detail-total-price").innerText = order.totalPrice;
-          document.getElementById("detail-status").innerText = order.orderStatus;
-          document.getElementById("detail-fabrication-start-date").innerText = order.fabricationStartDate;
-          document.getElementById("detail-installation-start-date").innerText = order.installationStartDate;
-          document.getElementById("detail-pick-up-date").innerText = order.pickUpDate;
-          // document.getElementById("detail-material-name").innerText = order.materialName;
-          // document.getElementById("detail-slab-height").innerText = order.slabHeight;
-          // document.getElementById("detail-slab-width").innerText = order.slabWidth;
-          // document.getElementById("detail-slab-height").innerText = order.slabHeight;
-          // document.getElementById("slab-thickness").innerText = order.slabThickness;
-          // document.getElementById("detail-slab-square-footage").innerText = order.slabSquareFootage;
-          // document.getElementById("detail-fabrication-plan-image").attributes.setNamedItem("src", order.fabricationPlanImage);
-          // document.getElementById("detail-product-description").innerText = order.productDescription;
-          // document.getElementById("detail-product-notes").innerText = order.productNotes;
-      });
+        .then(order => {
+            document.getElementById("detail-edit-btn").href = `/orders/${order.orderId}/edit`;
+            document.getElementById("detail-order-id").innerText = order.orderId;
+            document.getElementById("detail-client-id").innerText = order.clientId;
+            document.getElementById("detail-measured-by").innerText = order.measuredBy;
+            document.getElementById("detail-reference-number").innerText = order.referenceNumber;
+            // document.getElementById("detail-invoice-number").innerText = order.invoiceNumber;
+            document.getElementById("detail-total-price").innerText = order.totalPrice;
+            document.getElementById("detail-status").innerText = order.orderStatus;
+            document.getElementById("detail-fabrication-start-date").innerText = order.fabricationStartDate;
+            document.getElementById("detail-installation-start-date").innerText = order.installationStartDate;
+            document.getElementById("detail-pick-up-date").innerText = order.pickUpDate;
+            // document.getElementById("detail-material-name").innerText = order.materialName;
+            // document.getElementById("detail-slab-height").innerText = order.slabHeight;
+            // document.getElementById("detail-slab-width").innerText = order.slabWidth;
+            // document.getElementById("detail-slab-height").innerText = order.slabHeight;
+            // document.getElementById("slab-thickness").innerText = order.slabThickness;
+            // document.getElementById("detail-slab-square-footage").innerText = order.slabSquareFootage;
+            // document.getElementById("detail-fabrication-plan-image").attributes.setNamedItem("src", order.fabricationPlanImage);
+            // document.getElementById("detail-product-description").innerText = order.productDescription;
+            // document.getElementById("detail-product-notes").innerText = order.productNotes;
+        });
 }
 
 function changeClientDetails(clientIdString) {
@@ -41,6 +41,7 @@ function changeClientDetails(clientIdString) {
         }
     }).then(response => response.json())
         .then(client => {
+            document.getElementById("detail-edit-btn").href = `/clients/${client.clientId}/edit`;
             document.getElementById("detail-client-id").innerText = client.clientId;
             document.getElementById("detail-first-name").innerText = client.firstName;
             document.getElementById("detail-last-name").innerText = client.lastName;
@@ -64,6 +65,7 @@ function changeEmployeeDetails(employeeIdString) {
         }
     }).then(response => response.json())
         .then(employee => {
+            document.getElementById("detail-edit-btn").href = `/employees/${employee.employeeId}/edit`;
             document.getElementById("detail-employee-id").innerText = employee.employeeId;
             document.getElementById("detail-initials").innerText = employee.initials;
             document.getElementById("detail-first-name").innerText = employee.firstName;
@@ -77,7 +79,7 @@ function changeEmployeeDetails(employeeIdString) {
             document.getElementById("detail-city").innerText = employee.city;
             document.getElementById("detail-province").innerText = employee.province;
             document.getElementById("detail-account-status").innerText = employee.accountStatus;
-  });
+        });
 }
 
 
@@ -91,6 +93,7 @@ function changePaymentDetails(paymentIdString) {
         }
     }).then(response => response.json())
         .then(payment => {
+            document.getElementById("detail-edit-btn").href = `/payments/${payment.paymentId}/edit`;
             document.getElementById("detail-payment-id").innerText = payment.paymentId;
             document.getElementById("detail-order-id").innerText = payment.orderId;
             document.getElementById("detail-payment-date").innerText = payment.paymentDate;
@@ -101,42 +104,81 @@ function changePaymentDetails(paymentIdString) {
 }
 
 
-
-/* The following method is simply for refreshing the table based on the filters and search inputs*/
-function resetClientTable() {
+function refreshOrderTable() {
     const url = new URL(window.location.href);
-    // /clients/filterby/{filterby}/searchby/{searchby}/searchinput/{searchinput}/selectedid/{selectedid}
-    url.searchParams.set('value', document.getElementById("select-input").value);
-    url.searchParams.set('value', document.getElementById("search-by").value);
-    url.searchParams.set('value', document.getElementById("filter-by").value);
+    url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
+    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
 
-    fetch (url, {
+    fetch(url, {
         headers: {
-            // in web.php include a thing that returns only the table when refreshes.
-            // https://youtu.be/Fuz-jLIo2g8?si=S4ZrQbpS6BIPviq3&t=320
-            'x-refresh': true
+            'x-refresh-table': true,
         }
-    })
-        .then(response => response.text)
+    }).then(response => response.text())
         .then(text => {
-            document.getElementById('value').innerHTML = text;
-            initializeRowClickEvents(); // Reinitialize row click events
+            window.history.pushState({}, '', url);
+            document.querySelector(".search-table-div").innerHTML = text;
+            initializeOrderRowClickEvents();
+            highlightOrderFirstRow();
+        });
+}
+
+function refreshClientTable() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
+    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+
+    fetch(url, {
+        headers: {
+            'x-refresh-table': true,
+        }
+    }).then(response => response.text())
+        .then(text => {
+            print()
+            document.querySelector(".search-table-div").innerHTML = text;
+            initializeClientRowClickEvents();
+            highlightClientFirstRow()
             window.history.pushState({}, '', url);
         });
 }
 
-function selectClientEntry(clientid) {
+
+function refreshEmployeeTable() {
     const url = new URL(window.location.href);
-    url.searchParams.set('value', clientid)
-    fetch (url, {
+    url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
+    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+
+    fetch(url, {
         headers: {
-            // in web.php include a thing that returns only the table when refreshes.
-            'x-clicked':true
+            'x-refresh-table': true,
         }
-    })
-        .then(response => response.text)
+    }).then(response => response.text())
         .then(text => {
-            document.getElementById('value').innerHTML = text;
+            document.querySelector(".search-table-div").innerHTML = text;
+            initializeEmployeeRowClickEvents();
+            highlightEmployeeFirstRow();
+            window.history.pushState({}, '', url);
+        });
+}
+
+
+function refreshPaymentTable() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
+    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+
+    fetch(url, {
+        headers: {
+            'x-refresh-table': true,
+        }
+    }).then(response => response.text())
+        .then(text => {
+            document.querySelector(".search-table-div").innerHTML = text;
+            initializePaymentRowClickEvents();
+            highlightPaymentFirstRow();
             window.history.pushState({}, '', url);
         });
 }
@@ -172,6 +214,7 @@ function initializeClientRowClickEvents() {
         });
     });
 }
+
 function initializePaymentRowClickEvents() {
     document.querySelectorAll('.search-table tbody tr').forEach((row) => {
         row.addEventListener('click', function () {
@@ -180,6 +223,7 @@ function initializePaymentRowClickEvents() {
         });
     });
 }
+
 function initializeEmployeeRowClickEvents() {
     document.querySelectorAll('.search-table tbody tr').forEach((row) => {
         row.addEventListener('click', function () {

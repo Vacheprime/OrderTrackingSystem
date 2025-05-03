@@ -51,6 +51,11 @@ class EmployeeController extends Controller
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
         $employees = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.employee-table')->with('employees', $employees->items());
+        }
+
         return view('employees.index')->with('employees', $employees->items());
     }
 

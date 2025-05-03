@@ -14,45 +14,20 @@
     <div class="content-container">
         <div id="payments-content" class="main-content">
             <div class="table-header">
-                <form class="search-form" action="" method="POST">
+                <form class="search-form" action="" method="GET">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                     <x-select-input-property labelText="Search By" name="search-by">
                         <option value="payment-id" selected>Payment ID</option>
                         <option value="order-id">Order ID</option>
                     </x-select-input-property>
-
-                    <button class="regular-button" onclick="">Search</button>
                 </form>
+                <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
                 <a href="/payments/create"><button class="regular-button">Create</button></a>
             </div>
-            <table class="search-table">
-                <thead>
-                <tr>
-                    <th>PaymentID</th>
-                    <th>OrderID</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                </tr>
-                </thead>
-                <tbody id="payments-tbody">
-                @forelse($payments as $payment)
-                    <tr id="payment-id-{{$payment->getPaymentId()}}" onclick="">
-                        <td>{{$payment->getPaymentId()}}</td>
-                        <td>{{$payment->getOrder()->getOrderId()}}</td>
-                        <td>{{$payment->getPaymentDate() == null ? "null" : $payment->getPaymentDate()->format("Y -m -d")}}</td>
-                        <td>{{$payment->getAmount()}}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
+            <div class="search-table-div">
+                <x-payment-table :payments="$payments"/>
+            </div>
         </div>
         @if(!empty($payments))
             <div id="payments-side-content" class="side-content">
@@ -66,7 +41,7 @@
                     <p><b>Type:</b><span id="detail-type">#</span></p>
                     <p><b>Method:</b><span id="detail-method">#</span></p>
                 </div>
-                <a href="/payments/{{$payment->getPaymentId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

@@ -14,7 +14,7 @@
     <div class="content-container">
         <div id="orders-content" class="main-content">
             <div class="table-header">
-                <form class="search-form" action="" method="POST">
+                <form class="search-form" action="" method="GET">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
 
                     <x-select-input-property labelText="Search By" name="search-by">
@@ -24,52 +24,18 @@
                         <option value="name">Name</option>
                     </x-select-input-property>
 
-                    <x-select-input-property labelText="Filter By" name="filter-by">
+                    <x-select-input-property labelText="Filter By" name="order-by">
                         <option value="newest" selected>Newest</option>
                         <option value="oldest">Oldest</option>
                         <option value="status">Status</option>
                     </x-select-input-property>
-
-                    <button class="regular-button" onclick="">Search</button>
                 </form>
+                <button class="regular-button" onclick="refreshOrderTable()">Search</button>
                 <a href="/orders/create"><button class="regular-button">Create</button></a>
             </div>
-            <table class="search-table">
-                <thead>
-                    <tr>
-                        <th>OrderID</th>
-                        <th>ClientID</th>
-                        <th>Reference Number</th>
-                        <th>Measured by</th>
-                        <th>Fabrication start date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-tbody">
-                    @forelse($orders as $order)
-                    <tr id="order-id-{{$order->getOrderId()}}" onclick="">
-                        <td>{{$order->getOrderId()}}</td>
-{{--                        <td>{{$order->getInvoiceNumber() == null ? "null" : "null"}}</td>--}}
-                        <td>{{$order->getClient()->getClientId()}}</td>
-                        <td>{{$order->getReferenceNumber()}}</td>
-                        <td>{{$order->getMeasuredBy()->getInitials()}}</td>
-                        <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y -m -d")}}</td>
-                        <td class="status {{ strtolower($order->getStatus()->value) }}">
-                            {{$order->getStatus()->value}}
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+            <div class="search-table-div">
+                <x-order-table :orders="$orders"/>
+            </div>
         </div>
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
@@ -96,7 +62,7 @@
                     <p><b>Product Description:</b><textarea placeholder="Product Description" id="detail-product-description"></textarea></p>
                     <p><b>Product Notes:</b><textarea placeholder="Product Notes" id="detail-product-notes"></textarea></p>
                 </div>
-                <a href="/orders/{{$order->getOrderId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

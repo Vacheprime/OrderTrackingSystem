@@ -29,7 +29,7 @@ class OrderController extends Controller
             $orderId = $request->input("orderId");
             $order = $this->repository->find($orderId);
             return json_encode(array(
-                "objectId" => $order->getOrderId(),
+                "orderId" => $order->getOrderId(),
                 "clientId"=> $order->getClient()->getClientId(),
                 "measuredBy"=> $order->getMeasuredBy()->getInitials(),
                 "referenceNumber"=> $order->getReferenceNumber(),
@@ -50,12 +50,15 @@ class OrderController extends Controller
             ));
         }
 
-
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
         $orders = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.order-table')->with('orders', $orders->items());
+        }
         return view('orders.index')->with('orders', $orders->items());
     }
 

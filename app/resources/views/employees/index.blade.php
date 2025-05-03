@@ -14,7 +14,7 @@
     <div class="content-container">
         <div id="employees-content" class="main-content">
             <div class="table-header">
-                <form class="search-form" action="" method="POST">
+                <form class="search-form" action="" method="GET">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                     <x-select-input-property labelText="Search By" name="search-by">
@@ -24,40 +24,14 @@
                         <option value="last-name">Position</option>
                     </x-select-input-property>
 
-                    <button class="regular-button" onclick="">Search</button>
+
                 </form>
+                <button class="regular-button" onclick="refreshEmployeeTable()">Search</button>
                 <a href="/employees/create"><button class="regular-button">Create</button></a>
             </div>
-            <table class="search-table">
-                <thead>
-                <tr>
-                    <th>EmployeeID</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Email</th>
-                    <th>Phone number</th>
-                </tr>
-                </thead>
-                <tbody id="employees-tbody">
-                @forelse($employees as $employee)
-                    <tr id="employee-id-{{$employee->getEmployeeId()}}" onclick="">
-                        <td>{{$employee->getEmployeeId()}}</td>
-                        <td>{{$employee->getFirstName()}}</td>
-                        <td>{{$employee->getLastName()}}</td>
-                        <td>{{$employee->getAccount()->getEmail()}}</td>
-                        <td>{{$employee->getPhoneNumber()}}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                        <td>Empty</td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
+            <div class="search-table-div">
+                <x-employee-table :employees="$employees"/>
+            </div>
         </div>
         @if(!empty($employees))
             <div id="employees-side-content" class="side-content">
@@ -78,7 +52,7 @@
                     <p><b>Province:</b><span id="detail-province">#</span></p>
                     <p><b>Account Status:</b><span id="detail-account-status">#</span></p>
                 </div>
-                <a href="/employees/{{$employee->getEmployeeId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>

@@ -12,7 +12,7 @@
         <th>Area</th>
     </tr>
     </thead>
-    <tbody id="orders-tbody">
+    <tbody id="clients-tbody">
     @forelse($clients as $client)
         <tr id="client-id-{{$client->getClientId()}}" onclick="">
             <td>{{$client->getClientId()}}</td>

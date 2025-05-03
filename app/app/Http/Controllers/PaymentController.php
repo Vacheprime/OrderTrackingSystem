@@ -43,6 +43,11 @@ class PaymentController extends Controller
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
         $payments = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.payment-table')->with('payments', $payments->items());
+        }
+
         return view('payments.index')->with('payments', $payments->items());
     }
 

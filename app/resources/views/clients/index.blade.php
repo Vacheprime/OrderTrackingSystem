@@ -14,7 +14,7 @@
     <div class="content-container">
         <div id="clients-content" class="main-content">
             <div class="table-header">
-                <form class="search-form" action="" method="POST">
+                <form class="search-form" action="" method="GET">
                     <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                         <x-select-input-property labelText="Search By" name="search-by">
@@ -23,48 +23,15 @@
                             <option value="last-name">Last Name</option>
                             <option value="last-name">ClientID</option>
                         </x-select-input-property>
-
-                    <button class="regular-button" onclick="">Search</button>
                 </form>
+                <button class="regular-button" onclick="refreshClientTable()">Search</button>
                 <a href="/clients/create"><button class="regular-button">Create</button></a>
             </div>
             <div class="search-table-div">
-                <table class="search-table">
-                    <thead>
-                    <tr>
-                        <th>ClientID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Phone Number</th>
-                        <th>Client Reference #</th>
-                        <th>Phone</th>
-                        <th>Area</th>
-                    </tr>
-                    </thead>
-                    <tbody id="orders-tbody">
-                    @forelse($clients as $client)
-                        <tr id="client-id-{{$client->getClientId()}}" onclick="">
-                            <td>{{$client->getClientId()}}</td>
-                            <td>{{$client->getFirstName()}}</td>
-                            <td>{{$client->getLastName()}}</td>
-                            <td>{{$client->getAddress()->getAddressId() . $client->getAddress()->getStreetName()}}</td>
-                            <td>{{$client->getClientReference()}}</td>
-                            <td>{{$client->getPhoneNumber()}}</td>
-                            <td>{{$client->getAddress()->getArea()}}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                            <td>Empty</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                <x-client-table :clients="$clients"/>
             </div>
         </div>
-        @if(!empty($client))
+        @if(!empty($clients))
             <div id="clients-side-content" class="side-content">
                 <h2>CLIENT DETAILS</h2>
                 <hr>
@@ -80,7 +47,7 @@
                     <p><b>Province:</b><span id="detail-province">#</span></p>
                     <p><b>Area (Neighborhood):</b><span id="detail-area">#</span></p>
                 </div>
-                <a href="/clients/{{$client->getClientId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
+                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
             </div>
         @endif
     </div>
