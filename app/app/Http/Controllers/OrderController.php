@@ -33,7 +33,7 @@ class OrderController extends Controller
                 "clientId"=> $order->getClient()->getClientId(),
                 "measuredBy"=> $order->getMeasuredBy()->getInitials(),
                 "referenceNumber"=> $order->getReferenceNumber(),
-//                "invoiceNumber"=> $order->getInvoiceNumber() ?? "null",
+                "invoiceNumber"=> $order->getInvoiceNumber() ?? "null",
                 "totalPrice"=> $order->getPrice() ?? "null",
                 "orderStatus"=> $order->getStatus(),
                 "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y/m/d") ,

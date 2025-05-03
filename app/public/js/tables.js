@@ -13,7 +13,7 @@ function changeOrderDetails(orderIdString) {
             document.getElementById("detail-client-id").innerText = order.clientId;
             document.getElementById("detail-measured-by").innerText = order.measuredBy;
             document.getElementById("detail-reference-number").innerText = order.referenceNumber;
-            // document.getElementById("detail-invoice-number").innerText = order.invoiceNumber;
+            document.getElementById("detail-invoice-number").innerText = order.invoiceNumber;
             document.getElementById("detail-total-price").innerText = order.totalPrice;
             document.getElementById("detail-status").innerText = order.orderStatus;
             document.getElementById("detail-fabrication-start-date").innerText = order.fabricationStartDate;

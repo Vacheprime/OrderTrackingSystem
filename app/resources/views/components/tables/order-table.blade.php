@@ -15,7 +15,6 @@
     @forelse($orders as $order)
         <tr id="order-id-{{$order->getOrderId()}}" onclick="">
             <td>{{$order->getOrderId()}}</td>
-            {{--                        <td>{{$order->getInvoiceNumber() == null ? "null" : "null"}}</td>--}}
             <td>{{$order->getClient()->getClientId()}}</td>
             <td>{{$order->getReferenceNumber()}}</td>
             <td>{{$order->getMeasuredBy()->getInitials()}}</td>
