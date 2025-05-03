@@ -21,6 +21,6 @@ class ClientTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.inputs.client-table');
+        return view('components.tables.client-table');
     }
 }
