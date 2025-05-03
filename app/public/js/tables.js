@@ -135,7 +135,6 @@ function refreshClientTable() {
         }
     }).then(response => response.text())
         .then(text => {
-            print()
             document.querySelector(".search-table-div").innerHTML = text;
             initializeClientRowClickEvents();
             highlightClientFirstRow()
