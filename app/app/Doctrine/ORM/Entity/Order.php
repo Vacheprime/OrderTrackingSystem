@@ -40,10 +40,10 @@ class Order {
     private ?int $orderId = null;
     /**  FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
      * EX: ORD-1-1-U1AS
-     * Should not be null, but has to because it is generated using PK ids, 
+     * Should not be null, but has to because it is generated using PK ids,
      * and those are only generated after the Order is inserted into the
      * database.
-     */  
+     */
     #[Column(name: "reference_number", type: Types::STRING)]
     private ?string $referenceNumber = null;
 
@@ -84,12 +84,12 @@ class Order {
 
     /**
      * Default constructor for an order.
-     * 
+     *
      * It is important to create the product before the order, so
      * that it is possible to pass the product object in this constructor.
      * The product's order property will automatically be set to the new
      * order by this constructor.
-     * 
+     *
      * @param string $price The price of the order in
      * string format.
      * @param Status $status The order status of the order.
@@ -138,7 +138,7 @@ class Order {
 
     /**
      * Assign a reference number to this order.
-     * 
+     *
      * This method SHOULD NOT be called anywhere other than
      * inside the OrderRepository's insertOrder() method.
      * It is necessary to have this method to delay the creation
@@ -153,7 +153,7 @@ class Order {
 
     /**
      * Get the order ID of this order.
-     * 
+     *
      * @return ?int The order ID of this order, if the order
      * exists in the database. Null if the order was never inserted.
      */
@@ -163,7 +163,7 @@ class Order {
 
     /**
      * Get the reference number of this order.
-     * 
+     *
      * @return ?string The reference number of the order if the
      * order exists in the database. Null if the order was never inserted.
      */
@@ -173,7 +173,7 @@ class Order {
 
     /**
      * Get the price of the order's product.
-     * 
+     *
      * @return string The price of the order's product.
      */
     public function getPrice(): string {
@@ -182,9 +182,9 @@ class Order {
 
     /**
      * Set the price of the order.
-     * 
+     *
      * @param string $price The new price for this order.
-     * @throws InvalidArgumentException Exception thrown when the $price 
+     * @throws InvalidArgumentException Exception thrown when the $price
      * argument is of invalid format.
      * @see \app\Utils\Utils::validatePositiveAmount() for the format of the
      * $price argument.
@@ -198,7 +198,7 @@ class Order {
 
     /**
      * Get the status of the order.
-     * 
+     *
      * @return Status The status of the order.
      */
     public function getStatus(): Status {
@@ -207,7 +207,7 @@ class Order {
 
     /**
      * Set the status of the order.
-     * 
+     *
      * @param Status $status The new status of the order.
      */
     public function setStatus(Status $status): void {
@@ -216,21 +216,21 @@ class Order {
 
     /**
      * Get the invoice number of the order.
-     * 
-     * @return string The invoice number of the order.
+     *
+     * @return string|null The invoice number of the order.
      */
-    public function getInvoiceNumber(): string {
+    public function getInvoiceNumber(): ?string {
         return $this->invoiceNumber;
     }
 
     /**
      * Set the invoice number of the order.
-     * 
+     *
      * @param string $invoiceNumber The new invoice number of the order.
      * @throws InvalidArgumentException Thrown when the $invoiceNumber argument
      * is of invalid format.
      * @see \app\Utils\Utils::validateInvoiceNumber() for the format of the invoice
-     * number. 
+     * number.
      */
     public function setInvoiceNumber(string $invoiceNumber): void {
         if (!Utils::validateInvoiceNumber($invoiceNumber)) {
@@ -241,7 +241,7 @@ class Order {
 
     /**
      * Get the creation date of the order.
-     * 
+     *
      * @return ?DateTime The creation date of the order if the order
      * exists in the database. Null if the order was not yet inserted.
      */
@@ -251,11 +251,11 @@ class Order {
 
     /**
      * Set the creation date of the order to the current date.
-     * 
+     *
      * This method SHOULD NOT be called anywhere other than inside
      * the OrderRepository's insertOrder() method.
-     * 
-     * @throws LogicException Thrown when the order was already inserted in the database, 
+     *
+     * @throws LogicException Thrown when the order was already inserted in the database,
      * which means that it was already created some time in the past.
      */
     public function setCreationDateNow(): void {
@@ -267,7 +267,7 @@ class Order {
 
     /**
      * Get the fabrication start date of the order.
-     * 
+     *
      * @return ?DateTime The fabrication start date of the order. Null
      * if the order has not reached the fabrication stage yet.
      */
@@ -277,8 +277,8 @@ class Order {
 
     /**
      * Set the fabrication start date of the order.
-     * 
-     * @param ?DateTime $startDate The fabrication start date of order. 
+     *
+     * @param ?DateTime $startDate The fabrication start date of order.
      * @throws InvalidArgumentException Thrown when the start date is set in
      * the future in relation to the current date and time.
      * @see \app\Utils\Utils::validateDateInPastOrNow() for the validation of the
@@ -297,7 +297,7 @@ class Order {
 
     /**
      * Get the estimated installation date of the order.
-     * 
+     *
      * @return ?DateTime The estimated installation date of the order. Null
      * if no estimation has been given to the order.
      */
@@ -307,7 +307,7 @@ class Order {
 
     /**
      * Set the estimated installation date of the order.
-     * 
+     *
      * @param ?DateTime $date The new estimated installation date of the order.
      * @throws InvalidArgumentException Thrown when the $date argument is set in
      * the past or present.
@@ -327,7 +327,7 @@ class Order {
 
     /**
      * Get the completion date of the order.
-     * 
+     *
      * @return ?DateTime The order completion date. Null if the
      * order has not been completed yet.
      */
@@ -337,7 +337,7 @@ class Order {
 
     /**
      * Set the order completion date of the order.
-     * 
+     *
      * @param ?DateTime $date The new order completion date of the order.
      * @throws InvalidArgumentException Thrown when the $date argument is set
      * in the future.
@@ -357,7 +357,7 @@ class Order {
 
     /**
      * Get the client that placed this order.
-     * 
+     *
      * @return Client The client that placed this order.
      */
     public function getClient(): Client {
@@ -366,7 +366,7 @@ class Order {
 
     /**
      * Get the employee that took the measurements for this order's product.
-     * 
+     *
      * @return Employee The employee that took the measurements for this order's product.
      */
     public function getMeasuredBy(): Employee {
@@ -375,7 +375,7 @@ class Order {
 
     /**
      * Get the payments that were made for this order.
-     * 
+     *
      * @return Collection The payments that were made for this order.
      */
     public function getPayments(): Collection {
@@ -384,7 +384,7 @@ class Order {
 
     /**
      * Get the product of this order.
-     * 
+     *
      * @return Product The product of this order.
      */
     public function getProduct(): Product {
