@@ -50,11 +50,11 @@ class Order {
     #[Column(name: "price", type: Types::DECIMAL, precision: 10, scale: 2)]
     private string $price;
 
-    #[Column(name: "`status`", enumType: Status::class, nullable: true)]
+    #[Column(name: "`status`", enumType: Status::class)]
     private Status $status;
 
     #[Column(name: "invoice_number", type: Types::STRING, nullable: true)]
-    private string $invoiceNumber;
+    private ?string $invoiceNumber;
 
     #[Column(name: "creation_date", type: Types::DATETIME_MUTABLE)]
     private ?DateTime $creationDate = null;
