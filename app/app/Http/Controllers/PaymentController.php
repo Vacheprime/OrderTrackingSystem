@@ -23,8 +23,21 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $paymentId = $request->input("paymentId");
+            $payment = $this->repository->find($paymentId);
+            return json_encode(array(
+                "paymentId" => $payment->getPaymentId(),
+                "orderId"=> $payment->getOrder()->getOrderId(),
+                "paymentDate"=> $payment->getPaymentDate()->format("Y/m/d"),
+                "amount"=> $payment->getAmount(),
+                "type"=> $payment->getType(),
+                "method"=> $payment->getMethod(),
+            ));
+        }
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");

@@ -2,6 +2,13 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <script src="{{ asset('js/tables.js') }}"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        initializePaymentRowClickEvents();
+        highlightPaymentFirstRow();
+    });
+</script>
+
 <x-layout title="Payment Management">
     <h1 class="content-title">PAYMENT MANAGEMENT</h1>
     <div class="content-container">
@@ -30,7 +37,7 @@
                 </thead>
                 <tbody id="payments-tbody">
                 @forelse($payments as $payment)
-                    <tr onclick="">
+                    <tr id="payment-id-{{$payment->getPaymentId()}}" onclick="">
                         <td>{{$payment->getPaymentId()}}</td>
                         <td>{{$payment->getOrder()->getOrderId()}}</td>
                         <td>{{$payment->getPaymentDate() == null ? "null" : $payment->getPaymentDate()->format("Y -m -d")}}</td>
@@ -52,12 +59,12 @@
                 <h2>PAYMENT DETAILS</h2>
                 <hr>
                 <div class="side-content-scrollable">
-                    <h3><b>Payment ID:</b><span>#</span></h3>
-                    <p><b>Order ID:</b><span>#</span></p>
-                    <p><b>Date:</b><span>#</span></p>
-                    <p><b>Amount Payed:</b><span>#</span></p>
-                    <p><b>Type:</b><span>#</span></p>
-                    <p><b>Method:</b><span>#</span></p>
+                    <h3><b>Payment ID:</b><span id="detail-payment-id">#</span></h3>
+                    <p><b>Order ID:</b><span id="detail-order-id">>#</span></p>
+                    <p><b>Date:</b><span id="detail-payment-date">>#</span></p>
+                    <p><b>Amount Payed:</b><span id="detail-amount">#</span></p>
+                    <p><b>Type:</b><span id="detail-type">#</span></p>
+                    <p><b>Method:</b><span id="detail-method">#</span></p>
                 </div>
                 <a href="/payments/{{$payment->getPaymentId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>

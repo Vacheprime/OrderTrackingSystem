@@ -24,8 +24,28 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $employeeId = $request->input("employeeId");
+            $employee = $this->repository->find($employeeId);
+            return json_encode(array(
+                "employeeId" => $employee->getEmployeeId(),
+                "initials"=> $employee->getInitials(),
+                "firstName"=> $employee->getFirstName(),
+                "lastName"=> $employee->getLastName(),
+                "hiredDate"=> "",
+                "position"=> $employee->getPosition(),
+                "email"=> $employee->getAccount()->getEmail(),
+                "phoneNumber"=> $employee->getPhoneNumber(),
+                "address"=> $employee->getAddress()->getAddressId() . $employee->getAddress()->getStreetName(),
+                "postalCode"=> $employee->getAddress()->getPostalCode(),
+                "city"=> $employee->getAddress()->getArea(),
+                "province"=> $employee->getAddress()->getArea(),
+                "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
+            ));
+        }
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");

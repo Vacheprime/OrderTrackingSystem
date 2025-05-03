@@ -22,8 +22,26 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $clientId = $request->input("clientId");
+            $client = $this->repository->find($clientId);
+            return json_encode(array(
+                "clientId" => $client->getClientId(),
+                "firstName"=> $client->getFirstName(),
+                "lastName"=> $client->getLastName(),
+                "referenceNumber"=> $client->getClientReference() ?? "",
+                "phoneNumber"=> $client->getPhoneNumber(),
+                "address"=> $client->getAddress()->getAppartmentNumber() . $client->getAddress()->getStreetName(),
+                "postalCode"=> $client->getAddress()->getPostalCode(),
+                "city"=> $client->getAddress()->getArea(),
+                "province"=> $client->getAddress()->getArea(),
+                "area"=> $client->getAddress()->getArea(),
+            ));
+        }
+
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");

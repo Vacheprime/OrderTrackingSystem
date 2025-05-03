@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use function Termwind\parse;
 
 class OrderController extends Controller
 {
@@ -22,8 +23,34 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $orderId = $request->input("orderId");
+            $order = $this->repository->find($orderId);
+            return json_encode(array(
+                "objectId" => $order->getOrderId(),
+                "clientId"=> $order->getClient()->getClientId(),
+                "measuredBy"=> $order->getMeasuredBy()->getInitials(),
+                "referenceNumber"=> $order->getReferenceNumber(),
+//                "invoiceNumber"=> $order->getInvoiceNumber() ?? "null",
+                "totalPrice"=> $order->getPrice() ?? "null",
+                "orderStatus"=> $order->getStatus(),
+                "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y/m/d") ,
+                "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "null" : $order->getEstimatedInstallDate()->format("Y/m/d"),
+                "pickUpDate"=> $order->getOrderCompletedDate() == null ? "null" : $order->getOrderCompletedDate()->format("Y/m/d"),
+//                "materialName"=> $order->getProduct()->getMaterialName() ?? "null",
+//                "slabHeight"=> $order->getProduct()->getSlabHeight() ?? "null",
+//                "slabWidth"=> $order->getProduct()->getSlabWidth() ?? "null",
+//                "slabThickness"=> $order->getProduct()->getSlabThickness() ?? "null",
+//                "slabSquareFootage"=> $order->getProduct()->getSlabSquareFootage() ?? "null",
+//                "fabricationPlanImage"=> $order->getProduct()->getPlanImagePath() ?? "null",
+//                "productDescription"=> $order->getProduct()->getProductDescription() ?? "null",
+//                "productNotes"=> $order->getProduct()->getProductNotes() ?? "null",
+            ));
+        }
+
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");

@@ -2,6 +2,13 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <script src="{{ asset('js/tables.js') }}"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        initializeClientRowClickEvents();
+        highlightClientFirstRow();
+    });
+</script>
+
 <x-layout title="Client Management">
     <h1 class="content-title">CLIENT MANAGEMENT</h1>
     <div class="content-container">
@@ -36,7 +43,7 @@
                     </thead>
                     <tbody id="orders-tbody">
                     @forelse($clients as $client)
-                        <tr onclick="">
+                        <tr id="client-id-{{$client->getClientId()}}" onclick="">
                             <td>{{$client->getClientId()}}</td>
                             <td>{{$client->getFirstName()}}</td>
                             <td>{{$client->getLastName()}}</td>
@@ -62,16 +69,16 @@
                 <h2>CLIENT DETAILS</h2>
                 <hr>
                 <div class="side-content-scrollable">
-                    <h3><b>Client ID:</b><span>#</span></h3>
-                    <p><b>First Name:</b><span>#</span></p>
-                    <p><b>Last Name:</b><span>#</span></p>
-                    <p><b>Reference Number:</b><span>#</span></p>
-                    <p><b>Phone Number:</b><span>#</span></p>
-                    <p><b>Address:</b><span>#</span></p>
-                    <p><b>Postal Code:</b><span>#</span></p>
-                    <p><b>City:</b><span>#</span></p>
-                    <p><b>Province:</b><span>#</span></p>
-                    <p><b>Area (Neighborhood):</b><span>#</span></p>
+                    <h3><b>Client ID:</b><span id="detail-client-id">#</span></h3>
+                    <p><b>First Name:</b><span id="detail-first-name">#</span></p>
+                    <p><b>Last Name:</b><span id="detail-last-name">#</span></p>
+                    <p><b>Reference Number:</b><span id="detail-reference-number">#</span></p>
+                    <p><b>Phone Number:</b><span id="detail-phone-number">#</span></p>
+                    <p><b>Address:</b><span id="detail-address">#</span></p>
+                    <p><b>Postal Code:</b><span id="detail-postal-code">#</span></p>
+                    <p><b>City:</b><span id="detail-city">#</span></p>
+                    <p><b>Province:</b><span id="detail-province">#</span></p>
+                    <p><b>Area (Neighborhood):</b><span id="detail-area">#</span></p>
                 </div>
                 <a href="/clients/{{$client->getClientId()}}/edit"><button class="regular-button" onclick="">Edit</button></a>
             </div>
