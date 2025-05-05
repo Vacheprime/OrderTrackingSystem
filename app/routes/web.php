@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -39,17 +41,11 @@ Route::get('/newpassword', function () {
 });
 
 // NORMAL SHIT
-Route::get('/home', function () {
-    return view('home');
-});
+Route::get('/home', [HomeController::class, "index"]);
 
-Route::get('/settings', function () {
-    return view('user.settings');
-});
+Route::get('/settings', [UserController::class, "settings"]);
 
-Route::get('/account', function () {
-    return view('user.account');
-});
+Route::get('/account', [UserController::class, "account"]);
 
 
 Route::resource('orders', OrderController::class);
