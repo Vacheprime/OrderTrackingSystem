@@ -5,7 +5,6 @@
     display: flex;
     flex: 1;
     align-self: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1 {
@@ -98,21 +97,21 @@ margin-left: 15%;
     width: 30%;
     margin-bottom: 10%;
   }
-  
+
   .inputForCode {
     background: transparent;
-    color: transparent;      
+    color: transparent;
     border: 1px solid #ccc;
     font-size: 1.5rem;
     font-family: monospace;
     padding: 0.5rem 0.75rem;
     width: 100%;
-    text-align: center; 
+    text-align: center;
     position: relative;
     z-index: 2;
-    caret-color: transparent; 
+    caret-color: transparent;
   }
-  
+
   #overlayText {
     position: absolute;
     top: 50%;
