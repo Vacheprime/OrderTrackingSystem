@@ -10,11 +10,6 @@
     }
 }
 
-.error-input {
-    color: red;
-    font-size: 10px;
-}
-
 @font-face {
     font-family: "Albert Sans";
     src: url("../AlbertSans-VariableFont_wght.ttf") format("truetype");
@@ -164,7 +159,6 @@ main {
     font-weight: 400;
     background-color: #9E8C76;
     padding: 6px 16px;
-    margin: 2px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border: none;
@@ -180,4 +174,9 @@ main {
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
+}
+
+.error-input {
+    color: red;
+    font-size: 10px;
 }
