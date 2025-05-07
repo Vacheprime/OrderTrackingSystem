@@ -3,10 +3,10 @@
 <x-login-layout title="Contact Method">
     <div id="login-content" class="main-content">
         <h1>Enter Confirmation Contact</h1>
-        <form action="" method="POST">
+        <form id="contact-input-form" action="/contact" method="POST">
+            @csrf
             <x-text-input-property labelText="Enter Email or Phone Number" name="contact-method"/>
-            <button class="executeButton" onclick="">Check existence</button>
+            <button type="submit" class="regular-button">Check existence</button>
         </form>
-        <a href="/code2fa">Temp Confirm</a>
     </div>
 </x-login-layout>

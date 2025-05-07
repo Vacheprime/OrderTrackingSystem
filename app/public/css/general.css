@@ -10,6 +10,11 @@
     }
 }
 
+.error-input {
+    color: red;
+    font-size: 10px;
+}
+
 @font-face {
     font-family: "Albert Sans";
     src: url("../AlbertSans-VariableFont_wght.ttf") format("truetype");

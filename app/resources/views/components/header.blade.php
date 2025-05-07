@@ -10,7 +10,10 @@
             </select>
         @endif
         @if($logout)
-            <a href="{{url('/logout')}}" class="regular-button">Logout</a>
+            <form id="logout-form" action="/logout" method="POST">
+                @csrf
+                <button type="submit" class="regular-button">Logout</button>
+            </form>
         @endif
     </div>
 </header>

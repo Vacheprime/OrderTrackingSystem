@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,34 +21,30 @@ Route::get('/tracking/display', function (Request $request) {
 });
 
 // LOGINS
-Route::get('/', function () {
-    return view('login.index');
-});
+Route::get('/', [LoginController::class, "login"]);
+Route::post('/', [LoginController::class, "auth"]);
+Route::post('/logout', [LoginController::class, "logout"]);
 
-Route::get('/qr2fa', function () {
-    return view('login.qrverification');
-});
+Route::get('/qr2fa', [LoginController::class, "qr2fa"]);
+Route::post('/qr2fa', [LoginController::class, "authQR"]);
 
-Route::get('/code2fa', function () {
-    return view('login.codeverification');
-});
+Route::get('/code2fa', [LoginController::class, "code2fa"]);
+Route::post('/code2fa', [LoginController::class, "authCode"]);
 
-Route::get('/contactmethod', function () {
-    return view('login.contactmethod');
-});
+Route::get('/contact', [LoginController::class, "contact"]);
+Route::post('/contact', [LoginController::class, "authContact"]);
 
-Route::get('/newpassword', function () {
-    return view('login.newpassword');
-});
+Route::get('/newpassword', [LoginController::class, "newPassword"]);
+Route::post('/newpassword', [LoginController::class, "authPassword"]);
 
-// NORMAL SHIT
+// Account Specific
 Route::get('/home', [HomeController::class, "index"]);
 
 Route::get('/settings', [UserController::class, "settings"]);
 
 Route::get('/account', [UserController::class, "account"]);
 
-
+// CRUD Orders, Clients, Payments, Employees
 Route::resource('orders', OrderController::class);
 
 Route::resource('clients', ClientController::class);
