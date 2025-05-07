@@ -7,7 +7,7 @@
         <th>ClientID</th>
         <th>Reference Number</th>
         <th>Measured by</th>
-        <th>Fabrication start date</th>
+        <th>Fabrication start date (Y/M/D)</th>
         <th>Status</th>
     </tr>
     </thead>
@@ -18,7 +18,7 @@
             <td>{{$order->getClient()->getClientId()}}</td>
             <td>{{$order->getReferenceNumber()}}</td>
             <td>{{$order->getMeasuredBy()->getInitials()}}</td>
-            <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y -m -d")}}</td>
+            <td>{{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y / m / d")}}</td>
             <td class="status {{ strtolower($order->getStatus()->value) }}">
                 {{$order->getStatus()->value}}
             </td>

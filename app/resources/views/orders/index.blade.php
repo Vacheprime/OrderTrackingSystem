@@ -63,6 +63,7 @@
                     <p><b>Product Notes:</b><textarea placeholder="Product Notes" id="detail-product-notes"></textarea></p>
                 </div>
                 <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Edit</button></a>
+                <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Add Payment</button></a>
             </div>
         @endif
     </div>

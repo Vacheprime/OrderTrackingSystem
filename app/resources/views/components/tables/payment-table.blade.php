@@ -14,7 +14,7 @@
         <tr id="payment-id-{{$payment->getPaymentId()}}" onclick="">
             <td>{{$payment->getPaymentId()}}</td>
             <td>{{$payment->getOrder()->getOrderId()}}</td>
-            <td>{{$payment->getPaymentDate() == null ? "null" : $payment->getPaymentDate()->format("Y -m -d")}}</td>
+            <td>{{$payment->getPaymentDate() == null ? "null" : $payment->getPaymentDate()->format("Y/m/d")}}</td>
             <td>{{$payment->getAmount()}}</td>
         </tr>
     @empty

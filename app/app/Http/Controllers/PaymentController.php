@@ -31,7 +31,7 @@ class PaymentController extends Controller
             return json_encode(array(
                 "paymentId" => $payment->getPaymentId(),
                 "orderId"=> $payment->getOrder()->getOrderId(),
-                "paymentDate"=> $payment->getPaymentDate()->format("Y/m/d"),
+                "paymentDate"=> $payment->getPaymentDate()->format("Y / m / d"),
                 "amount"=> $payment->getAmount(),
                 "type"=> $payment->getType(),
                 "method"=> $payment->getMethod(),
