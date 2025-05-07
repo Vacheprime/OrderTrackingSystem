@@ -1,4 +1,4 @@
-@props(['title' => "Login Page"])
+@props(['title' => "Tracking Order"])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
 </head>
 <body>
-<x-header :logout="false"/>
+<x-header :logout="false" :language="true"/>
 <div class="main-layout">
     <main>
         {{$slot}}

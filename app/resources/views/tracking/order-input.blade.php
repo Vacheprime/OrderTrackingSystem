@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/ordertracking.css') }}">
 
-<x-login-layout title="Client Order Tracking">
+<x-tracking-layout title="Client Order Tracking">
     <!-- <div class="layout-container"> -->
     <div class="content-container">
         <div class="main-content">
@@ -13,4 +13,4 @@
         </div>
     </div>
     <!-- </div> -->
-</x-login-layout>
+</x-tracking-layout>
