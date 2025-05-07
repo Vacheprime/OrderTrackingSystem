@@ -64,7 +64,14 @@ class PaymentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("payments.index");
+        $validateData = $request->validate([
+            "order-id"=> "required",
+            "payment-date"=> "",
+            "amount"=> "required",
+            "type"=> "required",
+            "method"=> "required",
+        ]);
+        return redirect("/payments");
     }
 
     /**
@@ -89,7 +96,14 @@ class PaymentController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("payments.index");
+        $validateData = $request->validate([
+            "order-id"=> "required",
+            "payment-date"=> "",
+            "amount"=> "required",
+            "type"=> "required",
+            "method"=> "required",
+        ]);
+        return redirect("/payments");
     }
 
     /**

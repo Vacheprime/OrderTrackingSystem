@@ -123,7 +123,7 @@ main {
 
     width: 100%;
     flex: 1;
-    max-height: 500px;
+    max-height: 450px;
 
     display: flex;
     flex-direction: column;
@@ -140,7 +140,13 @@ main {
     align-items: center;
 }
 
+.side-content-header {
+    width: 100%;
+}
+
 .side-content h2 {
+    width: 100%;
+    text-align: center;
     margin: 24px 0 0 0;
     font-size: 36px;
     border-bottom: 2px solid black;

@@ -75,8 +75,27 @@ class OrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        return redirect('orders.index');
+        $validateData = $request->validate([
+            "client-id" => "required",
+            "measured-by" => "required",
+            "reference-number" => "required",
+            "invoice-number" => "required",
+            "total-price" => "required",
+            "order-status" => "",
+            "fabrication-image" => "",
+            "fabrication-start-date" => "",
+            "installation-start-date" => "",
+            "pickup-start-date" => "",
+            "material-name" => "required",
+            "slab-height" => "required",
+            "slab-width" => "required",
+            "slab-thickness" => "required",
+            "slab-square-footage" => "required",
+            "sink-type" => "required",
+            "product-description" => "required",
+            "product-notes" => "required",
+        ]);
+        return redirect('/orders');
     }
 
     /**
@@ -101,13 +120,29 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-//        $validatedData = $request->validate([
-//            'client-id' => 'required|int',
-//            'measured-by' => 'nullable|string',
-//        ]);
+        $validateData = $request->validate([
+            "client-id" => "required",
+            "measured-by" => "required",
+            "reference-number" => "required",
+            "invoice-number" => "required",
+            "total-price" => "required",
+            "order-status" => "",
+            "fabrication-image" => "",
+            "fabrication-start-date" => "",
+            "installation-start-date" => "",
+            "pickup-start-date" => "",
+            "material-name" => "required",
+            "slab-height" => "required",
+            "slab-width" => "required",
+            "slab-thickness" => "required",
+            "slab-square-footage" => "required",
+            "sink-type" => "required",
+            "product-description" => "required",
+            "product-notes" => "required",
+        ]);
 //        $order = $this->repository->find($id);
 //        $this->repository->updateOrder($order);
-        return redirect()->route("orders.index");
+        return redirect("/orders");
     }
 
     /**

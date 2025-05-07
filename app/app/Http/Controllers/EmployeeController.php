@@ -72,7 +72,20 @@ class EmployeeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("employees.index");
+        $validateData = $request->validate([
+            "initials"=> "required",
+            "first-name"=> "required",
+            "last-name" => "required",
+            "hired-date" => "",
+            "position"=> "required",
+            "email"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+        ]);
+        return redirect("/employees");
     }
 
     /**
@@ -97,7 +110,21 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("employees.index");
+        $validateData = $request->validate([
+            "initials"=> "required",
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "email"=> "required",
+            "phone-number"=> "required",
+            "hired-date"=> "",
+            "position"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "account-status"=>""
+        ]);
+        return redirect("/employees");
     }
 
     /**

@@ -8,7 +8,9 @@
             <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
             <h2 class="title">Edit Payment</h2>
             <hr/>
-            <form action="/payments/store" class="create-edit-form">
+            <form method="POST" action="{{route("payments.update", $payment->getPaymentId())}}" class="create-edit-form">
+                @csrf
+                @method("PUT")
                 <div class="flex-input-div">
                     <x-text-input-property labelText="Order ID" name="order-id"/>
                     <x-date-input-property labelText="Date" name="payment-date"/>
@@ -18,10 +20,8 @@
                 </div>
 
                 <div class="action-input-div">
-                    <input class="regular-button" type="submit" value="Save"/>
-                    <a href="/payments">
-                        <button class="regular-button">Cancel</button>
-                    </a>
+                    <button class="regular-button" type="submit">Save</button>
+                    <a href="/payments" class="regular-button">Cancel</a>
                </div>
             </form>
         </div>

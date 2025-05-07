@@ -68,7 +68,18 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("clients.index");
+        $validateData = $request->validate([
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "reference-number"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "area"=> "required",
+        ]);
+        return redirect("/clients");
     }
 
     /**
@@ -93,7 +104,18 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("clients.index");
+        $validateData = $request->validate([
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "reference-number"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "area"=> "required",
+        ]);
+        return redirect("/clients");
     }
 
     /**
