@@ -35,10 +35,12 @@
         </div>
         @if(!empty($employees))
             <div id="employees-side-content" class="side-content">
-                <h2>EMPLOYEE DETAILS</h2>
-                <hr>
-                <div class="side-content-scrollable">
+                <div id="side-content-header">
+                    <h2>EMPLOYEE DETAILS</h2>
+                    <hr>
                     <h3><b>Employee ID:</b><span id="detail-employee-id">#</span></h3>
+                </div>
+                <div class="side-content-scrollable">
                     <p><b>Initials:</b><span id="detail-initials">#</span></p>
                     <p><b>First Name:</b><span id="detail-first-name">#</span></p>
                     <p><b>Last Name:</b><span id="detail-last-name">#</span></p>
@@ -52,7 +54,9 @@
                     <p><b>Province:</b><span id="detail-province">#</span></p>
                     <p><b>Account Status:</b><span id="detail-account-status">#</span></p>
                 </div>
-                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
+                <div id="side-content-details-options">
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
+                </div>
             </div>
         @endif
     </div>

@@ -31,17 +31,21 @@
         </div>
         @if(!empty($payments))
             <div id="payments-side-content" class="side-content">
-                <h2>PAYMENT DETAILS</h2>
-                <hr>
-                <div class="side-content-scrollable">
+                <div id="side-content-header">
+                    <h2>PAYMENT DETAILS</h2>
+                    <hr>
                     <h3><b>Payment ID:</b><span id="detail-payment-id">#</span></h3>
+                </div>
+                <div class="side-content-scrollable">
                     <p><b>Order ID:</b><span id="detail-order-id">>#</span></p>
                     <p><b>Date:</b><span id="detail-payment-date">>#</span></p>
                     <p><b>Amount Payed:</b><span id="detail-amount">#</span></p>
                     <p><b>Type:</b><span id="detail-type">#</span></p>
                     <p><b>Method:</b><span id="detail-method">#</span></p>
                 </div>
-                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
+                <div id="side-content-details-options">
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
+                </div>
             </div>
         @endif
     </div>

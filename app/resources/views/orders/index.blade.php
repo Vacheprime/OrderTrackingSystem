@@ -39,10 +39,12 @@
         </div>
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
-                <h2>ORDER DETAILS</h2>
-                <hr>
-                <div class="side-content-scrollable">
+                <div id="side-content-header">
+                    <h2>ORDER DETAILS</h2>
+                    <hr>
                     <h3><b>ORDER ID:</b><span id="detail-order-id">#</span></h3>
+                </div>
+                <div class="side-content-scrollable">
                     <p><b>CLIENT ID:</b><span id="detail-client-id">#</span></p>
                     <p><b>Measured By:</b><span id="detail-measured-by">#</span></p>
                     <p><b>Reference Number:</b><span id="detail-reference-number">#</span></p>
@@ -59,11 +61,13 @@
                     <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">#</span></p>
                     <p><b>Sink Type:</b><span id="detail-sink-type">#</span ></p>
                     <p><b>Fabrication Plan Image:</b><img src="" id="detail-fabrication-plan-image"/></p>
-                    <p><b>Product Description:</b><textarea placeholder="Product Description" id="detail-product-description"></textarea></p>
-                    <p><b>Product Notes:</b><textarea placeholder="Product Notes" id="detail-product-notes"></textarea></p>
+                    <p><b>Product Description:</b><textarea readonly placeholder="Product Description" id="detail-product-description"></textarea></p>
+                    <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes" id="detail-product-notes"></textarea></p>
                 </div>
-                <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Edit</button></a>
-                <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Add Payment</button></a>
+                <div id="side-content-details-options">
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Edit</button></a>
+                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Add Payment</button></a>
+                </div>
             </div>
         @endif
     </div>
