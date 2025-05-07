@@ -147,6 +147,7 @@ main {
 }
 
 .side-content h3 {
+    margin: 0;
     font-size: 24px;
     color: rgb(190, 190, 190);
 }
