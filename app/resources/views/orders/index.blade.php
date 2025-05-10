@@ -13,28 +13,35 @@
     <h1 class="content-title">ORDER MANAGEMENT</h1>
     <div class="content-container">
         <div id="orders-content" class="main-content">
-            <div class="table-header">
-                <form class="search-form" action="" method="GET">
-                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
+            <div class="table-content">
+                <div class="table-header">
+                    <form class="search-form" action="" method="GET">
+                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
 
-                    <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="order-id" selected>OrderID</option>
-                        <option value="client-id">ClientID</option>
-                        <option value="area">Area</option>
-                        <option value="name">Name</option>
-                    </x-select-input-property>
+                        <x-select-input-property labelText="Search By" name="search-by">
+                            <option value="order-id" selected>OrderID</option>
+                            <option value="client-id">ClientID</option>
+                            <option value="area">Area</option>
+                            <option value="name">Name</option>
+                        </x-select-input-property>
 
-                    <x-select-input-property labelText="Order By" name="order-by">
-                        <option value="newest" selected>Newest</option>
-                        <option value="oldest">Oldest</option>
-                        <option value="status">Status</option>
-                    </x-select-input-property>
-                </form>
-                <button class="regular-button" onclick="refreshOrderTable()">Search</button>
-                <a href="/orders/create" class="regular-button">Create</a>
+                        <x-select-input-property labelText="Order By" name="order-by">
+                            <option value="newest" selected>Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="status">Status</option>
+                        </x-select-input-property>
+                    </form>
+                    <button class="regular-button" onclick="refreshOrderTable({{$page}})">Search</button>
+                    <a href="/orders/create" class="regular-button">Create</a>
+                </div>
+                <div class="search-table-div">
+                    <x-order-table :orders="$orders"/>
+                </div>
             </div>
-            <div class="search-table-div">
-                <x-order-table :orders="$orders"/>
+            <div class="search-table-pagination-div">
+                @for($letPage = 1; $letPage <= $pages; $letPage++)
+                    <button id="paginated-btn-{{$letPage}}" class="paginated-btn regular-button {{$page == $letPage ? "" : "paginated-inactive"}}" onclick="refreshOrderTable({{$letPage}})">{{$letPage}}</button>
+                @endfor
             </div>
         </div>
         @if(!empty($orders))

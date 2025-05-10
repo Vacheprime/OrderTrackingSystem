@@ -106,9 +106,11 @@ function changePaymentDetails(paymentIdString) {
 }
 
 
-function refreshOrderTable() {
+function refreshOrderTable(page) {
     const url = new URL(window.location.href);
+    const oldPage = url.searchParams.get("page");
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    url.searchParams.set('page', page);
     // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
     // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
 
@@ -122,6 +124,10 @@ function refreshOrderTable() {
             document.querySelector(".search-table-div").innerHTML = text;
             initializeOrderRowClickEvents();
             highlightOrderFirstRow();
+            const paginatedBtnOld = document.querySelector(`#paginated-btn-${oldPage}`);
+            const paginatedBtnNew = document.querySelector(`#paginated-btn-${page}`);
+            paginatedBtnOld.classList.add("paginated-inactive");
+            paginatedBtnNew.classList.remove("paginated-inactive");
         });
 }
 

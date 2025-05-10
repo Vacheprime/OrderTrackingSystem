@@ -50,16 +50,19 @@ class OrderController extends Controller
             ));
         }
 
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $orders = $this->repository->retrievePaginated(10, $page);
+        $pagination = $this->repository->retrievePaginated(1, $page);
+        $orders = $pagination->items();
+        $pages = $pagination->lastPage();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.order-table')->with('orders', $orders->items());
+            return view('components.tables.order-table')->with('orders', $orders);
         }
-        return view('orders.index')->with('orders', $orders->items());
+        return view('orders.index')->with(compact("orders", "pages", "page"));
     }
 
     /**
