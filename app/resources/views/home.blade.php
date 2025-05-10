@@ -9,15 +9,22 @@
     });
 </script>
 
-<x-layout title="Home"> <!-- This Blade component refers to layout.blade.php. It's used to define reusable layout structure-->
+<x-layout title="Home">
+    <!-- This Blade component refers to layout.blade.php. It's used to define reusable layout structure-->
     <h1 class="content-title">HOME</h1>
     <div class="content-container">
         <div id="home-content" class="main-content">
-            <h1>Next 7 Days</h1>
+            <div class="home-header">
+                <h2>Next 7 Days</h2>
+                <a href="" class="regular-button">View Table</a>
+            </div>
             <x-order-table :orders="$orders[0]"/>
         </div>
         <div id="home-side-content" class="main-content">
-            <h1>Recently Changed</h1>
+            <div class="home-header">
+                <h2>Recently Changed</h2>
+                <a href="" class="regular-button">View Table</a>
+            </div>
             <x-order-table :orders="$orders[1]"/>
         </div>
     </div>
