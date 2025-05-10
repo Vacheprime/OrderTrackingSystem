@@ -24,14 +24,14 @@
                         <option value="name">Name</option>
                     </x-select-input-property>
 
-                    <x-select-input-property labelText="Filter By" name="order-by">
+                    <x-select-input-property labelText="Order By" name="order-by">
                         <option value="newest" selected>Newest</option>
                         <option value="oldest">Oldest</option>
                         <option value="status">Status</option>
                     </x-select-input-property>
                 </form>
                 <button class="regular-button" onclick="refreshOrderTable()">Search</button>
-                <a href="/orders/create"><button class="regular-button">Create</button></a>
+                <a href="/orders/create" class="regular-button">Create</a>
             </div>
             <div class="search-table-div">
                 <x-order-table :orders="$orders"/>
