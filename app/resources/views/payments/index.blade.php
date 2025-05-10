@@ -23,7 +23,9 @@
                     </x-select-input-property>
                 </form>
                 <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
-                <a href="/payments/create"><button class="regular-button">Create</button></a>
+                <a href="/payments/create">
+                    <button class="regular-button">Create</button>
+                </a>
             </div>
             <div class="search-table-div">
                 <x-payment-table :payments="$payments"/>
@@ -31,20 +33,22 @@
         </div>
         @if(!empty($payments))
             <div id="payments-side-content" class="side-content">
-                <div id="side-content-header">
-                    <h2>PAYMENT DETAILS</h2>
-                    <hr>
-                    <h3><b>Payment ID:</b><span id="detail-payment-id">#</span></h3>
+                <div class="side-content-container">
+                    <div id="side-content-header">
+                        <h2>PAYMENT DETAILS</h2>
+                        <hr>
+                        <h3><b>Payment ID:</b><span id="detail-payment-id">-</span></h3>
+                    </div>
+                    <div class="side-content-scrollable">
+                        <p><b>Order ID:</b><span id="detail-order-id">>-</span></p>
+                        <p><b>Date:</b><span id="detail-payment-date">>-</span></p>
+                        <p><b>Amount Payed:</b><span id="detail-amount">-</span></p>
+                        <p><b>Type:</b><span id="detail-type">-</span></p>
+                        <p><b>Method:</b><span id="detail-method">-</span></p>
+                    </div>
                 </div>
-                <div class="side-content-scrollable">
-                    <p><b>Order ID:</b><span id="detail-order-id">>#</span></p>
-                    <p><b>Date:</b><span id="detail-payment-date">>#</span></p>
-                    <p><b>Amount Payed:</b><span id="detail-amount">#</span></p>
-                    <p><b>Type:</b><span id="detail-type">#</span></p>
-                    <p><b>Method:</b><span id="detail-method">#</span></p>
-                </div>
-                <div id="side-content-details-options">
-                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}}><button class="regular-button" onclick="">Edit</button></a>
+                <div class="side-content-details-options">
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Edit</a>
                 </div>
             </div>
         @endif

@@ -16,12 +16,6 @@
     align-items: center;
 }
 
-#side-content-details-options {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-}
 
 /* .side-content-scrollable h3 {
     font-size: 20px;

@@ -9,6 +9,7 @@ function changeOrderDetails(orderIdString) {
     }).then(response => response.json())
         .then(order => {
             document.getElementById("detail-edit-btn").href = `/orders/${order.orderId}/edit`;
+            document.getElementById("detail-add-payment-btn").href = `/payments/create?orderId=${order.orderId}`;
             document.getElementById("detail-order-id").innerText = order.orderId;
             document.getElementById("detail-client-id").innerText = order.clientId;
             document.getElementById("detail-measured-by").innerText = order.measuredBy;
@@ -42,6 +43,7 @@ function changeClientDetails(clientIdString) {
     }).then(response => response.json())
         .then(client => {
             document.getElementById("detail-edit-btn").href = `/clients/${client.clientId}/edit`;
+            document.getElementById("detail-add-order-btn").href = `/orders/create?clientId=${client.clientId}`;
             document.getElementById("detail-client-id").innerText = client.clientId;
             document.getElementById("detail-first-name").innerText = client.firstName;
             document.getElementById("detail-last-name").innerText = client.lastName;

@@ -39,34 +39,36 @@
         </div>
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
-                <div id="side-content-header">
-                    <h2>ORDER DETAILS</h2>
-                    <hr>
-                    <h3><b>ORDER ID:</b><span id="detail-order-id">#</span></h3>
+                <div class="side-content-container">
+                    <div id="side-content-header">
+                        <h2>ORDER DETAILS</h2>
+                        <hr>
+                        <h3><b>ORDER ID:</b><span id="detail-order-id">-</span></h3>
+                    </div>
+                    <div class="side-content-scrollable">
+                        <p><b>CLIENT ID:</b><span id="detail-client-id">-</span></p>
+                        <p><b>Measured By:</b><span id="detail-measured-by">-</span></p>
+                        <p><b>Reference Number:</b><span id="detail-reference-number">-</span></p>
+                        <p><b>Invoice Number:</b><span id="detail-invoice-number">-</span></p>
+                        <p><b>Total Price:</b><span id="detail-total-price">-</span></p>
+                        <p><b>Status:</b><span id="detail-status">-</span></p>
+                        <p><b>Fabrication Start Date:</b><span id="detail-fabrication-start-date">-</span></p>
+                        <p><b>Installation Start Date:</b><span id="detail-installation-start-date">-</span></p>
+                        <p><b>Pick Up Date:</b><span id="detail-pick-up-date">-</span></p>
+                        <p><b>Material Name:</b><span id="detail-material-name">-</span></p>
+                        <p><b>Slab Height:</b><span id="detail-slab-height">-</span></p>
+                        <p><b>Slab Width:</b><span id="detail-slab-width">-</span></p>
+                        <p><b>Slab Thickness:</b><span id="detail-slab-thickness">-</span></p>
+                        <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">-</span></p>
+                        <p><b>Sink Type:</b><span id="detail-sink-type">-</span ></p>
+                        <p><b>Fabrication Plan Image:</b><img src="" id="detail-fabrication-plan-image"/></p>
+                        <p><b>Product Description:</b><textarea readonly placeholder="Product Description" id="detail-product-description"></textarea></p>
+                        <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes" id="detail-product-notes"></textarea></p>
+                    </div>
                 </div>
-                <div class="side-content-scrollable">
-                    <p><b>CLIENT ID:</b><span id="detail-client-id">#</span></p>
-                    <p><b>Measured By:</b><span id="detail-measured-by">#</span></p>
-                    <p><b>Reference Number:</b><span id="detail-reference-number">#</span></p>
-                    <p><b>Invoice Number:</b><span id="detail-invoice-number">#</span></p>
-                    <p><b>Total Price:</b><span id="detail-total-price">#</span></p>
-                    <p><b>Status:</b><span id="detail-status">#</span></p>
-                    <p><b>Fabrication Start Date:</b><span id="detail-fabrication-start-date">#</span></p>
-                    <p><b>Installation Start Date:</b><span id="detail-installation-start-date">#</span></p>
-                    <p><b>Pick Up Date:</b><span id="detail-pick-up-date">#</span></p>
-                    <p><b>Material Name:</b><span id="detail-material-name">#</span></p>
-                    <p><b>Slab Height:</b><span id="detail-slab-height">#</span></p>
-                    <p><b>Slab Width:</b><span id="detail-slab-width">#</span></p>
-                    <p><b>Slab Thickness:</b><span id="detail-slab-thickness">#</span></p>
-                    <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">#</span></p>
-                    <p><b>Sink Type:</b><span id="detail-sink-type">#</span ></p>
-                    <p><b>Fabrication Plan Image:</b><img src="" id="detail-fabrication-plan-image"/></p>
-                    <p><b>Product Description:</b><textarea readonly placeholder="Product Description" id="detail-product-description"></textarea></p>
-                    <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes" id="detail-product-notes"></textarea></p>
-                </div>
-                <div id="side-content-details-options">
-                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Edit</button></a>
-                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} ><button class="regular-button" onclick="">Add Payment</button></a>
+                <div class="side-content-details-options">
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Edit</a>
+                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Add Payment</a>
                 </div>
             </div>
         @endif
