@@ -1,5 +1,7 @@
 <?php
 
+use app\Doctrine\ORM\Entity\Employee;
+
 return [
 
     /*
@@ -61,8 +63,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'driver' => 'doctrine',
+            'model' => Employee::class,
         ],
 
         // 'users' => [

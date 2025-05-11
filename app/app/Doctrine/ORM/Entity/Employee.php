@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
 use OTPHP\TOTP;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 use app\Utils\Utils;
 use InvalidArgumentException;
@@ -24,7 +25,7 @@ require_once("Person.php");
 
 #[Entity(repositoryClass: EmployeeRepository::class)]
 #[Table(name: "employee")]
-class Employee extends Person {
+class Employee extends Person implements Authenticatable {
     #[Id]
     #[Column(name: "employee_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $employeeId = null;
@@ -83,6 +84,73 @@ class Employee extends Person {
     public function getAccount(): Account {
         return $this->account;
     }
+
+    /**
+     * Get the name of the column in the employee table that corresponds to
+     * the primary key column. 
+     * 
+     * Implementation of the Authenticatable interface.
+     * 
+     * @return string The column name of the primary key.
+     */
+    public function getAuthIdentifierName()
+    {
+        return "employee_id";
+    }
+
+    /**
+     * Get the primary key of the employee.
+     * 
+     * Implementation of the Authenticatable interface.
+     * 
+     * @return ?int The primary key of the employee.
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * Get the name of the column in the employee table that corresponds to
+     * the password hash.
+     */
+    public function getAuthPasswordName()
+    {
+        return "password_hash";
+    }
+
+    /**
+     * Get the password hash of the employee.
+     * 
+     * Implementation of the Authenticatable interface.
+     * 
+     * @return string The password hash of the employee
+     */
+    public function getAuthPassword()
+    {
+        return $this->account->getPasswordHash();
+    }
+
+    /**
+     * Not implemented.
+     */
+    public function getRememberTokenName()
+    {
+        return null;
+    }
+
+    /**
+     * Not implemented.
+     */
+    public function getRememberToken()
+    {
+        return null;        
+    }
+
+    /**
+     * Not implemented.
+     */
+    public function setRememberToken($value) {}
 }
 
 
