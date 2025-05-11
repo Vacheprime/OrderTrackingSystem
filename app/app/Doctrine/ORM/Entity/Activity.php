@@ -18,8 +18,6 @@ use Doctrine\ORM\Mapping\ManyToOne;
 
 use DateTime;
 
-require_once(dirname(dirname(dirname(__DIR__)))."/Utils/utils.php");
-
 #[Entity]
 #[Table("activity")]
 class Activity {
