@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="{{ asset('css/ordertrackingdisplay.css') }}">
+<link rel="stylesheet" href="{{ asset('css/trackingdisplay.css') }}">
 
 <x-tracking-layout title="Client Order Status">
-<div class="content-container">
+<div class="content-container" id="track-content">
         <div class="main-content">
             <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
             <h2>ORDER STATUS</h2>
