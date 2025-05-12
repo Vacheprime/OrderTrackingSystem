@@ -55,10 +55,16 @@ class OrderController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $pagination = $this->repository->retrievePaginated(1, $page);
-        $orders = $pagination->items();
+        $pagination = $this->repository->retrievePaginated(10, 1);
         $pages = $pagination->lastPage();
-
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $pages) {
+            $page = $pages;
+        }
+        $pagination = $this->repository->retrievePaginated(10, $page);
+        $orders = $pagination->items();
         if ($request->HasHeader("x-refresh-table")) {
             return view('components.tables.order-table')->with('orders', $orders);
         }
