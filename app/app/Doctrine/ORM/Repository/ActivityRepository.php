@@ -48,6 +48,18 @@ class ActivityRepository extends BaseRepository {
             return $qb->orderBy("log_date", $order->value);
         });
     }
+
+    public function withEmployeeId(int $employeeId): self {
+        return $this->filter(function (QueryBuilder $qb) use ($employeeId) {
+            // expr
+            $expr = $qb->expr();
+            $qb = $qb
+                ->join("a.employee", "e")
+                ->andWhere($expr->eq("e.employeeId", ":employeeId"))
+                ->setParameter(":employeeId", $employeeId);
+            return $qb;
+        });
+    }
 }
 
 enum ActivityType: string {
