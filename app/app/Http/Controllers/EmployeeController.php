@@ -24,13 +24,38 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $employeeId = $request->input("employeeId");
+            $employee = $this->repository->find($employeeId);
+            return json_encode(array(
+                "employeeId" => $employee->getEmployeeId(),
+                "initials"=> $employee->getInitials(),
+                "firstName"=> $employee->getFirstName(),
+                "lastName"=> $employee->getLastName(),
+                "hiredDate"=> "",
+                "position"=> $employee->getPosition(),
+                "email"=> $employee->getAccount()->getEmail(),
+                "phoneNumber"=> $employee->getPhoneNumber(),
+                "address"=> $employee->getAddress()->getAddressId() . $employee->getAddress()->getStreetName(),
+                "postalCode"=> $employee->getAddress()->getPostalCode(),
+                "city"=> $employee->getAddress()->getArea(),
+                "province"=> $employee->getAddress()->getArea(),
+                "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
+            ));
+        }
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
         $employees = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.employee-table')->with('employees', $employees->items());
+        }
+
         return view('employees.index')->with('employees', $employees->items());
     }
 
@@ -47,7 +72,20 @@ class EmployeeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("employees.index");
+        $validateData = $request->validate([
+            "initials"=> "required",
+            "first-name"=> "required",
+            "last-name" => "required",
+            "hired-date" => "",
+            "position"=> "required",
+            "email"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+        ]);
+        return redirect("/employees");
     }
 
     /**
@@ -72,7 +110,21 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("employees.index");
+        $validateData = $request->validate([
+            "initials"=> "required",
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "email"=> "required",
+            "phone-number"=> "required",
+            "hired-date"=> "",
+            "position"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "account-status"=>""
+        ]);
+        return redirect("/employees");
     }
 
     /**

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/general.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('js/sidebar.js') }}"></script>
 </head>
@@ -17,7 +18,7 @@
 <div class="main-layout">
     <x-sidebar/>
     <main>
-        {{$slot}}
+        {{$slot}} <!-- The content injected into slot depends on the child view or component that uses layout.blade.php.-->
     </main>
 </div>
 </body>

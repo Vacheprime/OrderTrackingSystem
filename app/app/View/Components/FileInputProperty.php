@@ -21,6 +21,6 @@ class FileInputProperty extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.file-input-property');
+        return view('components.inputs.file-input-property');
     }
 }
