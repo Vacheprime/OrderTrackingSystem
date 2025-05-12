@@ -11,6 +11,7 @@ use SortOrder;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\Expr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use InvalidArgumentException;
@@ -43,6 +44,32 @@ class OrderRepository extends BaseRepository {
      */
     public function searchByNamePaginated(string $name, int $rowsPerPage, int $pageNumber = 1): LengthAwarePaginator {
         return $this->searchByName($name)->sortByCreationDate(SortOrder::ASCENDING)->retrievePaginated($rowsPerPage, $pageNumber);
+    }
+
+    /**
+     * Get an order based on its reference number.
+     * 
+     * @param string $reference The reference number of the order.
+     * @return ?Order The order associated with the reference number or null
+     * if the reference number does not exist.
+     */
+    public function findByReferenceNumber(string $reference): ?Order {
+        // Create a new query builder
+        $qb = $this->createQueryBuilder(self::$alias);
+        // Expr
+        $expr = $qb->expr();
+        // Query for the reference
+        $qb = $qb
+            ->where($expr->eq("o.referenceNumber", ":reference"))
+            ->setParameter(":reference", $reference);
+        // Get the query
+        $query = $qb->getQuery();
+        // Get the result
+        try {
+            return $query->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        }
     }
 
     /**

@@ -171,4 +171,20 @@ class OrderRepositoryTest extends TestCase
         // Attempt to delete
         $this->repository->deleteOrder($order);
     }
+
+    /**
+     * Test the findByReference method.
+     */
+    public function testFindByReference() {
+        $reference = "ORD-1001";
+        $expectedId = 1;
+        $order = $this->repository->findByReferenceNumber($reference);
+        assertEquals($expectedId, $order->getOrderId());
+    }
+
+    public function testFindByReferenceInvalid() {
+        $reference = "sdasd";
+        $order = $this->repository->findByReferenceNumber($reference);
+        assertNull($order);
+    }
 }
