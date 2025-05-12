@@ -13,26 +13,31 @@
     <h1 class="content-title">EMPLOYEE MANAGEMENT</h1>
     <div class="content-container">
         <div id="employees-content" class="main-content">
-            <div class="table-header">
-                <form class="search-form" action="" method="GET">
-                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
+            <div class="table-content">
+                <div class="table-header">
+                    <form class="search-form" action="" method="GET">
+                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="client-id">Employee ID</option>
-                        <option value="first-name">First Name</option>
-                        <option value="last-name">Last Name</option>
-                        <option value="last-name">Position</option>
-                    </x-select-input-property>
+                        <x-select-input-property labelText="Search By" name="search-by">
+                            <option value="client-id">Employee ID</option>
+                            <option value="first-name">First Name</option>
+                            <option value="last-name">Last Name</option>
+                            <option value="last-name">Position</option>
+                        </x-select-input-property>
 
 
-                </form>
-                <button class="regular-button" onclick="refreshEmployeeTable()">Search</button>
-                <a href="/employees/create">
-                    <button class="regular-button">Create</button>
-                </a>
+                    </form>
+                    <button class="regular-button" onclick="refreshEmployeeTable()">Search</button>
+                    <a href="/employees/create">
+                        <button class="regular-button">Create</button>
+                    </a>
+                </div>
+                <div class="search-table-div">
+                    <x-employee-table :employees="$employees"/>
+                </div>
             </div>
-            <div class="search-table-div">
-                <x-employee-table :employees="$employees"/>
+            <div class="search-table-pagination-div">
+                <script>changeEmployeePage({{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($employees))

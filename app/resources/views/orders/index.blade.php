@@ -16,7 +16,7 @@
             <div class="table-content">
                 <div class="table-header">
                     <form class="search-form" action="" method="GET">
-                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
+                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                         <x-select-input-property labelText="Search By" name="search-by">
                             <option value="order-id" selected>OrderID</option>
@@ -39,9 +39,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                @for($letPage = 1; $letPage <= $pages; $letPage++)
-                    <button id="paginated-btn-{{$letPage}}" class="paginated-btn regular-button {{$page == $letPage ? "" : "paginated-inactive"}}" onclick="refreshOrderTable({{$letPage}})">{{$letPage}}</button>
-                @endfor
+                <script>changeOrderPage({{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($orders))
@@ -67,15 +65,19 @@
                         <p><b>Slab Width:</b><span id="detail-slab-width">-</span></p>
                         <p><b>Slab Thickness:</b><span id="detail-slab-thickness">-</span></p>
                         <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">-</span></p>
-                        <p><b>Sink Type:</b><span id="detail-sink-type">-</span ></p>
+                        <p><b>Sink Type:</b><span id="detail-sink-type">-</span></p>
                         <p><b>Fabrication Plan Image:</b><img src="" id="detail-fabrication-plan-image"/></p>
-                        <p><b>Product Description:</b><textarea readonly placeholder="Product Description" id="detail-product-description"></textarea></p>
-                        <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes" id="detail-product-notes"></textarea></p>
+                        <p><b>Product Description:</b><textarea readonly placeholder="Product Description"
+                                                                id="detail-product-description"></textarea></p>
+                        <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes"
+                                                          id="detail-product-notes"></textarea></p>
                     </div>
                 </div>
                 <div class="side-content-details-options">
-                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Edit</a>
-                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Add Payment</a>
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button"
+                       onclick="">Edit</a>
+                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button"
+                       onclick="">Add Payment</a>
                 </div>
             </div>
         @endif

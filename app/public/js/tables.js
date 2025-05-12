@@ -105,10 +105,69 @@ function changePaymentDetails(paymentIdString) {
         });
 }
 
+function changePage(func, page, pages) {
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+    func(page);
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+    if (pages > 5 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onclick="changePage(${func}, 1, ${pages})"><<</button>`
+    }
+    if (pages > 1 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onclick="changePage(${func}, ${page - 1}, ${pages})"><</button>`
+    }
+    let firstPage = 1;
+    let lastPage = pages;
+    if (pages > 5) {
+        let firstPage = page - 2;
+        let lastPage = page + 2;
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+            onclick="changePage(${func}, ${curPage}, ${pages})">${curPage}</button>`
+
+    }
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button"
+            onclick="changePage(${func}, ${page + 1}, ${pages})">></button>`;
+    }
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button"
+            onclick="changePage(${func}, ${pages}, ${pages})">>></button>`;
+    }
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+        placeholder="Go Page"/></div><button class="regular-button"
+        onclick="changePage(${func}, parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
+}
+
 
 function refreshOrderTable(page) {
     const url = new URL(window.location.href);
-    const oldPage = url.searchParams.get("page");
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
     url.searchParams.set('page', page);
     // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
@@ -124,16 +183,70 @@ function refreshOrderTable(page) {
             document.querySelector(".search-table-div").innerHTML = text;
             initializeOrderRowClickEvents();
             highlightOrderFirstRow();
-            const paginatedBtnOld = document.querySelector(`#paginated-btn-${oldPage}`);
-            const paginatedBtnNew = document.querySelector(`#paginated-btn-${page}`);
-            paginatedBtnOld.classList.add("paginated-inactive");
-            paginatedBtnNew.classList.remove("paginated-inactive");
-        });
+        })
 }
 
-function refreshClientTable() {
+function changeOrderPage(page, pages) {
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+    refreshOrderTable(page);
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+    if (pages > 5 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onclick="changeOrderPage(1, ${pages})"><<</button>`
+    }
+    if (pages > 1 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onclick="changeOrderPage(${page - 1}, ${pages})"><</button>`
+    }
+    let firstPage = 1;
+    let lastPage = pages;
+    if (pages > 5) {
+        let firstPage = page - 2;
+        let lastPage = page + 2;
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+                            onclick="changeOrderPage(${curPage}, ${pages})">${curPage}</button>`
+
+    }
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeOrderPage(${page + 1}, ${pages})">></button>`;
+    }
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeOrderPage(${pages}, ${pages})">>></button>`;
+    }
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changeOrderPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
+}
+
+function refreshClientTable(page) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    url.searchParams.set('page', page);
     // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
     // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
 
@@ -150,10 +263,67 @@ function refreshClientTable() {
         });
 }
 
+function changeClientPage(page, pages) {
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+    refreshClientTable(page);
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+    if (pages > 5 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changeClientPage(1, ${pages})"><<</button>`
+    }
+    if (pages > 1 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changeClientPage(${page - 1}, ${pages})"><</button>`
+    }
+    let firstPage = 1;
+    let lastPage = pages;
+    if (pages > 5) {
+        let firstPage = page - 2;
+        let lastPage = page + 2;
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+                            onclick="changeClientPage(${curPage}, ${pages})">${curPage}</button>`
 
-function refreshEmployeeTable() {
+    }
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeClientPage(${page + 1}, ${pages})">></button>`;
+    }
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeClientPage(${pages}, ${pages})">>></button>`;
+    }
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changeClientPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
+}
+
+function refreshEmployeeTable(page) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    url.searchParams.set('page', page);
     // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
     // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
 
@@ -170,10 +340,68 @@ function refreshEmployeeTable() {
         });
 }
 
+function changeEmployeePage(page, pages) {
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+    refreshEmployeeTable(page);
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+    if (pages > 5 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changeEmployeePage(1, ${pages})"><<</button>`
+    }
+    if (pages > 1 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changeEmployeePage(${page - 1}, ${pages})"><</button>`
+    }
+    let firstPage = 1;
+    let lastPage = pages;
+    if (pages > 5) {
+        let firstPage = page - 2;
+        let lastPage = page + 2;
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
 
-function refreshPaymentTable() {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+                            onclick="changeEmployeePage(${curPage}, ${pages})">${curPage}</button>`
+
+    }
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeEmployeePage(${page + 1}, ${pages})">></button>`;
+    }
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeEmployeePage(${pages}, ${pages})">>></button>`;
+    }
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changeEmployeePage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
+}
+
+function refreshPaymentTable(page) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
+    url.searchParams.set('page', page);
     // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
     // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
 
@@ -188,6 +416,63 @@ function refreshPaymentTable() {
             highlightPaymentFirstRow();
             window.history.pushState({}, '', url);
         });
+}
+
+function changePaymentPage(page, pages) {
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+    refreshPaymentTable(page);
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+    if (pages > 5 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changePaymentPage(1, ${pages})"><<</button>`
+    }
+    if (pages > 1 && page !== 1) {
+        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
+                onClick="changePaymentPage(${page - 1}, ${pages})"><</button>`
+    }
+    let firstPage = 1;
+    let lastPage = pages;
+    if (pages > 5) {
+        let firstPage = page - 2;
+        let lastPage = page + 2;
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+                            onclick="changePaymentPage(${curPage}, ${pages})">${curPage}</button>`
+
+    }
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${page + 1}, ${pages})">></button>`;
+    }
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${pages}, ${pages})">>></button>`;
+    }
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changePaymentPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
 }
 
 /* This is to highlight the selected row*/
