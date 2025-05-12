@@ -1,11 +1,44 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        
+    }
+
     /**
      * GET => '/'
      * Fetches the /resources/views/login/index.blade.php
@@ -25,11 +58,16 @@ class LoginController extends Controller {
      */
     public function auth(Request $request) {
         $employee = $request->validate([
-            'username' => ['required', 'string'],
+            'username' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($employee)) {
+        $credentials = [
+            'email' => $employee['username'],
+            'password' => $employee['password']
+        ];
+
+        if (Auth::attempt($credentials)) {
             //session
             return redirect('/qr2fa');
         }

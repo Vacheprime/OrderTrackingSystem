@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Auth;
 
 // LOGINS
 Route::get('/', function () {
@@ -48,3 +49,7 @@ Route::resource('clients', ClientController::class);
 Route::resource('payments', PaymentController::class);
 
 Route::resource('employees', EmployeeController::class);
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
