@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/trackinginput.css') }}">
+<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 
 <x-layout title="Client Order Tracking">
     <div class="layout-container">
