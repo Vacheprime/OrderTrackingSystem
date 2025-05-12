@@ -18,14 +18,14 @@
                 <h2>Next 7 Days</h2>
                 <a href="" class="regular-button">View Table</a>
             </div>
-            <x-order-table :orders="$orders[0]"/>
+            <x-order-table :orders="$orders[0]" :short="true"/>
         </div>
         <div id="home-side-content" class="main-content">
             <div class="home-header">
                 <h2>Recently Changed</h2>
                 <a href="" class="regular-button">View Table</a>
             </div>
-            <x-order-table :orders="$orders[1]"/>
+            <x-order-table :orders="$orders[1]" :short="true"/>
         </div>
     </div>
 </x-layout>
