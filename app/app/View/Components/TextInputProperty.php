@@ -21,6 +21,6 @@ class TextInputProperty extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.text-input-property');
+        return view('components.inputs.text-input-property');
     }
 }

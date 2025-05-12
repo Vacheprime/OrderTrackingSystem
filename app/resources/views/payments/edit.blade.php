@@ -1,24 +1,29 @@
+<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
+<link rel="stylesheet" href="{{ asset('css/payments.css') }}">
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 
 <x-layout title="Edit Payment">
-    <h1 class="content-title">ORDER MANAGEMENT</h1>
-    <div class="content-container">
-        <div id="orders-content" class="main-content">
-            <a href="{{url()->previous()}}">
-                <button>Go Back</button>
-            </a>
-            <form action="/payments/update" class="create-edit-form">
-                <h2 class="title">Edit Payment</h2>
-                <x-text-input-property labelText="Order ID" name="order-id"/>
-                <x-date-input-property labelText="Date" name="payment-date"/>
-                <x-text-input-property labelText="Amount" name="amount"/>
-                <x-text-input-property labelText="Type" name="type"/>
-                <x-text-input-property labelText="Method" name="method"/>
-                <input class="regular-button" type="submit" value="Save"/>
+    <div class="layout-container">
+        <div class="main-content">
+            <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
+            <h2 class="title">Edit Payment</h2>
+            <hr/>
+            <form method="POST" action="{{route("payments.update", $payment->getPaymentId())}}" class="create-edit-form">
+                @csrf
+                @method("PUT")
+                <div class="flex-input-div">
+                    <x-text-input-property labelText="Order ID" name="order-id"/>
+                    <x-date-input-property labelText="Date" name="payment-date"/>
+                    <x-text-input-property labelText="Amount" name="amount"/>
+                    <x-text-input-property labelText="Type" name="type"/>
+                    <x-text-input-property labelText="Method" name="method"/>
+                </div>
+
+                <div class="action-input-div">
+                    <button class="regular-button" type="submit">Save</button>
+                    <a href="/payments" class="regular-button">Cancel</a>
+               </div>
             </form>
-            <a href="/payments">
-                <button class="regular-button">Cancel</button>
-            </a>
         </div>
     </div>
 </x-layout>

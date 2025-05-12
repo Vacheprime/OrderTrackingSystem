@@ -22,14 +22,37 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $clientId = $request->input("clientId");
+            $client = $this->repository->find($clientId);
+            return json_encode(array(
+                "clientId" => $client->getClientId(),
+                "firstName"=> $client->getFirstName(),
+                "lastName"=> $client->getLastName(),
+                "referenceNumber"=> $client->getClientReference() ?? "",
+                "phoneNumber"=> $client->getPhoneNumber(),
+                "address"=> $client->getAddress()->getAppartmentNumber() . $client->getAddress()->getStreetName(),
+                "postalCode"=> $client->getAddress()->getPostalCode(),
+                "city"=> $client->getAddress()->getArea(),
+                "province"=> $client->getAddress()->getArea(),
+                "area"=> $client->getAddress()->getArea(),
+            ));
+        }
+
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $orders = $this->repository->retrievePaginated(10, $page);
-        return view('clients.index')->with('clients', $orders->items());
+        $clients = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.client-table')->with('clients', $clients->items());
+        }
+
+        return view('clients.index')->with('clients', $clients->items());
     }
 
     /**
@@ -45,7 +68,18 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("clients.index");
+        $validateData = $request->validate([
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "reference-number"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "area"=> "required",
+        ]);
+        return redirect("/clients");
     }
 
     /**
@@ -70,7 +104,18 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("clients.index");
+        $validateData = $request->validate([
+            "first-name"=> "required",
+            "last-name"=> "required",
+            "reference-number"=> "required",
+            "phone-number"=> "required",
+            "address"=> "required",
+            "postal-code"=> "required",
+            "city"=> "required",
+            "province"=> "required",
+            "area"=> "required",
+        ]);
+        return redirect("/clients");
     }
 
     /**

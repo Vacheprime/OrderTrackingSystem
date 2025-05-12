@@ -21,6 +21,6 @@ class DateInputProperty extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.date-input-property');
+        return view('components.inputs.date-input-property');
     }
 }

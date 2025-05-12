@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use function Termwind\parse;
 
 class OrderController extends Controller
 {
@@ -22,14 +23,46 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $orderId = $request->input("orderId");
+            $order = $this->repository->find($orderId);
+            return json_encode(array(
+                "orderId" => $order->getOrderId(),
+                "clientId"=> $order->getClient()->getClientId(),
+                "measuredBy"=> $order->getMeasuredBy()->getInitials(),
+                "referenceNumber"=> $order->getReferenceNumber(),
+                "invoiceNumber"=> $order->getInvoiceNumber() ?? "null",
+                "totalPrice"=> $order->getPrice() ?? "null",
+                "orderStatus"=> $order->getStatus(),
+                "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d") ,
+                "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
+                "pickUpDate"=> $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
+//                "materialName"=> $order->getProduct()->getMaterialName() ?? "null",
+//                "slabHeight"=> $order->getProduct()->getSlabHeight() ?? "null",
+//                "slabWidth"=> $order->getProduct()->getSlabWidth() ?? "null",
+//                "slabThickness"=> $order->getProduct()->getSlabThickness() ?? "null",
+//                "slabSquareFootage"=> $order->getProduct()->getSlabSquareFootage() ?? "null",
+//                "fabricationPlanImage"=> $order->getProduct()->getPlanImagePath() ?? "null",
+//                "productDescription"=> $order->getProduct()->getProductDescription() ?? "null",
+//                "productNotes"=> $order->getProduct()->getProductNotes() ?? "null",
+            ));
+        }
+
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $orders = $this->repository->retrievePaginated(10, $page);
-        return view('orders.index')->with('orders', $orders->items());
+        $pagination = $this->repository->retrievePaginated(1, $page);
+        $orders = $pagination->items();
+        $pages = $pagination->lastPage();
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.order-table')->with('orders', $orders);
+        }
+        return view('orders.index')->with(compact("orders", "pages", "page"));
     }
 
     /**
@@ -45,8 +78,27 @@ class OrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        return redirect('orders.index');
+        $validateData = $request->validate([
+            "client-id" => "required",
+            "measured-by" => "required",
+            "reference-number" => "required",
+            "invoice-number" => "required",
+            "total-price" => "required",
+            "order-status" => "",
+            "fabrication-image" => "",
+            "fabrication-start-date" => "",
+            "installation-start-date" => "",
+            "pickup-start-date" => "",
+            "material-name" => "required",
+            "slab-height" => "required",
+            "slab-width" => "required",
+            "slab-thickness" => "required",
+            "slab-square-footage" => "required",
+            "sink-type" => "required",
+            "product-description" => "required",
+            "product-notes" => "required",
+        ]);
+        return redirect('/orders');
     }
 
     /**
@@ -71,13 +123,29 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-//        $validatedData = $request->validate([
-//            'client-id' => 'required|int',
-//            'measured-by' => 'nullable|string',
-//        ]);
+        $validateData = $request->validate([
+            "client-id" => "required",
+            "measured-by" => "required",
+            "reference-number" => "required",
+            "invoice-number" => "required",
+            "total-price" => "required",
+            "order-status" => "",
+            "fabrication-image" => "",
+            "fabrication-start-date" => "",
+            "installation-start-date" => "",
+            "pickup-start-date" => "",
+            "material-name" => "required",
+            "slab-height" => "required",
+            "slab-width" => "required",
+            "slab-thickness" => "required",
+            "slab-square-footage" => "required",
+            "sink-type" => "required",
+            "product-description" => "required",
+            "product-notes" => "required",
+        ]);
 //        $order = $this->repository->find($id);
 //        $this->repository->updateOrder($order);
-        return redirect()->route("orders.index");
+        return redirect("/orders");
     }
 
     /**

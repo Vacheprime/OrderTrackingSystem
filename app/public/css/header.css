@@ -9,7 +9,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     margin: 0 0 25px 0;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 0 20px;
 }
 
@@ -27,10 +27,21 @@ header img {
     cursor: pointer;
     line-height: normal;
     font-size: 12px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .selectLanguage option {
     background-color: whitesmoke;
     cursor: pointer;
+}
+
+#logout-form {
+    width: fit-content;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

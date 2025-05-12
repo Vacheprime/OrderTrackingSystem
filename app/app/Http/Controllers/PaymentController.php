@@ -23,13 +23,31 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
+        if ($request->hasHeader("x-change-details")) {
+            $paymentId = $request->input("paymentId");
+            $payment = $this->repository->find($paymentId);
+            return json_encode(array(
+                "paymentId" => $payment->getPaymentId(),
+                "orderId"=> $payment->getOrder()->getOrderId(),
+                "paymentDate"=> $payment->getPaymentDate()->format("Y / m / d"),
+                "amount"=> $payment->getAmount(),
+                "type"=> $payment->getType(),
+                "method"=> $payment->getMethod(),
+            ));
+        }
+
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
         $payments = $this->repository->retrievePaginated(10, $page);
+
+        if ($request->HasHeader("x-refresh-table")) {
+            return view('components.tables.payment-table')->with('payments', $payments->items());
+        }
+
         return view('payments.index')->with('payments', $payments->items());
     }
 
@@ -46,7 +64,14 @@ class PaymentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("payments.index");
+        $validateData = $request->validate([
+            "order-id"=> "required",
+            "payment-date"=> "",
+            "amount"=> "required",
+            "type"=> "required",
+            "method"=> "required",
+        ]);
+        return redirect("/payments");
     }
 
     /**
@@ -71,7 +96,14 @@ class PaymentController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        return redirect()->route("payments.index");
+        $validateData = $request->validate([
+            "order-id"=> "required",
+            "payment-date"=> "",
+            "amount"=> "required",
+            "type"=> "required",
+            "method"=> "required",
+        ]);
+        return redirect("/payments");
     }
 
     /**
