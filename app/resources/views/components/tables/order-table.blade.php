@@ -41,12 +41,26 @@
         </tr>
     @empty
         <tr>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
+            <td>
+                <div class="order-table-td-div">Empty</div>
+            </td>
+            <td>
+                <div class="order-table-td-div">Empty</div>
+            </td>
+            <td>
+                <div class="order-table-td-div">Empty</div>
+            </td>
+            <td>
+                <div class="order-table-td-div">Empty</div>
+            </td>
+            @if(!$short)
+                <td>
+                    <div class="order-table-td-div">Empty</div>
+                </td>
+                <td>
+                    <div class="order-table-td-div">Empty</div>
+                </td>
+            @endif
         </tr>
     @endforelse
     </tbody>

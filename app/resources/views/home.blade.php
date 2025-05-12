@@ -15,7 +15,7 @@
     <div class="content-container">
         <div id="home-content" class="main-content">
             <div class="home-header">
-                <h2>Next 7 Days</h2>
+                <h2>Recently Viewed</h2>
                 <a href="" class="regular-button">View Table</a>
             </div>
             <x-order-table :orders="$orders[0]" :short="true"/>
