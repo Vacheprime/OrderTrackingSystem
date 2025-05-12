@@ -7,6 +7,7 @@ namespace app\Doctrine\ORM\Entity;
 
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Employee;
+use app\Doctrine\ORM\Repository\ActivityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
@@ -18,7 +19,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 
 use DateTime;
 
-#[Entity]
+#[Entity(repositoryClass: ActivityRepository::class)]
 #[Table("activity")]
 class Activity {
     #[Id]

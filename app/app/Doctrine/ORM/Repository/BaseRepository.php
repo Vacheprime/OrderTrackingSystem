@@ -54,6 +54,18 @@ class BaseRepository extends EntityRepository {
     }
 
     /**
+     * Set a limit to the number of results to fetch.
+     * 
+     * @param int $maxResults The maximum number of results.
+     * @return self A clone of this repository with the max number of results set.
+     */
+    public function limit(int $maxResults): self {
+        return $this->filter(function (QueryBuilder $qb) use ($maxResults) {
+            return $qb->setMaxResults($maxResults);
+        });
+    }
+
+    /**
      * Apply a given closure to the current query.
      */
     public function filter(Closure $filter): self {

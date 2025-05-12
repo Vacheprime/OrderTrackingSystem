@@ -48,6 +48,26 @@ class ActivityRepository extends BaseRepository {
             return $qb->orderBy("log_date", $order->value);
         });
     }
+
+    /**
+     * Find only the activities that have been done by the 
+     * specified employee.
+     * 
+     * @param int $employeeId The Id of the employee that did
+     * the activities.
+     * @return self A clone of the ActivityRepository with the sorting applied.
+     */
+    public function withEmployeeId(int $employeeId): self {
+        return $this->filter(function (QueryBuilder $qb) use ($employeeId) {
+            // expr
+            $expr = $qb->expr();
+            $qb = $qb
+                ->join("a.employee", "e")
+                ->andWhere($expr->eq("e.employeeId", ":employeeId"))
+                ->setParameter(":employeeId", $employeeId);
+            return $qb;
+        });
+    }
 }
 
 enum ActivityType: string {
