@@ -12,7 +12,7 @@
                 <div class="details-div">
                     <x-text-input-property labelText="Client ID" name="client-id"/>
                     <a href="" class="createClient">Inexistant client? Create one</a>
-                    <x-text-input-property labelText="Measured By" name="measured-by"/>
+                    <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
                     <x-select-input-property labelText="Status" name="order-status">

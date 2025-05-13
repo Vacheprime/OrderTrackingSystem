@@ -90,9 +90,9 @@ class OrderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validatedData = array_merge(
-            // Default value
+            // Default values
             ["fabrication-image-input" => null], 
-        
+            // Validated fields
             $request->validate([
                 "client-id" => "required|integer|min:1",
                 "measured-by" => "required|integer|min:1",
