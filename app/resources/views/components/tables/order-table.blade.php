@@ -41,26 +41,9 @@
         </tr>
     @empty
         <tr>
-            <td>
-                <div class="order-table-td-div">Empty</div>
+            <td colspan="{{$short ? 4 : 6}}" style="text-align: center;">
+                <div class="order-table-td-div">No results!</div>
             </td>
-            <td>
-                <div class="order-table-td-div">Empty</div>
-            </td>
-            <td>
-                <div class="order-table-td-div">Empty</div>
-            </td>
-            <td>
-                <div class="order-table-td-div">Empty</div>
-            </td>
-            @if(!$short)
-                <td>
-                    <div class="order-table-td-div">Empty</div>
-                </td>
-                <td>
-                    <div class="order-table-td-div">Empty</div>
-                </td>
-            @endif
         </tr>
     @endforelse
     </tbody>
