@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Repository\OrderRepository;
+use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -33,8 +34,8 @@ class OrderController extends Controller
                 "clientId"=> $order->getClient()->getClientId(),
                 "measuredBy"=> $order->getMeasuredBy()->getInitials(),
                 "referenceNumber"=> $order->getReferenceNumber(),
-                "invoiceNumber"=> $order->getInvoiceNumber() ?? "null",
-                "totalPrice"=> $order->getPrice() ?? "null",
+                "invoiceNumber"=> $order->getInvoiceNumber() ?? "No invoice associated.",
+                "totalPrice"=> $order->getPrice(),
                 "orderStatus"=> $order->getStatus(),
                 "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d") ,
                 "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
@@ -49,7 +50,6 @@ class OrderController extends Controller
 //                "productNotes"=> $order->getProduct()->getProductNotes() ?? "null",
             ));
         }
-
 
         $page = $request->input('page', 1);
         $search = $request->input('search', "");
@@ -78,17 +78,16 @@ class OrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validateData = $request->validate([
+
+        $validatedData = $request->validate([
             "client-id" => "required",
             "measured-by" => "required",
-            "reference-number" => "required",
             "invoice-number" => "required",
             "total-price" => "required",
             "order-status" => "",
-            "fabrication-image" => "",
+            "fabrication-image" => "file|mimes:jpg,jpeg,png|max:10240",
             "fabrication-start-date" => "",
             "installation-start-date" => "",
-            "pickup-start-date" => "",
             "material-name" => "required",
             "slab-height" => "required",
             "slab-width" => "required",
@@ -98,7 +97,26 @@ class OrderController extends Controller
             "product-description" => "required",
             "product-notes" => "required",
         ]);
+
+
         return redirect('/orders');
+    }
+
+    public function validateOrderInputData(array $data): array {
+        $errors = [];
+        // Validate Client Id
+        // Validate Employee Id
+        // Validate invoice number
+        if (!Utils::validateInvoiceNumber($data["invoice-number"])) {
+            $errors["invoice-number"] = "The invoice number format is invalid.";
+        }
+        // Validate total price
+        if (!Utils::validatePositiveAmount($data["total-price"])) {
+            $errors["total-price"] = "The price format is invalid.";
+        }
+        // Validate 
+        return $errors;
+
     }
 
     /**

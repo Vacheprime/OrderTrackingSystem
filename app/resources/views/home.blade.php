@@ -1,13 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
-<script src="{{ asset('js/tables.js') }}"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        initializeOrderRowClickEvents();
-        highlightOrderFirstRow();
-    });
-</script>
 
 <x-layout title="Home">
     <!-- This Blade component refers to layout.blade.php. It's used to define reusable layout structure-->
