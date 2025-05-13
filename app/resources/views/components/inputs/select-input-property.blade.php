@@ -7,7 +7,7 @@
     <select id="{{$name}}-select" name="{{$name}}-select">
         {{$slot}}
     </select>
-    @error("$name")
+    @error("$name-select")
         <p class="error-input">{{$message}}</p>
     @enderror
 </div>
