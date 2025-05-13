@@ -29,7 +29,7 @@ class ActivityRepository extends BaseRepository {
         return $this->filter(function (QueryBuilder $qb) use ($type) {
             $expr = $qb->expr();
             return $qb->andWhere(
-                $expr->eq("activity_type", ":type")
+                $expr->eq("a.activityType", ":type")
             )->setParameter(":type", $type->value);
         });
     }
@@ -45,7 +45,7 @@ class ActivityRepository extends BaseRepository {
      */
     public function sortByLogDate(SortOrder $order) {
         return $this->filter(function (QueryBuilder $qb) use ($order) {
-            return $qb->orderBy("log_date", $order->value);
+            return $qb->orderBy("a.logDate", $order->value);
         });
     }
 

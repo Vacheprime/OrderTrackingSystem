@@ -11,9 +11,6 @@
                 @method("PUT")
                 <h3>Order Details</h3>
                 <div class="details-div">
-                    <x-text-input-property labelText="Client ID" name="client-id"/>
-                    <x-text-input-property labelText="Measured By" name="measured-by"/>
-                    <x-text-input-property labelText="Reference Number" name="reference-number"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
                     <x-select-input-property labelText="Status" name="order-status">
@@ -33,7 +30,6 @@
                 <div class="details-div">
                     <x-date-input-property labelText="Fabrication Start Date" name="fabrication-start-date"/>
                     <x-date-input-property labelText="Installation Start Date" name="installation-start-date"/>
-                    <x-date-input-property labelText="Pickup Start Date" name="pickup-start-date"/>
                 </div>
 
                 <h3>Product Details</h3>
@@ -127,4 +123,4 @@
             </form>
         </div>
     </div>
-</x-layout> -->
+</x-layout> 

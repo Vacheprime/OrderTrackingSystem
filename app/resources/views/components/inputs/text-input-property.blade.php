@@ -5,7 +5,7 @@
         <label id="{{$name}}-label" for="{{$name}}-input">{{$labelText}}</label>
     @endif
     <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input"
-           name="{{$name}}" placeholder="{{$labelText}}"/>
+           name="{{$name}}" placeholder="{{$labelText}}" value="{{ old($name) }}"/>
     @error("$name")
         <p class="error-input">{{$message}}</p>
     @enderror
