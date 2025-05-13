@@ -6,14 +6,13 @@
                 <button class="regular-button">Go Back</button>
             </a>
             <h2>Create Order</h2>
-            <form method="POST" action="/orders" class="create-edit-form">
+            <form method="POST" action="/orders" class="create-edit-form" enctype="multipart/form-data">
                 @csrf
                 <h3>Order Details</h3>
                 <div class="details-div">
                     <x-text-input-property labelText="Client ID" name="client-id"/>
                     <a href="" class="createClient">Inexistant client? Create one</a>
-                    <x-text-input-property labelText="Measured By" name="measured-by"/>
-                    <x-text-input-property labelText="Reference Number" name="reference-number"/>
+                    <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
                     <x-select-input-property labelText="Status" name="order-status">
@@ -32,8 +31,7 @@
                 <h3>Date Details</h3>
                 <div class="details-div">
                     <x-date-input-property labelText="Fabrication Start Date" name="fabrication-start-date"/>
-                    <x-date-input-property labelText="Installation Start Date" name="installation-start-date"/>
-                    <x-date-input-property labelText="Pickup Start Date" name="pickup-start-date"/>
+                    <x-date-input-property labelText="Estimated Installation Date" name="estimated-installation-date"/>
                 </div>
 
                 <h3>Product Details</h3>
@@ -46,7 +44,7 @@
                     <x-text-input-property labelText="Sink Type" name="sink-type"/>
                     <div class="textarea-group">
                         <label id="productDescription" for="productDescription-input">Product Description</label>
-                        <textarea name="product-description" id="productDescription-input" placeholder="Product Description"></textarea>
+                        <textarea name="product-description" id="productDescription-input" placeholder="Product Description">{{old("product-description")}}</textarea>
                         @error("product-description")
                         <p class="error-input">{{$message}}</p>
                         @enderror
@@ -54,7 +52,7 @@
 
                     <div class="textarea-group">
                         <label id="productNotes" for="productNotes-input">Product Notes</label>
-                        <textarea name="product-notes" id="productNotes-input" placeholder="Product Notes"></textarea>
+                        <textarea name="product-notes" id="productNotes-input" placeholder="Product Notes">{{old("product-notes")}}</textarea>
                         @error("product-notes")
                         <p class="error-input">{{$message}}</p>
                         @enderror
@@ -128,4 +126,4 @@
             </form>
         </div>
     </div>
-</x-layout> -->
+</x-layout> 

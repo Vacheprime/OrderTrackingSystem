@@ -4,8 +4,8 @@
     @if($isLabel)
         <label id="{{$name}}-label" for="{{$name}}-input">{{$labelText}}:</label>
     @endif
-    <input {{$readonly ? "readonly" : ""}} type="date" id="{{$name}}-input" name="{{$name}}-input"/>
-    @error("$name")
+    <input {{$readonly ? "readonly" : ""}} type="date" id="{{$name}}-input" name="{{$name}}-input" value="{{ old("$name-input") }}"/>
+    @error("$name-input")
     <p class="error-input">{{$message}}</p>
     @enderror
 </div>

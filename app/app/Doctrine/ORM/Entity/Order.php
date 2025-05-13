@@ -111,7 +111,7 @@ class Order {
     public function __construct(
         string $price,
         Status $status,
-        string $invoiceNumber,
+        ?string $invoiceNumber,
         ?DateTime $fabricationStartDate,
         ?DateTime $estimatedInstallDate,
         ?DateTime $orderCompletedDate,
@@ -232,7 +232,11 @@ class Order {
      * @see \app\Utils\Utils::validateInvoiceNumber() for the format of the invoice
      * number.
      */
-    public function setInvoiceNumber(string $invoiceNumber): void {
+    public function setInvoiceNumber(?string $invoiceNumber): void {
+        if ($invoiceNumber === null) {
+            $this->invoiceNumber = null;
+            return;
+        }
         if (!Utils::validateInvoiceNumber($invoiceNumber)) {
             throw new InvalidArgumentException("The invoice number is invalid!");
         }

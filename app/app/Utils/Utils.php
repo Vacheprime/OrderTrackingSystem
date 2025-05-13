@@ -354,6 +354,8 @@ class Utils {
     }
 
     /**
+     * TO BE DELETED, KEPT FOR COMPATIBILITY. ALWAYS RETURNS TRUE.
+     * 
      * Checks whether the image path is of valid format.
      * 
      * The format of the image path is a string ranging from 1 to 70, excluding the
@@ -369,8 +371,7 @@ class Utils {
      * @return bool A boolean indicating whether the image path or extension is valid.
      */
     public static function validateImagePath(string $imagePath): bool {
-        if (self::hasInvalidSpaces($imagePath)) return false;
-        return preg_match('/^(?! )[^\s<>:"\/\\|?*\n]{1,70}\.(png|jpg|jpeg|gif|webp|bmp)$/i', $imagePath) == 1;
+        return true;
     }
 
     /**
@@ -387,5 +388,23 @@ class Utils {
     public static function validateSlabSquareFootage(string $squareFootage): bool {
         if (!self::validateStringDecimal($squareFootage, 6, 2)) return false;
         return bccomp($squareFootage, "0", self::$decimalScale) === 1;
+    }
+
+    /**
+     * Check whether an array contains at least one, non-null value.
+     * 
+     * @param array $arr The array to check.
+     * @return bool A boolean indicating whether the array contains
+     * at least one, non-null value.
+     */
+    public static function arrayHasValue(array $arr): bool {
+        $hasValue = false;
+        foreach ($arr as $key => $value) {
+            if ($value !== null)  {
+                $hasValue = true;
+                break;
+            }
+        }
+        return $hasValue;
     }
 }
