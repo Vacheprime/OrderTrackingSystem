@@ -263,7 +263,8 @@ class OrderController extends Controller
         // Validate slab width
         if ($data["slab-width"] !== null && !Utils::validateSlabDimension($data["slab-width"])) {
             $errors["slab-width"] = "The slab width is of invalid format.";
-        }        // Validate 
+        }
+        // Validate the slab square footage
         if ($data["slab-square-footage"] !== null && !Utils::validateSlabSquareFootage($data["slab-square-footage"])) {
             $errors["slab-square-footage"] = "The slab square footage is of invalid format.";
         }
