@@ -12,15 +12,15 @@
                @csrf
                @method("PUT")
                <div class="flex-input-div">
-                   <x-text-input-property labelText="First Name" name="first-name"/>
-                   <x-text-input-property labelText="Last Name" name="last-name"/>
-                   <x-text-input-property labelText="Address" name="address"/>
-                   <x-text-input-property labelText="Reference Number" name="reference-number"/>
-                   <x-text-input-property labelText="Phone Number" name="phone-number"/>
-                   <x-text-input-property labelText="Postal Code" name="postal-code"/>
-                   <x-text-input-property labelText="City" name="city"/>
-                   <x-text-input-property labelText="Province" name="province"/>
-                   <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
+                   <x-text-input-property labelText="First Name" name="first-name" :value="$client->getFirstName()"/>
+                   <x-text-input-property labelText="Last Name" name="last-name" :value="$client->getLastName()"/>
+                   <x-text-input-property labelText="Address" name="address" :value="$client->getAddress()->getStreetName()"/>
+                   <x-text-input-property labelText="Reference Number" name="reference-number" :value="$client->getClientReference()"/>
+                   <x-text-input-property labelText="Phone Number" name="phone-number" :value="$client->getPhoneNumber()"/>
+                   <x-text-input-property labelText="Postal Code" name="postal-code" :value="$client->getAddress()->getPostalCode()"/>
+                   <x-text-input-property labelText="City" name="city" :value="$client->getAddress()->getArea()"/>
+                   <x-text-input-property labelText="Province" name="province" :value="$client->getAddress()->getArea()"/>
+                   <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="$client->getAddress()->getArea()"/>
                </div>
 
                <div class="action-input-div">

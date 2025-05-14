@@ -111,7 +111,7 @@ class EmployeeController extends Controller
     public function edit(string $id): View
     {
         $employee = $this->repository->find($id);
-        return view("employees.edit")->with("employee", $employee);
+        return view("employees.edit")->with(compact("employee"));
     }
 
     /**

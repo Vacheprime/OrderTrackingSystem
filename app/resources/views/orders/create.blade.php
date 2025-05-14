@@ -2,15 +2,13 @@
 <x-layout title="Create Order">
     <div class="content-container">
         <div id="orders-content" class="main-content">
-            <a href="{{url()->previous()}}">
-                <button class="regular-button">Go Back</button>
-            </a>
+            <a href="{{$clientId == "" ? "/orders" : "/clients"}}" class="regular-button">Go Back</a>
             <h2>Create Order</h2>
             <form method="POST" action="/orders" class="create-edit-form" enctype="multipart/form-data">
                 @csrf
                 <h3>Order Details</h3>
                 <div class="details-div">
-                    <x-text-input-property labelText="Client ID" name="client-id"/>
+                    <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
                     <a href="" class="createClient">Inexistant client? Create one</a>
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
@@ -126,4 +124,4 @@
             </form>
         </div>
     </div>
-</x-layout> 
+</x-layout>
