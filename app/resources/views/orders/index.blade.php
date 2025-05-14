@@ -45,7 +45,7 @@
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>ORDER DETAILS</h2>
                         <hr>
                         <h3><b>ORDER ID:</b><span id="detail-order-id">-</span></h3>

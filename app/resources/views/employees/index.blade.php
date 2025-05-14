@@ -43,7 +43,7 @@
         @if(!empty($employees))
             <div id="employees-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>EMPLOYEE DETAILS</h2>
                         <hr>
                         <h3><b>Employee ID:</b><span id="detail-employee-id">-</span></h3>

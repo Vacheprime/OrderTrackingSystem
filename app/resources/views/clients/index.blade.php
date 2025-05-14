@@ -37,7 +37,7 @@
         @if(!empty($clients))
             <div id="clients-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>CLIENT DETAILS</h2>
                         <hr>
                         <h3><b>Client ID:</b><span id="detail-client-id">-</span></h3>
