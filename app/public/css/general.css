@@ -210,6 +210,12 @@ main {
     width: fit-content;
 }
 
+.search-form .text-input-property-div {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+}
+
 .text-input-property-div label {
     font-size: 20px;
     border-width: 1px;
@@ -248,6 +254,14 @@ main {
 .select-input-property-div {
     display: flex;
     flex-direction: column;
+    width: fit-content;
+}
+
+.search-form .select-input-property-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     width: fit-content;
 }
 
