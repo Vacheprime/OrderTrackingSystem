@@ -72,16 +72,17 @@ class LoginController extends Controller
 
         if ($employee && password_verify($validateData['password'], $employee->getAuthPassword())) {
 
-            if ($employee->getAccount()->hasSetUp2fa()) {
-                return redirect('/code2fa');
-            }
-
             $employeeInfo = [
                 "employeeID" => $employee->getAuthIdentifier(),
                 "employeeEmail" => $employee->getAccount()->getEmail(),
                 "isEmployeeAdmin" => $employee->getAccount()->isAdmin(),
                 "2fa_setup" => false
             ];
+
+            if ($employee->getAccount()->hasSetUp2fa()) {
+                session()->put('employee', $employeeInfo);
+                return redirect('/code2fa');
+            }
 
             session()->put('employee', $employeeInfo);
 
@@ -168,12 +169,12 @@ class LoginController extends Controller
         return back()->withErrors(['verification-code' => 'Invalid code!']);
     }
 
-    if (!$employee->getAccount()->hasSetUp2fa()) {
-        $employee->getAccount()->setHasSetUp2fa(true);
-        $em->getRepository(Employee::class)->updateEmployee($employee);
-    }
+    // if (!$employee->getAccount()->hasSetUp2fa()) {
+    //     $employee->getAccount()->setHasSetUp2fa(true);
+    //     $em->getRepository(Employee::class)->updateEmployee($employee);
+    // }
     
-    if (session()->get('employee')['2fa_setup'] == false || session()->has('user_requesting_new_password')) {
+    if (!$employee->getAccount()->hasSetUp2fa() || session()->has('user_requesting_new_password')) {
         return redirect('/newpassword');
     }
 
@@ -280,6 +281,13 @@ class LoginController extends Controller
                 $employeeSession = session()->get('employee');
                 $employeeSession['2fa_setup'] = true;
                 session()->put('employee', $employeeSession);
+            }
+        }
+
+        if (session()->has('employee')) {
+            if (!$employee->getAccount()->hasSetUp2fa()) {
+                $employee->getAccount()->setHasSetUp2fa(true);
+                $em->getRepository(Employee::class)->updateEmployee($employee);
             }
         }
         return redirect("/");
