@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureValid2FAUser
+class EnsureSessionExists
 {
     /**
      * Handle an incoming request.
@@ -15,18 +15,9 @@ class EnsureValid2FAUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $previousPath = parse_url(url()->previous(), PHP_URL_PATH);
-
-        if ($previousPath === '/qr2fa') {
-            if (!session()->has('employee')) {
-                return redirect('/');
-            }
-        } else {
-            if (!session()->has('user_requesting_new_password')) {
-                return redirect('/');
-            }
+        if (!session()->has('employee') && !session()->has('user_requesting_new_password')) {
+            return redirect('/');
         }
-
         return $next($request);
     }
 }

@@ -33,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = '/home';
+     protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -71,26 +71,24 @@ class LoginController extends Controller
         $employee = $em->getRepository(Employee::class)->findOneBy(['account.email' => $validateData['username']]);
 
         if ($employee && password_verify($validateData['password'], $employee->getAuthPassword())) {
-
-            if ($employee->getAccount()->hasSetUp2fa()) {
-                return redirect('/code2fa');
-            }
-
             $employeeInfo = [
                 "employeeID" => $employee->getAuthIdentifier(),
                 "employeeEmail" => $employee->getAccount()->getEmail(),
                 "isEmployeeAdmin" => $employee->getAccount()->isAdmin(),
                 "2fa_setup" => false
             ];
-
+            
             session()->put('employee', $employeeInfo);
-
+            
+            if ($employee->getAccount()->hasSetUp2fa()) {
+                return redirect('/code2fa');
+            }
             return redirect('/qr2fa');
         }
 
         return back()->withErrors([
-            'username' => 'Invalid email or password',
-            'password' => 'Invalid email or password'
+            'username' => 'Invalid email or password!',
+            'password' => 'Invalid email or password!'
         ]);
     }
 
@@ -99,7 +97,8 @@ class LoginController extends Controller
      * Logs out the user and destroy any cookies
      */
     public function logout(Request $request) {
-        Auth::logout();
+        session()->forget('employee');
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -111,24 +110,22 @@ class LoginController extends Controller
      * Fetches the /resources/views/login/qrverification.blade.php
      */
     public function qr2fa(EntityManagerInterface $em) {
-        if (session()->has('employee')) {
-            $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => session()->get('employee')['employeeID']]);
+        $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => session()->get('employee')['employeeID']]);
 
-            if (!$employee->getAccount()->hasSetUp2fa()) {
-
-                $secret = $employee->getAccount()->getSecret();
-                $totp = TOTP::create($secret);
-                
-                $totp->setLabel('Info@crowngranite.ca');
-                $totp->setIssuer('Crown Granite');
-                
-                $uri = $totp->getProvisioningUri();
-                $qr = base64_encode(QrCode::format('svg')->size(400)->generate($uri));
-                
-                return view('login.qrverification', ['qr' => $qr]);
-            }
+        if (!$employee) {
+            return redirect('/');
         }
-        return redirect('/');
+
+        $secret = $employee->getAccount()->getSecret();
+
+        $totp = TOTP::create($secret);
+        $totp->setLabel('Info@crowngranite.ca');
+        $totp->setIssuer('Crown Granite');
+                
+        $uri = $totp->getProvisioningUri();
+        $qr = base64_encode(QrCode::format('svg')->size(400)->generate($uri));
+                
+        return view('login.qrverification', ['qr' => $qr]);
     }
 
     /**
@@ -155,29 +152,33 @@ class LoginController extends Controller
     public function authCode(Request $request, EntityManagerInterface $em) {
         $validateData = $request->validate([
         "verification-code" => "required|digits:6"
-    ]);
+        ], [
+            "verification-code" => "The verification code field is required!"
+        ]);
 
-    $employeeId = session()->has('user_requesting_new_password') 
+        $employeeId = session()->has('user_requesting_new_password') 
         ? session()->get('user_requesting_new_password') 
         : session()->get('employee')['employeeID'];
 
-    $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]);
-    $totp = TOTP::create($employee->getAccount()->getSecret());
+        $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]);
+        $totp = TOTP::create($employee->getAccount()->getSecret());
 
-    if (!$totp->verify($validateData['verification-code'])) {
-        return back()->withErrors(['verification-code' => 'Invalid code!']);
-    }
+        if (!$totp->verify($validateData['verification-code'])) {
+            return back()->withErrors(['verification-code' => 'Invalid verification code!']);
+        }
 
-    if (!$employee->getAccount()->hasSetUp2fa()) {
-        $employee->getAccount()->setHasSetUp2fa(true);
-        $em->getRepository(Employee::class)->updateEmployee($employee);
-    }
-    
-    if (session()->get('employee')['2fa_setup'] == false || session()->has('user_requesting_new_password')) {
-        return redirect('/newpassword');
-    }
+        if (!$employee->getAccount()->hasSetUp2fa() || session()->has('user_requesting_new_password')) {
+            return redirect('/newpassword');
+        }
 
-    return redirect('/home');
+        if (session()->has('employee')) {
+            if (session()->get('employee')['2fa_setup'] == false) {
+                $employeeSession = session()->get('employee');
+                $employeeSession['2fa_setup'] = true;
+                session()->put('employee', $employeeSession);
+            }
+        }
+        return redirect('/home');
     }
 
     /**
@@ -194,7 +195,6 @@ class LoginController extends Controller
      * Checks if contacting method exists through Authenticator App
      */
     public function authContact(Request $request, EntityManagerInterface $em) {
-    
         $chosenContactMethod = null;
 
         $validateData = $request->validate([
@@ -270,16 +270,16 @@ class LoginController extends Controller
 
         $employeeId = session()->has('user_requesting_new_password') ? session()->get('user_requesting_new_password') : session()->get('employee')['employeeID'];
         $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]);
+        
         $employee->getAccount()->setPassword($validate['new-password']);
-
         $em->getRepository(Employee::class)->updateEmployee($employee);
 
         session()->forget('user_requesting_new_password');
+
         if (session()->has('employee')) {
-            if (session()->get('employee')['2fa_setup'] == false) {
-                $employeeSession = session()->get('employee');
-                $employeeSession['2fa_setup'] = true;
-                session()->put('employee', $employeeSession);
+            if (!$employee->getAccount()->hasSetUp2fa()) {
+                $employee->getAccount()->setHasSetUp2fa(true);
+                $em->getRepository(Employee::class)->updateEmployee($employee);
             }
         }
         return redirect("/");
