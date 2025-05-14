@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 
-@props(['labelText' => "Fabrication Plan Image", 'name' => "default", 'isLabel' => true])
+@props(['labelText' => "Fabrication Plan Image", 'name' => "default", 'isLabel' => true, 'value' => ""])
 
 <div class="file-input-property-div">
     @if($isLabel)
-        <label id="insertedImage-label" for="$name-input">{{$labelText}}:</label>
+        <label id="insertedImage-label" for="$name-input">{{$labelText}} :</label>
     @endif
     <input accept=".jpg,.png,.webp" type="file" id="{{$name.'-input'}}" name="{{$name.'-input'}}"
            placeholder="{{$labelText}}"/>

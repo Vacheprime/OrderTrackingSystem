@@ -13,21 +13,21 @@
                 @csrf
                 @method("PUT")
                 <div class="flex-input-div">
-                    <x-text-input-property labelText="Initials" name="initials"/>
-                    <x-text-input-property labelText="First Name" name="first-name"/>
-                    <x-text-input-property labelText="Last Name" name="last-name"/>
-                    <x-text-input-property labelText="Email" name="email"/>
-                    <x-text-input-property labelText="Phone Number" name="phone-number"/>
-                    <x-text-input-property labelText="Address" name="address"/>
-                    <x-date-input-property labelText="Hired Date" name="hire-date" />
-                    <x-text-input-property labelText="Position" name="position"/>
-                    <x-text-input-property labelText="Postal Code" name="postal-code"/>
-                    <x-text-input-property labelText="City" name="city"/>
-                    <x-text-input-property labelText="Province" name="province"/>
+                    <x-text-input-property labelText="Initials" name="initials" :value="$employee->getInitials()"/>
+                    <x-text-input-property labelText="First Name" name="first-name" :value="$employee->getFirstName()"/>
+                    <x-text-input-property labelText="Last Name" name="last-name" :value="$employee->getLastName()"/>
+                    <x-text-input-property labelText="Email" name="email" :value="$employee->getAccount()->getEmail()"/>
+                    <x-text-input-property labelText="Phone Number" name="phone-number" :value="$employee->getPhoneNumber()"/>
+                    <x-text-input-property labelText="Address" name="address" :value="$employee->getAddress()->getStreetName()"/>
+{{--                    <x-date-input-property labelText="Hired Date" name="hire-date" :value="$employee->get"/>--}}
+                    <x-text-input-property labelText="Position" name="position" :value="$employee->getPosition()"/>
+                    <x-text-input-property labelText="Postal Code" name="postal-code" :value="$employee->getAddress()->getPostalCode()"/>
+                    <x-text-input-property labelText="City" name="city" :value="$employee->getAddress()->getArea()"/>
+                    <x-text-input-property labelText="Province" name="province" :value="$employee->getAddress()->getArea()"/>
                     <div class="annoying-select">
                         <x-select-input-property labelText="Account Status" name="account-status">
-                            <option value="disabled" selected>Disabled</option>
-                            <option value="enabled">Enabled</option>
+                            <option value="disabled" {{$employee->getAccount()->isAccountEnabled() ? "" : "selected"}}>Disabled</option>
+                            <option value="enabled" {{$employee->getAccount()->isAccountEnabled() ? "selected" : ""}}>Enabled</option>
                         </x-select-input-property>
                     </div>
                 </div>

@@ -5,13 +5,13 @@
 <x-layout title="Create Payment">
     <div class="layout-container">
         <div class="main-content">
-            <a href="{{url()->previous()}}" class="regular-button">Go Back</a>
+            <a href="{{$orderId == "" ? "/payments" : "/orders"}}" class="regular-button">Go Back</a>
             <h2 class="title">Create Payment</h2>
             <hr/>
             <form method="POST" action="/payments" class="create-edit-form">
                 @csrf
                 <div class="flex-input-div">
-                    <x-text-input-property labelText="Order ID" name="order-id"/>
+                    <x-text-input-property labelText="Order ID" name="order-id" :value="$orderId"/>
                     <x-date-input-property labelText="Date" name="payment-date"/>
                     <x-text-input-property labelText="Amount" name="amount"/>
                     <x-text-input-property labelText="Type" name="type"/>

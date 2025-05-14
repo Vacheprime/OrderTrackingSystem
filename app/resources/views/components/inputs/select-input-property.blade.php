@@ -1,4 +1,4 @@
-@props(["labelText" => "default", "name" => "default", 'isLabel' => true])
+@props(["labelText" => "default", "name" => "default", 'isLabel' => true, "value" => ""])
 
 <div class="select-input-property-div">
     @if($isLabel)

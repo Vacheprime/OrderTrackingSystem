@@ -52,7 +52,7 @@
                         <p><b>Initials:</b><span id="detail-initials">-</span></p>
                         <p><b>First Name:</b><span id="detail-first-name">-</span></p>
                         <p><b>Last Name:</b><span id="detail-last-name">-</span></p>
-                        <p><b>Hired Date:</b><span id="detail-hired-date">-</span></p>
+{{--                        <p><b>Hired Date:</b><span id="detail-hired-date">-</span></p>--}}
                         <p><b>Position:</b><span id="detail-position">-</span></p>
                         <p><b>Email:</b><span id="detail-email">-</span></p>
                         <p><b>Phone Number:</b><span id="detail-phone-number">-</span></p>
