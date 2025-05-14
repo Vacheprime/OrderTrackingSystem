@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureEmployeeIsAdmin
+class EnsureValid2FAUser
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,16 @@ class EnsureEmployeeIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $employee = $request->user();
+        $previousPath = parse_url(url()->previous(), PHP_URL_PATH);
 
-        if (!$employee && $employee->isAdmin != true) {
-            //redirect to a certain page
+        if ($previousPath === '/qr2fa') {
+            if (!session()->has('employee')) {
+                return redirect('/');
+            }
+        } else {
+            if (!session()->has('user_requesting_new_password')) {
+                return redirect('/');
+            }
         }
 
         return $next($request);

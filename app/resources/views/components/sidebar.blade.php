@@ -21,12 +21,12 @@
                         :active="request()->is('/payments')">
                 Payments
             </x-nav-link>
-{{--            @if(auth()->user()->getAuthIdentifierName() == "admin")--}}
+            @if(session()->has('employee') && session()->get('employee')['isEmployeeAdmin'])
                 <x-nav-link href="{{url('/employees')}}" img="{{url('images/employee_icon.png')}}"
                             :active="request()->is('/employees')">
                     Employees
                 </x-nav-link>
-{{--            @endif--}}
+            @endif
         </div>
         <div>
             <hr>

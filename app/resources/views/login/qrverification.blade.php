@@ -6,7 +6,7 @@
         <p class="checkAuthenticator">Check Authenticator App</p>
         <form id="qr-code-form" action="/qr2fa" method="POST">
             @csrf
-            <img class="qrCode" src="QRCODE.png" alt="qrCode">
+            <img class="qrCode" src="data:image/svg+xml;base64,{{ $qr }}" alt="qrCode">
             <button class="regular-button" type="submit">Confirm</button>
         </form>
     </div>

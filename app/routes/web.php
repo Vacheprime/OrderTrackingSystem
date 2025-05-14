@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +10,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\EnsureValid2FAUser;
 
 // ORDER TRACKING FOR CLIENTS
 
@@ -29,6 +30,7 @@ Route::post('/logout', [LoginController::class, "logout"]);
 Route::get('/qr2fa', [LoginController::class, "qr2fa"]);
 Route::post('/qr2fa', [LoginController::class, "authQR"]);
 
+//->middleware(EnsureValid2FAUser::class)
 Route::get('/code2fa', [LoginController::class, "code2fa"]);
 Route::post('/code2fa', [LoginController::class, "authCode"]);
 
@@ -56,4 +58,3 @@ Route::resource('employees', EmployeeController::class);
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
