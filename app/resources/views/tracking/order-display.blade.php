@@ -3,7 +3,7 @@
 <x-tracking-layout title="Client Order Status">
     <div class="layout-container">
         <div class="main-content">
-            <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
+            <a href="/tracking" class="regular-button">Go Back</a>
             <h2>ORDER STATUS</h2>
             <div id="tracking-status-body">
                 <div id="product-status-div">
