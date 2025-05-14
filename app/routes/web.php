@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,14 +13,9 @@ use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 
 // ORDER TRACKING FOR CLIENTS
-
-Route::get('/tracking', function () {
-    return view('tracking.order-input');
-});
-
-Route::get('/tracking/display', function (Request $request) {
-    return view('tracking.order-display');
-});
+Route::get('/tracking', [TrackingController::class, "tracking"]);
+Route::post('/tracking', [TrackingController::class, "track"]);
+Route::get('/tracking/display', [TrackingController::class, "display"]);
 
 // LOGINS
 Route::get('/', [LoginController::class, "login"]);

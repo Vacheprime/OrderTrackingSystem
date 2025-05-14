@@ -14,10 +14,10 @@
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
                     <x-select-input-property labelText="Status" name="order-status">
-                        <option value="measuring" selected>Measuring</option>
+                        <option value="measuring">Measuring</option>
                         <option value="ordering_material">Ordering material</option>
                         <option value="fabricating">Fabricating</option>
-                        <option value="ready_for_handover">Ready for handover</option>
+                        <option value="ready_to_handover">Ready for handover</option>
                         <option value="installed">Installed</option>
                         <option value="picked_up">Picked up</option>
                     </x-select-input-property>
