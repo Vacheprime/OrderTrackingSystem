@@ -166,24 +166,34 @@ function changePage(func, page, pages) {
 }
 
 
-function refreshOrderTable(page) {
+async function refreshOrderTable(page) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
     url.searchParams.set('page', page);
-    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
-    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+    url.searchParams.set('searchby', document.getElementById("search-by-select").value);
+    url.searchParams.set('orderby', document.getElementById("order-by-select").value);
 
     fetch(url, {
         headers: {
             'x-refresh-table': true,
         }
-    }).then(response => response.text())
-        .then(text => {
+    }).then(response => {
+ 
+        if (response.status === 300) {
+            return response.text().then(text => {
+                document.querySelector("#search-bar-input").parentElement.innerHTML +=
+                    `<p class="error-input">${text}</p>`;
+            });
+        }
+
+        document.querySelectorAll('.error-input').forEach(element => element.remove());
+        return response.text().then(text => {
             window.history.pushState({}, '', url);
             document.querySelector(".search-table-div").innerHTML = text;
             initializeOrderRowClickEvents();
             highlightOrderFirstRow();
-        })
+        });
+    });
 }
 
 function changeOrderPage(page, pages) {
