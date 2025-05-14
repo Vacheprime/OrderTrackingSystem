@@ -7,7 +7,7 @@
             <h2>ORDER STATUS</h2>
             <div id="tracking-status-body">
                 <div id="product-status-div">
-                    <p><b>Current status: </b><span id="current-status">Installed</span></p>
+                    <p><b>Current status: </b><span id="current-status">{{$order->getStatus()}}</span></p>
                     <br>
                     <div class="progress-bar">
                         <div class="progress-section measuring"></div>
@@ -19,13 +19,13 @@
                 </div>
                 <br>
                 <div id="product-details-div">
-                    <p><b>Product Details:</b><span>#</span></p>
-                    <p><b>Size:</b><span>#</span></p>
-                    <p><b>Slab Width:</b><span>#</span></p>
-                    <p><b>Material Name:</b><span>#</span></p>
-                    <p><b>Color:</b><span>#</span></p>
-                    <p><b>Sink:</b><span>#</span></p>
-                    <p><b>Finishing:</b><span>#</span></p>
+                    <h3>Product Details:</h3>
+                    <p><b>Material Name:</b><span> {{$order->getProduct()->getMaterialName()}}</span></p>
+                    <p><b>Size:</b><span> {{$order->getProduct()->getSlabWidth()}} x {{$order->getProduct()->getSlabHeight()}}</span></p>
+                    <p><b>Slab Thickness:</b><span> {{$order->getProduct()->getSlabThickness()}}</span></p>
+                    <p><b>Slab Square Footage:</b><span> {{$order->getProduct()->getSlabSquareFootage()}}</span></p>
+                    <p><b>Sink:</b><span> {{$order->getProduct()->getSinkType()}}</span></p>
+                    <p><b>Finishing:</b><span> {{$order->getOrderCompletedDate() == null ? "Not known yet" : $order->getOrderCompletedDate()->format("Y/m/d")}}</span></p>
                 </div>
             </div>
         </div>
