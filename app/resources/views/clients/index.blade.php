@@ -49,8 +49,6 @@
                         <p><b>Phone Number:</b><span id="detail-phone-number">-</span></p>
                         <p><b>Address:</b><span id="detail-address">-</span></p>
                         <p><b>Postal Code:</b><span id="detail-postal-code">-</span></p>
-                        <p><b>City:</b><span id="detail-city">-</span></p>
-                        <p><b>Province:</b><span id="detail-province">-</span></p>
                         <p><b>Area (Neighborhood):</b><span id="detail-area">-</span></p>
                     </div>
                 </div>
