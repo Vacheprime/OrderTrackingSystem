@@ -12,11 +12,11 @@
                 @csrf
                 @method("PUT")
                 <div class="flex-input-div">
-                    <x-text-input-property labelText="Order ID" name="order-id"/>
-                    <x-date-input-property labelText="Date" name="payment-date"/>
-                    <x-text-input-property labelText="Amount" name="amount"/>
-                    <x-text-input-property labelText="Type" name="type"/>
-                    <x-text-input-property labelText="Method" name="method"/>
+                    <x-text-input-property labelText="Order ID" name="order-id" :value="$payment->getOrder()->getOrderId()"/>
+                    <x-date-input-property labelText="Date" name="payment-date" :value="$payment->getPaymentDate()->format('Y-m-d')"/>
+                    <x-text-input-property labelText="Amount" name="amount" :value="$payment->getAmount()"/>
+                    <x-text-input-property labelText="Type" name="type" :value="$payment->getType()"/>
+                    <x-text-input-property labelText="Method" name="method" :value="$payment->getMethod()"/>
                 </div>
 
                 <div class="action-input-div">

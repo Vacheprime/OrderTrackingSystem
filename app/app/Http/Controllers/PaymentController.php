@@ -42,21 +42,31 @@ class PaymentController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $payments = $this->repository->retrievePaginated(10, $page);
+        $pagination = $this->repository->retrievePaginated(10, 1);
+        $pages = $pagination->lastPage();
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $pages) {
+            $page = $pages;
+        }
+        $pagination = $this->repository->retrievePaginated(10, $page);
+        $payments = $pagination->items();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.payment-table')->with('payments', $payments->items());
+            return view('components.tables.payment-table')->with('payments', $payments);
         }
 
-        return view('payments.index')->with('payments', $payments->items());
+        return view('payments.index')->with(compact("payments", "pages", "page"));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view("payments.create");
+        $orderId = $request->input("orderId");
+        return view("payments.create")->with(compact("orderId"));
     }
 
     /**

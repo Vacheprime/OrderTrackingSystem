@@ -16,28 +16,6 @@
     align-items: center;
 }
 
-
-/* .side-content-scrollable h3 {
-    font-size: 20px;
-} */
-
-/*
-.side-content-scrollable b {
-    font-weight: 400;
-}
-
-.side-content-scrollable p {
-    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
-} */
-
-/* #orders-side-content h2 {
-    margin-bottom: 0;
-    width: 200px;
-    font-weight: 400;
-    text-align: center;
-    border-bottom: 1px solid black;
-} */
-
 /* CREATE CLIENT */
 .main-content {
     height: 100%;
@@ -66,23 +44,6 @@
     display: flex;
     flex-direction: column;
 }
-
-/* h2 {
-    margin: 0;
-    align-self: center;
-    font-weight: 500;
-} */
-
-/* h3:first-of-type {
-    border: none;
-} */
-
-/* h3 {
-    margin-top: 0;
-    font-weight: 500;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-
-} */
 
 .layout-container .main-content a:first-child {
     align-self: flex-start;

@@ -66,10 +66,16 @@ class OrderController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $pagination = $this->repository->retrievePaginated(1, $page);
-        $orders = $pagination->items();
+        $pagination = $this->repository->retrievePaginated(10, 1);
         $pages = $pagination->lastPage();
-
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $pages) {
+            $page = $pages;
+        }
+        $pagination = $this->repository->retrievePaginated(10, $page);
+        $orders = $pagination->items();
         if ($request->HasHeader("x-refresh-table")) {
             return view('components.tables.order-table')->with('orders', $orders);
         }
@@ -79,9 +85,10 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('orders.create');
+        $clientId = $request->input('clientId');
+        return view('orders.create')->with(compact("clientId"));
     }
 
     /**
@@ -91,7 +98,7 @@ class OrderController extends Controller
     {
         $validatedData = array_merge(
             // Default values
-            ["fabrication-image-input" => null], 
+            ["fabrication-image-input" => null],
             // Validated fields
             $request->validate([
                 "client-id" => "required|integer|min:1",
@@ -118,11 +125,11 @@ class OrderController extends Controller
         if (!empty($validationErrors)) {
             return redirect()->back()->withErrors($validationErrors)->withInput();
         }
-        
+
         // Get the client and employee repositories
         $clientRepository = $this->entityManager->getRepository(Client::class);
         $employeeRepository = $this->entityManager->getRepository(Employee::class);
-        
+
         // Get the client and employee based on id
         $clientId = intval($validatedData["client-id"]);
         $employeeId = intval($validatedData["measured-by"]);
@@ -145,7 +152,7 @@ class OrderController extends Controller
             $imageFilePath,
             $validatedData["sink-type"],
             $validatedData["product-description"] ?? "",
-            $validatedData["product-notes"] ?? ""    
+            $validatedData["product-notes"] ?? ""
         );
 
         // Get the fabrication start date
