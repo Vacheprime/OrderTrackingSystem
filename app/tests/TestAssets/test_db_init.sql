@@ -164,6 +164,23 @@ VALUES
   ('ORD-1010', 6100.00, 'INSTALLED', 'INV-888', '2024-11-19 11:36:28', '2024-11-25', '2024-12-05', '2024-12-06', 5, 1),
   ('ORD-1011', 5000.00, 'MEASURING', NULL, '2024-12-20 05:10:10', NULL, NULL, NULL, 6, 1);
 
+-- Product table
+INSERT INTO product (
+  order_id, material_name, slab_height, slab_width, slab_thickness, slab_square_footage,
+  plan_image_path, sink_type, product_description, product_notes
+)
+VALUES
+  (1, 'Granite Classic', 120.50, 60.25, 2.00, 50.75, NULL, 'Undermount Double Bowl', 'Kitchen countertop in granite', 'Standard edge, no backsplash'),
+  (2, 'Quartz White', 100.00, 55.00, 2.50, 45.00, NULL, 'Undermount Oval', 'Bathroom vanity top', 'Include cutout for sink'),
+  (3, 'Marble Grey', 130.00, 65.00, 3.00, 60.00, NULL, NULL, 'Reception desk top', 'Polished finish'),
+  (4, 'Granite Black', 110.00, 58.00, 2.25, 48.00, NULL, 'Farmhouse Sink', 'Island countertop', 'Add 2" overhang on one side'),
+  (5, 'Quartz Calacatta', 125.00, 60.00, 2.00, 52.00, NULL, 'Undermount Rectangle', 'Laundry room counter', 'Matte finish'),
+  (6, 'Granite Blue Pearl', 115.00, 59.00, 2.00, 49.50, NULL, 'Drop-in Single Bowl', 'Outdoor BBQ counter', 'Add sink cutout'),
+  (7, 'Quartz Charcoal', 105.00, 57.00, 1.50, 46.50, NULL, NULL, 'Bathroom side counter', 'No cutouts required'),
+  (8, 'Granite Beige', 118.00, 61.00, 2.25, 51.75, NULL, 'Topmount Round', 'Office kitchen counter', 'Include two electrical cutouts'),
+  (9, 'Marble White', 135.00, 66.00, 3.00, 62.00, NULL, 'Undermount Double Bowl', 'Reception counter return', 'Beveled edge'),
+  (10, 'Quartz Sparkle', 108.00, 54.00, 2.00, 44.50, NULL, 'Undermount Oval', 'Pantry top', 'Gloss finish');
+
 -- Payment table
 INSERT INTO payment (
 	amount, `type`, method, payment_date, order_id

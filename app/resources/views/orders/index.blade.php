@@ -26,12 +26,12 @@
                         </x-select-input-property>
 
                         <x-select-input-property labelText="Order By" name="order-by">
-                            <option value="newest" selected>Newest</option>
+                            <option value="newest">Newest</option>
                             <option value="oldest">Oldest</option>
-                            <option value="status">Status</option>
+                            <option value="status" selected>Status</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshOrderTable({{$page}})">Search</button>
+                    <button class="regular-button" onclick="refreshOrderTable({{$page}}, true)">Search</button>
                     <a href="/orders/create" class="regular-button">Create</a>
                 </div>
                 <div class="search-table-div">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeOrderPage({{$page}}, {{$pages}});</script>
+                <script>changeOrderPage({{$page}}, {{$totalPages}});</script>
             </div>
         </div>
         @if(!empty($orders))
