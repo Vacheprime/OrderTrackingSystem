@@ -74,7 +74,7 @@
                                            :value="$order->getProduct()->getProductNotes()"/>
                 </div>
                 <div class="action-input-div">
-                    <button class="regular-button" type="submit">Create</button>
+                    <button class="regular-button" type="submit">Update</button>
                     <a href="/orders" class="regular-button">Cancel</a>
                 </div>
             </div>

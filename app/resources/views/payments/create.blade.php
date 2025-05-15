@@ -15,7 +15,10 @@
                     <x-text-input-property labelText="Order ID" name="order-id" :value="$orderId"/>
                     <x-date-input-property labelText="Date" name="payment-date"/>
                     <x-text-input-property labelText="Amount" name="amount"/>
-                    <x-text-input-property labelText="Type" name="type"/>
+                    <x-select-input-property labelText="Type" name="type">
+                        <option value="DEPOSIT" selected>DEPOSIT</option>
+                        <option value="INSTALLMENT">INSTALLMENT</option>
+                    </x-select-input-property>
                     <x-text-input-property labelText="Method" name="method"/>
                 </div>
 

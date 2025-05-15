@@ -59,7 +59,7 @@
                         <p><b>Status:</b><span id="detail-status">-</span></p>
                         <p><b>Fabrication Start Date:</b><span id="detail-fabrication-start-date">-</span></p>
                         <p><b>Installation Start Date:</b><span id="detail-installation-start-date">-</span></p>
-                        <p><b>Pick Up Date:</b><span id="detail-pick-up-date">-</span></p>
+                        <p><b>Completed Date:</b><span id="detail-pick-up-date">-</span></p>
                         <p><b>Material Name:</b><span id="detail-material-name">-</span></p>
                         <p><b>Slab Height:</b><span id="detail-slab-height">-</span></p>
                         <p><b>Slab Width:</b><span id="detail-slab-width">-</span></p>

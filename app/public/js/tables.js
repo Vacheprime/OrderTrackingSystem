@@ -52,7 +52,8 @@ function changeClientDetails(clientIdString) {
             document.getElementById("detail-last-name").innerText = client.lastName;
             document.getElementById("detail-reference-number").innerText = client.referenceNumber;
             document.getElementById("detail-phone-number").innerText = client.phoneNumber;
-            document.getElementById("detail-address").innerText = client.address;
+            document.getElementById("detail-address-street").innerText = client.addressStreet;
+            document.getElementById("detail-address-apt-num").innerText = client.addressAptNum;
             document.getElementById("detail-postal-code").innerText = client.postalCode;
             document.getElementById("detail-area").innerText = client.area;
         });
@@ -76,10 +77,12 @@ function changeEmployeeDetails(employeeIdString) {
             document.getElementById("detail-position").innerText = employee.position;
             document.getElementById("detail-email").innerText = employee.email;
             document.getElementById("detail-phone-number").innerText = employee.phoneNumber;
-            document.getElementById("detail-address").innerText = employee.address;
+            document.getElementById("detail-address-street").innerText = employee.addressStreet;
+            document.getElementById("detail-address-apt-num").innerText = employee.addressAptNum;
             document.getElementById("detail-postal-code").innerText = employee.postalCode;
             document.getElementById("detail-area").innerText = employee.area;
             document.getElementById("detail-account-status").innerText = employee.accountStatus;
+            document.getElementById("detail-admin-status").innerText = employee.adminStatus;
         });
 }
 

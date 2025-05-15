@@ -12,20 +12,24 @@
             </div>
             <form action="/employees" method="POST" class="create-edit-form">
                 @csrf
-                <div class="details-div">
+                <h3>Employee Details</h3>
+                <div id="employee-details-div" class="details-div">
                     <x-text-input-property labelText="Initials" name="initials"/>
                     <x-text-input-property labelText="First Name" name="first-name"/>
                     <x-text-input-property labelText="Last Name" name="last-name"/>
                     <x-text-input-property labelText="Email" name="email"/>
                     <x-text-input-property labelText="Phone Number" name="phone-number"/>
-                    <x-text-input-property labelText="Address" name="address"/>
                     <x-text-input-property labelText="Position" name="position"/>
+                </div>
+                <h3>Address Details</h3>
+                <div id="address-details-div" class="details-div">
+                    <x-text-input-property labelText="Street Name" name="address-street"/>
+                    <x-text-input-property labelText="Apartment Number" name="address-apt-num"/>
                     <x-text-input-property labelText="Postal Code" name="postal-code"/>
                     <x-text-input-property labelText="Area" name="area"/>
-                    <p><i class="fa-solid fa-circle-info"></i> Please note that created employee accounts are disabled by
-                        default.</p>
                 </div>
-
+                <p><i class="fa-solid fa-circle-info"></i> Please note that created employee accounts are disabled by
+                    default.</p>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Create</button>
                     <a href="/employees" class="regular-button">Cancel</a>
