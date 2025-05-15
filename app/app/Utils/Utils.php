@@ -38,7 +38,7 @@ class Utils {
         if ($fractDigits < 1) {
             throw new InvalidArgumentException("The number of fractional digits must be greater than or equal to one!");
         }
-        $pattern = "/^-?\\d{1,$intDigits}(.\\d{1,$fractDigits})?\$/";
+        $pattern = '/^-?\d{1,' . $intDigits . '}(?:\.\d{1,' . $fractDigits . '})?$/';
         return preg_match($pattern, $str) === 1;
     }
 
