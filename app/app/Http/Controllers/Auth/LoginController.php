@@ -50,6 +50,7 @@ class LoginController extends Controller
      * Fetches the /resources/views/login/index.blade.php
      */
     public function login(EntityManagerInterface $em) {
+        session()->forget('user_requesting_new_password');
         if (session()->has('employee') && session()->get('employee')['2fa_setup'] == true) {
             return redirect('/home');
         }
