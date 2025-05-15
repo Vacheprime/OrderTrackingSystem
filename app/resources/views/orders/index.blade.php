@@ -31,7 +31,7 @@
                             <option value="status" selected>Status</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshOrderTable({{$page}})">Search</button>
+                    <button class="regular-button" onclick="refreshOrderTable({{$page}}, true)">Search</button>
                     <a href="/orders/create" class="regular-button">Create</a>
                 </div>
                 <div class="search-table-div">
