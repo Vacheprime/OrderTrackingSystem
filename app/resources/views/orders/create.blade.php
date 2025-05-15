@@ -12,7 +12,9 @@
                 </div>
                 <h3>Order Details</h3>
                 <div id="order-details-div" class="details-div">
-                    <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
+                    @if($clientId != "")
+                        <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
+                    @endif
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>

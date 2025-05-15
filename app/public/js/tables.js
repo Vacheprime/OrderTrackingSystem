@@ -162,34 +162,76 @@ function changePage(func, page, pages) {
 }
 
 
-function refreshOrderTable(page) {
+async function refreshOrderTable(page, isSearch) {
+    // Current url
     const url = new URL(window.location.href);
-    url.searchParams.set('search', document.getElementById("search-bar-input").value);
-    url.searchParams.set('page', page);
-    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
-    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+    // Get current query parameters
+    const search = url.searchParams.get('search');
+    const searchBy = url.searchParams.get('searchby');
+    const orderBy = url.searchParams.get('orderby');
+    // Get the new query parameters if applicable
+    const newSearch = document.getElementById("search-bar-input").value;
+    const newSearchBy = document.getElementById("search-by-select").value;
+    const newOrderBy = document.getElementById("order-by-select").value;
 
+    // Check whether the query params have changed
+    console.log(search , newSearch, searchBy , newSearchBy, orderBy , newOrderBy)
+    let queryHasChanged = !(search == newSearch || search == null && searchBy == newSearchBy || searchBy == null && orderBy == newOrderBy || orderBy == null);
+    // Set the page
+    console.log(queryHasChanged);
+    console.log(page);
+    page = queryHasChanged ? 1 : page;
+    console.log(page);
+
+    // Set the url parameters
+    url.searchParams.set('page', page);
+    if (isSearch) {
+        url.searchParams.set('search', newSearch);
+        url.searchParams.set('searchby', newSearchBy);
+        url.searchParams.set('orderby', newOrderBy);
+    }
+
+    // Fetch the new table
     fetch(url, {
         headers: {
             'x-refresh-table': true,
         }
-    }).then(response => response.text())
-        .then(text => {
+    }).then(response => {
+
+        if (response.status === 300) {
+            return response.text().then(text => {
+                document.querySelector("#search-bar-input").parentElement.innerHTML +=
+                    `<p class="error-input">${text}</p>`;
+            });
+        }
+
+        document.querySelectorAll('.error-input').forEach(element => element.remove());
+        return response.text().then(text => {
             window.history.pushState({}, '', url);
             document.querySelector(".search-table-div").innerHTML = text;
             initializeOrderRowClickEvents();
             highlightOrderFirstRow();
-        })
+            // Get the number of pages
+            const totalPages = response.headers.get("x-total-pages");
+            // Update the pagination buttons
+            changeOrderPage(page, parseInt(totalPages), false);
+        });
+    });
 }
 
-function changeOrderPage(page, pages) {
+function changeOrderPage(page, pages, refreshTable = true) {
     if (page <= 0) {
         page = 1;
     }
     if (page > pages) {
         page = pages;
     }
-    refreshOrderTable(page);
+
+    // Only refresh if necessary
+    if (refreshTable) {
+        refreshOrderTable(page, false);
+    }
+
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {
@@ -239,7 +281,7 @@ function changeOrderPage(page, pages) {
     }
 }
 
-function refreshClientTable(page) {
+function refreshClientTable(page, isSearch) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
     url.searchParams.set('page', page);
@@ -266,7 +308,7 @@ function changeClientPage(page, pages) {
     if (page > pages) {
         page = pages;
     }
-    refreshClientTable(page);
+    refreshClientTable(page, false);
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {
@@ -316,7 +358,7 @@ function changeClientPage(page, pages) {
     }
 }
 
-function refreshEmployeeTable(page) {
+function refreshEmployeeTable(page, isSearch) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
     url.searchParams.set('page', page);
@@ -343,7 +385,7 @@ function changeEmployeePage(page, pages) {
     if (page > pages) {
         page = pages;
     }
-    refreshEmployeeTable(page);
+    refreshEmployeeTable(page, false);
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {
@@ -394,7 +436,7 @@ function changeEmployeePage(page, pages) {
     }
 }
 
-function refreshPaymentTable(page) {
+function refreshPaymentTable(page, isSearch) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', document.getElementById("search-bar-input").value);
     url.searchParams.set('page', page);
@@ -421,7 +463,7 @@ function changePaymentPage(page, pages) {
     if (page > pages) {
         page = pages;
     }
-    refreshPaymentTable(page);
+    refreshPaymentTable(page, false);
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {

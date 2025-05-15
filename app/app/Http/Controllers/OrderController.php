@@ -13,6 +13,7 @@ use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -21,6 +22,7 @@ use function Termwind\parse;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use SortOrder;
 
 class OrderController extends Controller
 {
@@ -37,20 +39,151 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        // Define default values
+        $defaultParams = [
+            "page" => 1,
+            "search" => "",
+            "searchby" => "order-id",
+            "orderby" => "status",
+            "orderId" => 1
+        ];
+        // Define default redirect url
+        $defaultUrl = "/orders?page={$defaultParams['page']}&orderby={$defaultParams['orderby']}";
+        // Validate the input data
+        $validatedData = array_merge(
+            // Default values for parameters
+            $defaultParams,
+            // Add validation rules
+            $request->validate(
+                [
+                    "page" => "nullable|int|min:1",
+                    "search" => "nullable|string",
+                    "searchby" => "nullable|string",
+                    "orderby" => "nullable|string",
+                    "orderId" => "nullable|int"
+                ]
+            )
+        );
+        Log::info($validatedData);
+        // Return order information as JSON if requested. 
+        // Used for refreshing the order details when an order is
+        // selected.
         if ($request->hasHeader("x-change-details")) {
-            $orderId = $request->input("orderId");
+            // Get the order
+            $orderId = $validatedData["orderId"];
+            if (is_null($orderId)) {
+                $orderId = 1;
+            }
             $order = $this->repository->find($orderId);
-            return json_encode(array(
-                "orderId" => $order->getOrderId(),
-                "clientId"=> $order->getClient()->getClientId(),
-                "measuredBy"=> $order->getMeasuredBy()->getInitials(),
-                "referenceNumber"=> $order->getReferenceNumber(),
-                "invoiceNumber"=> $order->getInvoiceNumber() ?? "No invoice associated.",
-                "totalPrice"=> $order->getPrice(),
-                "orderStatus"=> $order->getStatus(),
-                "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d") ,
-                "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
-                "pickUpDate"=> $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
+            // Return as json
+            return $this->getOrderInfoAsJson($order);
+        }
+
+        // Get the search query parameters
+        $page = $validatedData["page"];
+        $search = $validatedData["search"];
+        $searchBy = $validatedData["searchby"];
+        $orderBy = $validatedData["orderby"];
+        // Fetch the orders based on the query parameters
+        $repository = $this->repository;
+
+        // Add search filters if requested
+        if (strlen($search) !== 0) {
+            Log::info("HERE");
+            // Search by order Id
+            switch ($searchBy) {
+                case "order-id":
+                    // Validate the order Id
+                    $orderId = filter_var($search, FILTER_VALIDATE_INT);
+                    if ($orderId === false) {
+                        return response("The order id must be a number.", 300);
+                    } else if ($orderId < 1) {
+                        return response("The order id must be greater than zero.", 300);
+                    }
+                    // Fetch the result
+                    $result = $repository->find($orderId);
+                    $orders = [];
+                    // Define params
+                    $totalPages = 1;
+                    $page = 1;
+                    // Check if no results
+                    if ($result === null) {
+                        return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "1"]);
+                    }
+                    // Return the result
+                    $orders[] = $result;
+                    return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "1"]);
+                    break;
+                case "client-id":
+                    // Validate the client Id
+                    $clientId = filter_var($search, FILTER_VALIDATE_INT);
+                    if ($clientId === false) {
+                        return response("The client id must be a number.", 300);
+                    } else if ($clientId < 1) {
+                        return response("The client id must be greater than zero.", 300);
+                    }
+                    // Add query
+                    $repository = $repository->withClientId($clientId);
+                    break;
+                case "area":
+                    Log::info("AREA");
+                    // Add query
+                    $repository = $repository->searchByArea($search);
+                    break;
+                case "name":
+                    // Add query
+                    $repository = $repository->searchByName($search);
+                    break;
+            }
+        }
+        // Apply ordering
+        if ($validatedData["orderby"] == "status") {
+            $repository = $repository->sortByStatus(SortOrder::ASCENDING);
+        } else if ($validatedData["orderby"] == "newest") {
+            $repository = $repository->sortByCreationDate(SortOrder::DESCENDING);
+        } else if ($validatedData["orderby"] == "oldest") {
+            $repository = $repository->sortByCreationDate(SortOrder::ASCENDING);
+        }
+        
+
+        // Get the paginator
+        $paginator = $repository->retrievePaginated(10, 1);
+
+        // Create the appropriate pagination 
+        $totalPages = $paginator->lastPage();
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $totalPages) {
+            $page = $totalPages;
+        }
+
+        // Fetch the paginator with the right page
+        $paginator = $repository->retrievePaginated(10, $page);
+        // Get the orders
+        $orders = $paginator->items();
+
+        // Return only the html of the orders table if requested
+        if ($request->HasHeader("x-refresh-table")) {
+            return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "$totalPages"]);
+        }
+
+        // Return the full orders page
+        return view('orders.index')->with(compact("orders", "totalPages", "page"));
+    }
+
+    public function getOrderInfoAsJson(Order $order): string {
+        return json_encode(array(
+            "orderId" => $order->getOrderId(),
+            "clientId"=> $order->getClient()->getClientId(),
+            "measuredBy"=> $order->getMeasuredBy()->getInitials(),
+            "referenceNumber"=> $order->getReferenceNumber(),
+            "invoiceNumber"=> $order->getInvoiceNumber() ?? "No invoice associated.",
+            "totalPrice"=> $order->getPrice(),
+            "orderStatus"=> $order->getStatus(),
+            "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d") ,
+            "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
+            "pickUpDate"=> $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
 //                "materialName"=> $order->getProduct()->getMaterialName() ?? "null",
 //                "slabHeight"=> $order->getProduct()->getSlabHeight() ?? "null",
 //                "slabWidth"=> $order->getProduct()->getSlabWidth() ?? "null",
@@ -59,27 +192,7 @@ class OrderController extends Controller
 //                "fabricationPlanImage"=> $order->getProduct()->getPlanImagePath() ?? "null",
 //                "productDescription"=> $order->getProduct()->getProductDescription() ?? "null",
 //                "productNotes"=> $order->getProduct()->getProductNotes() ?? "null",
-            ));
-        }
-
-        $page = $request->input('page', 1);
-        $search = $request->input('search', "");
-        $searchBy = $request->input('searchby', "order-id");
-        $orderBy = $request->input('orderby', "newest");
-        $pagination = $this->repository->retrievePaginated(10, 1);
-        $pages = $pagination->lastPage();
-        if ($page <= 0) {
-            $page = 1;
-        }
-        if ($page > $pages) {
-            $page = $pages;
-        }
-        $pagination = $this->repository->retrievePaginated(10, $page);
-        $orders = $pagination->items();
-        if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.order-table')->with('orders', $orders);
-        }
-        return view('orders.index')->with(compact("orders", "pages", "page"));
+        ));
     }
 
     /**
