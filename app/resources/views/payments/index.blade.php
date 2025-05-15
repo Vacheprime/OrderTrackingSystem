@@ -55,7 +55,11 @@
                 <div class="side-content-details-options">
                     <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Edit</a>
                     @if(session()->has('employee') && session()->get('employee')['isEmployeeAdmin'])
-
+                    <form id="detail-delete-form" method="POST" action="">
+                    @csrf
+                    @method("DELETE")
+                    <button type="submit" id="detail-delete-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Delete</button>
+                    </form>
                     @endif
                 </div>
             </div>

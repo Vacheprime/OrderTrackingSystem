@@ -98,6 +98,7 @@ function changePaymentDetails(paymentIdString) {
     }).then(response => response.json())
         .then(payment => {
             document.getElementById("detail-edit-btn").href = `/payments/${payment.paymentId}/edit`;
+            document.getElementById("detail-delete-form").action = `/payments/${payment.paymentId}`;
             document.getElementById("detail-payment-id").innerText = payment.paymentId;
             document.getElementById("detail-order-id").innerText = payment.orderId;
             document.getElementById("detail-payment-date").innerText = payment.paymentDate;

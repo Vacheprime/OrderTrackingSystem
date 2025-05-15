@@ -190,6 +190,8 @@ class PaymentController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(string $id) {
-        //
+        $payment = $this->repository->find($id);
+        $this->repository->deletePayment($payment);
+        return redirect("/payments");
     }
 }
