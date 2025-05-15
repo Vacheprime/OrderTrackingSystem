@@ -37,7 +37,7 @@ Route::post('/newpassword', [LoginController::class, "authPassword"]);
 // Account Specific
 Route::get('/home', [HomeController::class, "index"]);
 
-Route::get('/settings', [UserController::class, "settings"]);
+//Route::get('/settings', [UserController::class, "settings"]);
 
 Route::get('/account', [UserController::class, "account"]);
 

@@ -34,14 +34,12 @@ class EmployeeController extends Controller
                 "initials"=> $employee->getInitials(),
                 "firstName"=> $employee->getFirstName(),
                 "lastName"=> $employee->getLastName(),
-                "hiredDate"=> "",
                 "position"=> $employee->getPosition(),
                 "email"=> $employee->getAccount()->getEmail(),
                 "phoneNumber"=> $employee->getPhoneNumber(),
                 "address"=> $employee->getAddress()->getAddressId() . $employee->getAddress()->getStreetName(),
                 "postalCode"=> $employee->getAddress()->getPostalCode(),
-                "city"=> $employee->getAddress()->getArea(),
-                "province"=> $employee->getAddress()->getArea(),
+                "area"=> $employee->getAddress()->getArea(),
                 "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
             ));
         }

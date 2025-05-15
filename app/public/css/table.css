@@ -107,11 +107,16 @@
 
 
 .search-table tbody tr.active {
-    background-color: rgb(225, 218, 207);
+    background-color: rgb(245, 211, 186);
+
 }
 
 .search-table tbody tr.inactive {
     background-color: rgba(128, 128, 128, 0.1);
+}
+
+.search-table tbody tr.inactive:nth-child(odd) {
+    background-color: rgb(225, 218, 207);
 }
 
 .search-table {
