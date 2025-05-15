@@ -32,24 +32,54 @@
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const status = "Installed"; // TEMPORARY: force it to always show all sections
-        const sectionLabels = [
-            "Measuring",
-            "Ordering Material",
-            "Fabricating",
-            "Ready for Handover",
-            status === "Installed" ? "Installed" : "Picked Up"
-        ];
+document.addEventListener("DOMContentLoaded", () => {
+    const rawStatus = document.getElementById("current-status").innerText.trim();
 
-        const sections = document.querySelectorAll(".progress-section");
+    // Normalize backend status to match display labels
+    const statusMap = {
+        "MEASURING": "Measuring",
+        "ORDERING_MATERIAL": "Ordering Material",
+        "FABRICATING": "Fabricating",
+        "READY_FOR_HANDOVER": "Ready for Handover",
+        "INSTALLED": "Installed",
+        "PICKED_UP": "Picked Up"
+    };
 
-        sections.forEach((section, index) => {
+    const status = statusMap[rawStatus.toUpperCase()] || "Measuring";
+
+    const steps = [
+        "Measuring",
+        "Ordering Material",
+        "Fabricating",
+        "Ready for Handover",
+        "Installed", // or Picked Up – dynamically assigned below
+    ];
+
+    const sections = document.querySelectorAll(".progress-section");
+
+    let currentStepIndex = steps.indexOf(status);
+    if (status === "Picked Up") currentStepIndex = steps.indexOf("Installed");
+
+    sections.forEach((section, index) => {
+        if (index <= currentStepIndex) {
             section.classList.add("active");
-            const labelText = sectionLabels[index];
-            section.innerHTML = `<span class="label">${labelText}</span>`;
-        });
+
+            let label = steps[index];
+            if (index === 4) {
+                label = (rawStatus === "PICKED_UP" || rawStatus === "INSTALLED")
+                    ? statusMap[rawStatus.toUpperCase()]
+                    : "";
+            }
+
+            section.innerHTML = `<span class="label">${label}</span>`;
+        } else {
+            section.classList.remove("active");
+            section.innerHTML = "";
+        }
     });
+});
 </script>
+
+
 
 </x-tracking-layout>
