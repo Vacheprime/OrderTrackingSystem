@@ -20,15 +20,18 @@ function changeOrderDetails(orderIdString) {
             document.getElementById("detail-fabrication-start-date").innerText = order.fabricationStartDate;
             document.getElementById("detail-installation-start-date").innerText = order.installationStartDate;
             document.getElementById("detail-pick-up-date").innerText = order.pickUpDate;
-            // document.getElementById("detail-material-name").innerText = order.materialName;
-            // document.getElementById("detail-slab-height").innerText = order.slabHeight;
-            // document.getElementById("detail-slab-width").innerText = order.slabWidth;
-            // document.getElementById("detail-slab-height").innerText = order.slabHeight;
-            // document.getElementById("slab-thickness").innerText = order.slabThickness;
-            // document.getElementById("detail-slab-square-footage").innerText = order.slabSquareFootage;
-            // document.getElementById("detail-fabrication-plan-image").attributes.setNamedItem("src", order.fabricationPlanImage);
-            // document.getElementById("detail-product-description").innerText = order.productDescription;
-            // document.getElementById("detail-product-notes").innerText = order.productNotes;
+            document.getElementById("detail-material-name").innerText = order.materialName;
+            document.getElementById("detail-slab-height").innerText = order.slabHeight;
+            document.getElementById("detail-slab-width").innerText = order.slabWidth;
+            document.getElementById("detail-slab-height").innerText = order.slabHeight;
+            document.getElementById("detail-slab-thickness").innerText = order.slabThickness;
+            document.getElementById("detail-slab-square-footage").innerText = order.slabSquareFootage;
+            document.getElementById("detail-sink-type").innerText = order.sinkType;
+            const src= document.createAttribute('src');
+            src.value = order.fabricationPlanImage;
+            document.getElementById("detail-fabrication-plan-image").attributes.setNamedItem(src);
+            document.getElementById("detail-product-description-input").innerText = order.productDescription;
+            document.getElementById("detail-product-notes-input").innerText = order.productNotes;
         });
 }
 

@@ -1,20 +1,19 @@
-<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
-<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/employees.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <x-layout title="Edit Employee">
-    <div class="layout-container">
-        <div class="main-content">
-            <a href="{{url()->previous()}}">
-                <button class="regular-button">Go Back</button>
-            </a>
-            <h2>Edit Employee</h2>
-            <hr/>
-            <form action="{{route("employees.update", $employee->getEmployeeId())}}" method="POST">
+    <h1 class="content-title">EDIT EMPLOYEE</h1>
+    <div class="content-container">
+        <div id="employees-create-content" class="main-content">
+            <div class="create-edit-header">
+                <a href="/employees" class="regular-button">Go Back</a>
+                <h2>Employee Information</h2>
+                <div class="filler-div"></div>
+            </div>
+            <form action="{{route("employees.update", $employee->getEmployeeId())}}" method="POST" class="create-edit-form">
                 @csrf
                 @method("PUT")
-                <div class="flex-input-div">
+                <div class="details-div">
                     <x-text-input-property labelText="Initials" name="initials" :value="$employee->getInitials()"/>
                     <x-text-input-property labelText="First Name" name="first-name" :value="$employee->getFirstName()"/>
                     <x-text-input-property labelText="Last Name" name="last-name" :value="$employee->getLastName()"/>

@@ -8,8 +8,6 @@
         <th>Last Name</th>
         <th>Phone Number</th>
         <th>Client Reference #</th>
-        <th>Phone</th>
-        <th>Area</th>
     </tr>
     </thead>
     <tbody id="clients-tbody">
@@ -18,18 +16,13 @@
             <td>{{$client->getClientId()}}</td>
             <td>{{$client->getFirstName()}}</td>
             <td>{{$client->getLastName()}}</td>
-            <td>{{$client->getAddress()->getAddressId() . $client->getAddress()->getStreetName()}}</td>
             <td>{{$client->getClientReference()}}</td>
             <td>{{$client->getPhoneNumber()}}</td>
-            <td>{{$client->getAddress()->getArea()}}</td>
         </tr>
     @empty
-        <tr>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-        </tr>
+        <td colspan="{{$short ? 4 : 6}}" style="text-align: center;">
+            <div class="order-table-td-div">No results!</div>
+        </td>
     @endforelse
     </tbody>
 </table>
