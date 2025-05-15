@@ -9,10 +9,6 @@
             <x-text-input-property labelText="Password" name="password" :password="true"/>
             <a href="/contact">Forgot Password?</a>
             <button type="submit" class="regular-button">Login</button>
-            <div>
-                <input type="checkbox" id="remember-login" name="remember-login-input">
-                <label for="remember-login">Remember Login</label>
-            </div>
         </form>
     </div>
 </x-login-layout>

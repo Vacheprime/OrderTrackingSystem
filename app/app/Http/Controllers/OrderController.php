@@ -23,9 +23,9 @@ use function Termwind\parse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use SortOrder;
+use function Termwind\render;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller {
     protected EntityManager $entityManager;
     protected OrderRepository $repository;
 
@@ -37,8 +37,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         // Define default values
         $defaultParams = [
             "page" => 1,
@@ -51,7 +50,7 @@ class OrderController extends Controller
         $defaultUrl = "/orders?page={$defaultParams['page']}&orderby={$defaultParams['orderby']}";
         // Validate the input data
         $validatedData = array_merge(
-            // Default values for parameters
+        // Default values for parameters
             $defaultParams,
             // Add validation rules
             $request->validate(
@@ -65,7 +64,7 @@ class OrderController extends Controller
             )
         );
         Log::info($validatedData);
-        // Return order information as JSON if requested. 
+        // Return order information as JSON if requested.
         // Used for refreshing the order details when an order is
         // selected.
         if ($request->hasHeader("x-change-details")) {
@@ -144,12 +143,12 @@ class OrderController extends Controller
         } else if ($validatedData["orderby"] == "oldest") {
             $repository = $repository->sortByCreationDate(SortOrder::ASCENDING);
         }
-        
+
 
         // Get the paginator
         $paginator = $repository->retrievePaginated(10, 1);
 
-        // Create the appropriate pagination 
+        // Create the appropriate pagination
         $totalPages = $paginator->lastPage();
         if ($page <= 0) {
             $page = 1;
@@ -175,31 +174,39 @@ class OrderController extends Controller
     public function getOrderInfoAsJson(Order $order): string {
         return json_encode(array(
             "orderId" => $order->getOrderId(),
-            "clientId"=> $order->getClient()->getClientId(),
-            "measuredBy"=> $order->getMeasuredBy()->getInitials(),
-            "referenceNumber"=> $order->getReferenceNumber(),
-            "invoiceNumber"=> $order->getInvoiceNumber() ?? "No invoice associated.",
-            "totalPrice"=> $order->getPrice(),
-            "orderStatus"=> $order->getStatus(),
-            "fabricationStartDate"=> $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d") ,
-            "installationStartDate"=> $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
-            "pickUpDate"=> $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
-//                "materialName"=> $order->getProduct()->getMaterialName() ?? "null",
-//                "slabHeight"=> $order->getProduct()->getSlabHeight() ?? "null",
-//                "slabWidth"=> $order->getProduct()->getSlabWidth() ?? "null",
-//                "slabThickness"=> $order->getProduct()->getSlabThickness() ?? "null",
-//                "slabSquareFootage"=> $order->getProduct()->getSlabSquareFootage() ?? "null",
-//                "fabricationPlanImage"=> $order->getProduct()->getPlanImagePath() ?? "null",
-//                "productDescription"=> $order->getProduct()->getProductDescription() ?? "null",
-//                "productNotes"=> $order->getProduct()->getProductNotes() ?? "null",
+            "clientId" => $order->getClient()->getClientId(),
+            "measuredBy" => $order->getMeasuredBy()->getInitials(),
+            "referenceNumber" => $order->getReferenceNumber(),
+            "invoiceNumber" => $order->getInvoiceNumber() ?? "No invoice associated.",
+            "totalPrice" => $order->getPrice(),
+            "orderStatus" => $order->getStatus(),
+            "fabricationStartDate" => $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d"),
+            "installationStartDate" => $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
+            "pickUpDate" => $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
+            "materialName" => $order->getProduct()->getMaterialName() ?? "-",
+            "slabHeight" => $order->getProduct()->getSlabHeight() ?? "-",
+            "slabWidth" => $order->getProduct()->getSlabWidth() ?? "-",
+            "slabThickness" => $order->getProduct()->getSlabThickness() ?? "-",
+            "slabSquareFootage" => $order->getProduct()->getSlabSquareFootage() ?? "-",
+            "sinkType" => $order->getProduct()->getSinkType() ?? "-",
+            "fabricationPlanImage" => $order->getProduct()->getPlanImagePath() ?? "-",
+            "productDescription" => $order->getProduct()->getProductDescription() ?? "-",
+            "productNotes" => $order->getProduct()->getProductNotes() ?? "-",
         ));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): View
-    {
+    public function create(Request $request) {
+        if ($request->hasHeader("x-add-client-panel")) {
+            return view('components.client-panel')->render();
+        } else if ($request->hasHeader("x-add-client-input")) {
+            $name = "client-id";
+            $labelText = "Client Id";
+            $value = $request->input('clientId');
+            return view('components.inputs.text-input-property', compact("name", "labelText", "value"))->render();
+        }
         $clientId = $request->input('clientId');
         return view('orders.create')->with(compact("clientId"));
     }
@@ -207,31 +214,30 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
-    {
+    public function store(Request $request): RedirectResponse {
         $validatedData = array_merge(
-            // Default values
+        // Default values
             ["fabrication-image-input" => null],
             // Validated fields
             $request->validate([
-                "client-id" => "required|integer|min:1",
-                "measured-by" => "required|integer|min:1",
-                "invoice-number" => "nullable|string",
-                "total-price" => "required|numeric",
-                "order-status-select" => "required",
-                "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
-                "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
-                "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
-                "material-name" => "nullable|string",
-                "slab-height" => "nullable|string",
-                "slab-width" => "nullable|string",
-                "slab-thickness" => "nullable|string",
-                "slab-square-footage" => "nullable|string",
-                "sink-type" => "nullable|string",
-                "product-description" => "nullable|string",
-                "product-notes" => "nullable|string",
-            ]
-        ));
+                    "client-id" => "required|integer|min:1",
+                    "measured-by" => "required|integer|min:1",
+                    "invoice-number" => "nullable|string",
+                    "total-price" => "required|numeric",
+                    "order-status-select" => "required",
+                    "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
+                    "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
+                    "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
+                    "material-name" => "nullable|string",
+                    "slab-height" => "nullable|string",
+                    "slab-width" => "nullable|string",
+                    "slab-thickness" => "nullable|string",
+                    "slab-square-footage" => "nullable|string",
+                    "sink-type" => "nullable|string",
+                    "product-description" => "nullable|string",
+                    "product-notes" => "nullable|string",
+                ]
+            ));
         Log::info($validatedData);
         // Do additional validation on the incomming data
         $validationErrors = $this->validateOrderInputData($validatedData);
@@ -398,16 +404,14 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    public function show(string $id) {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
-    {
+    public function edit(string $id): View {
         $order = $this->repository->find($id);
         return view("orders.edit")->with('order', $order);
     }
@@ -415,8 +419,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
-    {
+    public function update(Request $request, string $id): RedirectResponse {
         $validateData = $request->validate([
             "client-id" => "required",
             "measured-by" => "required",
@@ -445,8 +448,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
+    public function destroy(string $id) {
         //
     }
 }

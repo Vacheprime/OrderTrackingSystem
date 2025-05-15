@@ -202,6 +202,7 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
+    min-width: fit-content;
 }
 
 .regular-button:hover {
