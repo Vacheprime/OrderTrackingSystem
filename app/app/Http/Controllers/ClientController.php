@@ -33,7 +33,8 @@ class ClientController extends Controller
                 "lastName"=> $client->getLastName(),
                 "referenceNumber"=> $client->getClientReference() ?? "",
                 "phoneNumber"=> $client->getPhoneNumber(),
-                "address"=> $client->getAddress()->getAppartmentNumber() . $client->getAddress()->getStreetName(),
+                "addressStreet"=> $client->getAddress()->getStreetName(),
+                "addressAptNum"=> $client->getAddress()->getAppartmentNumber(),
                 "postalCode"=> $client->getAddress()->getPostalCode(),
                 "area"=> $client->getAddress()->getArea(),
             ));

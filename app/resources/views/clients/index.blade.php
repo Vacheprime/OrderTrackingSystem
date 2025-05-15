@@ -47,7 +47,8 @@
                         <p><b>Last Name:</b><span id="detail-last-name">-</span></p>
                         <p><b>Reference Number:</b><span id="detail-reference-number">-</span></p>
                         <p><b>Phone Number:</b><span id="detail-phone-number">-</span></p>
-                        <p><b>Address:</b><span id="detail-address">-</span></p>
+                        <p><b>Street Name:</b><span id="detail-address-street">-</span></p>
+                        <p><b>Apartment Number:</b><span id="detail-address-apt-num">-</span></p>
                         <p><b>Postal Code:</b><span id="detail-postal-code">-</span></p>
                         <p><b>Area (Neighborhood):</b><span id="detail-area">-</span></p>
                     </div>
