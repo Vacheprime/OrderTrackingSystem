@@ -249,7 +249,7 @@ main {
 .date-input-property-div input {
     font-size: 18px;
     padding: 10px;
-    height: 25px;
+    height: 100%;
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
