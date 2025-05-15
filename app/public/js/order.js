@@ -1,5 +1,8 @@
 function toggleInput(value) {
     if (!value) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("client", "");
+        window.history.pushState({}, '', url);
         document.getElementById("client-id-input").parentElement.remove();
         document.getElementById("client-id-btn").remove();
     } else {
@@ -18,10 +21,14 @@ function toggleInput(value) {
 
 function togglePanel(value) {
     if (!value) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("client", "new");
+        window.history.pushState({}, '', url);
         document.getElementById("orders-create-side-content").remove();
         toggleInput(true);
     } else {
         const url = new URL(window.location.href);
+        url.searchParams.set("client", "new");
         fetch(url, {
             headers: {
                 'x-add-client-panel': true,
