@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use function Laravel\Prompts\alert;
 
 class PaymentController extends Controller {
 
@@ -78,11 +79,11 @@ class PaymentController extends Controller {
             "order-id" => "required|integer|min:1",
             "payment-date-input" => "nullable|date|date_format:Y-m-d",
             "amount" => "required|numeric",
-            "type" => "required|string",
+            "type-select" => "required|string",
             "method" => "required|string",
         ]);
 
-        $validationErrors = $this->validatePaymentInputData($validatedData);
+        $validationErrors = $this->validatePaymentInputData($validatedData, true);
         if (!empty($validationErrors)) {
             return redirect()->back()->withErrors($validationErrors)->withInput();
         }
@@ -92,7 +93,7 @@ class PaymentController extends Controller {
         $orderId = intval($validatedData["order-id"]);
         $order = $orderRepository->find($orderId);
 
-        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type"]));
+        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
         $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
 
 
@@ -109,14 +110,15 @@ class PaymentController extends Controller {
         return redirect("/payments");
     }
 
-    public function validatePaymentInputData(array $data): array {
+    public function validatePaymentInputData(array $data, bool $isCreate): array {
         $errors = [];
 
-        $orderRepository = $this->entityManager->getRepository(Order::class);
-
-        $orderId = intval($data["order-id"]);
-        if ($orderRepository->find($orderId) === null) {
-            $errors["order-id"] = "The order ID does not match an existing order";
+        if ($isCreate) {
+            $orderRepository = $this->entityManager->getRepository(Order::class);
+            $orderId = intval($data["order-id"]);
+            if ($orderRepository->find($orderId) === null) {
+                $errors["order-id"] = "The order ID does not match an existing order";
+            }
         }
 
         $paymentDate = DateTime::createFromFormat("Y-m-d", $data["payment-date-input"]);
@@ -128,8 +130,8 @@ class PaymentController extends Controller {
             $errors["amount"] = "The amount cannot be a negative number.";
         }
 
-        if (PaymentType::tryFrom(strtoupper($data["type"])) === null) {
-            $errors["type"] = "The payment type is not one of the accepted values";
+        if (PaymentType::tryFrom(strtoupper($data["type-select"])) === null) {
+            $errors["type-select"] = "The payment type is not one of the accepted values";
         }
 
         if (!Utils::validatePaymentMethod($data["method"])) {
@@ -157,13 +159,35 @@ class PaymentController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id): RedirectResponse {
-        $validateData = $request->validate([
-            "order-id" => "required",
-            "payment-date" => "",
-            "amount" => "required",
-            "type" => "required",
-            "method" => "required",
+        $validatedData = $request->validate([
+            "payment-date-input" => "nullable|date|date_format:Y-m-d",
+            "amount" => "required|numeric",
+            "type-select" => "required",
+            "method" => "required|string",
         ]);
+
+        $validationErrors = $this->validatePaymentInputData($validatedData, false);
+        if (!empty($validationErrors)) {
+            return redirect()->back()->withErrors($validationErrors)->withInput();
+        }
+
+        $payment = $this->repository->find($id);
+
+        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
+        $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
+
+        if ($payment->getPaymentDate() == $paymentDate && $payment->getAmount() == $validatedData["amount"] && $payment->getType() == $paymentType && $payment->getMethod() == $validatedData["method"]) {
+            alert("No changes have been made to the data");
+            return "e";
+        }
+
+        $payment->setAmount($validatedData["amount"]);
+        $payment->setMethod($validatedData["method"]);
+        $payment->setPaymentDate($paymentDate);
+        $payment->setType($paymentType);
+
+        $this->repository->updatePayment($payment);
+
         return redirect("/payments");
     }
 

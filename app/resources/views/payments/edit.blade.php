@@ -13,10 +13,12 @@
                 @csrf
                 @method("PUT")
                 <div class="details-div">
-                    <x-text-input-property labelText="Order ID" name="order-id" :value="$payment->getOrder()->getOrderId()"/>
                     <x-date-input-property labelText="Date" name="payment-date" :value="$payment->getPaymentDate()->format('Y-m-d')"/>
                     <x-text-input-property labelText="Amount" name="amount" :value="$payment->getAmount()"/>
-                    <x-text-input-property labelText="Type" name="type" :value="$payment->getType()"/>
+                    <x-select-input-property labelText="Type" name="type">
+                        <option value="DEPOSIT" {{$payment->getType() == \app\Doctrine\ORM\Entity\PaymentType::DEPOSIT ? "selected" : ""}}>DEPOSIT</option>
+                        <option value="INSTALLMENT" {{$payment->getType() == \app\Doctrine\ORM\Entity\PaymentType::INSTALLMENT ? "selected" : ""}}>INSTALLMENT</option>
+                    </x-select-input-property>
                     <x-text-input-property labelText="Method" name="method" :value="$payment->getMethod()"/>
                 </div>
                 <div class="action-input-div">
