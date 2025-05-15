@@ -25,7 +25,6 @@ class HomeController extends Controller
     {
         $this->entityManager = $entityManager;
         $this->repository = ($entityManager->getRepository(Activity::class));
-        //$this->middleware('auth');
     }
 
     /**

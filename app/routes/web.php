@@ -11,6 +11,11 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\EnsureUser2FASetup;
+use App\Http\Middleware\EnsureSessionExists;
+use App\Http\Middleware\EnsureValidPasswordRequest;
+
+
 
 // ORDER TRACKING FOR CLIENTS
 Route::get('/tracking', [TrackingController::class, "tracking"]);
@@ -22,17 +27,18 @@ Route::get('/', [LoginController::class, "login"]);
 Route::post('/', [LoginController::class, "auth"]);
 Route::post('/logout', [LoginController::class, "logout"]);
 
-Route::get('/qr2fa', [LoginController::class, "qr2fa"]);
+Route::get('/qr2fa', [LoginController::class, "qr2fa"])->middleware(EnsureUser2FASetup::class);
 Route::post('/qr2fa', [LoginController::class, "authQR"]);
 
-Route::get('/code2fa', [LoginController::class, "code2fa"]);
-Route::post('/code2fa', [LoginController::class, "authCode"]);
+
+Route::get('/code2fa', [LoginController::class, "code2fa"])->middleware(EnsureSessionExists::class);
+Route::post('/code2fa', [LoginController::class, "authCode"])->middleware(EnsureSessionExists::class);
 
 Route::get('/contact', [LoginController::class, "contact"]);
 Route::post('/contact', [LoginController::class, "authContact"]);
 
-Route::get('/newpassword', [LoginController::class, "newPassword"]);
-Route::post('/newpassword', [LoginController::class, "authPassword"]);
+Route::get('/newpassword', [LoginController::class, "newPassword"])->middleware(EnsureValidPasswordRequest::class);
+Route::post('/newpassword', [LoginController::class, "authPassword"])->middleware(EnsureValidPasswordRequest::class);
 
 // Account Specific
 Route::get('/home', [HomeController::class, "index"]);
@@ -52,4 +58,3 @@ Route::resource('employees', EmployeeController::class);
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

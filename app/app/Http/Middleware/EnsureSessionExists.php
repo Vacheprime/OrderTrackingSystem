@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureEmployeeIsAdmin
+class EnsureSessionExists
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,9 @@ class EnsureEmployeeIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $employee = $request->user();
-
-        if (!$employee && $employee->isAdmin != true) {
-            //redirect to a certain page
+        if (!session()->has('employee') && !session()->has('user_requesting_new_password')) {
+            return redirect('/');
         }
-
         return $next($request);
     }
 }
