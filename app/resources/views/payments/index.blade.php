@@ -39,7 +39,7 @@
         @if(!empty($payments))
             <div id="payments-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>PAYMENT DETAILS</h2>
                         <hr>
                         <h3><b>Payment ID:</b><span id="detail-payment-id">-</span></h3>

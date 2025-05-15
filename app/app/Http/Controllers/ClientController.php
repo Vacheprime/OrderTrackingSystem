@@ -35,8 +35,6 @@ class ClientController extends Controller
                 "phoneNumber"=> $client->getPhoneNumber(),
                 "address"=> $client->getAddress()->getAppartmentNumber() . $client->getAddress()->getStreetName(),
                 "postalCode"=> $client->getAddress()->getPostalCode(),
-                "city"=> $client->getAddress()->getArea(),
-                "province"=> $client->getAddress()->getArea(),
                 "area"=> $client->getAddress()->getArea(),
             ));
         }

@@ -37,7 +37,7 @@
         @if(!empty($clients))
             <div id="clients-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>CLIENT DETAILS</h2>
                         <hr>
                         <h3><b>Client ID:</b><span id="detail-client-id">-</span></h3>
@@ -49,8 +49,6 @@
                         <p><b>Phone Number:</b><span id="detail-phone-number">-</span></p>
                         <p><b>Address:</b><span id="detail-address">-</span></p>
                         <p><b>Postal Code:</b><span id="detail-postal-code">-</span></p>
-                        <p><b>City:</b><span id="detail-city">-</span></p>
-                        <p><b>Province:</b><span id="detail-province">-</span></p>
                         <p><b>Area (Neighborhood):</b><span id="detail-area">-</span></p>
                     </div>
                 </div>
