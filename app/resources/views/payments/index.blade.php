@@ -54,6 +54,9 @@
                 </div>
                 <div class="side-content-details-options">
                     <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Edit</a>
+                    @if(session()->has('employee') && session()->get('employee')['isEmployeeAdmin'])
+
+                    @endif
                 </div>
             </div>
         @endif

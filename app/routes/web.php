@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\EnsureUser2FASetup;
 use App\Http\Middleware\EnsureSessionExists;
 use App\Http\Middleware\EnsureValidPasswordRequest;
+use App\Http\Middleware\EnsureEmployeeSession;
 
 
 
@@ -41,20 +42,20 @@ Route::get('/newpassword', [LoginController::class, "newPassword"])->middleware(
 Route::post('/newpassword', [LoginController::class, "authPassword"])->middleware(EnsureValidPasswordRequest::class);
 
 // Account Specific
-Route::get('/home', [HomeController::class, "index"]);
+Route::get('/home', [HomeController::class, "index"])->middleware(EnsureEmployeeSession::class);
 
 //Route::get('/settings', [UserController::class, "settings"]);
 
-Route::get('/account', [UserController::class, "account"]);
+Route::get('/account', [UserController::class, "account"])->middleware(EnsureEmployeeSession::class);
 
 // CRUD Orders, Clients, Payments, Employees
-Route::resource('orders', OrderController::class);
+Route::resource('orders', OrderController::class)->middleware(EnsureEmployeeSession::class);
 
-Route::resource('clients', ClientController::class);
+Route::resource('clients', ClientController::class)->middleware(EnsureEmployeeSession::class);
 
-Route::resource('payments', PaymentController::class);
+Route::resource('payments', PaymentController::class)->middleware(EnsureEmployeeSession::class);
 
-Route::resource('employees', EmployeeController::class);
+Route::resource('employees', EmployeeController::class)->middleware(EnsureEmployeeSession::class);
 
 Auth::routes();
 
