@@ -10,6 +10,7 @@ use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class EmployeeController extends Controller
@@ -68,7 +69,9 @@ class EmployeeController extends Controller
             return view('components.tables.employee-table')->with('employees', $employees);
         }
 
-        return view('employees.index')->with(compact("employees", "pages", "page"));
+        $messageHeader = Session::get("messageHeader");
+        $messageType = Session::get("messageType");
+        return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
     }
 
     /**
@@ -129,7 +132,9 @@ class EmployeeController extends Controller
 
         $this->repository->insertEmployee($employee);
 
-        return redirect("/employees");
+        $messageHeader = "Create Employee";
+        $messageType= "create-message-header";
+        return redirect("/employees")->with(compact("messageHeader", "messageType"));
     }
 
     public function validateEmployeeInputData(array $data): array {
@@ -253,7 +258,9 @@ class EmployeeController extends Controller
 
         $this->repository->updateEmployee($employee);
 
-        return redirect("/employees");
+        $messageHeader = "Edit Employee $id";
+        $messageType= "edit-message-header";
+        return redirect("/employees")->with(compact("messageHeader", "messageType"));
     }
 
     /**

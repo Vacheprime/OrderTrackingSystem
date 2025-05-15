@@ -345,6 +345,38 @@ main {
     font-size: 18px;
 }
 
+.message-header {
+    width: 100%;
+    color: white;
+    padding: 0;
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+#create-message-header {
+    background-color: #a1f5a1;
+}
+#edit-message-header {
+    background-color: #a1aff5;
+}
+#delete-message-header {
+    background-color: #fc8888;
+}
+
+.message-header button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 24px;
+}
+
+.message-header button:hover {
+    cursor: pointer;
+}
 
 /*.image-upload {*/
 /*    border: 2px dashed #9E8C76;*/

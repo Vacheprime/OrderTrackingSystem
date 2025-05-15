@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use function Termwind\parse;
@@ -170,7 +171,9 @@ class OrderController extends Controller {
         }
 
         // Return the full orders page
-        return view('orders.index')->with(compact("orders", "totalPages", "page"));
+        $messageHeader = Session::get("messageHeader");
+        $messageType = Session::get("messageType");
+        return view('orders.index')->with(compact("orders", "totalPages", "page", "messageHeader", "messageType"));
     }
 
     public function getOrderInfoAsJson(Order $order): string {
@@ -345,7 +348,8 @@ class OrderController extends Controller {
         $this->repository->insertOrder($order);
 
         // Redirect back to orders
-        return redirect('/orders');
+        $messageHeader = "Created New Order";
+        return redirect('/orders')->with(compact("messageHeader"));
     }
 
     public function storeWithClientId(Request $request): RedirectResponse {
@@ -438,7 +442,9 @@ class OrderController extends Controller {
         $this->repository->insertOrder($order);
 
         // Redirect back to orders
-        return redirect('/orders');
+        $messageHeader = "Created New Order";
+        $messageType = "create-message-header";
+        return redirect('/orders')->with(compact("messageHeader", "messageType"));
     }
 
     public function validateOrderInputData(array $data, bool $checkClientId = true, bool $checkEmployeeId = true): array {
@@ -643,7 +649,7 @@ class OrderController extends Controller {
             $imageFilePath = $validatedData["fabrication-image-input"]->store("fabrication_plan_images");
             $product->setPlanImagePath($imageFilePath);
         }
-        
+
         // Update all product fields
         $product->setMaterialName($validatedData["material-name"]);
         $product->setSlabHeight($validatedData["slab-height"]);
@@ -688,7 +694,9 @@ class OrderController extends Controller {
         // Update
         $this->repository->updateOrder($order);
         // Return to order pages
-        return redirect("/orders");
+        $messageHeader = "Edited Order $id";
+        $messageType = "edit-message-header";
+        return redirect('/orders')->with(compact("messageHeader", "messageType"));
     }
 
     /**

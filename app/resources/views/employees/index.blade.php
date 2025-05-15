@@ -11,6 +11,9 @@
 
 <x-layout title="Employee Management">
     <h1 class="content-title">EMPLOYEE MANAGEMENT</h1>
+    @isset($messageHeader)
+        <p id="{{$messageType}}" class="message-header">{{$messageHeader}}<button onclick="document.getElementById('{{$messageType}}').remove()">x</button></p>
+    @endisset
     <div class="content-container">
         <div id="employees-content" class="main-content">
             <div class="table-content">

@@ -11,6 +11,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use function Laravel\Prompts\alert;
 
@@ -60,7 +61,9 @@ class PaymentController extends Controller {
             return view('components.tables.payment-table')->with('payments', $payments);
         }
 
-        return view('payments.index')->with(compact("payments", "pages", "page"));
+        $messageHeader = Session::get("messageHeader");
+        $messageType = Session::get("messageType");
+        return view('payments.index')->with(compact("payments", "pages", "page","messageHeader", "messageType"));
     }
 
     /**
@@ -107,7 +110,9 @@ class PaymentController extends Controller {
 
         $this->repository->insertPayment($payment);
 
-        return redirect("/payments");
+        $messageHeader = "Created Payment";
+        $messageType= "create-message-header";
+        return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
 
     public function validatePaymentInputData(array $data, bool $isCreate): array {
@@ -183,7 +188,9 @@ class PaymentController extends Controller {
 
         $this->repository->updatePayment($payment);
 
-        return redirect("/payments");
+        $messageHeader = "Edited Payment $id";
+        $messageType= "edit-message-header";
+        return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
 
     /**
@@ -192,6 +199,8 @@ class PaymentController extends Controller {
     public function destroy(string $id) {
         $payment = $this->repository->find($id);
         $this->repository->deletePayment($payment);
-        return redirect("/payments");
+        $messageHeader = "Edited Payment $id";
+        $messageType= "delete-message-header";
+        return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
 }
