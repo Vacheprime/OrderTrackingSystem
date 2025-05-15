@@ -23,6 +23,7 @@ use function Termwind\parse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use SortOrder;
+use function Termwind\render;
 
 class OrderController extends Controller
 {
@@ -65,7 +66,7 @@ class OrderController extends Controller
             )
         );
         Log::info($validatedData);
-        // Return order information as JSON if requested. 
+        // Return order information as JSON if requested.
         // Used for refreshing the order details when an order is
         // selected.
         if ($request->hasHeader("x-change-details")) {
@@ -144,12 +145,12 @@ class OrderController extends Controller
         } else if ($validatedData["orderby"] == "oldest") {
             $repository = $repository->sortByCreationDate(SortOrder::ASCENDING);
         }
-        
+
 
         // Get the paginator
         $paginator = $repository->retrievePaginated(10, 1);
 
-        // Create the appropriate pagination 
+        // Create the appropriate pagination
         $totalPages = $paginator->lastPage();
         if ($page <= 0) {
             $page = 1;
@@ -198,8 +199,17 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): View
+    public function create(Request $request)
     {
+        if ($request->hasHeader("x-add-client-panel")) {
+            return view('components.client-panel')->render();
+        }
+        else if ($request->hasHeader("x-add-client-input")) {
+            $name = "client-id";
+            $labelText = "Client Id";
+            $value = $request->input('clientId');
+            return view('components.inputs.text-input-property', compact("name", "labelText", "value"))->render();
+        }
         $clientId = $request->input('clientId');
         return view('orders.create')->with(compact("clientId"));
     }
