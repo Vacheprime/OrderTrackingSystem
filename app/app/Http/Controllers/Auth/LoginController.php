@@ -71,6 +71,10 @@ class LoginController extends Controller
 
         $employee = $em->getRepository(Employee::class)->findOneBy(['account.email' => $validateData['username']]);
 
+        if ($employee && $employee->getAccount()->isAccountEnabled()) {
+            return back()->withErrors(['password' => 'Disabled Account!']);
+        }
+
         if ($employee && password_verify($validateData['password'], $employee->getAuthPassword())) {
             $employeeInfo = [
                 "employeeID" => $employee->getAuthIdentifier(),
@@ -227,9 +231,15 @@ class LoginController extends Controller
         
         $employee = $em->getRepository(Employee::class)->findOneBy([$chosenContactMethod => $validateData['contact-method']]);
         
+        
         if (!$employee) {
             return back()->withErrors(['contact-method' => 'User does not exist! Provide valid credentials!']);
         }
+
+        if ($employee && $employee->getAccount()->isAccountEnabled()) {
+           return back()->withErrors(['contact-method' => 'Account Disabled!']);
+        }
+
         if (!$employee->getAccount()->hasSetUp2fa()) {
             return back()->withErrors(['contact-method' => 'Please complete the account setup before changing your password!']);
         }
