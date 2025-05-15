@@ -23,6 +23,7 @@ use function Termwind\parse;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use SortOrder;
 use function Termwind\render;
 
@@ -440,7 +441,7 @@ class OrderController extends Controller {
         return redirect('/orders');
     }
 
-    public function validateOrderInputData(array $data, bool $checkClientId = true): array {
+    public function validateOrderInputData(array $data, bool $checkClientId = true, bool $checkEmployeeId = true): array {
         $errors = [];
         // ORDER DETAILS VALIDATION
         // Get the client and employee repositories
@@ -454,9 +455,11 @@ class OrderController extends Controller {
             }
         }
         // Validate Employee Id
-        $employeeId = intval($data["measured-by"]);
-        if ($employeeRepository->find($employeeId) === null) {
-            $errors["measured-by"] = "The employee ID does not match an existing client.";
+        if ($checkEmployeeId) {
+            $employeeId = intval($data["measured-by"]);
+            if ($employeeRepository->find($employeeId) === null) {
+                $errors["measured-by"] = "The employee ID does not match an existing client.";
+            }
         }
         // Validate invoice number
         if ($data["invoice-number"] !== null && !Utils::validateInvoiceNumber($data["invoice-number"])) {
@@ -598,28 +601,93 @@ class OrderController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id): RedirectResponse {
-        $validateData = $request->validate([
-            "client-id" => "required",
-            "measured-by" => "required",
-            "reference-number" => "required",
-            "invoice-number" => "required",
-            "total-price" => "required",
-            "order-status" => "",
-            "fabrication-image" => "",
-            "fabrication-start-date" => "",
-            "installation-start-date" => "",
-            "pickup-start-date" => "",
-            "material-name" => "required",
-            "slab-height" => "required",
-            "slab-width" => "required",
-            "slab-thickness" => "required",
-            "slab-square-footage" => "required",
-            "sink-type" => "required",
-            "product-description" => "required",
-            "product-notes" => "required",
-        ]);
-//        $order = $this->repository->find($id);
-//        $this->repository->updateOrder($order);
+        $validatedData = array_merge(
+            // Default values
+            ["fabrication-image-input" => null],
+            // Validated fields
+            $request->validate([
+                    "invoice-number" => "nullable|string",
+                    "total-price" => "required|numeric",
+                    "order-status-select" => "required",
+                    "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
+                    "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
+                    "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
+                    "material-name" => "nullable|string",
+                    "slab-height" => "nullable|string",
+                    "slab-width" => "nullable|string",
+                    "slab-thickness" => "nullable|string",
+                    "slab-square-footage" => "nullable|string",
+                    "sink-type" => "nullable|string",
+                    "product-description" => "nullable|string",
+                    "product-notes" => "nullable|string",
+                ]
+            )
+        );
+        // Perform additional validation
+        $errors = $this->validateOrderInputData($validatedData, false, false);
+        if (!empty($errors)) {
+            return back()->withErrors($errors)->withInput();
+        }
+
+        // Fetch the current order
+        $order = $this->repository->find(intval($id));
+        $product = $order->getProduct();
+        // Update the image plan
+        $oldImagePath = $product->getPlanImagePath();
+        if ($validatedData["fabrication-image-input"] !== null && $oldImagePath !== null) {
+            // Delete the old image
+            if ($oldImagePath !== null) {
+                Storage::delete($oldImagePath);
+            }
+            // Store the new image
+            $imageFilePath = $validatedData["fabrication-image-input"]->store("fabrication_plan_images");
+            $product->setPlanImagePath($imageFilePath);
+        }
+        
+        // Update all product fields
+        $product->setMaterialName($validatedData["material-name"]);
+        $product->setSlabHeight($validatedData["slab-height"]);
+        $product->setSlabWidth($validatedData["slab-width"]);
+        $product->setSlabThickness($validatedData["slab-thickness"]);
+        $product->setSlabSquareFootage($validatedData["slab-square-footage"]);
+        $product->setSinkType($validatedData["sink-type"]);
+        $product->setProductDescription($validatedData["product-description"]);
+        $product->setProductNotes($validatedData["product-notes"]);
+
+        // Get the fabrication start date
+        $fabricationStartDate = $validatedData["fabrication-start-date-input"];
+        if ($fabricationStartDate !== null) {
+            $fabricationStartDate = DateTime::createFromFormat("Y-m-d", $fabricationStartDate);
+        }
+
+        // Get the estimated installation date
+        $estInstallDate = $validatedData["estimated-installation-date-input"];
+        if ($estInstallDate !== null) {
+            $estInstallDate = DateTime::createFromFormat("Y-m-d", $estInstallDate);
+        }
+
+        // Update all order fields
+        $order->setInvoiceNumber($validatedData["invoice-number"]);
+        $order->setPrice($validatedData["total-price"]);
+        $order->setFabricationStartDate($fabricationStartDate);
+        $order->setEstimatedInstallDate($estInstallDate);
+
+        // Update the status field
+        $newStatus = Status::from(strtoupper($validatedData["order-status-select"]));
+        // Only update if changed
+        if ($newStatus != $order->getStatus()) {
+            $order->setStatus($newStatus);
+            if ($newStatus == Status::INSTALLED || $newStatus == Status::PICKED_UP) {
+                // Order has been completed
+                $order->setOrderCompletedDate(new DateTime("now"));
+            } else {
+                // Order is not longer completed
+                $order->setOrderCompletedDate(null);
+            }
+        }
+        // Update
+        $this->repository->updateOrder($order);
+        // Return to order pages
         return redirect("/orders");
     }
 
