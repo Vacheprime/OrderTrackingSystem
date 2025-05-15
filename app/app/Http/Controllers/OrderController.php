@@ -108,11 +108,11 @@ class OrderController extends Controller
                     $page = 1;
                     // Check if no results
                     if ($result === null) {
-                        return view('components.tables.order-table')->with('orders', $orders);
+                        return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "1"]);
                     }
                     // Return the result
                     $orders[] = $result;
-                    return view('components.tables.order-table')->with('orders', $orders);
+                    return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "1"]);
                     break;
                 case "client-id":
                     // Validate the client Id
@@ -165,7 +165,7 @@ class OrderController extends Controller
 
         // Return only the html of the orders table if requested
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.order-table')->with('orders', $orders);
+            return response(view('components.tables.order-table')->with('orders', $orders), 200, ["x-total-pages" => "$totalPages"]);
         }
 
         // Return the full orders page
