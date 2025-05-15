@@ -282,6 +282,13 @@ class LoginController extends Controller
                 $em->getRepository(Employee::class)->updateEmployee($employee);
             }
         }
+
+        if (session()->has('employee')) {
+            if (!$employee->getAccount()->hasSetUp2fa()) {
+                $employee->getAccount()->setHasSetUp2fa(true);
+                $em->getRepository(Employee::class)->updateEmployee($employee);
+            }
+        }
         return redirect("/");
     }
 }
