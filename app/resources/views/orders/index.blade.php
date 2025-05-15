@@ -76,6 +76,9 @@
                        onclick="">Edit</a>
                     <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button"
                        onclick="">Add Payment</a>
+                       @if(session()->has('employee') && session()->get('employee')['isEmployeeAdmin'])
+
+                       @endif
                 </div>
             </div>
         @endif
