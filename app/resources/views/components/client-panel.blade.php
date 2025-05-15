@@ -8,8 +8,9 @@
     <div id="client-details-div" class="details-div">
         <x-text-input-property labelText="First Name" name="first-name"/>
         <x-text-input-property labelText="Last Name" name="last-name"/>
-        <x-text-input-property labelText="Address" name="address"/>
-        <x-text-input-property labelText="Phone Number" name="phone-number"/>
+        <x-text-input-property labelText="Street Name" name="street-name"/>
+        <x-text-input-property labelText="Appartment Number" name="appartment-number"/>
+        <x-text-input-property labelText="Postal Code" name="postal-code"/>
         <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
     </div>
     <h3>Contact Details</h3>
