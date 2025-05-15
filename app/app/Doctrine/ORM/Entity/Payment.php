@@ -105,7 +105,7 @@ class Payment {
         $this->paymentDate = $paymentDate;
     }
 
-    public function getOrder(): Order {
+    public function getOrder(): ?Order {
         return $this->order;
     }
 
