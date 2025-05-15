@@ -15,3 +15,60 @@
     justify-content: start;
     align-items: center;
 }
+
+/* CREATE & EDIT PAGES */
+
+#employees-create-content {
+    width: 50%;
+    height: 100%;
+    gap: 25px;
+}
+
+.create-edit-header h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 36px;
+}
+
+.filler-div {
+    height: 100%;
+    width: 87px;
+}
+
+.create-edit-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.create-edit-form {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    overflow-x:hidden;
+    gap: 25px;
+}
+
+.details-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: center;
+    gap: 25px;
+}
+
+.action-input-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 10px;
+}

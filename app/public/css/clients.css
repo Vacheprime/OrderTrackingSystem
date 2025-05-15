@@ -17,62 +17,55 @@
 }
 
 /* CREATE CLIENT */
-.main-content {
+#client-create-content {
+    width: 50%;
     height: 100%;
+    gap: 25px;
 }
 
-.flex-input-div {
-    align-self: center;
-    column-gap: 70px;
-    row-gap: 10px;
+.create-edit-header h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 36px;
+}
+
+.filler-div {
+    height: 100%;
+    width: 87px;
+}
+
+.create-edit-header {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.layout-container {
-    width: 100%;
+#create-edit-form {
+    margin: 0;
+    padding: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
+    justify-content: space-between;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
 
-.text-input-property-div {
+.details-div {
+    width: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.layout-container .main-content a:first-child {
-    align-self: flex-start;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: center;
+    gap: 25px;
 }
 
 .action-input-div {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    margin-top: 5px;
-}
-
-.action-input-div input {
-    margin-right: 1%;
-}
-
-.annoying-select .select-input-property-div {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-}
-
-.annoying-select .select-input-property-div label {
-    align-self: flex-start;
-}
-
-.annoying-select .select-input-property-div select {
-    margin: 0;
-    border-color: rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
-    height: 25px;
+    justify-content: end;
+    gap: 10px;
 }
