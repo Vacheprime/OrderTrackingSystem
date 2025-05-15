@@ -5,7 +5,7 @@
         <label id="{{$name}}-label" for="{{$name}}-input">{{$labelText}}:</label>
     @endif
     <input {{$readonly ? "readonly" : ""}} type="date" id="{{$name}}-input" name="{{$name}}-input" value="{{ $value == "" ? old("$name-input") : $value }}"/>
-    @error("$name")
+    @error("$name-input")
     <p class="error-input">{{$message}}</p>
     @enderror
 </div>
