@@ -176,11 +176,6 @@ class PaymentController extends Controller {
         $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
         $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
 
-        if ($payment->getPaymentDate() == $paymentDate && $payment->getAmount() == $validatedData["amount"] && $payment->getType() == $paymentType && $payment->getMethod() == $validatedData["method"]) {
-            alert("No changes have been made to the data");
-            return "e";
-        }
-
         $payment->setAmount($validatedData["amount"]);
         $payment->setMethod($validatedData["method"]);
         $payment->setPaymentDate($paymentDate);

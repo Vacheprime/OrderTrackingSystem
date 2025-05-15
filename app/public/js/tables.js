@@ -80,6 +80,7 @@ function changeEmployeeDetails(employeeIdString) {
             document.getElementById("detail-postal-code").innerText = employee.postalCode;
             document.getElementById("detail-area").innerText = employee.area;
             document.getElementById("detail-account-status").innerText = employee.accountStatus;
+            document.getElementById("detail-admin-status").innerText = employee.adminStatus;
         });
 }
 
