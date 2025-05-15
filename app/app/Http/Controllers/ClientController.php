@@ -33,10 +33,9 @@ class ClientController extends Controller
                 "lastName"=> $client->getLastName(),
                 "referenceNumber"=> $client->getClientReference() ?? "",
                 "phoneNumber"=> $client->getPhoneNumber(),
-                "address"=> $client->getAddress()->getAppartmentNumber() . $client->getAddress()->getStreetName(),
+                "addressStreet"=> $client->getAddress()->getStreetName(),
+                "addressAptNum"=> $client->getAddress()->getAppartmentNumber(),
                 "postalCode"=> $client->getAddress()->getPostalCode(),
-                "city"=> $client->getAddress()->getArea(),
-                "province"=> $client->getAddress()->getArea(),
                 "area"=> $client->getAddress()->getArea(),
             ));
         }
@@ -46,13 +45,22 @@ class ClientController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $clients = $this->repository->retrievePaginated(10, $page);
+        $pagination = $this->repository->retrievePaginated(10, 1);
+        $pages = $pagination->lastPage();
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $pages) {
+            $page = $pages;
+        }
+        $pagination = $this->repository->retrievePaginated(10, $page);
+        $clients = $pagination->items();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.client-table')->with('clients', $clients->items());
+            return view('components.tables.client-table')->with('clients', $clients);
         }
 
-        return view('clients.index')->with('clients', $clients->items());
+        return view('clients.index')->with(compact("clients", "pages", "page"));
     }
 
     /**

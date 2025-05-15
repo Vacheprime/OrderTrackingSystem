@@ -1,20 +1,24 @@
-<link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/payments.css') }}">
-<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 
 <x-layout title="Create Payment">
-    <div class="layout-container">
-        <div class="main-content">
-            <a href="{{url()->previous()}}" class="regular-button">Go Back</a>
-            <h2 class="title">Create Payment</h2>
-            <hr/>
+    <h1 class="content-title">CREATING PAYMENT</h1>
+    <div class="content-container">
+        <div id="payment-create-content" class="main-content">
+            <div class="create-edit-header">
+                <a href="{{$orderId == "" ? "/payments" : "/orders"}}" class="regular-button">Go Back</a>
+                <h2>Payment Information</h2>
+                <div class="filler-div"></div>
+            </div>
             <form method="POST" action="/payments" class="create-edit-form">
                 @csrf
-                <div class="flex-input-div">
-                    <x-text-input-property labelText="Order ID" name="order-id"/>
+                <div class="details-div">
+                    <x-text-input-property labelText="Order ID" name="order-id" :value="$orderId"/>
                     <x-date-input-property labelText="Date" name="payment-date"/>
                     <x-text-input-property labelText="Amount" name="amount"/>
-                    <x-text-input-property labelText="Type" name="type"/>
+                    <x-select-input-property labelText="Type" name="type">
+                        <option value="DEPOSIT" selected>DEPOSIT</option>
+                        <option value="INSTALLMENT">INSTALLMENT</option>
+                    </x-select-input-property>
                     <x-text-input-property labelText="Method" name="method"/>
                 </div>
 

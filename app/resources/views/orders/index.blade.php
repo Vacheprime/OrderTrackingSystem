@@ -16,7 +16,7 @@
             <div class="table-content">
                 <div class="table-header">
                     <form class="search-form" action="" method="GET">
-                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false" />
+                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                         <x-select-input-property labelText="Search By" name="search-by">
                             <option value="order-id" selected>OrderID</option>
@@ -26,12 +26,12 @@
                         </x-select-input-property>
 
                         <x-select-input-property labelText="Order By" name="order-by">
-                            <option value="newest" selected>Newest</option>
+                            <option value="newest">Newest</option>
                             <option value="oldest">Oldest</option>
-                            <option value="status">Status</option>
+                            <option value="status" selected>Status</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshOrderTable({{$page}})">Search</button>
+                    <button class="regular-button" onclick="refreshOrderTable({{$page}}, true)">Search</button>
                     <a href="/orders/create" class="regular-button">Create</a>
                 </div>
                 <div class="search-table-div">
@@ -39,15 +39,13 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                @for($letPage = 1; $letPage <= $pages; $letPage++)
-                    <button id="paginated-btn-{{$letPage}}" class="paginated-btn regular-button {{$page == $letPage ? "" : "paginated-inactive"}}" onclick="refreshOrderTable({{$letPage}})">{{$letPage}}</button>
-                @endfor
+                <script>changeOrderPage({{$page}}, {{$totalPages}});</script>
             </div>
         </div>
         @if(!empty($orders))
             <div id="orders-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>ORDER DETAILS</h2>
                         <hr>
                         <h3><b>ORDER ID:</b><span id="detail-order-id">-</span></h3>
@@ -61,21 +59,23 @@
                         <p><b>Status:</b><span id="detail-status">-</span></p>
                         <p><b>Fabrication Start Date:</b><span id="detail-fabrication-start-date">-</span></p>
                         <p><b>Installation Start Date:</b><span id="detail-installation-start-date">-</span></p>
-                        <p><b>Pick Up Date:</b><span id="detail-pick-up-date">-</span></p>
+                        <p><b>Completed Date:</b><span id="detail-pick-up-date">-</span></p>
                         <p><b>Material Name:</b><span id="detail-material-name">-</span></p>
                         <p><b>Slab Height:</b><span id="detail-slab-height">-</span></p>
                         <p><b>Slab Width:</b><span id="detail-slab-width">-</span></p>
                         <p><b>Slab Thickness:</b><span id="detail-slab-thickness">-</span></p>
                         <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">-</span></p>
-                        <p><b>Sink Type:</b><span id="detail-sink-type">-</span ></p>
+                        <p><b>Sink Type:</b><span id="detail-sink-type">-</span></p>
                         <p><b>Fabrication Plan Image:</b><img src="" id="detail-fabrication-plan-image"/></p>
-                        <p><b>Product Description:</b><textarea readonly placeholder="Product Description" id="detail-product-description"></textarea></p>
-                        <p><b>Product Notes:</b><textarea readonly placeholder="Product Notes" id="detail-product-notes"></textarea></p>
+                        <p><b>Product Description:</b><x-area-input-property name="detail-product-description" labelText="Product Description" :isLabel="false"/></p>
+                        <p><b>Product Notes:</b><x-area-input-property name="detail-product-notes" labelText="Product Notes" :isLabel="false"/></p>
                     </div>
                 </div>
                 <div class="side-content-details-options">
-                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Edit</a>
-                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button" onclick="">Add Payment</a>
+                    <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button"
+                       onclick="">Edit</a>
+                    <a id="detail-add-payment-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button"
+                       onclick="">Add Payment</a>
                 </div>
             </div>
         @endif

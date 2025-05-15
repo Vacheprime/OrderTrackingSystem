@@ -13,28 +13,33 @@
     <h1 class="content-title">PAYMENT MANAGEMENT</h1>
     <div class="content-container">
         <div id="payments-content" class="main-content">
-            <div class="table-header">
-                <form class="search-form" action="" method="GET">
-                    <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
+            <div class="table-content">
+                <div class="table-header">
+                    <form class="search-form" action="" method="GET">
+                        <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
-                    <x-select-input-property labelText="Search By" name="search-by">
-                        <option value="payment-id" selected>Payment ID</option>
-                        <option value="order-id">Order ID</option>
-                    </x-select-input-property>
-                </form>
-                <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
-                <a href="/payments/create">
-                    <button class="regular-button">Create</button>
-                </a>
+                        <x-select-input-property labelText="Search By" name="search-by">
+                            <option value="payment-id" selected>Payment ID</option>
+                            <option value="order-id">Order ID</option>
+                        </x-select-input-property>
+                    </form>
+                    <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
+                    <a href="/payments/create">
+                        <button class="regular-button">Create</button>
+                    </a>
+                </div>
+                <div class="search-table-div">
+                    <x-payment-table :payments="$payments"/>
+                </div>
             </div>
-            <div class="search-table-div">
-                <x-payment-table :payments="$payments"/>
+            <div class="search-table-pagination-div">
+                <script>changePaymentPage({{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($payments))
             <div id="payments-side-content" class="side-content">
                 <div class="side-content-container">
-                    <div id="side-content-header">
+                    <div class="side-content-header">
                         <h2>PAYMENT DETAILS</h2>
                         <hr>
                         <h3><b>Payment ID:</b><span id="detail-payment-id">-</span></h3>

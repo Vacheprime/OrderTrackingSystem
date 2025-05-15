@@ -20,13 +20,9 @@
             <td>{{$employee->getPhoneNumber()}}</td>
         </tr>
     @empty
-        <tr>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-        </tr>
+        <td colspan="{{$short ? 4 : 6}}" style="text-align: center;">
+            <div class="order-table-td-div">No results!</div>
+        </td>
     @endforelse
     </tbody>
 </table>

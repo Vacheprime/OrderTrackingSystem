@@ -75,7 +75,7 @@ class Product {
         $this->setProductNotes($productNotes);
     }
 
-    public function getOrder(): Order {
+    public function getOrder(): ?Order {
         return $this->order;
     }
 

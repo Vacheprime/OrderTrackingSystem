@@ -24,7 +24,7 @@
                     <hr />
                     <div id="notification-settings" class="settings-options-div">
                         <label>This is a help and support for questions or concerns</label>
-                        <button type="button" class="regular-button" onclick="window.open('mailto:someone@example.com', '_blank')">Send mail or message in gc </button>
+                        <button type="button" class="regular-button" onclick="window.open('mailto:someone@example.com', '_blank')">Send Email</button>
                     </div>
                 </div>
                 <div id="notification-div" class="settings-div">

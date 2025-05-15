@@ -1,4 +1,4 @@
-@props(["labelText" => "default", "name" => "default", 'isLabel' => true])
+@props(["labelText" => "default", "name" => "default", 'isLabel' => true, "value" => ""])
 
 <div class="select-input-property-div">
     @if($isLabel)
@@ -7,7 +7,7 @@
     <select id="{{$name}}-select" name="{{$name}}-select">
         {{$slot}}
     </select>
-    @error("$name")
+    @error("$name-select")
         <p class="error-input">{{$message}}</p>
     @enderror
 </div>

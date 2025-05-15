@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use app\Doctrine\ORM\Entity\Account;
+use app\Doctrine\ORM\Entity\Address;
 use app\Doctrine\ORM\Entity\Employee;
 use app\Doctrine\ORM\Repository\EmployeeRepository;
+use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,15 +37,15 @@ class EmployeeController extends Controller
                 "initials"=> $employee->getInitials(),
                 "firstName"=> $employee->getFirstName(),
                 "lastName"=> $employee->getLastName(),
-                "hiredDate"=> "",
                 "position"=> $employee->getPosition(),
                 "email"=> $employee->getAccount()->getEmail(),
                 "phoneNumber"=> $employee->getPhoneNumber(),
-                "address"=> $employee->getAddress()->getAddressId() . $employee->getAddress()->getStreetName(),
+                "addressStreet"=> $employee->getAddress()->getStreetName(),
+                "addressAptNum"=> $employee->getAddress()->getAppartmentNumber(),
                 "postalCode"=> $employee->getAddress()->getPostalCode(),
-                "city"=> $employee->getAddress()->getArea(),
-                "province"=> $employee->getAddress()->getArea(),
+                "area"=> $employee->getAddress()->getArea(),
                 "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
+                "adminStatus"=> $employee->getAccount()->isAdmin(),
             ));
         }
 
@@ -50,13 +53,22 @@ class EmployeeController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
-        $employees = $this->repository->retrievePaginated(10, $page);
+        $pagination = $this->repository->retrievePaginated(10, 1);
+        $pages = $pagination->lastPage();
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($page > $pages) {
+            $page = $pages;
+        }
+        $pagination = $this->repository->retrievePaginated(10, $page);
+        $employees = $pagination->items();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.employee-table')->with('employees', $employees->items());
+            return view('components.tables.employee-table')->with('employees', $employees);
         }
 
-        return view('employees.index')->with('employees', $employees->items());
+        return view('employees.index')->with(compact("employees", "pages", "page"));
     }
 
     /**
@@ -72,20 +84,98 @@ class EmployeeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validateData = $request->validate([
-            "initials"=> "required",
-            "first-name"=> "required",
-            "last-name" => "required",
-            "hired-date" => "",
-            "position"=> "required",
-            "email"=> "required",
-            "phone-number"=> "required",
-            "address"=> "required",
-            "postal-code"=> "required",
-            "city"=> "required",
-            "province"=> "required",
+        $validatedData = $request->validate([
+            "initials"=> "required|string",
+            "first-name"=> "required|string",
+            "last-name" => "required|string",
+            "position"=> "required|string",
+            "email"=> "required|email",
+            "phone-number"=> "required|string",
+            "address-street"=> "required|string",
+            "address-apt-num"=> "required|numeric",
+            "postal-code"=> "required|string",
+            "area"=> "required|string",
         ]);
+
+        $validationErrors = $this->validateEmployeeInputData($validatedData);
+        if (!empty($validationErrors)) {
+            return redirect()->back()->withErrors($validationErrors)->withInput();
+        }
+
+        $address = new Address(
+            $validatedData["address-street"],
+            $validatedData["address-apt-num"],
+            $validatedData["postal-code"],
+            $validatedData["area"],
+        );
+
+        $account = new Account(
+            $validatedData["email"],
+            "asdasdAASDAD123123123!@!@!!@@!!@",
+            false,
+            false,
+            false,
+        );
+
+        $employee = new Employee(
+            $validatedData["first-name"],
+            $validatedData["last-name"],
+            $validatedData["phone-number"],
+            $address,
+            $validatedData["initials"],
+            $validatedData["position"],
+            $account,
+        );
+
+        $this->repository->insertEmployee($employee);
+
         return redirect("/employees");
+    }
+
+    public function validateEmployeeInputData(array $data): array {
+        $errors = [];
+
+        if (!Utils::validateInitials($data["initials"])) {
+            $errors["initials"] = "The Initials aren't formatted well.";
+        }
+
+        if (!Utils::validateName($data["first-name"])) {
+            $errors["first-name"] = "This is not a name.";
+        }
+
+        if (!Utils::validateName($data["last-name"])) {
+            $errors["last-name"] = "This is not a name.";
+        }
+
+        if (!Utils::validatePosition($data["position"])) {
+            $errors["position"] = "This is not a possible position";
+        }
+
+        if (!Utils::validateEmail($data["email"])) {
+            $errors["email"] = "The Email isn't formatted correctly.";
+        }
+
+        if (!Utils::validatePhoneNumber($data["phone-number"])) {
+            $errors["phone-number"] = "The Phone Number isn't formatted correctly.";
+        }
+
+        if (!Utils::validateStreetName($data["address-street"])) {
+            $errors["address-street"] = "This is not a possible street name";
+        }
+
+        if (!Utils::validateAptNumber($data["address-apt-num"])) {
+            $errors["address-apt-num"] = "This is not a possible apartment number.";
+        }
+
+        if (!Utils::validatePostalCode($data["postal-code"])) {
+            $errors["postal-code"] = "This is not a possible postal code.";
+        }
+
+        if (!Utils::validateArea($data["area"])) {
+            $errors["area"] = "This is not a possible area.";
+        }
+
+        return $errors;
     }
 
     /**
@@ -102,7 +192,7 @@ class EmployeeController extends Controller
     public function edit(string $id): View
     {
         $employee = $this->repository->find($id);
-        return view("employees.edit")->with("employee", $employee);
+        return view("employees.edit")->with(compact("employee"));
     }
 
     /**
@@ -110,20 +200,59 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        $validateData = $request->validate([
-            "initials"=> "required",
-            "first-name"=> "required",
-            "last-name"=> "required",
-            "email"=> "required",
-            "phone-number"=> "required",
-            "hired-date"=> "",
-            "position"=> "required",
-            "address"=> "required",
-            "postal-code"=> "required",
-            "city"=> "required",
-            "province"=> "required",
-            "account-status"=>""
+        $validatedData = $request->validate([
+            "initials"=> "required|string",
+            "first-name"=> "required|string",
+            "last-name" => "required|string",
+            "position"=> "required|string",
+            "email"=> "required|email",
+            "phone-number"=> "required|string",
+            "address-street"=> "required|string",
+            "address-apt-num"=> "required|numeric",
+            "postal-code"=> "required|string",
+            "area"=> "required|string",
+            "account-status-select"=>"nullable|string",
+            "admin-status-select"=>"nullable|string",
         ]);
+        Log:info($validatedData);
+
+        $validationErrors = $this->validateEmployeeInputData($validatedData);
+        if (!empty($validationErrors)) {
+            return redirect()->back()->withErrors($validationErrors)->withInput();
+        }
+
+        $employee = $this->repository->find($id);
+
+        $employee->getAddress()->setStreetName($validatedData["address-street"]);
+        $employee->getAddress()->setAppartmentNumber($validatedData["address-apt-num"]);
+        $employee->getAddress()->setPostalCode($validatedData["postal-code"]);
+        $employee->getAddress()->setArea($validatedData["area"]);
+
+        if (strtolower($validatedData["admin-status-select"]) == "disabled") {
+            $adminStatus = false;
+        }
+        if (strtolower($validatedData["admin-status-select"]) == "enabled") {
+            $adminStatus = true;
+        }
+        if (strtolower($validatedData["account-status-select"]) == "disabled") {
+            $accountStatus = false;
+        }
+        if (strtolower($validatedData["account-status-select"]) == "enabled") {
+            $accountStatus = true;
+        }
+
+        $employee->getAccount()->setEmail($validatedData["email"]);
+        $employee->getAccount()->setIsAdmin($adminStatus);
+        $employee->getAccount()->setAccountStatus($accountStatus);
+
+        $employee->setFirstName($validatedData["first-name"]);
+        $employee->setLastName($validatedData["last-name"]);
+        $employee->setPhoneNumber($validatedData["phone-number"]);
+        $employee->setInitials($validatedData["initials"]);
+        $employee->setPosition($validatedData["position"]);
+
+        $this->repository->updateEmployee($employee);
+
         return redirect("/employees");
     }
 

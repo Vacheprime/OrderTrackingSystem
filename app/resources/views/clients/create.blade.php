@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+
 <x-layout title="Create Client">
    <div class="layout-container">
        <div class="main-content">

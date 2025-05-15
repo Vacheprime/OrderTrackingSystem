@@ -232,9 +232,11 @@ class OrderRepository extends BaseRepository {
         // Apply the search filter
         return $this->filter(static function(QueryBuilder $qb) use ($searchTarget) {
             $expr = $qb->expr();
-            $qb->where(
-                $expr->like("LOWER(o.area)", "LOWER(:target)")
-            )->setParameter(":target", $searchTarget);
+            $qb->join("o.client", "c")
+                ->join("c.address", "a")
+                ->where(
+                    $expr->like("a.area", ":target")
+                )->setParameter(":target", $searchTarget);
         });
     }
 

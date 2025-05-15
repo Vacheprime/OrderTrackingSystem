@@ -1,32 +1,31 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 <x-layout title="Edit Client">
-   <div class="layout-container">
-       <div class="main-content">
-
-
-           <a href="{{url()->previous()}}"><button class="regular-button">Go Back</button></a>
-           <h2>Edit Client</h2>
-           <hr/>
-           <form action="{{route("clients.update", $client->getClientId())}}" method="POST">
+    <h1 class="content-title">EDIT CLIENT</h1>
+   <div class="content-container">
+       <div id="client-create-content" class="main-content">
+           <div class="create-edit-header">
+               <a href="/clients" class="regular-button">Go Back</a>
+               <h2>Client Information</h2>
+               <div class="filler-div"></div>
+           </div>
+           <form id="create-edit-form" action="{{route("clients.update", $client->getClientId())}}" method="POST">
                @csrf
                @method("PUT")
-               <div class="flex-input-div">
-                   <x-text-input-property labelText="First Name" name="first-name"/>
-                   <x-text-input-property labelText="Last Name" name="last-name"/>
-                   <x-text-input-property labelText="Address" name="address"/>
-                   <x-text-input-property labelText="Reference Number" name="reference-number"/>
-                   <x-text-input-property labelText="Phone Number" name="phone-number"/>
-                   <x-text-input-property labelText="Postal Code" name="postal-code"/>
-                   <x-text-input-property labelText="City" name="city"/>
-                   <x-text-input-property labelText="Province" name="province"/>
-                   <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
+               <div class="details-div">
+                   <x-text-input-property labelText="First Name" name="first-name" :value="$client->getFirstName()"/>
+                   <x-text-input-property labelText="Last Name" name="last-name" :value="$client->getLastName()"/>
+                   <x-text-input-property labelText="Address" name="address" :value="$client->getAddress()->getStreetName()"/>
+                   <x-text-input-property labelText="Reference Number" name="reference-number" :value="$client->getClientReference()"/>
+                   <x-text-input-property labelText="Phone Number" name="phone-number" :value="$client->getPhoneNumber()"/>
+                   <x-text-input-property labelText="Postal Code" name="postal-code" :value="$client->getAddress()->getPostalCode()"/>
+                   <x-text-input-property labelText="City" name="city" :value="$client->getAddress()->getArea()"/>
+                   <x-text-input-property labelText="Province" name="province" :value="$client->getAddress()->getArea()"/>
+                   <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="$client->getAddress()->getArea()"/>
                </div>
-
                <div class="action-input-div">
                    <button class="regular-button" type="submit">Save</button>
-                    <a href="/clients" class="regular-button">Cancel
-                    </a>
+                   <a href="/clients" class="regular-button">Cancel</a>
                </div>
            </form>
        </div>

@@ -29,7 +29,7 @@ class ActivityRepository extends BaseRepository {
         return $this->filter(function (QueryBuilder $qb) use ($type) {
             $expr = $qb->expr();
             return $qb->andWhere(
-                $expr->eq("activity_type", ":type")
+                $expr->eq("a.activityType", ":type")
             )->setParameter(":type", $type->value);
         });
     }
@@ -45,7 +45,27 @@ class ActivityRepository extends BaseRepository {
      */
     public function sortByLogDate(SortOrder $order) {
         return $this->filter(function (QueryBuilder $qb) use ($order) {
-            return $qb->orderBy("log_date", $order->value);
+            return $qb->orderBy("a.logDate", $order->value);
+        });
+    }
+
+    /**
+     * Find only the activities that have been done by the 
+     * specified employee.
+     * 
+     * @param int $employeeId The Id of the employee that did
+     * the activities.
+     * @return self A clone of the ActivityRepository with the sorting applied.
+     */
+    public function withEmployeeId(int $employeeId): self {
+        return $this->filter(function (QueryBuilder $qb) use ($employeeId) {
+            // expr
+            $expr = $qb->expr();
+            $qb = $qb
+                ->join("a.employee", "e")
+                ->andWhere($expr->eq("e.employeeId", ":employeeId"))
+                ->setParameter(":employeeId", $employeeId);
+            return $qb;
         });
     }
 }
