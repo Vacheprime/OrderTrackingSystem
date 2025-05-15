@@ -1,15 +1,18 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <x-layout title="Create Order">
+    <h1 class="content-title">CREATING ORDER</h1>
     <div class="content-container">
-        <div id="orders-content" class="main-content">
-            <a href="{{$clientId == "" ? "/orders" : "/clients"}}" class="regular-button">Go Back</a>
-            <h2>Create Order</h2>
-            <form method="POST" action="/orders" class="create-edit-form" enctype="multipart/form-data">
-                @csrf
+        <form method="POST" action="/orders" class="create-edit-form" enctype="multipart/form-data">
+            @csrf
+            <div id="orders-create-content" class="main-content">
+                <div class="create-edit-header">
+                    <a href="{{$clientId == "" ? "/orders" : "/clients"}}" class="regular-button">Go Back</a>
+                    <h2>Order Information</h2>
+                    <div class="filler-div"></div>
+                </div>
                 <h3>Order Details</h3>
-                <div class="details-div">
+                <div id="order-details-div" class="details-div">
                     <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
-                    <a href="" class="createClient">Inexistant client? Create one</a>
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
@@ -21,50 +24,54 @@
                         <option value="installed">Installed</option>
                         <option value="picked_up">Picked up</option>
                     </x-select-input-property>
-                    <div class="image-upload">
-                        <x-file-input-property labelText="Fabrication Plan Image" name="fabrication-image"/>
-                    </div>
+                    <x-file-input-property labelText="Fabrication Plan Image" name="fabrication-image"/>
                 </div>
 
                 <h3>Date Details</h3>
-                <div class="details-div">
+                <div id="date-details-div" class="details-div">
                     <x-date-input-property labelText="Fabrication Start Date" name="fabrication-start-date"/>
                     <x-date-input-property labelText="Estimated Installation Date" name="estimated-installation-date"/>
                 </div>
 
                 <h3>Product Details</h3>
-                <div class="details-div">
+                <div id="product-details-div" class="details-div">
                     <x-text-input-property labelText="Material Name" name="material-name"/>
                     <x-text-input-property labelText="Slab Height" name="slab-height"/>
                     <x-text-input-property labelText="Slab Width" name="slab-width"/>
                     <x-text-input-property labelText="Slab Thickness" name="slab-thickness"/>
                     <x-text-input-property labelText="Slab Square Footage" name="slab-square-footage"/>
                     <x-text-input-property labelText="Sink Type" name="sink-type"/>
-                    <div class="textarea-group">
-                        <label id="productDescription" for="productDescription-input">Product Description</label>
-                        <textarea name="product-description" id="productDescription-input" placeholder="Product Description">{{old("product-description")}}</textarea>
-                        @error("product-description")
-                        <p class="error-input">{{$message}}</p>
-                        @enderror
-                    </div>
-
-                    <div class="textarea-group">
-                        <label id="productNotes" for="productNotes-input">Product Notes</label>
-                        <textarea name="product-notes" id="productNotes-input" placeholder="Product Notes">{{old("product-notes")}}</textarea>
-                        @error("product-notes")
-                        <p class="error-input">{{$message}}</p>
-                        @enderror
-                    </div>
+                    <x-area-input-property labelText="Product Description" name="product-description"/>
+                    <x-area-input-property labelText="Product Notes" name="product-notes"/>
                 </div>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Create</button>
                     <a href="/orders" class="regular-button">Cancel</a>
                 </div>
-            </form>
-        </div>
+            </div>
+            @if($clientId == "")
+                <div id="orders-create-side-content" class="side-content">
+                    <div class="create-edit-header">
+                        <h2>Client Information</h2>
+                    </div>
+                    <h3>Client Details</h3>
+                    <div id="client-details-div" class="details-div">
+                        <x-text-input-property labelText="First Name" name="first-name"/>
+                        <x-text-input-property labelText="Last Name" name="last-name"/>
+                        <x-text-input-property labelText="Address" name="address"/>
+                        <x-text-input-property labelText="Phone Number" name="phone-number"/>
+                        <x-text-input-property labelText="Area (Neighborhood)" name="area"/>
+                    </div>
+                    <h3>Contact Details</h3>
+                    <div id="contact-details-div" class="details-div">
+                        <x-text-input-property labelText="Reference Number" name="reference-number"/>
+                        <x-text-input-property labelText="Phone Number" name="phone-number"/>
+                    </div>
+                </div>
+            @endif
+        </form>
     </div>
 </x-layout>
-
 
 <!-- ********************************************************************************* DO NOT DELETE THE FOLLOWING CODE, THIS IS THE CREATE ORDER PAGE IBRAHIM VERSION, WHILE WHAT IS ABOVE IS ALEXANDRU OLD VERSION BUT UPDATED *********************************************************************************
 

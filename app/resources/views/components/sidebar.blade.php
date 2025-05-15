@@ -34,10 +34,10 @@
                         :active="request()->is('/account')">
                 Account
             </x-nav-link>
-            <x-nav-link href="{{url('/settings')}}" img="{{url('images/setting_icon.png')}}"
-                        :active="request()->is('/settings')">
-                Settings
-            </x-nav-link>
+{{--            <x-nav-link href="{{url('/settings')}}" img="{{url('images/setting_icon.png')}}"--}}
+{{--                        :active="request()->is('/settings')">--}}
+{{--                Settings--}}
+{{--            </x-nav-link>--}}
         </div>
     </nav>
 </aside>
