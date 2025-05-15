@@ -167,12 +167,31 @@ function changePage(func, page, pages) {
 
 
 async function refreshOrderTable(page) {
+    // Current url
     const url = new URL(window.location.href);
-    url.searchParams.set('search', document.getElementById("search-bar-input").value);
-    url.searchParams.set('page', page);
-    url.searchParams.set('searchby', document.getElementById("search-by-select").value);
-    url.searchParams.set('orderby', document.getElementById("order-by-select").value);
+    // Get current query parameters
+    const search = url.searchParams.get('search');
+    const searchBy = url.searchParams.get('searchby');
+    const orderBy = url.searchParams.get('orderby');
+    // Get the new query parameters if applicable
+    const newSearch = document.getElementById("search-bar-input").value;
+    const newSearchBy = document.getElementById("search-by-select").value;
+    const newOrderBy = document.getElementById("order-by-select").value;
 
+    // Check whether the query params have changed
+    let queryHasChanged = !(search == newSearch && searchBy == newSearchBy && orderBy == newOrderBy);
+    // Set the page
+    console.log(queryHasChanged);
+    page = queryHasChanged ? 1 : page;
+    console.log(page);
+
+    // Set the url parameters
+    url.searchParams.set('search', newSearch);
+    url.searchParams.set('page', page);
+    url.searchParams.set('searchby', newSearchBy);
+    url.searchParams.set('orderby', newOrderBy);
+
+    // Fetch the new table
     fetch(url, {
         headers: {
             'x-refresh-table': true,
@@ -192,18 +211,27 @@ async function refreshOrderTable(page) {
             document.querySelector(".search-table-div").innerHTML = text;
             initializeOrderRowClickEvents();
             highlightOrderFirstRow();
+            // Get the number of pages
+            const totalPages = response.headers.get("x-total-pages");
+            // Update the pagination buttons
+            changeOrderPage(page, parseInt(totalPages), false);
         });
     });
 }
 
-function changeOrderPage(page, pages) {
+function changeOrderPage(page, pages, refreshTable = true) {
     if (page <= 0) {
         page = 1;
     }
     if (page > pages) {
         page = pages;
     }
-    refreshOrderTable(page);
+
+    // Only refresh if necessary
+    if (refreshTable) {
+        refreshOrderTable(page);
+    }
+    
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {
