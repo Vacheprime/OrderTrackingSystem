@@ -11,6 +11,9 @@
 
 <x-layout title="Payment Management">
     <h1 class="content-title">PAYMENT MANAGEMENT</h1>
+    @isset($messageHeader)
+        <p id="{{$messageType}}" class="message-header">{{$messageHeader}}<button onclick="document.getElementById('{{$messageType}}').remove()">x</button></p>
+    @endisset
     <div class="content-container">
         <div id="payments-content" class="main-content">
             <div class="table-content">
