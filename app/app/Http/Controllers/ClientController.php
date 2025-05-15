@@ -7,6 +7,7 @@ use app\Doctrine\ORM\Repository\ClientRepository;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class ClientController extends Controller
@@ -60,7 +61,9 @@ class ClientController extends Controller
             return view('components.tables.client-table')->with('clients', $clients);
         }
 
-        return view('clients.index')->with(compact("clients", "pages", "page"));
+        $messageHeader = Session::get("messageHeader");
+        $messageType = Session::get("messageType");
+        return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
     }
 
     /**
@@ -87,7 +90,10 @@ class ClientController extends Controller
             "province"=> "required",
             "area"=> "required",
         ]);
-        return redirect("/clients");
+
+        $messageHeader = "Created Client";
+        $messageType= "create-message-header";
+        return redirect("/clients")->with(compact("messageHeader", "messageType"));
     }
 
     /**
@@ -123,7 +129,10 @@ class ClientController extends Controller
             "province"=> "required",
             "area"=> "required",
         ]);
-        return redirect("/clients");
+
+        $messageHeader = "Edit Client";
+        $messageType= "edit-message-header";
+        return redirect("/clients")->with(compact("messageHeader", "messageType"));
     }
 
     /**

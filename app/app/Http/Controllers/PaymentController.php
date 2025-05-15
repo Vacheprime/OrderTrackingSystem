@@ -199,6 +199,8 @@ class PaymentController extends Controller {
     public function destroy(string $id) {
         $payment = $this->repository->find($id);
         $this->repository->deletePayment($payment);
-        return redirect("/payments");
+        $messageHeader = "Edited Payment $id";
+        $messageType= "delete-message-header";
+        return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
 }
