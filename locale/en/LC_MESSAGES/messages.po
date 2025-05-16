@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "ORDER STATUS"
+msgstr "ORDER STATUS"
+
+msgid "Current status"
+msgstr "Current status"
+
+msgid "Product Details"
+msgstr "Product Details"
+
+msgid "Material Name"
+msgstr "Material Name"
+
+msgid "Size"
+msgstr "Size"
+
+msgid "Slab Thickness"
+msgstr "Slab Thickness"
+
+msgid "Slab Square Footage"
+msgstr "Slab Square Footage"
+
+msgid "Sink"
+msgstr "Sink"
+
+msgid "Finishing"
+msgstr "Finishing"
+
+msgid "Go Back"
+msgstr "Go Back"
+
+msgid "Track Order"
+msgstr "Track Order"
+
+msgid "Reference Number"
+msgstr "Reference Number"
+
+msgid "Please enter your reference number to track the status of your order. If you need help finding it, check your confirmation email or contact our support team."
+msgstr "Please enter your reference number to track the status of your order. If you need help finding it, check your confirmation email or contact our support team."
