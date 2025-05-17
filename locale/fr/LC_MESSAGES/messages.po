@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+
+msgid "ORDER STATUS"
+msgstr "STATUT DE LA COMMANDE"
+
+msgid "Current status"
+msgstr "Statut actuel"
+
+msgid "Product Details"
+msgstr "Détails du produit"
+
+msgid "Material Name"
+msgstr "Nom du matériau"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Slab Thickness"
+msgstr "Épaisseur de la dalle"
+
+msgid "Slab Square Footage"
+msgstr "Superficie de la dalle"
+
+msgid "Sink"
+msgstr "Évier"
+
+msgid "Finishing"
+msgstr "Finition"
+
+msgid "Go Back"
+msgstr "Retour"
+
+msgid "Track Order"
+msgstr "Suivre la commande"
+
+msgid "Reference Number"
+msgstr "Numéro de Référence"
+
+msgid "Please enter your reference number to track the status of your order. If you need help finding it, check your confirmation email or contact our support team."
+msgstr "Veuillez entrer votre numéro de référence pour suivre l'état de votre commande. Si vous avez besoin d'aide pour le trouver, consultez votre e-mail de confirmation ou contactez notre équipe de support."
