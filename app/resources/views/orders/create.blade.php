@@ -12,11 +12,11 @@
                     <h2>Order Information</h2>
                     <div class="filler-div"></div>
                 </div>
-                <h3 id="order-details-h3">Order Details @if($clientId != "")<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endif</h3>
+                <h3 id="order-details-h3">Order Details @isset($client)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endisset</h3>
                 <div id="order-details-div" class="details-div">
-                    @if($clientId != "")
+                    @isset($client)
                         <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
-                    @endif
+                    @endisset
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
@@ -53,7 +53,7 @@
                     <a href="/orders" class="regular-button">Cancel</a>
                 </div>
             </div>
-            @if($clientId == "")
+            @if(isset($client) == null)
                 <x-client-panel/>
             @endif
         </form>

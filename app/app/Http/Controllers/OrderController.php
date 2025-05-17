@@ -147,7 +147,6 @@ class OrderController extends Controller {
             $repository = $repository->sortByCreationDate(SortOrder::ASCENDING);
         }
 
-
         // Get the paginator
         $paginator = $repository->retrievePaginated(10, 1);
 
@@ -213,7 +212,8 @@ class OrderController extends Controller {
             return view('components.inputs.text-input-property', compact("name", "labelText", "value"))->render();
         }
         $clientId = $request->input('clientId');
-        return view('orders.create')->with(compact("clientId"));
+        $client = $request->input('client');
+        return view('orders.create')->with(compact("clientId", "client"));
     }
 
     /**
