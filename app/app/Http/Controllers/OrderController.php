@@ -210,6 +210,8 @@ class OrderController extends Controller {
         }
         $clientId = $request->input('clientId');
         $client = $request->input('client');
+        Log::info($clientId);
+        Log::info($client);
         return view('orders.create')->with(compact("clientId", "client"));
     }
 

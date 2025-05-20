@@ -1,6 +1,11 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <script src="{{ asset('js/order.js') }}"></script>
 
+@php
+    $shouldDisplayClientInfo = isset($client);
+@endphp
+
+<p>Should display {{var_dump($shouldDisplayClientInfo)}}</p>
 <x-layout title="Create Order">
     <h1 class="content-title">CREATING ORDER</h1>
     <div class="content-container">
@@ -14,10 +19,13 @@
                 </div>
                 <h3 id="order-details-h3">Order Details @isset($client)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endisset</h3>
                 <div id="order-details-div" class="details-div">
-                    @isset($client)
-                        <input type="hidden" name="with-existing-client" value="1">
-                        <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
-                    @endisset
+
+                    <!-- Hidden input type used to determine whether the user is creating by client ID or with client information -->
+                    <input type="hidden" name="with-existing-client" value={{ isset($clientId) ? "1" : "0" }}>
+
+                    <!-- Display only if creating by client ID -->
+                    <x-text-input-property labelText="Client ID" name="client-id" :display="false" :value="$clientId"/>
+                    
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
@@ -54,9 +62,8 @@
                     <a href="/orders" class="regular-button">Cancel</a>
                 </div>
             </div>
-            @if(isset($client) == null)
-                <x-client-panel/>
-            @endif
+            <!-- Display if creating with client info -->
+            <x-client-panel :display="$shouldDisplayClientInfo" />
         </form>
     </div>
 </x-layout>

@@ -1,6 +1,14 @@
+@props(['display' => 'default'])
 <script src="{{ asset('js/order.js') }}"></script>
 
-<div id="orders-create-side-content" class="side-content">
+@php
+    $displayStyle = "";
+    if ($display != "default") {
+        $displayStyle = "style=\"display: $display\"";
+    }
+@endphp
+
+<div id="orders-create-side-content" class="side-content" {{ $displayStyle }}>
     <div class="create-edit-header">
         <h2>Client Information</h2>
     </div>
