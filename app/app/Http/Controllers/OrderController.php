@@ -66,7 +66,6 @@ class OrderController extends Controller {
                 ]
             )
         );
-        Log::info($validatedData);
         // Return order information as JSON if requested.
         // Used for refreshing the order details when an order is
         // selected.
@@ -91,7 +90,6 @@ class OrderController extends Controller {
 
         // Add search filters if requested
         if (strlen($search) !== 0) {
-            Log::info("HERE");
             // Search by order Id
             switch ($searchBy) {
                 case "order-id":
@@ -128,7 +126,6 @@ class OrderController extends Controller {
                     $repository = $repository->withClientId($clientId);
                     break;
                 case "area":
-                    Log::info("AREA");
                     // Add query
                     $repository = $repository->searchByArea($search);
                     break;
@@ -222,10 +219,12 @@ class OrderController extends Controller {
     public function store(Request $request): RedirectResponse {
         // Determine whether the create request was made with a client id
         // or client info.
-        if ($request->filled("client-id")) {
+        Log::info($request->input("with-existing-client"));
+        if ($request->input("with-existing-client", "0") === "1") {
             // Store with the client ID
             return $this->storeWithClientId($request);
         }
+        Log::info("WITH CLIENT INFO");
         // Store with client information
         return $this->storeWithClientInfo($request);
     }

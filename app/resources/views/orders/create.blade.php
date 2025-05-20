@@ -15,6 +15,7 @@
                 <h3 id="order-details-h3">Order Details @isset($client)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endisset</h3>
                 <div id="order-details-div" class="details-div">
                     @isset($client)
+                        <input type="hidden" name="with-existing-client" value="1">
                         <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
                     @endisset
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
