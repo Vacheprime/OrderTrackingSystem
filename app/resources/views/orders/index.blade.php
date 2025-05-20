@@ -35,7 +35,7 @@
                         </x-select-input-property>
                     </form>
                     <button class="regular-button" onclick="refreshOrderTable({{$page}}, true)">Search</button>
-                    <a href="/orders/create" class="regular-button">Create</a>
+                    <a href="/orders/create?client=new" class="regular-button">Create</a>
                 </div>
                 <div class="search-table-div">
                     <x-order-table :orders="$orders"/>

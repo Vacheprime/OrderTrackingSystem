@@ -219,6 +219,7 @@ class OrderController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse {
+        Log::info($request->input());
         // Determine whether the create request was made with a client id
         // or client info.
         Log::info($request->input("with-existing-client"));

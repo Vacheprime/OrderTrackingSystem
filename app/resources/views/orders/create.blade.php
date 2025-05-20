@@ -5,7 +5,6 @@
     $shouldDisplayClientInfo = isset($client);
 @endphp
 
-<p>Should display {{var_dump($shouldDisplayClientInfo)}}</p>
 <x-layout title="Create Order">
     <h1 class="content-title">CREATING ORDER</h1>
     <div class="content-container">
@@ -17,14 +16,14 @@
                     <h2>Order Information</h2>
                     <div class="filler-div"></div>
                 </div>
-                <h3 id="order-details-h3">Order Details @isset($client)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endisset</h3>
+                <h3 id="order-details-h3">Order Details @if(!$shouldDisplayClientInfo)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endif</h3>
                 <div id="order-details-div" class="details-div">
 
                     <!-- Hidden input type used to determine whether the user is creating by client ID or with client information -->
                     <input type="hidden" name="with-existing-client" value={{ isset($clientId) ? "1" : "0" }}>
 
                     <!-- Display only if creating by client ID -->
-                    <x-text-input-property labelText="Client ID" name="client-id" :display="false" :value="$clientId"/>
+                    <x-text-input-property labelText="Client ID" name="client-id" :display="!$shouldDisplayClientInfo" :value="$clientId"/>
                     
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>

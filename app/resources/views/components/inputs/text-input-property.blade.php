@@ -1,19 +1,11 @@
-@props(['labelText' => "default", 'name' => "default", 'isLabel' => true, 'password' => false, 'readonly' => false, 'value' => "", "display" => true])
+@props(['labelText' => "default", 'name' => "default", 'isLabel' => true, 'password' => false, 'readonly' => false, 'value' => "", 'display' => true])
 
-@php
-    $displayStyle = "";
-    if (!$display) {
-        $displayStyle = "style=\"display: none;\"";
-    }
-@endphp
-
-<p>{{var_dump($display)}}</p>
-<div class="text-input-property-div" {{ $displayStyle }}>
+<div class="text-input-property-div" @if(!$display) style="display: none;" @endif>
     @if($isLabel)
         <label id="{{$name}}-label" for="{{$name}}-input">{{$labelText}}</label>
     @endif
     <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input"
-           name="{{$name}}" placeholder="{{$labelText}}" value="{{ $value == "" ? old($name) : $value }}"/>
+           name="{{$name}}" placeholder="{{$labelText}}" value="{{ $value == "" ? old($name) : $value }}" {{ !$display ? "disabled" : "" }}/>
     @error("$name")
         <p class="error-input">{{$message}}</p>
     @enderror
