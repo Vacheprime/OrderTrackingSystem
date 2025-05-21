@@ -4,10 +4,9 @@ namespace App\Rules;
 
 use app\Doctrine\ORM\Entity\Employee;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Validator;
 
-class ValidEmployeeIdRule implements ValidationRule
+class ValidEmployeeIdRule implements BaseValidationRule
 {
     /**
      * Run the validation rule.

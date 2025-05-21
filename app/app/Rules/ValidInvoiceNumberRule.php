@@ -4,10 +4,9 @@ namespace App\Rules;
 
 use app\Utils\Utils;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Validator;
 
-class ValidInvoiceNumberRule implements ValidationRule
+
+class ValidInvoiceNumberRule implements BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -16,17 +15,7 @@ class ValidInvoiceNumberRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Store the data
-        $incomingInput = [$attribute => $value];
-        // Get a validator
-        $validator = Validator::make($incomingInput, $this->getValidationRules($attribute), $this->getErrorMessages($attribute));
-
-        // Execute preliminary validation
-        if ($validator->fails()) {
-            // Get the message bag and return the first error message
-            $messageBag = $validator->errors();
-            $fail($messageBag->first($attribute));
-        }
+        
 
         // Execute secondary validation
         if ($value !== null && !Utils::validateInvoiceNumber($value)) {
