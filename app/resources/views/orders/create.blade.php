@@ -16,11 +16,16 @@
                     <h2>Order Information</h2>
                     <div class="filler-div"></div>
                 </div>
-                <h3 id="order-details-h3">Order Details <button id="client-id-btn" type="button" onclick="showClientSidePanel()" @if($shouldDisplayClientInfo || isset($clientId)) style="display: none;" @endif>Create New Client?</button></h3>
+                <h3 id="order-details-h3">
+                    Order Details
+                    @if(!isset($clientId))
+                        <button id="client-id-btn" type="button" onclick="showClientSidePanel()" @if($shouldDisplayClientInfo) style="display: none;" @endif>Create New Client?</button>
+                    @endif
+                </h3>
                 <div id="order-details-div" class="details-div">
 
                     <!-- Hidden input type used to determine whether the user is creating by client ID or with client information -->
-                    <input id="create-option-input" type="hidden" name="with-existing-client" value={{ isset($clientId) ? "1" : "0" }}>
+                    <input id="create-option-input" type="hidden" name="with-existing-client" value={{ !$shouldDisplayClientInfo ? "1" : "0" }}>
 
                     <!-- Display only if creating by client ID -->
                     <x-text-input-property labelText="Client ID" name="client-id" :display="!$shouldDisplayClientInfo" :value="$clientId" :readonly="isset($clientId)"/>
@@ -62,7 +67,9 @@
                 </div>
             </div>
             <!-- Display if creating with client info -->
-            <x-client-panel :display="$shouldDisplayClientInfo" />
+            @if(!isset($clientId))
+                <x-client-panel :display="$shouldDisplayClientInfo" />
+            @endif
         </form>
     </div>
 </x-layout>
