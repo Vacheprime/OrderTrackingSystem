@@ -200,18 +200,8 @@ class OrderController extends Controller {
      * Show the form for creating a new resource.
      */
     public function create(Request $request) {
-        if ($request->hasHeader("x-add-client-panel")) {
-            return view('components.client-panel')->render();
-        } else if ($request->hasHeader("x-add-client-input")) {
-            $name = "client-id";
-            $labelText = "Client Id";
-            $value = $request->input('clientId');
-            return view('components.inputs.text-input-property', compact("name", "labelText", "value"))->render();
-        }
         $clientId = $request->input('clientId');
-        $client = $request->input('client');
-        Log::info($clientId);
-        Log::info($client);
+        $client = $request->input('client', 'new');
         return view('orders.create')->with(compact("clientId", "client"));
     }
 
@@ -222,8 +212,8 @@ class OrderController extends Controller {
         Log::info($request->input());
         // Determine whether the create request was made with a client id
         // or client info.
-        Log::info($request->input("with-existing-client"));
         if ($request->input("with-existing-client", "0") === "1") {
+            Log::info("WITH CLIENT ID");
             // Store with the client ID
             return $this->storeWithClientId($request);
         }
