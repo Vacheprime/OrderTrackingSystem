@@ -46,7 +46,7 @@ function changeClientDetails(clientIdString) {
     }).then(response => response.json())
         .then(client => {
             document.getElementById("detail-edit-btn").href = `/clients/${client.clientId}/edit`;
-            document.getElementById("detail-add-order-btn").href = `/orders/create?clientId=${client.clientId}`;
+            document.getElementById("detail-add-order-btn").href = `/orders/create?client=existing&clientId=${client.clientId}`;
             document.getElementById("detail-client-id").innerText = client.clientId;
             document.getElementById("detail-first-name").innerText = client.firstName;
             document.getElementById("detail-last-name").innerText = client.lastName;
