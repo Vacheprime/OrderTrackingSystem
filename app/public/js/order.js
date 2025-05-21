@@ -5,9 +5,7 @@ function showClientSidePanel() {
     // Get the current URL and append the client query string.
     // This is so that when the page reloads, the client side panel
     // stays visible.
-    const url = new URL(window.location.href);
-    url.searchParams.set("client", "new");
-    window.history.pushState({}, '', url);
+    setQueryStringParam("client", "new");
 
     // Get the side panel, client ID field, and create client button
     sidePanel = document.getElementById("orders-create-side-content");
@@ -35,13 +33,15 @@ function showClientSidePanel() {
     createOption.value = "0";
 }
 
+
+// Button event handler for hiding the client info side panel
+// This method hides the client info side panel, and show the client
+// ID field and the create new client button.
 function hideClientSidePanel() {
     // Get the current URL and append the client query string.
     // This is so that when the page reloads, the client side panel
     // stays closed.
-    const url = new URL(window.location.href);
-    url.searchParams.set("client", "existing");
-    window.history.pushState({}, '', url);
+    setQueryStringParam("client", "existing");
 
     // Get the side panel, client ID field, and create client button
     sidePanel = document.getElementById("orders-create-side-content");
@@ -68,4 +68,12 @@ function hideClientSidePanel() {
     // Set the value of the create option input
     createOption = document.getElementById("create-option-input");
     createOption.value = "1";
+}
+
+// Sets a query string parameter and value and
+// updates the browser's URL to reflect the changes.
+function setQueryStringParam(key, value) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(key, value);
+    window.history.pushState({}, '', url);
 }
