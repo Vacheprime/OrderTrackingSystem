@@ -25,6 +25,7 @@ class ValidEmployeeIdRule implements BaseValidationRule
             // Get the message bag and return the first error message
             $messageBag = $validator->errors();
             $fail($messageBag->first($attribute));
+            return; // Fail fast
         }
 
         // Execute secondary validation (Business validation)
