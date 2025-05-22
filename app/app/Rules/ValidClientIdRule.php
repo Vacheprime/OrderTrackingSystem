@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use app\Doctrine\ORM\Entity\Client;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 
 class ValidClientIdRule extends BaseValidationRule
 {
