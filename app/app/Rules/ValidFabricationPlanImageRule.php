@@ -2,11 +2,10 @@
 
 namespace App\Rules;
 
-use app\Utils\Utils;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-
-class ValidInvoiceNumberRule extends BaseValidationRule
+class ValidFabricationPlanImageRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -16,14 +15,8 @@ class ValidInvoiceNumberRule extends BaseValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Execute preliminary validation
-        if (!$this->executePreliminaryValidation($attribute, $value, $fail)) {
-            return; // fail fast
-        }
-
-        // Execute secondary validation
-        if ($value !== null && !Utils::validateInvoiceNumber($value)) {
-            $fail("The invoice number is of invalid format!");
-        }
+        $this->executePreliminaryValidation($attribute, $value, $fail);
+        // No additional validation
     }
 
     /**
@@ -31,7 +24,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getValidationRules(string $attribute): array {
         return [
-            $attribute => "nullable|string"
+            $attribute => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240"
         ];
     }
 
@@ -40,7 +33,9 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.string" => "The invoice number must be text.",
+            "$attribute.file" => "The image selected must be a file.",
+            "$attribute.mimes" => "The image must have a .jpg, .jpeg, .png, or .webp extension.",
+            "$attribute.max" => "The image must be less than 10 MB in size."
         ];
     }
 }

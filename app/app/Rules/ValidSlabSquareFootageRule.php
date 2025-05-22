@@ -4,9 +4,9 @@ namespace App\Rules;
 
 use app\Utils\Utils;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-
-class ValidInvoiceNumberRule extends BaseValidationRule
+class ValidSlabSquareFootageRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -19,10 +19,10 @@ class ValidInvoiceNumberRule extends BaseValidationRule
         if (!$this->executePreliminaryValidation($attribute, $value, $fail)) {
             return; // fail fast
         }
-
-        // Execute secondary validation
-        if ($value !== null && !Utils::validateInvoiceNumber($value)) {
-            $fail("The invoice number is of invalid format!");
+        
+        // Validate the slab square footage
+        if ($value !== null && !Utils::validateSlabSquareFootage($value)) {
+            $fail("The slab square footage is of invalid format.");
         }
     }
 
@@ -31,7 +31,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getValidationRules(string $attribute): array {
         return [
-            $attribute => "nullable|string"
+            $attribute => "nullable|numeric"
         ];
     }
 
@@ -40,7 +40,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.string" => "The invoice number must be text.",
+            "$attribute.numeric" => "The slab square footage must be a number."
         ];
     }
 }

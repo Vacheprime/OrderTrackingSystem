@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use app\Doctrine\ORM\Entity\Employee;
+use app\Doctrine\ORM\Entity\Client;
 use Closure;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidEmployeeIdRule extends BaseValidationRule
+class ValidClientIdRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -20,15 +20,14 @@ class ValidEmployeeIdRule extends BaseValidationRule
             return; // fail fast
         }
 
-        // Execute secondary validation (Business validation)
-        // Get the employee repository
+        // Get the client repository
         $em = resolve("em");
-        $employeeRepository = $em->getRepository(Employee::class);
+        $clientRepository = $em->getRepository(Client::class);
 
         // Check if ID exists
-        $employeeId = intval($value);
-        if ($employeeRepository->find($employeeId) === null) {
-            $fail("The employee ID does not match an existing employee.");
+        $clientId = intval($value);
+        if ($clientRepository->find($clientId) === null) {
+            $fail("The client ID does not match an existing client.");
         }
     }
 
@@ -46,9 +45,9 @@ class ValidEmployeeIdRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.required" => "The employee ID is required.",
-            "$attribute.integer" => "The employee ID must be a number.",
-            "$attribute.min" => "The employee ID must be at least :min or greater."
+            "$attribute.required" => "The client ID is required.",
+            "$attribute.integer" => "The client ID must be a number.",
+            "$attribute.min" => "The client ID must be at least :min or greater."
         ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use app\Utils\Utils;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use app\Doctrine\ORM\Entity\Status;
 
-
-class ValidInvoiceNumberRule extends BaseValidationRule
+class ValidOrderStatusRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -20,9 +20,9 @@ class ValidInvoiceNumberRule extends BaseValidationRule
             return; // fail fast
         }
 
-        // Execute secondary validation
-        if ($value !== null && !Utils::validateInvoiceNumber($value)) {
-            $fail("The invoice number is of invalid format!");
+        // Validate order status
+        if (Status::tryFrom(strtoupper($value)) === null) {
+            $fail("The order status is not one of the accepted values.");
         }
     }
 
@@ -31,7 +31,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getValidationRules(string $attribute): array {
         return [
-            $attribute => "nullable|string"
+            $attribute => "required|string"
         ];
     }
 
@@ -40,7 +40,8 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.string" => "The invoice number must be text.",
+            "$attribute.required" => "The order status is required.",
+            "$attribute.string" => "The order status must be text."
         ];
     }
 }

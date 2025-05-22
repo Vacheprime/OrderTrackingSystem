@@ -3,10 +3,12 @@
 namespace App\Rules;
 
 use app\Utils\Utils;
+use DateTime;
+
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-
-class ValidInvoiceNumberRule extends BaseValidationRule
+class ValidEstimatedInstallDateRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -20,9 +22,10 @@ class ValidInvoiceNumberRule extends BaseValidationRule
             return; // fail fast
         }
 
-        // Execute secondary validation
-        if ($value !== null && !Utils::validateInvoiceNumber($value)) {
-            $fail("The invoice number is of invalid format!");
+        // Validate installation start date
+        $estInstallDate = DateTime::createFromFormat("Y-m-d", $value);
+        if ($estInstallDate != false && !Utils::validateDateInFuture($estInstallDate)) {
+            $fail("The estimated install date must be in the future.");
         }
     }
 
@@ -31,7 +34,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getValidationRules(string $attribute): array {
         return [
-            $attribute => "nullable|string"
+            $attribute => "nullable|date|date_format:Y-m-d"
         ];
     }
 
@@ -40,7 +43,8 @@ class ValidInvoiceNumberRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.string" => "The invoice number must be text.",
+            "$attribute.date" => "The fabrication start date must be a date.",
+            "$attribute.date_format" => "The format of the date must be Y-m-d"
         ];
     }
 }

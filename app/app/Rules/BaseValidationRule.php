@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 abstract class BaseValidationRule implements ValidationRule
 {
-    protected function executePreliminaryValidation(string $attribute, mixed $value, Closure $fail) {
+    /**
+     * Run basic validation on the value based off the validation rules defined in
+     * getValidationRules.
+     */
+    protected function executePreliminaryValidation(string $attribute, mixed $value, Closure $fail): bool {
         // Store the data
         $incomingInput = [$attribute => $value];
         // Get a validator
@@ -19,10 +23,18 @@ abstract class BaseValidationRule implements ValidationRule
             // Get the message bag and return the first error message
             $messageBag = $validator->errors();
             $fail($messageBag->first($attribute));
+            return false;
         }
+        return true;
     }
 
+    /**
+     * Return the validation rules to be used for the rule.
+     */
     abstract protected function getValidationRules(string $attribute);
 
+    /**
+     * Return the custom error messages associated with the validation rules.
+     */
     abstract protected function getErrorMessages(string $attribute);
 }
