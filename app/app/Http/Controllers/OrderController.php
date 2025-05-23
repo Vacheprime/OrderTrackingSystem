@@ -8,25 +8,20 @@ use app\Doctrine\ORM\Entity\Client;
 use app\Doctrine\ORM\Entity\Employee;
 use app\Doctrine\ORM\Entity\Product;
 use app\Doctrine\ORM\Entity\Status;
-use app\Doctrine\ORM\Repository\ClientRepository;
 use app\Doctrine\ORM\Repository\OrderRepository;
+use App\Http\Requests\CreateOrderRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Exception;
-use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use function Termwind\parse;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use SortOrder;
-use function Termwind\render;
 
 class OrderController extends Controller {
     protected EntityManager $entityManager;
@@ -208,7 +203,7 @@ class OrderController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(CreateOrderRequest $request): RedirectResponse {
         Log::info($request->input());
         // Determine whether the create request was made with a client id
         // or client info.
@@ -222,51 +217,9 @@ class OrderController extends Controller {
         return $this->storeWithClientInfo($request);
     }
 
-    public function storeWithClientInfo(Request $request): RedirectResponse {
-        $validatedData = array_merge(
-            [
-                "appartment-number" => null,
-                "reference-number" => null,
-                "fabrication-image-input" => null
-            ],
-            $request->validate([
-                // Order and Product fields
-                "measured-by" => "required|integer|min:1",
-                "invoice-number" => "nullable|string",
-                "total-price" => "required|numeric",
-                "order-status-select" => "required",
-                "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
-                "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
-                "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
-                "material-name" => "nullable|string",
-                "slab-height" => "nullable|string",
-                "slab-width" => "nullable|string",
-                "slab-thickness" => "nullable|string",
-                "slab-square-footage" => "nullable|string",
-                "sink-type" => "nullable|string",
-                "product-description" => "nullable|string",
-                "product-notes" => "nullable|string",
-                // Client Fields
-                "first-name" => "required|string",
-                "last-name" => "required|string",
-                "street-name" => "required|string",
-                "appartment-number" => "nullable|string",
-                "postal-code" => "required|string",
-                "area" => "required|string",
-                "reference-number" => "nullable|string",
-                "phone-number" => "required|string"
-            ]
-        ));
-
-        // Do additional validation
-        $errors = [
-            ...$this->validateClientInputData($validatedData),
-            ...$this->validateOrderInputData($validatedData, false)
-        ];
-        // Return if errors found
-        if (!empty($errors)) {
-            return back()->withErrors($errors)->withInput();
-        }
+    public function storeWithClientInfo(CreateOrderRequest $request): RedirectResponse {
+        $validatedData = $request->validated();
+        
         // Create the address
         $address = new Address(
             $validatedData["street-name"],
@@ -344,36 +297,8 @@ class OrderController extends Controller {
         return redirect('/orders')->with(compact("messageHeader"));
     }
 
-    public function storeWithClientId(Request $request): RedirectResponse {
-        $validatedData = array_merge(
-            // Default values
-            ["fabrication-image-input" => null],
-            // Validated fields
-            $request->validate([
-                    "client-id" => "required|integer|min:1",
-                    "measured-by" => "required|integer|min:1",
-                    "invoice-number" => "nullable|string",
-                    "total-price" => "required|numeric",
-                    "order-status-select" => "required",
-                    "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
-                    "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
-                    "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
-                    "material-name" => "nullable|string",
-                    "slab-height" => "nullable|string",
-                    "slab-width" => "nullable|string",
-                    "slab-thickness" => "nullable|string",
-                    "slab-square-footage" => "nullable|string",
-                    "sink-type" => "nullable|string",
-                    "product-description" => "nullable|string",
-                    "product-notes" => "nullable|string",
-                ]
-            )
-        );
-        // Do additional validation on the incomming data
-        $validationErrors = $this->validateOrderInputData($validatedData);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
+    public function storeWithClientId(CreateOrderRequest $request): RedirectResponse {
+        $validatedData = $request->validated();
 
         // Get the client and employee repositories
         $clientRepository = $this->entityManager->getRepository(Client::class);
