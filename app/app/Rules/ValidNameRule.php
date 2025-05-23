@@ -39,8 +39,8 @@ class ValidNameRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.required" => "The first name is required.",
-            "$attribute.string" => "The first name must be text."
+            "$attribute.required" => "The name is required.",
+            "$attribute.string" => "The name must be text."
         ];
     }
 }
