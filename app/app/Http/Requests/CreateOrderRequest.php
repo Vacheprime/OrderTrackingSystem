@@ -23,6 +23,7 @@ use App\Rules\ValidSlabThicknessRule;
 use App\Rules\ValidStreetRule;
 use App\Rules\ValidTotalPriceRule;
 use app\Utils\Utils;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
 
 class CreateOrderRequest extends FormRequest
@@ -33,6 +34,26 @@ class CreateOrderRequest extends FormRequest
     public function authorize(): bool
     {
         return true; // Managed by middleware
+    }
+
+    protected function prepareForValidation(): void {
+        // Add default values for potentially missing fields
+        $this->mergeIfMissing([
+            "fabrication-image-input" => null,
+            "invoice-number" => null,
+            "fabrication-start-date-input" => null,
+            "estimated-installation-date-input" => null,
+            "material-name" => null,
+            "slab-height" => null,
+            "slab-width" => null,
+            "slab-thickness" => null,
+            "slab-square-footage" => null,
+            "sink-type" => null,
+            "product-description" => "",
+            "product-notes" => "",
+            "appartment-number" => null,
+            "reference-number" => null
+        ]);
     }
 
     public function after(): array {
