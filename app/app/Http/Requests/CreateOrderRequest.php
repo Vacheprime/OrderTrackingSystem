@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidAppartmentNumberRule;
+use App\Rules\ValidAreaRule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidClientIdRule;
 use App\Rules\ValidEmployeeIdRule;
@@ -10,10 +12,15 @@ use App\Rules\ValidFabricationPlanImageRule;
 use App\Rules\ValidFabricationStartDateRule;
 use App\Rules\ValidInvoiceNumberRule;
 use App\Rules\ValidMaterialNameRule;
+use App\Rules\ValidNameRule;
 use App\Rules\ValidOrderStatusRule;
+use App\Rules\ValidPhoneNumberRule;
+use App\Rules\ValidPostalCodeRule;
+use App\Rules\ValidReferenceNumberRule;
 use App\Rules\ValidSlabDimensionRule;
 use App\Rules\ValidSlabSquareFootageRule;
 use App\Rules\ValidSlabThicknessRule;
+use App\Rules\ValidStreetRule;
 use App\Rules\ValidTotalPriceRule;
 use app\Utils\Utils;
 use Illuminate\Validation\Validator;
@@ -107,9 +114,8 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->input("with-existing-client", "0") === "1") {
-            return [
-                "client-id" => [new ValidClientIdRule],
+        // Define the rules common to both types of create order requests
+        $commonRules = [
                 "measured-by" => [new ValidEmployeeIdRule],
                 "invoice-number" => [new ValidInvoiceNumberRule],
                 "total-price" => [new ValidTotalPriceRule],
@@ -125,35 +131,28 @@ class CreateOrderRequest extends FormRequest
                 "sink-type" => [new ValidMaterialNameRule],
                 "product-description" => "nullable|string",
                 "product-notes" => "nullable|string",
-            ];
-        } else {
+        ];
+
+        // Rules for create with client ID
+        if ($this->input("with-existing-client", "0") === "1") {
             return [
-                // Order and Product fields
-                "measured-by" => "required|integer|min:1",
-                "invoice-number" => "nullable|string",
-                "total-price" => "required|numeric",
-                "order-status-select" => "required",
-                "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
-                "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
-                "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
-                "material-name" => "nullable|string",
-                "slab-height" => "nullable|string",
-                "slab-width" => "nullable|string",
-                "slab-thickness" => "nullable|string",
-                "slab-square-footage" => "nullable|string",
-                "sink-type" => "nullable|string",
-                "product-description" => "nullable|string",
-                "product-notes" => "nullable|string",
-                // Client Fields
-                "first-name" => "required|string",
-                "last-name" => "required|string",
-                "street-name" => "required|string",
-                "appartment-number" => "nullable|string",
-                "postal-code" => "required|string",
-                "area" => "required|string",
-                "reference-number" => "nullable|string",
-                "phone-number" => "required|string"
+                "client-id" => [new ValidClientIdRule],
+                ...$commonRules
             ];
         }
+
+        // Rules for create with client info
+        return [
+            // Client Fields
+            "first-name" => [new ValidNameRule],
+            "last-name" => [new ValidNameRule],
+            "street-name" => [new ValidStreetRule],
+            "appartment-number" => [new ValidAppartmentNumberRule],
+            "postal-code" => [new ValidPostalCodeRule],
+            "area" => [new ValidAreaRule],
+            "reference-number" => [new ValidReferenceNumberRule],
+            "phone-number" => [new ValidPhoneNumberRule],
+            ...$commonRules
+        ];
     }
 }
