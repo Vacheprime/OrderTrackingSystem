@@ -10,6 +10,7 @@ use app\Doctrine\ORM\Entity\Product;
 use app\Doctrine\ORM\Entity\Status;
 use app\Doctrine\ORM\Repository\OrderRepository;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -362,147 +363,6 @@ class OrderController extends Controller {
         return redirect('/orders')->with(compact("messageHeader", "messageType"));
     }
 
-    public function validateOrderInputData(array $data, bool $checkClientId = true, bool $checkEmployeeId = true): array {
-        $errors = [];
-        // ORDER DETAILS VALIDATION
-        // Get the client and employee repositories
-        $clientRepository = $this->entityManager->getRepository(Client::class);
-        $employeeRepository = $this->entityManager->getRepository(Employee::class);
-        // Validate Client Id
-        if ($checkClientId) {
-            $clientId = intval($data["client-id"]);
-            if ($clientRepository->find($clientId) === null) {
-                $errors["client-id"] = "The client ID does not match an existing employee.";
-            }
-        }
-        // Validate Employee Id
-        if ($checkEmployeeId) {
-            $employeeId = intval($data["measured-by"]);
-            if ($employeeRepository->find($employeeId) === null) {
-                $errors["measured-by"] = "The employee ID does not match an existing client.";
-            }
-        }
-        // Validate invoice number
-        if ($data["invoice-number"] !== null && !Utils::validateInvoiceNumber($data["invoice-number"])) {
-            $errors["invoice-number"] = "The invoice number format is invalid.";
-        }
-        // Validate total price
-        if (!Utils::validatePositiveAmount($data["total-price"])) {
-            $errors["total-price"] = "The price format is invalid.";
-        }
-        // Validate order status
-        if (Status::tryFrom(strtoupper($data["order-status-select"])) === null) {
-            $errors["order-status"] = "The order status is not one of the accepted values.";
-        }
-        // DATE DETAILS VALIDATION
-        // Validate fabrication start date
-        $fabricationDate = DateTime::createFromFormat("Y-m-d", $data["fabrication-start-date-input"]);
-        if ($fabricationDate != false && !Utils::validateDateInPastOrNow($fabricationDate)) {
-            $errors["fabrication-start-date-input"] = "The fabrication start date must be in the past or present.";
-        }
-        // Validate installation start date
-        $estInstallDate = DateTime::createFromFormat("Y-m-d", $data["estimated-installation-date-input"]);
-        if ($estInstallDate != false && !Utils::validateDateInFuture($estInstallDate)) {
-            $errors["estimated-installation-date-input"] = "The estimated install date must be in the future.";
-        }
-
-        // PRODUCT VALIDATION
-        // Define groups of fields that should be validated together
-        // Group of fields related to slab information
-        $slabFields = [
-            "material-name" => $data["material-name"],
-            "slab-width" => $data["slab-width"],
-            "slab-height" => $data["slab-height"],
-            "slab-thickness" => $data["slab-thickness"],
-            "slab-square-footage" => $data["slab-square-footage"]
-        ];
-        // Group of fields related to the completed product information
-        $productFields = [...$slabFields, "sink-type" => $data["sink-type"]];
-
-        // Validate that slab info exists if at least one field is entered
-        // Check if all fields are present if at least one field has a value.
-        if (Utils::arrayHasValue($slabFields)) {
-            // Check if any field is null
-            foreach ($slabFields as $name => $field) {
-                if (is_null($field)) {
-                    $errors[$name] = "This field cannot be left empty if slab information is specified.";
-                }
-            }
-        }
-
-        // Validate that either the slab info or the sink info is present.
-        if (!Utils::arrayHasValue($productFields)) {
-            foreach ($productFields as $name => $field) {
-                $errors[$name] = "Either the slab or sink information must be filled out.";
-            }
-        }
-
-        // Validate the material name
-        if ($data["material-name"] !== null && !Utils::validateMaterial($data["material-name"])) {
-            $errors["material-name"] = "The material name is of invalid format.";
-        }
-        // Validate the slab height
-        if ($data["slab-height"] !== null && !Utils::validateSlabDimension($data["slab-height"])) {
-            $errors["slab-height"] = "The slab height is of invalid format.";
-        }
-        // Validate slab width
-        if ($data["slab-width"] !== null && !Utils::validateSlabDimension($data["slab-width"])) {
-            $errors["slab-width"] = "The slab width is of invalid format.";
-        }
-        // Validate slab thickness
-        if ($data["slab-thickness"] !== null && !Utils::validateSlabThickness($data["slab-thickness"])) {
-            $errors["slab-thickness"] = "The slab thickness is of invalid format.";
-        }
-        // Validate the slab square footage
-        if ($data["slab-square-footage"] !== null && !Utils::validateSlabSquareFootage($data["slab-square-footage"])) {
-            $errors["slab-square-footage"] = "The slab square footage is of invalid format.";
-        }
-        // Validate the sink type
-        if ($data["sink-type"] !== null && !Utils::validateMaterial($data["sink-type"])) {
-            $errors["sink-type"] = "The sink type is of invalid format.";
-        }
-        return $errors;
-    }
-
-    public function validateClientInputData(array $data): array {
-        // Define the errors array
-        $errors = [];
-        // Validate first name
-        if (!Utils::validateName($data["first-name"])) {
-            $errors["first-name"] = "The first name is of invalid format.";
-        }
-        // Validate the last name
-        if (!Utils::validateName($data["last-name"])) {
-            $errors["last-name"] = "The last name is of invalid format.";
-        }
-        // Validate the street name
-        if (!Utils::validateStreetName($data["street-name"])) {
-            $errors["street-name"] = "The street name is of invalid format.";
-        }
-        // Validate the appartment number
-        if ($data["appartment-number"] !== null && !Utils::validateAptNumber($data["appartment-number"])) {
-            $errors["appartment-number"] = "The appartment number is of invalid format.";
-        }
-        // Validate the postal code
-        if (!Utils::validatePostalCode($data["postal-code"])) {
-            $errors["postal-code"] = "The postal code is of invalid format.";
-        }
-        // Validate the area
-        if (!Utils::validateArea($data["area"])) {
-            $errors["area"] = "The area is of invalid format.";
-        }
-        // Validate the reference number
-        if ($data["reference-number"] !== null && !Utils::validateClientReference($data["reference-number"])) {
-            $errors["reference-number"] = "The reference number is of invalid format.";
-        }
-        // Validate the phone number
-        if (!Utils::validatePhoneNumber($data["phone-number"])) {
-            $errors["phone-number"] = "The phone number is of invalid format";
-        }
-        // Return the errors found
-        return $errors;
-    }
-
     /**
      * Display the specified resource.
      */
@@ -513,46 +373,19 @@ class OrderController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View {
-        $order = $this->repository->find($id);
+    public function edit(Order $order): View {
         return view("orders.edit")->with('order', $order);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse {
-        $validatedData = array_merge(
-            // Default values
-            ["fabrication-image-input" => null],
-            // Validated fields
-            $request->validate([
-                    "invoice-number" => "nullable|string",
-                    "total-price" => "required|numeric",
-                    "order-status-select" => "required",
-                    "fabrication-image-input" => "nullable|file|mimes:jpg,jpeg,png,webp|max:10240",
-                    "fabrication-start-date-input" => "nullable|date|date_format:Y-m-d",
-                    "estimated-installation-date-input" => "nullable|date|date_format:Y-m-d",
-                    "material-name" => "nullable|string",
-                    "slab-height" => "nullable|string",
-                    "slab-width" => "nullable|string",
-                    "slab-thickness" => "nullable|string",
-                    "slab-square-footage" => "nullable|string",
-                    "sink-type" => "nullable|string",
-                    "product-description" => "nullable|string",
-                    "product-notes" => "nullable|string",
-                ]
-            )
-        );
-        // Perform additional validation
-        $errors = $this->validateOrderInputData($validatedData, false, false);
-        if (!empty($errors)) {
-            return back()->withErrors($errors)->withInput();
-        }
+    public function update(OrderUpdateRequest $request, Order $order): RedirectResponse {
+        $validatedData = $request->validated();
 
-        // Fetch the current order
-        $order = $this->repository->find(intval($id));
+        // Get the product
         $product = $order->getProduct();
+
         // Update the image plan
         $oldImagePath = $product->getPlanImagePath();
         if ($validatedData["fabrication-image-input"] !== null && $oldImagePath !== null) {
@@ -590,9 +423,19 @@ class OrderController extends Controller {
         // Update all order fields
         $order->setInvoiceNumber($validatedData["invoice-number"]);
         $order->setPrice($validatedData["total-price"]);
-        $order->setFabricationStartDate($fabricationStartDate);
-        $order->setEstimatedInstallDate($estInstallDate);
 
+        // Set the fabrication start date only if not the same
+        if ($estInstallDate !== null) {
+            $currentEstimatedDate = $order->getEstimatedInstallDate();
+            if ($currentEstimatedDate !== null && $estInstallDate->format("Y-m-d") != $currentEstimatedDate->format("Y-m-d")) {
+                $order->setEstimatedInstallDate($estInstallDate);
+            }
+        } else {
+            $order->setEstimatedInstallDate($estInstallDate);
+        }
+
+        $order->setFabricationStartDate($fabricationStartDate);
+        
         // Update the status field
         $newStatus = Status::from(strtoupper($validatedData["order-status-select"]));
         // Only update if changed
@@ -609,7 +452,7 @@ class OrderController extends Controller {
         // Update
         $this->repository->updateOrder($order);
         // Return to order pages
-        $messageHeader = "Edited Order $id";
+        $messageHeader = "Edited Order {$order->getOrderId()}";
         $messageType = "edit-message-header";
         return redirect('/orders')->with(compact("messageHeader", "messageType"));
     }
