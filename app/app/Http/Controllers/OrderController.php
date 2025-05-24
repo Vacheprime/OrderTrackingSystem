@@ -167,27 +167,7 @@ class OrderController extends Controller {
     }
 
     public function getOrderInfoAsJson(Order $order): string {
-        return json_encode(array(
-            "orderId" => $order->getOrderId(),
-            "clientId" => $order->getClient()->getClientId(),
-            "measuredBy" => $order->getMeasuredBy()->getInitials(),
-            "referenceNumber" => $order->getReferenceNumber(),
-            "invoiceNumber" => $order->getInvoiceNumber() ?? "No invoice associated.",
-            "totalPrice" => $order->getPrice(),
-            "orderStatus" => $order->getStatus(),
-            "fabricationStartDate" => $order->getFabricationStartDate() == null ? "-" : $order->getFabricationStartDate()->format("Y / m / d"),
-            "installationStartDate" => $order->getEstimatedInstallDate() == null ? "-" : $order->getEstimatedInstallDate()->format("Y / m / d"),
-            "pickUpDate" => $order->getOrderCompletedDate() == null ? "-" : $order->getOrderCompletedDate()->format("Y / m / d"),
-            "materialName" => $order->getProduct()->getMaterialName() ?? "-",
-            "slabHeight" => $order->getProduct()->getSlabHeight() ?? "-",
-            "slabWidth" => $order->getProduct()->getSlabWidth() ?? "-",
-            "slabThickness" => $order->getProduct()->getSlabThickness() ?? "-",
-            "slabSquareFootage" => $order->getProduct()->getSlabSquareFootage() ?? "-",
-            "sinkType" => $order->getProduct()->getSinkType() ?? "-",
-            "fabricationPlanImage" => $order->getProduct()->getPlanImagePath() ?? "-",
-            "productDescription" => $order->getProduct()->getProductDescription() ?? "-",
-            "productNotes" => $order->getProduct()->getProductNotes() ?? "-",
-        ));
+        return json_encode($order);
     }
 
     /**
