@@ -204,15 +204,12 @@ class OrderController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(CreateOrderRequest $request): RedirectResponse {
-        Log::info($request->input());
         // Determine whether the create request was made with a client id
         // or client info.
         if ($request->input("with-existing-client", "0") === "1") {
-            Log::info("WITH CLIENT ID");
             // Store with the client ID
             return $this->storeWithClientId($request);
         }
-        Log::info("WITH CLIENT INFO");
         // Store with client information
         return $this->storeWithClientInfo($request);
     }
@@ -298,6 +295,7 @@ class OrderController extends Controller {
     }
 
     public function storeWithClientId(CreateOrderRequest $request): RedirectResponse {
+        // Get the validated data
         $validatedData = $request->validated();
 
         // Get the client and employee repositories
