@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\EmployeeFieldRules;
 
+use App\Rules\BaseValidationRule;
 use app\Doctrine\ORM\Entity\Employee;
 use Closure;
 use Illuminate\Support\Facades\Validator;

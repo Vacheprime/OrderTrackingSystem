@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\ClientFieldRules;
 
+use App\Rules\BaseValidationRule;
 use app\Doctrine\ORM\Entity\Client;
 use Closure;
 

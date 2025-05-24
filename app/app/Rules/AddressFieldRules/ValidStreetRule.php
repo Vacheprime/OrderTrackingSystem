@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\AddressFieldRules;
+
+use App\Rules\BaseValidationRule;
 
 use app\Utils\Utils;
 use Closure;

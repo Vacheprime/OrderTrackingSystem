@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\OrderFieldRules;
 
+use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
 

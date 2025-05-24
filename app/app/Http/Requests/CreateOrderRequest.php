@@ -2,28 +2,27 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidAppartmentNumberRule;
-use App\Rules\ValidAreaRule;
+use App\Rules\AddressFieldRules\ValidAppartmentNumberRule;
+use App\Rules\AddressFieldRules\ValidAreaRule;
+use App\Rules\AddressFieldRules\ValidPostalCodeRule;
+use App\Rules\AddressFieldRules\ValidStreetRule;
+use App\Rules\ClientFieldRules\ValidClientIdRule;
+use App\Rules\ClientFieldRules\ValidReferenceNumberRule;
+use App\Rules\EmployeeFieldRules\ValidEmployeeIdRule;
+use App\Rules\OrderFieldRules\ValidEstimatedInstallDateRule;
+use App\Rules\OrderFieldRules\ValidFabricationPlanImageRule;
+use App\Rules\OrderFieldRules\ValidFabricationStartDateRule;
+use App\Rules\OrderFieldRules\ValidInvoiceNumberRule;
+use App\Rules\OrderFieldRules\ValidOrderStatusRule;
+use App\Rules\OrderFieldRules\ValidTotalPriceRule;
+use App\Rules\PersonFieldRules\ValidNameRule;
+use App\Rules\PersonFieldRules\ValidPhoneNumberRule;
+use App\Rules\ProductFieldRules\ValidMaterialNameRule;
+use App\Rules\ProductFieldRules\ValidSlabDimensionRule;
+use App\Rules\ProductFieldRules\ValidSlabSquareFootageRule;
+use App\Rules\ProductFieldRules\ValidSlabThicknessRule;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ValidClientIdRule;
-use App\Rules\ValidEmployeeIdRule;
-use App\Rules\ValidEstimatedInstallDateRule;
-use App\Rules\ValidFabricationPlanImageRule;
-use App\Rules\ValidFabricationStartDateRule;
-use App\Rules\ValidInvoiceNumberRule;
-use App\Rules\ValidMaterialNameRule;
-use App\Rules\ValidNameRule;
-use App\Rules\ValidOrderStatusRule;
-use App\Rules\ValidPhoneNumberRule;
-use App\Rules\ValidPostalCodeRule;
-use App\Rules\ValidReferenceNumberRule;
-use App\Rules\ValidSlabDimensionRule;
-use App\Rules\ValidSlabSquareFootageRule;
-use App\Rules\ValidSlabThicknessRule;
-use App\Rules\ValidStreetRule;
-use App\Rules\ValidTotalPriceRule;
 use app\Utils\Utils;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
 
 class CreateOrderRequest extends FormRequest

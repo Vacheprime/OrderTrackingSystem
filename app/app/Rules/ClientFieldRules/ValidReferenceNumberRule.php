@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\ClientFieldRules;
 
+use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
