@@ -2,7 +2,7 @@
 <x-layout title="Edit Order">
     <h1 class="content-title">Edit ORDER</h1>
     <div class="content-container">
-        <form method="POST" action="{{route('orders.update', $order->getOrderId())}}" class="create-edit-form">
+        <form method="POST" action="{{route('orders.update', $order->getOrderId())}}" class="create-edit-form" enctype="multipart/form-data">
             @csrf
             @method("PUT")
             <div id="orders-create-content" class="main-content">
