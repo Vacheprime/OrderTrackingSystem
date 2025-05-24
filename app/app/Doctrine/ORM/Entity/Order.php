@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 
 use InvalidArgumentException;
+use JsonSerializable;
 use LogicException;
 
 require_once(dirname(dirname(dirname(__DIR__)))."/Utils/Utils.php");
@@ -34,12 +35,12 @@ require_once("Product.php");
  */
 #[Entity(repositoryClass: OrderRepository::class)]
 #[Table("`order`")]
-class Order {
+class Order implements JsonSerializable {
     #[Id]
     #[Column(name: "order_id", type: Types::INTEGER), GeneratedValue("AUTO")]
     private ?int $orderId = null;
-    /**  FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM4]
-     * EX: ORD-1-1-U1AS
+    /**  FORMAT: ORD-[ORDERID]-[CLIENTID]-[RANDOM5]
+     * EX: ORD-1-1-U1AS1
      * Should not be null, but has to because it is generated using PK ids,
      * and those are only generated after the Order is inserted into the
      * database.
@@ -134,6 +135,30 @@ class Order {
         $this->product = $product;
         // Assign the order to the product
         $product->setOrder($this);
+    }
+
+    public function jsonSerialize(): array {
+        return [
+            "orderId" => $this->orderId,
+            "clientId" => $this->client->getClientId(),
+            "measuredBy" => $this->measuredBy->getEmployeeId(),
+            "referenceNumber" => $this->referenceNumber,
+            "invoiceNumber" => $this->invoiceNumber ?? "No invoice associated.",
+            "totalPrice" => $this->price,
+            "orderStatus" => $this->status,
+            "fabricationStartDate" => $this->fabricationStartDate == null ? "-" : $this->fabricationStartDate->format("Y / m / d"),
+            "installationStartDate" => $this->estimatedInstallDate == null ? "-" : $this->estimatedInstallDate->format("Y / m / d"),
+            "pickUpDate" => $this->orderCompletedDate == null ? "-" : $this->orderCompletedDate->format("Y / m / d"),
+            "materialName" => $this->product->getMaterialName() ?? "-",
+            "slabHeight" => $this->product->getSlabHeight() ?? "-",
+            "slabWidth" => $this->product->getSlabWidth() ?? "-",
+            "slabThickness" => $this->product->getSlabThickness() ?? "-",
+            "slabSquareFootage" => $this->product->getSlabSquareFootage() ?? "-",
+            "sinkType" => $this->product->getSinkType() ?? "-",
+            "fabricationPlanImage" => $this->product->getPlanImagePath() ?? "-",
+            "productDescription" => $this->product->getProductDescription() ?? "-",
+            "productNotes" => $this->product->getProductNotes() ?? "-",
+        ];
     }
 
     /**
