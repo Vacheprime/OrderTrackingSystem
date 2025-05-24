@@ -11,7 +11,6 @@ use app\Doctrine\ORM\Entity\Status;
 use app\Doctrine\ORM\Repository\OrderRepository;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use app\Utils\Utils;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -20,7 +19,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use SortOrder;
 
@@ -387,14 +385,15 @@ class OrderController extends Controller {
         $product = $order->getProduct();
 
         // Update the image plan
-        $oldImagePath = $product->getPlanImagePath();
-        if ($validatedData["fabrication-image-input"] !== null && $oldImagePath !== null) {
+        $newImage = $validatedData["fabrication-image-input"];
+        if ($newImage !== null) {
+            $oldImagePath = $product->getPlanImagePath();
             // Delete the old image
             if ($oldImagePath !== null) {
                 Storage::delete($oldImagePath);
             }
             // Store the new image
-            $imageFilePath = $validatedData["fabrication-image-input"]->store("fabrication_plan_images");
+            $imageFilePath = $newImage->store("fabrication_plan_images");
             $product->setPlanImagePath($imageFilePath);
         }
 
@@ -424,7 +423,7 @@ class OrderController extends Controller {
         $order->setInvoiceNumber($validatedData["invoice-number"]);
         $order->setPrice($validatedData["total-price"]);
 
-        // Set the fabrication start date only if not the same
+        // Set the estimated install date only if not the same
         if ($estInstallDate !== null) {
             $currentEstimatedDate = $order->getEstimatedInstallDate();
             if ($currentEstimatedDate !== null && $estInstallDate->format("Y-m-d") != $currentEstimatedDate->format("Y-m-d")) {
@@ -433,7 +432,7 @@ class OrderController extends Controller {
         } else {
             $order->setEstimatedInstallDate($estInstallDate);
         }
-
+        // Set the fabrication start date
         $order->setFabricationStartDate($fabricationStartDate);
         
         // Update the status field
