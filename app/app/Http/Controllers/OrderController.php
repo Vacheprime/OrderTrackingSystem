@@ -10,6 +10,7 @@ use app\Doctrine\ORM\Entity\Product;
 use app\Doctrine\ORM\Entity\Status;
 use app\Doctrine\ORM\Repository\OrderRepository;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\OrderIndexRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,32 +35,13 @@ class OrderController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) {
-        // Define default values
-        $defaultParams = [
-            "page" => 1,
-            "search" => "",
-            "searchby" => "order-id",
-            "orderby" => "status",
-            "orderId" => 1
-        ];
+    public function index(OrderIndexRequest $request) {
+        // Get the validated data
+        $validatedData = $request->validated();
+
         // Define default redirect url
-        $defaultUrl = "/orders?page={$defaultParams['page']}&orderby={$defaultParams['orderby']}";
-        // Validate the input data
-        $validatedData = array_merge(
-        // Default values for parameters
-            $defaultParams,
-            // Add validation rules
-            $request->validate(
-                [
-                    "page" => "nullable|int|min:1",
-                    "search" => "nullable|string",
-                    "searchby" => "nullable|string",
-                    "orderby" => "nullable|string",
-                    "orderId" => "nullable|int"
-                ]
-            )
-        );
+        $defaultUrl = "/orders?page=1&orderby=status";
+
         // Return order information as JSON if requested.
         // Used for refreshing the order details when an order is
         // selected.
