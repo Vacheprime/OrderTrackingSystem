@@ -185,10 +185,7 @@ async function refreshOrderTable(page, isSearch) {
     console.log(search , newSearch, searchBy , newSearchBy, orderBy , newOrderBy)
     let queryHasChanged = !(search == newSearch || search == null && searchBy == newSearchBy || searchBy == null && orderBy == newOrderBy || orderBy == null);
     // Set the page
-    console.log(queryHasChanged);
-    console.log(page);
     page = queryHasChanged ? 1 : page;
-    console.log(page);
 
     // Set the url parameters
     url.searchParams.set('page', page);
@@ -289,33 +286,67 @@ function changeOrderPage(page, pages, refreshTable = true) {
 }
 
 function refreshClientTable(page, isSearch) {
+    // Current URL
     const url = new URL(window.location.href);
-    url.searchParams.set('search', document.getElementById("search-bar-input").value);
-    url.searchParams.set('page', page);
-    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
-    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
+    // Get the current query params
+    const search = url.searchParams.get("search");
+    const searchBy = url.searchParams.get("searchby");
+    // Get the new query params
+    const newSearch = document.getElementById("search-bar-input").value;
+    const newSearchBy = document.getElementById("search-by-select").value;
 
+    // Check whether query has changed
+    let queryHasChanged = search != newSearch || searchBy != newSearchBy;
+    // Set the page. If query changed, reset to 1.
+    page = queryHasChanged ? 1 : page;
+
+    // Set params if it is a search
+    if (isSearch) {
+        url.searchParams.set('search', newSearch);
+        url.searchParams.set('searchby', newSearchBy);
+    }
+    url.searchParams.set('page', page);
+    
     fetch(url, {
         headers: {
             'x-refresh-table': true,
         }
-    }).then(response => response.text())
-        .then(text => {
+    }).then(response => {
+        // Display error if one occurs
+        if (response.status === 300) {
+            return response.text().then(text => {
+                document.querySelector("#search-bar-input").parentElement.innerHTML +=
+                    `<p class="error-input">${text}</p>`;
+            })
+        }
+
+        // Remove previous errors
+        document.querySelectorAll('.error-input').forEach(element => element.remove());
+        return response.text().then(text => {
+            window.history.pushState({}, '', url);
             document.querySelector(".search-table-div").innerHTML = text;
             initializeClientRowClickEvents();
-            highlightClientFirstRow()
-            window.history.pushState({}, '', url);
+            highlightClientFirstRow();
+            // Get number of pages
+            const totalPages = response.headers.get("x-total-pages");
+            // Update the pagination buttons
+            changeClientPage(page, parseInt(totalPages), false);
         });
+    });
 }
 
-function changeClientPage(page, pages) {
+function changeClientPage(page, pages, refreshTable = true) {
     if (page <= 0) {
         page = 1;
     }
     if (page > pages) {
         page = pages;
     }
-    refreshClientTable(page, false);
+    // Refresh only if necessary
+    if (refreshTable) {
+        refreshClientTable(page, false);
+    }
+    
     const div = document.querySelector(".search-table-pagination-div");
     div.innerHTML = "";
     if (pages > 5 && page !== 1) {
