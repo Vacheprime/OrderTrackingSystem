@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Client;
 use app\Doctrine\ORM\Repository\ClientRepository;
+use App\Http\Requests\ClientIndexRequest;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -23,22 +25,20 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(ClientIndexRequest $request)
     {
+        // Get the validated data
+        $validatedData = $request->validated();
+        Log::info($validatedData);
+        Log::info($request->input());
+        // Refresh the client side panel info
         if ($request->hasHeader("x-change-details")) {
-            $clientId = $request->input("clientId");
+            $clientId = $validatedData["clientId"];
+            if (is_null($clientId)) {
+                $clientId = 1;
+            }
             $client = $this->repository->find($clientId);
-            return json_encode(array(
-                "clientId" => $client->getClientId(),
-                "firstName"=> $client->getFirstName(),
-                "lastName"=> $client->getLastName(),
-                "referenceNumber"=> $client->getClientReference() ?? "",
-                "phoneNumber"=> $client->getPhoneNumber(),
-                "addressStreet"=> $client->getAddress()->getStreetName(),
-                "addressAptNum"=> $client->getAddress()->getAppartmentNumber(),
-                "postalCode"=> $client->getAddress()->getPostalCode(),
-                "area"=> $client->getAddress()->getArea(),
-            ));
+            return $this->getClientInfoAsJson($client);
         }
 
 
@@ -46,6 +46,8 @@ class ClientController extends Controller
         $search = $request->input('search', "");
         $searchBy = $request->input('searchby', "order-id");
         $orderBy = $request->input('orderby', "newest");
+
+
         $pagination = $this->repository->retrievePaginated(10, 1);
         $pages = $pagination->lastPage();
         if ($page <= 0) {
@@ -64,6 +66,20 @@ class ClientController extends Controller
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
+    }
+
+    private function getClientInfoAsJson(Client $client): string {
+        return json_encode(array(
+            "clientId" => $client->getClientId(),
+            "firstName"=> $client->getFirstName(),
+            "lastName"=> $client->getLastName(),
+            "referenceNumber"=> $client->getClientReference() ?? "",
+            "phoneNumber"=> $client->getPhoneNumber(),
+            "addressStreet"=> $client->getAddress()->getStreetName(),
+            "addressAptNum"=> $client->getAddress()->getAppartmentNumber(),
+            "postalCode"=> $client->getAddress()->getPostalCode(),
+            "area"=> $client->getAddress()->getArea(),
+        ));
     }
 
     /**
