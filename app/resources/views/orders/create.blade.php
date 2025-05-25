@@ -63,7 +63,7 @@
                 </div>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Create</button>
-                    <a href="/orders" class="regular-button">Cancel</a>
+                    <a href="{{ isset($clientId) ? "/clients" : "/orders" }}" class="regular-button">Cancel</a>
                 </div>
             </div>
             <!-- Display if creating with client info -->
