@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests;
 
+use app\Utils\Utils;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class ClientIndexRequest extends FormRequest
 {
+    // Override default redirect url for failed validations
+    protected $redirect = "/clients";
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -20,8 +25,99 @@ class ClientIndexRequest extends FormRequest
             "search" => "",
             "searchby" => "client-id",
             "orderby" => "status",
-            "orderId" => 1
+            "orderId" => 1,
+            "clientId" => 1
         ]);
+    }
+
+    public function after(): array {
+        return [
+            function ($validator) {
+                $this->validateSearchBy($validator);
+            },
+            function ($validator) {
+                $this->validateSearch($validator);
+            }
+        ];
+    }
+
+    private function validateSearchBy(Validator $validator) {
+        // Get the input
+        $searchBy = $this->input("searchby");
+        // Define the allowed filters
+        $allowedFilters = [
+            "client-id",
+            "first-name",
+            "last-name",
+            "area"
+        ];
+        // Check if it is an allowed value
+        if (in_array($searchBy, $allowedFilters)) {
+            return;
+        }
+        // Add error otherwise
+        $validator->errors()->add(
+            "search-by-select",
+            "The filter applied is not supported."
+        );
+    }
+
+    private function validateSearch(Validator $validator) {
+        // Get filter type
+        $searchBy = $this->input("searchby");
+        // Get search param
+        $search = $this->input("search");
+
+        // Skip if no search to apply
+        if (strlen($search) == 0) {
+            return;
+        }
+
+        // Validate the search param for each filter type
+        switch ($searchBy) {
+            // Validation for search as client id
+            case "client-id":
+                $clientId = filter_var($search, FILTER_VALIDATE_INT);
+                // Validate if search is an integer
+                if ($clientId === false ) {
+                    $validator->errors()->add(
+                        "search-bar",
+                        "The client id must be a number."
+                    );
+                }
+                // Validate if the id is in range
+                if ($clientId < 1) {
+                    $validator->errors()->add(
+                        "search-bar",
+                        "The client id must be greater than zero."
+                    );
+                }
+                break;
+            // Validation for search as first or last name
+            case "first-name":
+            case "last-name":
+                if (Utils::validateName($search)) {
+                    return;
+                }
+                // Add error
+                $validator->errors()->add(
+                    "search-bar",
+                    "The name is of invalid format"
+                );
+                break;
+            
+            // Validation for search as area
+            case "area":
+                if (Utils::validateArea($search)) {
+                    return;
+                }
+                // Add error
+                $validator->errors()->add(
+                    "search-bar",
+                    "The area is of invalid format."
+                );
+                break;
+        }
     }
 
     /**
