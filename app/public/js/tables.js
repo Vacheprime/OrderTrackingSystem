@@ -310,44 +310,53 @@ async function refreshClientTable(page, isSearch) {
     // Fetch the results
     let response = await fetch(url, {
         headers: {
+            'Accept': "application/json",
             'x-refresh-table': true,
         }
     });
-    console.log(response.status);
-    // Check if the response redirects
-    if (response.redirected) {
-        console.log("test");
-        // Force browser to redirect
-        console.log(response.url);
-    }
 
-    /*
-    .then(response => {
-        // Display error if one occurs
-        if (response.status === 300) {
-            return response.text().then(text => {
-                document.querySelector("#search-bar-input").parentElement.innerHTML +=
-                    `<p class="error-input">${text}</p>`;
-            })
-        }
-            */
-
-    // Get the new table data
+    // Get the body of the response
     let text = await response.text();
 
     // Remove previous errors
-    document.querySelectorAll('.error-input').forEach(element => element.remove());
+    if (isSearch) {
+        document.querySelectorAll('.error-input').forEach(element => element.remove());
+    }
+    
+    // Check if an error occured
+    if (!response.ok) {
+        if (response.status == 422) {
+            // Display errors
+            let jsonReponse = JSON.parse(text);
+            let errors = jsonReponse.errors;
+            // Loop over every field
+            Object.entries(errors).forEach(([field, errorMessages]) => {
+                // Get the input
+                const input = document.querySelector(`[name="${field}"]`);
+                // Get the first error message
+                const firstError = errorMessages[0];
+                // Add the error message
+                input.parentElement.innerHTML += `<p class="error-input">${firstError}</p>`;
+            })
+            // End
+            return;
+        }
+    }
 
     // Push the new URL
     window.history.pushState({}, '', url);
+
     // Set the table to the new table
     document.querySelector(".search-table-div").innerHTML = text;
+
     // Add event handlers for row clicks and select the first row
     initializeClientRowClickEvents();
     highlightClientFirstRow();
+
     // Get number of pages
     const totalPages = response.headers.get("x-total-pages");
-    console.log("Clien total: " + totalPages);
+    console.log("Client total: " + totalPages);
+
     // Update the pagination buttons
     changeClientPage(page, parseInt(totalPages), false);
 }
