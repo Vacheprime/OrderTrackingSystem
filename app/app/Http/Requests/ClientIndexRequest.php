@@ -41,14 +41,24 @@ class ClientIndexRequest extends FormRequest
     }
 
     protected function prepareForValidation(): void {
+        // Merge missing fields
         $this->mergeIfMissing([
             "page" => 1,
             "search" => "",
             "searchby" => "client-id",
-            "orderby" => "status",
-            "orderId" => 1, // Useless?
             "clientId" => 1
         ]);
+
+        // Add default values for null values
+        $input = $this->all();
+
+        $input["page"] = $input["page"] ?? 1;
+        $input["search"] = $input["search"] ?? "";
+        $input["searchby"] = $input["searchby"] ?? "client-id";
+        $input["clientId"] = $input["clientId"] ?? 1;
+
+        // Replace
+        $this->replace($input);
     }
 
     public function after(): array {
