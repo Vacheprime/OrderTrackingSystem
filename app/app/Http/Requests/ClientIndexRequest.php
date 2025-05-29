@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use app\Utils\Utils;
+use Illuminate\Contracts\Validation\Validator as ValidationValidator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
 
 class ClientIndexRequest extends FormRequest
@@ -17,6 +19,25 @@ class ClientIndexRequest extends FormRequest
     public function authorize(): bool
     {
         return true; // Managed by middleware
+    }
+
+    /**
+     * Override failedValidation method for returning errors as json if using Fetch api
+     */
+    protected function failedValidation(ValidationValidator $validator) {
+        // Use original failedValidation method if json is not requested.
+        if (!$this->expectsJson()) {
+            parent::failedValidation($validator);
+            return;
+        }
+
+        // Return errors as json if json is requested
+        throw new HttpResponseException(
+            response()->json([
+                "message" => "Invalid request.",
+                "errors" => $validator->errors()
+            ], 422)
+        );
     }
 
     protected function prepareForValidation(): void {
