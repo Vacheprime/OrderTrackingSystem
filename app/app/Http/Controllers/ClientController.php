@@ -29,40 +29,106 @@ class ClientController extends Controller
     {
         // Get the validated data
         $validatedData = $request->validated();
-        Log::info($validatedData);
-        Log::info($request->input());
+
+        // This should idealy be done through the route /orders/{id}
+        // and not with a header.
         // Refresh the client side panel info
         if ($request->hasHeader("x-change-details")) {
             $clientId = $validatedData["clientId"];
-            if (is_null($clientId)) {
-                $clientId = 1;
-            }
             $client = $this->repository->find($clientId);
             return $this->getClientInfoAsJson($client);
         }
 
+        // Get the search parameters
+        $page = $validatedData["page"];
+        $search = $validatedData["search"];
+        $searchBy = $validatedData["searchby"];
 
-        $page = $request->input('page', 1);
-        $search = $request->input('search', "");
-        $searchBy = $request->input('searchby', "order-id");
-        $orderBy = $request->input('orderby', "newest");
+        // Get the repository
+        $repository = $this->repository;
 
+        // If no filters are applied.
+        if (strlen($search) == 0) {
+            // Get the paginator
+            $paginator = $this->repository->retrievePaginated(10, 1);
+            
+            // Get the total number of pages
+            $pages = $paginator->lastPage();
 
-        $pagination = $this->repository->retrievePaginated(10, 1);
-        $pages = $pagination->lastPage();
+            // Get the clients
+            $clients = $paginator->items();
+            
+            // Return only the table if requested
+            if ($request->hasHeader("x-refresh-table")) {
+                return response(
+                    view('components.tables.client-table')->with('clients', $clients),
+                    200,
+                    ["x-total-pages" => $pages, "x-is-empty" => $paginator->total() == 0]
+                );
+            }
+
+            // Return the page
+            $messageHeader = Session::get("messageHeader");
+            $messageType = Session::get("messageType");
+            return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
+        }
+
+        // Apply filters
+        $client = null; // For client ID filtering
+        switch ($searchBy) {
+            // Filter by first or last name
+            case "name":
+                $repository = $repository->searchByName($search);
+                break;
+            // Filter by area
+            case "area":
+                $repository = $repository->searchByArea($search);
+                break;
+            case "client-id":
+                // Get the client
+                $client = $repository->find(intval($search));
+            break;
+        }
+
+        // Check if filtering by client
+        if ($client != null) {
+            return response(
+                view("components.tables.client-table")->with("clients", [$client]),
+                200,
+                ["x-total-pages" => 1, "x-is-empty" => false]
+            );
+        }
+
+        // Get the paginator
+        $paginator = $repository->retrievePaginated(10, 1);
+
+        // Get the total pages
+        $pages = $paginator->lastPage();
+
+        // Create the pagination
         if ($page <= 0) {
             $page = 1;
         }
         if ($page > $pages) {
             $page = $pages;
         }
-        $pagination = $this->repository->retrievePaginated(10, $page);
+
+        // Refetch the paginator with the right page
+        $pagination = $repository->retrievePaginated(10, $page);
+
+        // Get the clients
         $clients = $pagination->items();
 
+        // Refresh the table if requested
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.client-table')->with('clients', $clients);
+            return response(
+                view('components.tables.client-table')->with('clients', $clients),
+                200,
+                ["x-total-pages" => $pages, "x-is-empty" => $paginator->total() == 0]
+            );
         }
 
+        // Return whole index page
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
