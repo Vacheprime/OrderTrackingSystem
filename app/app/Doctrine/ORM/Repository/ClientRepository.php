@@ -52,7 +52,7 @@ class ClientRepository extends BaseRepository {
      * 
      * This method searches the first name and the last name.
      * 
-     * @param string $name The name of the employee. It does
+     * @param string $name The name of the client. It does
      * not have to be an exact match. 
      */
     public function searchByName(string $name): self {
@@ -66,5 +66,25 @@ class ClientRepository extends BaseRepository {
                 ))->setParameter(":target", $searchTarget);
             }
         );
+    }
+
+    /**
+     * Filter clients by their area.
+     * 
+     * This method searches clients based on the area they live at.
+     * 
+     * @param string $area The area of the client. It does not have to be
+     * an exact match.
+     */
+    public function searchByArea(string $area): self {
+        // Create the SQL search string
+        $searchTarget = "%" . strtolower($area) . "%";
+        return $this->filter(function (QueryBuilder $qb) use ($searchTarget) {
+            $expr = $qb->expr();
+            $qb->join("c.address", "a")
+                ->where(
+                    $expr->like("LOWER(a.area)", ":target")
+                )->setParameter(":target", $searchTarget);
+        });
     }
 }
