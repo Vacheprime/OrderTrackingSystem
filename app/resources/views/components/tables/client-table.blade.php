@@ -1,4 +1,4 @@
-@props(["clients" => $clients ?? []])
+@props(["clients" => $clients ?? [], "short" => false])
 
 <table class="search-table">
     <thead>
@@ -20,7 +20,7 @@
             <td>{{$client->getPhoneNumber()}}</td>
         </tr>
     @empty
-        <td colspan="{{$short ? 4 : 6}}" style="text-align: center;">
+        <td colspan="{{$short ? 4 : 5}}" style="text-align: center;">
             <div class="order-table-td-div">No results!</div>
         </td>
     @endforelse
