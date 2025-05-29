@@ -46,7 +46,7 @@ class ClientIndexRequest extends FormRequest
             "search" => "",
             "searchby" => "client-id",
             "orderby" => "status",
-            "orderId" => 1,
+            "orderId" => 1, // Useless?
             "clientId" => 1
         ]);
     }
