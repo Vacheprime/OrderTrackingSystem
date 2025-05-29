@@ -16,8 +16,8 @@
             <td>{{$client->getClientId()}}</td>
             <td>{{$client->getFirstName()}}</td>
             <td>{{$client->getLastName()}}</td>
-            <td>{{$client->getClientReference()}}</td>
             <td>{{$client->getPhoneNumber()}}</td>
+            <td>{{$client->getClientReference()}}</td>
         </tr>
     @empty
         <td colspan="{{$short ? 4 : 5}}" style="text-align: center;">
