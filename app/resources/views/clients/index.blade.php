@@ -22,8 +22,7 @@
                         <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
                         <x-select-input-property labelText="Search By" name="search-by">
                             <option value="area" selected>Area</option>
-                            <option value="first-name">First Name</option>
-                            <option value="last-name">Last Name</option>
+                            <option value="name">Name</option>
                             <option value="client-id">ClientID</option>
                         </x-select-input-property>
                     </form>
