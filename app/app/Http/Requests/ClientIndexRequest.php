@@ -78,8 +78,7 @@ class ClientIndexRequest extends FormRequest
         // Define the allowed filters
         $allowedFilters = [
             "client-id",
-            "first-name",
-            "last-name",
+            "name",
             "area"
         ];
         // Check if it is an allowed value
@@ -125,8 +124,7 @@ class ClientIndexRequest extends FormRequest
                 }
                 break;
             // Validation for search as first or last name
-            case "first-name":
-            case "last-name":
+            case "name":
                 if (Utils::validateName($search)) {
                     return;
                 }
