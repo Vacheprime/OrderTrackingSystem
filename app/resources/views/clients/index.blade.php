@@ -14,7 +14,6 @@
     @isset($messageHeader)
         <p id="{{$messageType}}" class="message-header">{{$messageHeader}}<button onclick="document.getElementById('{{$messageType}}').remove()">x</button></p>
     @endisset
-    <p>{{$errors}}<p>
     <div class="content-container">
         <div id="clients-content" class="main-content">
             <div class="table-content">
