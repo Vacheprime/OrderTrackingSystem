@@ -6,6 +6,7 @@
     @endif
     <input {{$readonly ? "readonly" : ""}} type="{{$password ? "password": "text"}}" id="{{$name}}-input"
            name="{{$name}}" placeholder="{{$labelText}}" value="{{ $value == "" ? old($name) : $value }}" {{ $disabled ? "disabled" : "" }}/>
+    
     @error("$name")
         <p class="error-input">{{$message}}</p>
     @enderror
