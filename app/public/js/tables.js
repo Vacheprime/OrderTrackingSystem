@@ -297,6 +297,7 @@ async function refreshClientTable(page, isSearch) {
 
     // Check whether query has changed
     let queryHasChanged = search != newSearch || searchBy != newSearchBy;
+
     // Set the page. If query changed, reset to 1.
     page = queryHasChanged ? 1 : page;
 
@@ -349,13 +350,15 @@ async function refreshClientTable(page, isSearch) {
     // Set the table to the new table
     document.querySelector(".search-table-div").innerHTML = text;
 
-    // Add event handlers for row clicks and select the first row
-    initializeClientRowClickEvents();
-    highlightClientFirstRow();
-
     // Get number of pages
     const totalPages = response.headers.get("x-total-pages");
-    console.log("Client total: " + totalPages);
+
+    // Add event handlers for row clicks and select the first row
+    initializeClientRowClickEvents();
+
+    // Check if there are any results
+    updateDetails = !response.headers.get("x-is-empty");
+    highlightClientFirstRow(updateDetails);
 
     // Update the pagination buttons
     changeClientPage(page, parseInt(totalPages), false);
@@ -636,11 +639,13 @@ function highlightOrderFirstRow() {
     }
 }
 
-function highlightClientFirstRow() {
+function highlightClientFirstRow(updateDetails = true) {
     const firstRow = document.querySelector('.search-table tbody tr');
     if (firstRow) {
         selectRecord(firstRow);
-        changeClientDetails(firstRow.id);
+        if (updateDetails) {
+            changeClientDetails(firstRow.id);
+        }
     }
 }
 
