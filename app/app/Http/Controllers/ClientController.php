@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use app\Doctrine\ORM\Entity\Client;
 use app\Doctrine\ORM\Repository\ClientRepository;
 use App\Http\Requests\ClientIndexRequest;
+use App\Http\Requests\ClientUpdateRequest;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -189,29 +190,36 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(Client $client): View
     {
-        $client = $this->repository->find($id);
         return view("clients.edit")->with("client", $client);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(ClientUpdateRequest $request, Client $client): RedirectResponse
     {
-        $validateData = $request->validate([
-            "first-name"=> "required",
-            "last-name"=> "required",
-            "reference-number"=> "required",
-            "phone-number"=> "required",
-            "address"=> "required",
-            "postal-code"=> "required",
-            "city"=> "required",
-            "province"=> "required",
-            "area"=> "required",
-        ]);
+        // Get the validated data
+        $validatedData = $request->validated();
 
+        // Get client's address
+        $address = $client->getAddress();
+
+        // Update the client's information
+        $client->setFirstName($validatedData["first-name"]);
+        $client->setLastName($validatedData["last-name"]);
+        $client->setClientReference($validatedData["reference-number"]);
+        $client->setPhoneNumber($validatedData["phone-number"]);
+        $address->setStreetName($validatedData["street"]);
+        $address->setAppartmentNumber($validatedData["apartment-number"]);
+        $address->setPostalCode($validatedData["postal-code"]);
+        $address->setArea($validatedData["area"]);
+
+        // Persist the client to the database
+        $this->repository->updateClient($client);
+        
+        // Redirect with confirmation
         $messageHeader = "Edit Client";
         $messageType= "edit-message-header";
         return redirect("/clients")->with(compact("messageHeader", "messageType"));
