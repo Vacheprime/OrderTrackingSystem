@@ -6,6 +6,7 @@ use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Log;
 
 class ValidNameRule extends BaseValidationRule
 {
