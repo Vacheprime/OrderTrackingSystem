@@ -266,7 +266,7 @@ class Utils {
      */
     public static function validateName(string $name): bool {
         if (self::hasInvalidSpaces($name)) return false;
-        return preg_match('/[\p{L}\'\- ]{1,50}/u', $name) === 1;
+        return preg_match('/^[\p{L}\'\- ]{1,50}$/u', $name) === 1;
     }
 
     // ### Payment Validation Functions ###
@@ -317,7 +317,7 @@ class Utils {
      */
     public static function validateMaterial(string $material): bool {
         if (self::hasInvalidSpaces($material)) return false;
-        return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $material) == 1;
+        return preg_match('/^[\p{L}\d\'\- ]{1,100}$/u', $material) == 1;
     }
 
     /**
