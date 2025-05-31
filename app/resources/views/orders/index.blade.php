@@ -5,7 +5,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         initializeRowClickEvents(changeOrderDetails);
-        highlightOrderFirstRow();
+        highlightFirstRow(changeOrderDetails);
     });
 </script>
 

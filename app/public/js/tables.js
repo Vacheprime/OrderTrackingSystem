@@ -235,7 +235,7 @@ async function refreshOrderTable(page, isSearch) {
         window.history.pushState({}, '', url);
         document.querySelector(".search-table-div").innerHTML = text;
         initializeRowClickEvents(changeOrderDetails);
-        highlightOrderFirstRow();
+        highlightFirstRow(changeOrderDetails);
         // Get the number of pages
         const totalPages = response.headers.get("x-total-pages");
         // Update the pagination buttons
@@ -379,9 +379,9 @@ async function refreshClientTable(page, isSearch) {
     initializeRowClickEvents(changeClientDetails);
 
     // Check if there are any results
-    updateDetails = !response.headers.get("x-is-empty");
-    highlightClientFirstRow(updateDetails);
-
+    updateDetailsFunc = !response.headers.get("x-is-empty") ? null : changeClientDetails;
+    highlightFirstRow(changeClientDetails);
+    
     // Update the pagination buttons
     changeClientPage(page, parseInt(totalPages), false);
 }
@@ -462,7 +462,7 @@ function refreshEmployeeTable(page, isSearch) {
         .then(text => {
             document.querySelector(".search-table-div").innerHTML = text;
             initializeEmployeeRowClickEvents();
-            highlightEmployeeFirstRow();
+            highlightFirstRow();
             window.history.pushState({}, '', url);
         });
 }
@@ -540,7 +540,7 @@ function refreshPaymentTable(page, isSearch) {
         .then(text => {
             document.querySelector(".search-table-div").innerHTML = text;
             initializeRowClickEvents(changePaymentDetails);
-            highlightPaymentFirstRow();
+            highlightFirstRow(changePaymentDetails);
             window.history.pushState({}, '', url);
         });
 }
@@ -635,37 +635,16 @@ function initializeRowClickEvents(changeDetailsFunction) {
     });
 }
 
-// to highlight the first row by default
-function highlightOrderFirstRow() {
+/**
+ * Highlights the first row in the table and calls the provided function with the row id.
+ * @param {Function|null} changeDetailsFunction - The function to call with the first row's id, or null.
+ */
+function highlightFirstRow(changeDetailsFunction = null) {
     const firstRow = document.querySelector('.search-table tbody tr');
     if (firstRow) {
         selectRecord(firstRow);
-        changeOrderDetails(firstRow.id);
-    }
-}
-
-function highlightClientFirstRow(updateDetails = true) {
-    const firstRow = document.querySelector('.search-table tbody tr');
-    if (firstRow) {
-        selectRecord(firstRow);
-        if (updateDetails) {
-            changeClientDetails(firstRow.id);
+        if (typeof changeDetailsFunction === "function") {
+            changeDetailsFunction(firstRow.id);
         }
-    }
-}
-
-function highlightEmployeeFirstRow() {
-    const firstRow = document.querySelector('.search-table tbody tr');
-    if (firstRow) {
-        selectRecord(firstRow);
-        changeEmployeeDetails(firstRow.id);
-    }
-}
-
-function highlightPaymentFirstRow() {
-    const firstRow = document.querySelector('.search-table tbody tr');
-    if (firstRow) {
-        selectRecord(firstRow);
-        changePaymentDetails(firstRow.id)
     }
 }
