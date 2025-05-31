@@ -148,7 +148,7 @@ class Order implements JsonSerializable {
             "orderStatus" => $this->status,
             "fabricationStartDate" => $this->fabricationStartDate == null ? "-" : $this->fabricationStartDate->format("Y / m / d"),
             "installationStartDate" => $this->estimatedInstallDate == null ? "-" : $this->estimatedInstallDate->format("Y / m / d"),
-            "pickUpDate" => $this->orderCompletedDate == null ? "-" : $this->orderCompletedDate->format("Y / m / d"),
+            "orderCompletedDate" => $this->orderCompletedDate == null ? "-" : $this->orderCompletedDate->format("Y / m / d"),
             "materialName" => $this->product->getMaterialName() ?? "-",
             "slabHeight" => $this->product->getSlabHeight() ?? "-",
             "slabWidth" => $this->product->getSlabWidth() ?? "-",
