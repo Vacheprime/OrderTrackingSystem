@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use app\Utils\Utils;
-use Illuminate\Contracts\Validation\Validator as ValidationValidator;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Validator;
 
 class ClientIndexRequest extends FormRequest
 {
@@ -24,7 +23,7 @@ class ClientIndexRequest extends FormRequest
     /**
      * Override failedValidation method for returning errors as json if using Fetch api
      */
-    protected function failedValidation(ValidationValidator $validator) {
+    protected function failedValidation(Validator $validator) {
         // Use original failedValidation method if json is not requested.
         if (!$this->expectsJson()) {
             parent::failedValidation($validator);
