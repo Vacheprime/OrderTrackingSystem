@@ -1,62 +1,104 @@
-function changeOrderDetails(orderIdString) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('orderId', orderIdString.substring(orderIdString.lastIndexOf("-") + 1));
-    fetch(url, {
-        headers: {
-            method: "GET",
-            'x-change-details': true,
-        }
-    }).then(response => response.json())
-        .then(order => {
-            document.getElementById("detail-edit-btn").href = `/orders/${order.orderId}/edit`;
-            document.getElementById("detail-add-payment-btn").href = `/payments/create?orderId=${order.orderId}`;
-            document.getElementById("detail-order-id").innerText = order.orderId;
-            document.getElementById("detail-client-id").innerText = order.clientId;
-            document.getElementById("detail-measured-by").innerText = order.measuredBy;
-            document.getElementById("detail-reference-number").innerText = order.referenceNumber;
-            document.getElementById("detail-invoice-number").innerText = order.invoiceNumber;
-            document.getElementById("detail-total-price").innerText = order.totalPrice;
-            document.getElementById("detail-status").innerText = order.orderStatus;
-            document.getElementById("detail-fabrication-start-date").innerText = order.fabricationStartDate;
-            document.getElementById("detail-installation-start-date").innerText = order.installationStartDate;
-            document.getElementById("detail-pick-up-date").innerText = order.pickUpDate;
-            document.getElementById("detail-material-name").innerText = order.materialName;
-            document.getElementById("detail-slab-height").innerText = order.slabHeight;
-            document.getElementById("detail-slab-width").innerText = order.slabWidth;
-            document.getElementById("detail-slab-height").innerText = order.slabHeight;
-            document.getElementById("detail-slab-thickness").innerText = order.slabThickness;
-            document.getElementById("detail-slab-square-footage").innerText = order.slabSquareFootage;
-            document.getElementById("detail-sink-type").innerText = order.sinkType;
-            const src= document.createAttribute('src');
-            src.value = order.fabricationPlanImage;
-            document.getElementById("detail-fabrication-plan-image").attributes.setNamedItem(src);
-            document.getElementById("detail-product-description-input").innerText = order.productDescription;
-            document.getElementById("detail-product-notes-input").innerText = order.productNotes;
-        });
+/**
+ * Converts a string to kebab case.
+ * 
+ * @param {string} str - The string to convert to kebab case.
+ * @returns {string} - The kebab case version of the string.
+ */
+function toKebabCase(str) {
+    return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-function changeClientDetails(clientIdString) {
+// Change the sidebar details for a resource
+// This function fetches the details for a resource and updates the sidebar
+async function changeSidebarDetails(resourceId, resourceIdString, prefix = "detail-", afterUpdatePostProcess = null) {
+    // Get the current URL
     const url = new URL(window.location.href);
-    url.searchParams.set('clientId', clientIdString.substring(clientIdString.lastIndexOf("-") + 1));
-    fetch(url, {
+    url.searchParams.set(resourceId, resourceIdString.substring(resourceIdString.lastIndexOf("-") + 1));
+    // Fetch the details for the resource
+    let response = await fetch(url, {
         headers: {
             method: "GET",
             'x-change-details': true,
         }
-    }).then(response => response.json())
-        .then(client => {
-            document.getElementById("detail-edit-btn").href = `/clients/${client.clientId}/edit`;
-            document.getElementById("detail-add-order-btn").href = `/orders/create?client=existing&clientId=${client.clientId}`;
-            document.getElementById("detail-client-id").innerText = client.clientId;
-            document.getElementById("detail-first-name").innerText = client.firstName;
-            document.getElementById("detail-last-name").innerText = client.lastName;
-            document.getElementById("detail-reference-number").innerText = client.referenceNumber;
-            document.getElementById("detail-phone-number").innerText = client.phoneNumber;
-            document.getElementById("detail-address-street").innerText = client.addressStreet;
-            document.getElementById("detail-address-apt-num").innerText = client.addressAptNum;
-            document.getElementById("detail-postal-code").innerText = client.postalCode;
-            document.getElementById("detail-area").innerText = client.area;
-        });
+    });
+    // Check if the response is ok
+    if (!response.ok) {
+        return; // TODO: Handle error with error page?
+    }
+    // Get the JSON response
+    let resourceDetails = await response.json();
+    // Update the sidebar details
+    updateDetailsFromJson(resourceDetails, prefix);
+    // Execute additional function 
+    if (typeof afterUpdatePostProcess === "function") {
+        afterUpdatePostProcess(resourceDetails);
+    }
+    // Log the resource details for debugging
+    console.log(resourceDetails);
+}
+
+
+/**
+ * Updates the sidebar details from a JSON object.
+ * @param {Object} json - The JSON object containing the details.
+ * @param {string} prefix - The prefix for the detail IDs (default is "detail-").
+ */
+function updateDetailsFromJson(json, prefix = "detail-") {
+    // Update the sidebar details from a JSON object
+    Object.entries(json).forEach(([key, value]) => {
+        // Get the element by ID
+        const kebabKey = toKebabCase(key);
+        const element = document.getElementById(`${prefix}${kebabKey}`);
+
+        // Check if the element exists
+        if (!element) return;
+
+        // Update the element based on its type
+        if (element.tagName === 'IMG') {
+            element.src = value;
+        } else if ('value' in element) {
+            element.value = value;
+        } else {
+            element.innerText = value;
+        }
+    });
+}
+
+/**
+ * Changes the order details in the sidebar.
+ * 
+ * @param {string} orderIdString - The order ID string.
+ */
+function changeOrderDetails(orderIdString) {
+    changeSidebarDetails("orderId", orderIdString, "detail-", (order) => {
+        document.getElementById("detail-edit-btn").href = `/orders/${order.orderId}/edit`;
+        document.getElementById("detail-add-payment-btn").href = `/payments/create?orderId=${order.orderId}`;
+        document.getElementById("detail-product-description-input").innerText = order.productDescription;
+        document.getElementById("detail-product-notes-input").innerText = order.productNotes;
+    });
+}
+
+/**
+ * Changes the client details in the sidebar.
+ * 
+ * @param {string} clientIdString - The client ID string.
+ */
+function changeClientDetails(clientIdString) {
+    changeSidebarDetails("clientId", clientIdString, "detail-", (client) => {
+        document.getElementById("detail-edit-btn").href = `/clients/${client.clientId}/edit`;
+        document.getElementById("detail-add-order-btn").href = `/orders/create?client=existing&clientId=${client.clientId}`;
+    });
+}
+
+/**
+ * Changes the payment details in the sidebar.
+ * 
+ * @param {string} paymentIdString - The payment ID string.
+ */
+function changePaymentDetails(paymentIdString) {
+    changeSidebarDetails("paymentId", paymentIdString, "detail-", (payment) => {
+        document.getElementById("detail-edit-btn").href = `/payments/${payment.paymentId}/edit`;
+    });
 }
 
 function changeEmployeeDetails(employeeIdString) {
@@ -83,28 +125,6 @@ function changeEmployeeDetails(employeeIdString) {
             document.getElementById("detail-area").innerText = employee.area;
             document.getElementById("detail-account-status").innerText = employee.accountStatus;
             document.getElementById("detail-admin-status").innerText = employee.adminStatus;
-        });
-}
-
-
-function changePaymentDetails(paymentIdString) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('paymentId', paymentIdString.substring(paymentIdString.lastIndexOf("-") + 1));
-    fetch(url, {
-        headers: {
-            method: "GET",
-            'x-change-details': true,
-        }
-    }).then(response => response.json())
-        .then(payment => {
-            document.getElementById("detail-edit-btn").href = `/payments/${payment.paymentId}/edit`;
-            document.getElementById("detail-delete-form").action = `/payments/${payment.paymentId}`;
-            document.getElementById("detail-payment-id").innerText = payment.paymentId;
-            document.getElementById("detail-order-id").innerText = payment.orderId;
-            document.getElementById("detail-payment-date").innerText = payment.paymentDate;
-            document.getElementById("detail-amount").innerText = payment.amount;
-            document.getElementById("detail-type").innerText = payment.type;
-            document.getElementById("detail-method").innerText = payment.method;
         });
 }
 
@@ -196,31 +216,33 @@ async function refreshOrderTable(page, isSearch) {
     }
 
     // Fetch the new table
-    fetch(url, {
-        headers: {
-            'x-refresh-table': true,
-        }
-    }).then(response => {
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'x-refresh-table': true,
+            }
+        });
 
         if (response.status === 300) {
-            return response.text().then(text => {
-                document.querySelector("#search-bar-input").parentElement.innerHTML +=
-                    `<p class="error-input">${text}</p>`;
-            });
+            const text = await response.text();
+            document.querySelector("#search-bar-input").parentElement.innerHTML +=
+                `<p class="error-input">${text}</p>`;
+            return;
         }
 
         document.querySelectorAll('.error-input').forEach(element => element.remove());
-        return response.text().then(text => {
-            window.history.pushState({}, '', url);
-            document.querySelector(".search-table-div").innerHTML = text;
-            initializeOrderRowClickEvents();
-            highlightOrderFirstRow();
-            // Get the number of pages
-            const totalPages = response.headers.get("x-total-pages");
-            // Update the pagination buttons
-            changeOrderPage(page, parseInt(totalPages), false);
-        });
-    });
+        const text = await response.text();
+        window.history.pushState({}, '', url);
+        document.querySelector(".search-table-div").innerHTML = text;
+        initializeOrderRowClickEvents();
+        highlightOrderFirstRow();
+        // Get the number of pages
+        const totalPages = response.headers.get("x-total-pages");
+        // Update the pagination buttons
+        changeOrderPage(page, parseInt(totalPages), false);
+    } catch (error) {
+        console.error("Failed to refresh order table:", error);
+    }
 }
 
 function changeOrderPage(page, pages, refreshTable = true) {
@@ -354,7 +376,7 @@ async function refreshClientTable(page, isSearch) {
     const totalPages = response.headers.get("x-total-pages");
 
     // Add event handlers for row clicks and select the first row
-    initializeClientRowClickEvents();
+    initializeRowClickEvents(changeClientDetails);
 
     // Check if there are any results
     updateDetails = !response.headers.get("x-is-empty");
@@ -603,15 +625,6 @@ function initializeOrderRowClickEvents() {
     });
 }
 
-function initializeClientRowClickEvents() {
-    document.querySelectorAll('.search-table tbody tr').forEach((row) => {
-        row.addEventListener('click', function () {
-            selectRecord(row);
-            changeClientDetails(row.id);
-        });
-    });
-}
-
 function initializePaymentRowClickEvents() {
     document.querySelectorAll('.search-table tbody tr').forEach((row) => {
         row.addEventListener('click', function () {
@@ -626,6 +639,15 @@ function initializeEmployeeRowClickEvents() {
         row.addEventListener('click', function () {
             selectRecord(row);
             changeEmployeeDetails(row.id);
+        });
+    });
+}
+
+function initializeRowClickEvents(changeDetailsFunction) {
+    document.querySelectorAll('.search-table tbody tr').forEach((row) => {
+        row.addEventListener('click', function () {
+            selectRecord(row);
+            changeDetailsFunction(row.id);
         });
     });
 }
