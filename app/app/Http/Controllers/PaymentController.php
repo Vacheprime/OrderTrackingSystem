@@ -6,6 +6,7 @@ use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Payment;
 use app\Doctrine\ORM\Entity\PaymentType;
 use app\Doctrine\ORM\Repository\PaymentRepository;
+use App\Http\Requests\PaymentIndexRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -28,42 +29,117 @@ class PaymentController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) {
+    public function index(PaymentIndexRequest $request) {
+        // Get the validated data
+        $validatedData = $request->validated();
+
+        // This should ideally be done through the route /payments/{id}
+        // and not with a header.
         if ($request->hasHeader("x-change-details")) {
-            $paymentId = $request->input("paymentId");
+            $paymentId = $validatedData["paymentId"];
             $payment = $this->repository->find($paymentId);
-            return json_encode(array(
-                "paymentId" => $payment->getPaymentId(),
-                "orderId" => $payment->getOrder()->getOrderId(),
-                "paymentDate" => $payment->getPaymentDate()->format("Y / m / d"),
-                "amount" => $payment->getAmount(),
-                "type" => $payment->getType(),
-                "method" => $payment->getMethod(),
-            ));
+            return $this->getPaymentInfoAsJson($payment);
         }
 
-        $page = $request->input('page', 1);
-        $search = $request->input('search', "");
-        $searchBy = $request->input('searchby', "order-id");
-        $orderBy = $request->input('orderby', "newest");
-        $pagination = $this->repository->retrievePaginated(10, 1);
-        $pages = $pagination->lastPage();
+        // Get the search parameters from validated data
+        $page = $validatedData['page'];
+        $search = $validatedData['search'];
+        $searchBy = $validatedData['searchby'];
+
+        // If no filters are applied.
+        if (strlen($search) == 0) {
+            $paginator = $this->repository->retrievePaginated(10, 1);
+            // Get the total number of pages
+            $pages = $paginator->lastPage();
+            // Get the payments
+            $payments = $paginator->items();
+            
+            // Refresh the table if requested
+            if ($request->hasHeader("x-refresh-table")) {
+                return response(view('components.tables.payment-table')->with('payments', $payments),
+                    200, [
+                        "x-total-pages" => $pages,
+                        "x-is-empty" => $paginator->total() == 0
+                    ]);
+            }
+
+            // Return the view with payments
+            $messageHeader = Session::get("messageHeader");
+            $messageType = Session::get("messageType");
+            return view('payments.index')->with(compact("payments", "pages", "page", "messageHeader", "messageType"));
+        }
+
+        // Get the repository
+        $repository = $this->repository;
+
+        // Apply the search filters
+        $payment = null;
+        switch ($searchBy) {
+            case "order-id":
+                $orderId = intval($search);
+                $repository = $repository->withOrderId($orderId);
+                break;
+            case "payment-id":
+                $paymentId = intval($search);
+                $payment = $repository->find($paymentId);
+                break;
+        }
+
+        // Return the view if a single payment has been searched for
+        if ($payment != null) {
+            return response(
+                view("payments.index")->with("payments", [$payment]),
+                200,
+                ["x-total-pages" => 1, "x-is-empty" => false]
+            );
+        }
+
+        // TODO: APPLY ORDERING
+
+        // Get the paginator
+        $paginator = $repository->retrievePaginated(10, 1);
+        // Get total of pages
+        $pages = $paginator->lastPage();
+
         if ($page <= 0) {
             $page = 1;
         }
         if ($page > $pages) {
             $page = $pages;
         }
-        $pagination = $this->repository->retrievePaginated(10, $page);
-        $payments = $pagination->items();
+
+        // Get to the right page
+        $paginator = $repository->retrievePaginated(10, $page);
+        $payments = $paginator->items();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.payment-table')->with('payments', $payments);
+            return response(
+                view('components.tables.payment-table')->with('payments', $payments),
+                200,
+                [
+                    "x-total-pages" => $pages,
+                    "x-is-empty" => $paginator->total() == 0
+                ]
+            );
         }
 
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('payments.index')->with(compact("payments", "pages", "page","messageHeader", "messageType"));
+    }
+
+    /**
+     * Get the payment info as json.
+     */
+    public function getPaymentInfoAsJson(Payment $payment): string {
+        return json_encode(array(
+            "paymentId" => $payment->getPaymentId(),
+            "orderId" => $payment->getOrder()->getOrderId(),
+            "paymentDate" => $payment->getPaymentDate()->format("Y / m / d"),
+            "amount" => $payment->getAmount(),
+            "type" => $payment->getType(),
+            "method" => $payment->getMethod(),
+        ));
     }
 
     /**
