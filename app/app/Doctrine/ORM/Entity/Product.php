@@ -35,7 +35,7 @@ class Product {
     #[Column(name:"slab_width", type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
     private ?string $slabWidth;
     
-    #[Column(name:"slab_thickness", type: Types::INTEGER, precision: 4, scale: 2, nullable: true)]
+    #[Column(name:"slab_thickness", type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     private ?string $slabThickness;
 
     #[Column(name:"slab_square_footage", type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
