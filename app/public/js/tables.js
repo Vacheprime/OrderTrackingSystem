@@ -234,7 +234,7 @@ async function refreshOrderTable(page, isSearch) {
         const text = await response.text();
         window.history.pushState({}, '', url);
         document.querySelector(".search-table-div").innerHTML = text;
-        initializeOrderRowClickEvents();
+        initializeRowClickEvents(changeOrderDetails);
         highlightOrderFirstRow();
         // Get the number of pages
         const totalPages = response.headers.get("x-total-pages");
@@ -539,7 +539,7 @@ function refreshPaymentTable(page, isSearch) {
     }).then(response => response.text())
         .then(text => {
             document.querySelector(".search-table-div").innerHTML = text;
-            initializePaymentRowClickEvents();
+            initializeRowClickEvents(changePaymentDetails);
             highlightPaymentFirstRow();
             window.history.pushState({}, '', url);
         });
@@ -615,25 +615,7 @@ function selectRecord(record) {
     });
 }
 
-// This is to initialize row click events
-function initializeOrderRowClickEvents() {
-    document.querySelectorAll('.search-table tbody tr').forEach((row) => {
-        row.addEventListener('click', function () {
-            selectRecord(row);
-            changeOrderDetails(row.id);
-        });
-    });
-}
-
-function initializePaymentRowClickEvents() {
-    document.querySelectorAll('.search-table tbody tr').forEach((row) => {
-        row.addEventListener('click', function () {
-            selectRecord(row);
-            changePaymentDetails(row.id);
-        });
-    });
-}
-
+// Kept for compatibility with the old code
 function initializeEmployeeRowClickEvents() {
     document.querySelectorAll('.search-table tbody tr').forEach((row) => {
         row.addEventListener('click', function () {
@@ -643,6 +625,7 @@ function initializeEmployeeRowClickEvents() {
     });
 }
 
+// This is to initialize row click events
 function initializeRowClickEvents(changeDetailsFunction) {
     document.querySelectorAll('.search-table tbody tr').forEach((row) => {
         row.addEventListener('click', function () {

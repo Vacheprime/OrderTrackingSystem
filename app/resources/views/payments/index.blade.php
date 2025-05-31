@@ -4,7 +4,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializePaymentRowClickEvents();
+        initializeRowClickEvents(changePaymentDetails);
         highlightPaymentFirstRow();
     });
 </script>
