@@ -51,6 +51,9 @@ class PaymentController extends Controller {
             $paginator = $this->repository->retrievePaginated(10, 1);
             // Get the total number of pages
             $pages = $paginator->lastPage();
+            // Get the paginator with the right page
+            $paginator = $this->repository->retrievePaginated(10, $page);
+
             // Get the payments
             $payments = $paginator->items();
             
