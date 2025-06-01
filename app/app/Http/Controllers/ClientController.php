@@ -55,7 +55,8 @@ class ClientController extends Controller
             
             // Get the total number of pages
             $pages = $paginator->lastPage();
-
+            // Get the paginator with the right page
+            $paginator = $repository->retrievePaginated(10, $page);
             // Get the clients
             $clients = $paginator->items();
             
