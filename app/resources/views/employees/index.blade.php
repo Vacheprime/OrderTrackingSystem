@@ -4,8 +4,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializeEmployeeRowClickEvents();
-        highlightEmployeeFirstRow();
+        initializeRowClickEvents(changeEmployeeDetails);
+        highlightFirstRow(changeEmployeeDetails);
     });
 </script>
 
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeEmployeePage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshEmployeeTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($employees))

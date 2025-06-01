@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changePaymentPage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshPaymentTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($payments))
