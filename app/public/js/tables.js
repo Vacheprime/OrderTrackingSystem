@@ -175,76 +175,13 @@ async function refreshOrderTable(page, isSearch) {
         // Get the number of pages
         const totalPages = response.headers.get("x-total-pages");
         // Update the pagination buttons
-        changeOrderPage(page, parseInt(totalPages), false);
+        changePage(refreshOrderTable, page, parseInt(totalPages));
     } catch (error) {
         console.error("Failed to refresh order table:", error);
     }
 }
 
-function changeOrderPage(page, pages, refreshTable = true) {
-    if (page <= 0) {
-        page = 1;
-    }
-    if (page > pages) {
-        page = pages;
-    }
-
-    // Only refresh if necessary
-    if (refreshTable) {
-        refreshOrderTable(page, false);
-    }
-
-    const div = document.querySelector(".search-table-pagination-div");
-    div.innerHTML = "";
-    if (pages > 5 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onclick="changeOrderPage(1, ${pages})"><<</button>`
-    }
-    if (pages > 1 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onclick="changeOrderPage(${page - 1}, ${pages})"><</button>`
-    }
-    let firstPage = 1;
-    let lastPage = pages;
-    if (pages > 5) {
-        let firstPage = page - 2;
-        let lastPage = page + 2;
-        if (firstPage <= 0) {
-            if (firstPage <= -1) {
-                lastPage += 2;
-            } else {
-                lastPage += 1
-            }
-            firstPage = 1;
-        } else if (lastPage >= pages) {
-            if (lastPage >= pages + 2) {
-                firstPage -= 2;
-            } else {
-                firstPage -= 1
-            }
-            lastPage = pages;
-        }
-    }
-    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
-        div.innerHTML += `<button id="paginated-btn-${curPage}"
-                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
-                            onclick="changeOrderPage(${curPage}, ${pages})">${curPage}</button>`
-
-    }
-    if (pages > 1 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeOrderPage(${page + 1}, ${pages})">></button>`;
-    }
-    if (pages > 5 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeOrderPage(${pages}, ${pages})">>></button>`;
-    }
-    if (pages > 5) {
-        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
-                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changeOrderPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
-    }
-}
-
 async function refreshClientTable(page, isSearch) {
-    console.log("Refreshing client table with page:", page, "isSearch:", isSearch);
     // Current URL
     const url = new URL(window.location.href);
     // Get the current query params

@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeOrderPage({{$page}}, {{$totalPages}});</script>
+                <script>changePage(refreshOrderTable, {{$page}}, {{$totalPages}});</script>
             </div>
         </div>
         @if(!empty($orders))
