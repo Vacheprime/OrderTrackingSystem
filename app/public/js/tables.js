@@ -98,31 +98,15 @@ function changePaymentDetails(paymentIdString) {
     });
 }
 
+/**
+ * Changes the employee details in the sidebar.
+ * 
+ * @param {string} employeeIdString - The employee ID string.
+ */
 function changeEmployeeDetails(employeeIdString) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('employeeId', employeeIdString.substring(employeeIdString.lastIndexOf("-") + 1));
-    fetch(url, {
-        headers: {
-            method: "GET",
-            'x-change-details': true,
-        }
-    }).then(response => response.json())
-        .then(employee => {
-            document.getElementById("detail-edit-btn").href = `/employees/${employee.employeeId}/edit`;
-            document.getElementById("detail-employee-id").innerText = employee.employeeId;
-            document.getElementById("detail-initials").innerText = employee.initials;
-            document.getElementById("detail-first-name").innerText = employee.firstName;
-            document.getElementById("detail-last-name").innerText = employee.lastName;
-            document.getElementById("detail-position").innerText = employee.position;
-            document.getElementById("detail-email").innerText = employee.email;
-            document.getElementById("detail-phone-number").innerText = employee.phoneNumber;
-            document.getElementById("detail-address-street").innerText = employee.addressStreet;
-            document.getElementById("detail-address-apt-num").innerText = employee.addressAptNum;
-            document.getElementById("detail-postal-code").innerText = employee.postalCode;
-            document.getElementById("detail-area").innerText = employee.area;
-            document.getElementById("detail-account-status").innerText = employee.accountStatus;
-            document.getElementById("detail-admin-status").innerText = employee.adminStatus;
-        });
+    changeSidebarDetails("employeeId", employeeIdString, "detail-", (employee) => {
+        document.getElementById("detail-edit-btn").href = `/employees/${employee.employeeId}/edit`;
+    });
 }
 
 async function refreshOrderTable(page, isSearch) {
