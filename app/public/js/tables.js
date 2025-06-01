@@ -33,10 +33,7 @@ async function changeSidebarDetails(resourceId, resourceIdString, prefix = "deta
     if (typeof afterUpdatePostProcess === "function") {
         afterUpdatePostProcess(resourceDetails);
     }
-    // Log the resource details for debugging
-    console.log(resourceDetails);
 }
-
 
 /**
  * Updates the sidebar details from a JSON object.
@@ -127,67 +124,6 @@ function changeEmployeeDetails(employeeIdString) {
             document.getElementById("detail-admin-status").innerText = employee.adminStatus;
         });
 }
-
-function changePage(func, page, pages) {
-    if (page <= 0) {
-        page = 1;
-    }
-    if (page > pages) {
-        page = pages;
-    }
-    func(page);
-    const div = document.querySelector(".search-table-pagination-div");
-    div.innerHTML = "";
-    if (pages > 5 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onclick="changePage(${func}, 1, ${pages})"><<</button>`
-    }
-    if (pages > 1 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onclick="changePage(${func}, ${page - 1}, ${pages})"><</button>`
-    }
-    let firstPage = 1;
-    let lastPage = pages;
-    if (pages > 5) {
-        let firstPage = page - 2;
-        let lastPage = page + 2;
-        if (firstPage <= 0) {
-            if (firstPage <= -1) {
-                lastPage += 2;
-            } else {
-                lastPage += 1
-            }
-            firstPage = 1;
-        } else if (lastPage >= pages) {
-            if (lastPage >= pages + 2) {
-                firstPage -= 2;
-            } else {
-                firstPage -= 1
-            }
-            lastPage = pages;
-        }
-    }
-    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
-        div.innerHTML += `<button id="paginated-btn-${curPage}"
-            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
-            onclick="changePage(${func}, ${curPage}, ${pages})">${curPage}</button>`
-
-    }
-    if (pages > 1 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button"
-            onclick="changePage(${func}, ${page + 1}, ${pages})">></button>`;
-    }
-    if (pages > 5 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button"
-            onclick="changePage(${func}, ${pages}, ${pages})">>></button>`;
-    }
-    if (pages > 5) {
-        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
-        placeholder="Go Page"/></div><button class="regular-button"
-        onclick="changePage(${func}, parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
-    }
-}
-
 
 async function refreshOrderTable(page, isSearch) {
     // Current url
@@ -308,6 +244,7 @@ function changeOrderPage(page, pages, refreshTable = true) {
 }
 
 async function refreshClientTable(page, isSearch) {
+    console.log("Refreshing client table with page:", page, "isSearch:", isSearch);
     // Current URL
     const url = new URL(window.location.href);
     // Get the current query params
@@ -383,68 +320,7 @@ async function refreshClientTable(page, isSearch) {
     highlightFirstRow(changeClientDetails);
     
     // Update the pagination buttons
-    changeClientPage(page, parseInt(totalPages), false);
-}
-
-function changeClientPage(page, pages, refreshTable = true) {
-    if (page <= 0) {
-        page = 1;
-    }
-    if (page > pages) {
-        page = pages;
-    }
-    // Refresh only if necessary
-    if (refreshTable) {
-        refreshClientTable(page, false);
-    }
-    
-    const div = document.querySelector(".search-table-pagination-div");
-    div.innerHTML = "";
-    if (pages > 5 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onClick="changeClientPage(1, ${pages})"><<</button>`
-    }
-    if (pages > 1 && page !== 1) {
-        div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
-                onClick="changeClientPage(${page - 1}, ${pages})"><</button>`
-    }
-    let firstPage = 1;
-    let lastPage = pages;
-    if (pages > 5) {
-        let firstPage = page - 2;
-        let lastPage = page + 2;
-        if (firstPage <= 0) {
-            if (firstPage <= -1) {
-                lastPage += 2;
-            } else {
-                lastPage += 1
-            }
-            firstPage = 1;
-        } else if (lastPage >= pages) {
-            if (lastPage >= pages + 2) {
-                firstPage -= 2;
-            } else {
-                firstPage -= 1
-            }
-            lastPage = pages;
-        }
-    }
-    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
-        div.innerHTML += `<button id="paginated-btn-${curPage}"
-                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
-                            onclick="changeClientPage(${curPage}, ${pages})">${curPage}</button>`
-
-    }
-    if (pages > 1 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeClientPage(${page + 1}, ${pages})">></button>`;
-    }
-    if (pages > 5 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changeClientPage(${pages}, ${pages})">>></button>`;
-    }
-    if (pages > 5) {
-        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
-                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changeClientPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
-    }
+    changePage(refreshClientTable, page, parseInt(totalPages));
 }
 
 function refreshEmployeeTable(page, isSearch) {
@@ -546,22 +422,130 @@ function refreshPaymentTable(page, isSearch) {
 }
 
 function changePaymentPage(page, pages) {
+    // Validate the page number
+    // Is it necessary to validate the page number?
     if (page <= 0) {
         page = 1;
     }
     if (page > pages) {
         page = pages;
     }
+    // Refresh the table
+    // Is the the responsibility of this function?
     refreshPaymentTable(page, false);
+
+    // Get the pagination div
     const div = document.querySelector(".search-table-pagination-div");
+    // Clear the div
     div.innerHTML = "";
+
+    // Add a go to first page button if more than 5 pages and not on the first page
     if (pages > 5 && page !== 1) {
         div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
                 onClick="changePaymentPage(1, ${pages})"><<</button>`
     }
+
+    // Add a go to previous page button if more than 1 page and not on the first page
     if (pages > 1 && page !== 1) {
         div.innerHTML += `<button id="paginated-prev-btn" class="regular-button"
                 onClick="changePaymentPage(${page - 1}, ${pages})"><</button>`
+    }
+
+    let firstPage = 1;
+    let lastPage = pages;
+    // Create a window of pages to display if
+    // more than 5 pages.
+    if (pages > 5) {
+        // First page to display will be 2 pages before the current page
+        let firstPage = page - 2;
+        // Last page to display will be 2 pages after the current page
+        let lastPage = page + 2;
+
+
+        if (firstPage <= 0) {
+            if (firstPage <= -1) {
+                lastPage += 2;
+            } else {
+                lastPage += 1
+            }
+            firstPage = 1;
+        } else if (lastPage >= pages) {
+            if (lastPage >= pages + 2) {
+                firstPage -= 2;
+            } else {
+                firstPage -= 1
+            }
+            lastPage = pages;
+        }
+    }
+    // Loop through the pages and add buttons for each page
+    for (let curPage = firstPage; curPage <= lastPage; curPage++) {
+        div.innerHTML += `<button id="paginated-btn-${curPage}"
+                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
+                            onclick="changePaymentPage(${curPage}, ${pages})">${curPage}</button>`
+
+    }
+    // Add a go to next page button if more than 1 page and not on the last page
+    if (pages > 1 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${page + 1}, ${pages})">></button>`;
+    }
+    // Add a go to last page button if more than 5 pages and not on the last page
+    if (pages > 5 && pages - page > 0) {
+        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${pages}, ${pages})">>></button>`;
+    }
+    // Add a go to page input if more than 5 pages
+    if (pages > 5) {
+        div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
+                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changePaymentPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+    }
+}
+
+function changePage(func, page, pages) {
+    // Create a helper function to create a button
+    function createButton(id, classNames, text, onClick) {
+        const button = document.createElement("button");
+        button.id = id;
+        // Accept array of classes or a single class name
+        if (Array.isArray(classNames) && classNames.length > 0) {
+            button.classList.add(...classNames.filter(cls => cls != ""));
+        } else if (typeof classNames === "string") {
+            button.className = classNames;
+        }
+        button.innerHTML = text;
+        button.onclick = onClick;
+        return button;
+    }
+
+    // Validate the page number
+    if (page <= 0) {
+        page = 1;
+    }
+    if (page > pages) {
+        page = pages;
+    }
+
+    // Get the pagination div
+    const div = document.querySelector(".search-table-pagination-div");
+    div.innerHTML = "";
+
+    // Add a go to first page button if more than 5 pages and not on the first page
+    if (pages > 5 && page !== 1) {
+        // Create a button for going to the first page
+        const button = createButton("paginated-prev-btn", "regular-button", "<<", () => {
+            changePage(func, 1, pages);
+            func(1);
+        });
+        // Append the button to the pagination div
+        div.appendChild(button);
+    }
+    // Add a go to previous page button if more than 1 page and not on the first page
+    if (pages > 1 && page !== 1) {
+        const button = createButton("paginated-prev-btn", "regular-button", "<", () => {
+            changePage(func, page - 1, pages);
+            func(page - 1);
+        });
+        // Append the button to the pagination div
+        div.appendChild(button);
     }
     let firstPage = 1;
     let lastPage = pages;
@@ -584,21 +568,48 @@ function changePaymentPage(page, pages) {
             lastPage = pages;
         }
     }
+    // Generate buttons for each page in the range
     for (let curPage = firstPage; curPage <= lastPage; curPage++) {
-        div.innerHTML += `<button id="paginated-btn-${curPage}"
-                            class="paginated-btn regular-button ${page === curPage ? "" : "paginated-inactive"}"
-                            onclick="changePaymentPage(${curPage}, ${pages})">${curPage}</button>`
-
+        console.log("Creating button for page:", curPage);
+        // Create a button for going to the specified page
+        const button = createButton(`paginated-btn-${curPage}`,
+            ["paginated-btn", "regular-button", page === curPage ? "" : "paginated-inactive"],
+            curPage,
+            () => {
+                changePage(func, curPage, pages);
+                func(curPage, true);
+            });
+        // Append the button to the pagination div
+        div.appendChild(button);
     }
+    // Add a go to next page button if more than 1 page and not on the last page
     if (pages > 1 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${page + 1}, ${pages})">></button>`;
+        // Create a button for going to the next page
+        const button = createButton("paginated-next-btn", "regular-button", ">", () => {
+            changePage(func, page + 1, pages);
+            func(page + 1);
+        });
+        // Append the button to the pagination div
+        div.appendChild(button);
     }
+
+    // Add a go to last page button if more than 5 pages and not on the last page
     if (pages > 5 && pages - page > 0) {
-        div.innerHTML += `<button id="paginated-next-btn" class="regular-button" onclick="changePaymentPage(${pages}, ${pages})">>></button>`;
+        // Create a button for going to the last page
+        const button = createButton("paginated-next-btn", "regular-button", ">>", () => {
+            changePage(func, pages, pages);
+            func(pages);
+        });
+        // Append the button to the pagination div
+        div.appendChild(button);
     }
+
+    // Add a go to page input if more than 5 pages
+    // Should this be kept?
     if (pages > 5) {
         div.innerHTML += `<div class="text-input-property-div"><input pattern="[0-9]" id="go-page-input" name="go-page"
-                                                            placeholder="Go Page"/></div><button class="regular-button" onclick="changePaymentPage(parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
+        placeholder="Go Page"/></div><button class="regular-button"
+        onclick="changePage(${func}, parseInt(document.querySelector('#go-page-input').value), ${pages})">Go</button>`
     }
 }
 

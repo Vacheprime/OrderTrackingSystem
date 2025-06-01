@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeClientPage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshClientTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($clients))
