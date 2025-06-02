@@ -91,7 +91,7 @@ class PaymentController extends Controller {
         // Return the view if a single payment has been searched for
         if ($payment != null) {
             return response(
-                view("payments.index")->with("payments", [$payment]),
+                view("components.tables.payment-table")->with("payments", [$payment]),
                 200,
                 ["x-total-pages" => 1, "x-is-empty" => false]
             );

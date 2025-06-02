@@ -135,16 +135,8 @@ async function refreshTable({
 }) {
     const url = new URL(window.location.href);
 
-    // Get current and new query params
-    let queryHasChanged = false;
-    for (const field of searchFields) {
-        const current = url.searchParams.get(field.param);
-        const inputElem = document.getElementById(field.elementId);
-        const value = inputElem ? inputElem.value : null;
-        if (current !== value) queryHasChanged = true;
-    }
-    // Only reset current page if the query has changed
-    page = queryHasChanged ? 1 : page;
+    // Reset page if the query has changed
+    page = isSearch ? 1 : page;
 
     // Set params
     url.searchParams.set('page', page);
@@ -244,7 +236,7 @@ function changePage(func, page, pages) {
         // Create a button for going to the first page
         const button = createButton("paginated-prev-btn", "regular-button", "<<", () => {
             changePage(func, 1, pages);
-            func(1);
+            func(1, false);
         });
         // Append the button to the pagination div
         div.appendChild(button);
@@ -253,7 +245,7 @@ function changePage(func, page, pages) {
     if (pages > 1 && page !== 1) {
         const button = createButton("paginated-prev-btn", "regular-button", "<", () => {
             changePage(func, page - 1, pages);
-            func(page - 1);
+            func(page - 1, false);
         });
         // Append the button to the pagination div
         div.appendChild(button);
@@ -288,7 +280,7 @@ function changePage(func, page, pages) {
             curPage,
             () => {
                 changePage(func, curPage, pages);
-                func(curPage, true);
+                func(curPage, false);
             });
         // Append the button to the pagination div
         div.appendChild(button);
@@ -298,7 +290,7 @@ function changePage(func, page, pages) {
         // Create a button for going to the next page
         const button = createButton("paginated-next-btn", "regular-button", ">", () => {
             changePage(func, page + 1, pages);
-            func(page + 1);
+            func(page + 1, false);
         });
         // Append the button to the pagination div
         div.appendChild(button);
@@ -309,7 +301,7 @@ function changePage(func, page, pages) {
         // Create a button for going to the last page
         const button = createButton("paginated-next-btn", "regular-button", ">>", () => {
             changePage(func, pages, pages);
-            func(pages);
+            func(pages, false);
         });
         // Append the button to the pagination div
         div.appendChild(button);
