@@ -228,8 +228,7 @@ class PaymentController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View {
-        $payment = $this->repository->find($id);
+    public function edit(Payment $payment): View {
         return view("payments.edit")->with("payment", $payment);
     }
 

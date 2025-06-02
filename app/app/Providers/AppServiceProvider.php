@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use app\Doctrine\ORM\Entity\Client;
 use app\Doctrine\ORM\Entity\Order;
+use app\Doctrine\ORM\Entity\Payment;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,59 +25,35 @@ class AppServiceProvider extends ServiceProvider
     {
         // Define model binding for the order model
         Route::bind("order", function (string $value) {
-            return $this->findOrder($value);
+            return $this->findEntity(Order::class, $value, "Order not found.");
         });
 
         // Define model binding for the client model
         Route::bind("client", function (string $value) {
-            return $this->findClient($value);
+            return $this->findEntity(Client::class, $value, "Client not found.");
+        });
+
+        // Define model binding for the payment model
+        Route::bind("payment", function (string $value) {
+            return $this->findEntity(Payment::class, $value, "Payment not found.");
         });
     }
 
     /**
-     * Find an order or return a 404 error page.
+     * Generic method to find an entity or return a 404 error page.
      */
-    private function findOrder(string $value) {
-        // Get the entity manager and the order repository
-        $em = app("em");
-        $orderRepository = $em->getRepository(Order::class);
-
-        // Validate the order id
-        $orderId = filter_var($value, FILTER_VALIDATE_INT);
-        if ($orderId === false || $orderId < 1) {
-            return abort(404, "Order not found.");
+    private function findEntity(string $entityClass, string $value, string $errorMessage)
+    {
+        // Validate the ID
+        $id = filter_var($value, FILTER_VALIDATE_INT);
+        if ($id === false || $id < 1) {
+            abort(404, $errorMessage);
         }
 
-        // fetch the order
-        $order = $orderRepository->find($orderId);
+        // Fetch the entity
+        $repository = app("em")->getRepository($entityClass);
+        $entity = $repository->find($id);
 
-        return $order ?? abort(404, "Order not found.");
-    }
-
-    /**
-     * Find a client or return a 404 error page.
-     */
-    private function findClient(string $value) {
-        if (!$this->isValidId($value)) {
-            return abort(404, "Order not found.");
-        }
-
-        // Fetch the client
-        $clientId = intval($value);
-        $clientRepository = app("em")->getRepository(Client::class);
-
-        $client = $clientRepository->find($clientId);
-        return $client ?? abort(404, "Client not found");
-    }
-
-    /**
-     * Check if a string is a valid ID integer.
-     */
-    private function isValidId(string $id): bool {
-        $id = filter_var($id, FILTER_VALIDATE_INT);
-        if ($id == false || $id < 1) {
-            return false;
-        }
-        return true;
+        return $entity ?? abort(404, $errorMessage);
     }
 }
