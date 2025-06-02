@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use app\Doctrine\ORM\Entity\PaymentType;
 use App\Rules\OrderFieldRules\ValidOrderIdRule;
 use App\Rules\PaymentFieldRules\ValidPaymentAmountRule;
 use App\Rules\ValidPaymentDateRule;
 use App\Rules\ValidPaymentMethodRule;
 use App\Rules\ValidPaymentTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
+use DateTime;
 
 class PaymentCreateRequest extends FormRequest
 {
@@ -19,11 +21,21 @@ class PaymentCreateRequest extends FormRequest
         return true; // Managed by middleware
     }
 
+    public function validated($key = null, $default = null)
+    {
+        // Get the validated data from the parent class
+        $validated = parent::validated($key, $default);
+        // Convert payment date to DateTime object
+        $validated["payment-date-input"] = DateTime::createFromFormat("Y-m-d", $validated["payment-date-input"]);
+        // Convert payment type to enum
+        $validated["type-select"] = PaymentType::from(strtoupper($validated["type-select"]));
+        return $validated;
+    }
     
     protected function prepareForValidation(): void
     {
         // Add default value for payment date if not provided
-        if ($this->has("payment-date-input")) {
+        if ($this->has("payment-date-input") && $this->input("payment-date-input") !== null) {
             return;
         }
 
