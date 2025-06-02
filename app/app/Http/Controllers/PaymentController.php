@@ -6,12 +6,14 @@ use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Payment;
 use app\Doctrine\ORM\Entity\PaymentType;
 use app\Doctrine\ORM\Repository\PaymentRepository;
+use App\Http\Requests\PaymentCreateRequest;
 use App\Http\Requests\PaymentIndexRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use function Laravel\Prompts\alert;
@@ -156,39 +158,31 @@ class PaymentController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse {
-        $validatedData = $request->validate([
-            "order-id" => "required|integer|min:1",
-            "payment-date-input" => "nullable|date|date_format:Y-m-d",
-            "amount" => "required|numeric",
-            "type-select" => "required|string",
-            "method" => "required|string",
-        ]);
+    public function store(PaymentCreateRequest $request): RedirectResponse {
+        // Retrieve the validated data
+        $validatedData = $request->validated();
+        Log::info($validatedData);
 
-        $validationErrors = $this->validatePaymentInputData($validatedData, true);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
+        // Get the order repository
         $orderRepository = $this->entityManager->getRepository(Order::class);
 
+        // Get the order
         $orderId = intval($validatedData["order-id"]);
         $order = $orderRepository->find($orderId);
 
-        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
-        $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
-
-
+        // Create the payment
         $payment = new Payment(
             $validatedData["amount"],
-            $paymentType,
+            $validatedData["type-select"],
             $validatedData["method"],
-            $paymentDate,
+            $validatedData["payment-date-input"],
             $order,
         );
 
+        // Insert the payment into the repository
         $this->repository->insertPayment($payment);
 
+        // Return a success message
         $messageHeader = "Created Payment";
         $messageType= "create-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
