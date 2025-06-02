@@ -143,6 +143,7 @@ async function refreshTable({
         const value = inputElem ? inputElem.value : null;
         if (current !== value) queryHasChanged = true;
     }
+    // Only reset current page if the query has changed
     page = queryHasChanged ? 1 : page;
 
     // Set params
