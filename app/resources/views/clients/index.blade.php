@@ -26,7 +26,7 @@
                             <option value="client-id">ClientID</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshClientTable(1, true)">Search</button>
+                    <button class="regular-button" onclick="refreshClientTable({{$page}}, true)">Search</button>
                 </div>
                 <div class="search-table-div">
                     <x-client-table :clients="$clients"/>

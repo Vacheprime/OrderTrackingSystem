@@ -26,7 +26,7 @@
                             <option value="order-id">Order ID</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
+                    <button class="regular-button" onclick="refreshPaymentTable({{$page}}, true)">Search</button>
                     <a href="/payments/create">
                         <button class="regular-button">Create</button>
                     </a>

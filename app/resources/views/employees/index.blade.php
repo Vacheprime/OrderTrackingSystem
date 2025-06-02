@@ -30,7 +30,7 @@
 
 
                     </form>
-                    <button class="regular-button" onclick="refreshEmployeeTable()">Search</button>
+                    <button class="regular-button" onclick="refreshEmployeeTable({{$page}}, true)">Search</button>
                     <a href="/employees/create">
                         <button class="regular-button">Create</button>
                     </a>

@@ -109,179 +109,105 @@ function changeEmployeeDetails(employeeIdString) {
     });
 }
 
-async function refreshOrderTable(page, isSearch) {
-    // Current url
+/**
+ * Generic function to refresh a table for any resource.
+ * @param {Object} options - Options for refreshing the table.
+ * @param {string} options.resource - Resource name (e.g., 'order', 'client', 'employee', 'payment').
+ * @param {number} options.page - Page number to fetch.
+ * @param {boolean} options.isSearch - Whether this is a search action.
+ * @param {Function} options.changeDetailsFunction - Function to update sidebar/details for a row.
+ * @param {Array} options.searchFields - Array of objects: { param: 'search', elementId: 'search-bar-input' }.
+ * @param {string} [options.tableSelector='.search-table-div'] - Selector for the table container.
+ * @param {string} [options.paginationSelector='.search-table-pagination-div'] - Selector for pagination container.
+ */
+async function refreshTable({
+    resource,
+    page = 1,
+    isSearch = false,
+    changeDetailsFunction,
+    searchFields = [
+        { param: 'search', elementId: 'search-bar-input' },
+        { param: 'searchby', elementId: 'search-by-select' },
+        { param: 'orderby', elementId: 'order-by-select' }
+    ],
+    tableSelector = '.search-table-div',
+    paginationSelector = '.search-table-pagination-div'
+}) {
     const url = new URL(window.location.href);
-    // Get current query parameters
-    const search = url.searchParams.get('search');
-    const searchBy = url.searchParams.get('searchby');
-    const orderBy = url.searchParams.get('orderby');
-    // Get the new query parameters if applicable
-    const newSearch = document.getElementById("search-bar-input").value;
-    const newSearchBy = document.getElementById("search-by-select").value;
-    const newOrderBy = document.getElementById("order-by-select").value;
 
-    // Check whether the query params have changed
-    console.log(search , newSearch, searchBy , newSearchBy, orderBy , newOrderBy)
-    let queryHasChanged = !(search == newSearch || search == null && searchBy == newSearchBy || searchBy == null && orderBy == newOrderBy || orderBy == null);
-    // Set the page
+    // Get current and new query params
+    let queryHasChanged = false;
+    for (const field of searchFields) {
+        const current = url.searchParams.get(field.param);
+        const inputElem = document.getElementById(field.elementId);
+        const value = inputElem ? inputElem.value : null;
+        if (current !== value) queryHasChanged = true;
+    }
     page = queryHasChanged ? 1 : page;
 
-    // Set the url parameters
+    // Set params
     url.searchParams.set('page', page);
     if (isSearch) {
-        url.searchParams.set('search', newSearch);
-        url.searchParams.set('searchby', newSearchBy);
-        url.searchParams.set('orderby', newOrderBy);
+        for (const field of searchFields) {
+            const inputElem = document.getElementById(field.elementId);
+            if (inputElem) url.searchParams.set(field.param, inputElem.value);
+        }
     }
 
-    // Fetch the new table
+    // Fetch the table
     try {
         const response = await fetch(url, {
             headers: {
                 'x-refresh-table': true,
+                'Accept': 'application/json'
             }
         });
-
-        if (response.status === 300) {
-            const text = await response.text();
-            document.querySelector("#search-bar-input").parentElement.innerHTML +=
-                `<p class="error-input">${text}</p>`;
-            return;
-        }
-
-        document.querySelectorAll('.error-input').forEach(element => element.remove());
         const text = await response.text();
-        window.history.pushState({}, '', url);
-        document.querySelector(".search-table-div").innerHTML = text;
-        initializeRowClickEvents(changeOrderDetails);
-        highlightFirstRow(changeOrderDetails);
-        // Get the number of pages
-        const totalPages = response.headers.get("x-total-pages");
-        // Update the pagination buttons
-        changePage(refreshOrderTable, page, parseInt(totalPages));
-    } catch (error) {
-        console.error("Failed to refresh order table:", error);
-    }
-}
 
-async function refreshClientTable(page, isSearch) {
-    // Current URL
-    const url = new URL(window.location.href);
-    // Get the current query params
-    const search = url.searchParams.get("search");
-    const searchBy = url.searchParams.get("searchby");
-    // Get the new query params
-    const newSearch = document.getElementById("search-bar-input").value;
-    const newSearchBy = document.getElementById("search-by-select").value;
-
-    // Check whether query has changed
-    let queryHasChanged = search != newSearch || searchBy != newSearchBy;
-
-    // Set the page. If query changed, reset to 1.
-    page = queryHasChanged ? 1 : page;
-
-    // Set params if it is a search
-    if (isSearch) {
-        url.searchParams.set('search', newSearch);
-        url.searchParams.set('searchby', newSearchBy);
-    }
-    url.searchParams.set('page', page);
-    
-    // Fetch the results
-    let response = await fetch(url, {
-        headers: {
-            'Accept': "application/json",
-            'x-refresh-table': true,
-        }
-    });
-
-    // Get the body of the response
-    let text = await response.text();
-
-    // Remove previous errors
-    if (isSearch) {
+        // Remove previous errors
         document.querySelectorAll('.error-input').forEach(element => element.remove());
-    }
-    
-    // Check if an error occured
-    if (!response.ok) {
-        if (response.status == 422) {
-            // Display errors
-            let jsonReponse = JSON.parse(text);
-            let errors = jsonReponse.errors;
-            // Loop over every field
+
+        // Handle validation errors (422)
+        if (!response.ok && response.status == 422) {
+            let jsonResponse = {};
+            try { jsonResponse = JSON.parse(text); } catch {}
+            let errors = jsonResponse.errors || {};
             Object.entries(errors).forEach(([field, errorMessages]) => {
-                // Get the input
                 const input = document.querySelector(`[name="${field}"]`);
-                // Get the first error message
-                const firstError = errorMessages[0];
-                // Add the error message
-                input.parentElement.innerHTML += `<p class="error-input">${firstError}</p>`;
-            })
-            // End
+                if (input) {
+                    const firstError = errorMessages[0];
+                    input.parentElement.innerHTML += `<p class="error-input">${firstError}</p>`;
+                }
+            });
             return;
         }
+
+        // Update table and URL
+        window.history.pushState({}, '', url);
+        document.querySelector(tableSelector).innerHTML = text;
+
+        // Row click events and highlight
+        initializeRowClickEvents(changeDetailsFunction);
+        highlightFirstRow(changeDetailsFunction);
+
+        // Pagination
+        const totalPages = parseInt(response.headers.get("x-total-pages") || "1");
+        changePage(
+            (p, s) => refreshTable({
+                resource,
+                page: p,
+                isSearch: !!s,
+                changeDetailsFunction,
+                searchFields,
+                tableSelector,
+                paginationSelector
+            }),
+            page,
+            totalPages
+        );
+    } catch (error) {
+        console.error(`Failed to refresh ${resource} table:`, error);
     }
-
-    // Push the new URL
-    window.history.pushState({}, '', url);
-
-    // Set the table to the new table
-    document.querySelector(".search-table-div").innerHTML = text;
-
-    // Get number of pages
-    const totalPages = response.headers.get("x-total-pages");
-
-    // Add event handlers for row clicks and select the first row
-    initializeRowClickEvents(changeClientDetails);
-
-    // Check if there are any results
-    updateDetailsFunc = !response.headers.get("x-is-empty") ? null : changeClientDetails;
-    highlightFirstRow(changeClientDetails);
-    
-    // Update the pagination buttons
-    changePage(refreshClientTable, page, parseInt(totalPages));
-}
-
-function refreshEmployeeTable(page, isSearch) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('search', document.getElementById("search-bar-input").value);
-    url.searchParams.set('page', page);
-    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
-    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
-
-    fetch(url, {
-        headers: {
-            'x-refresh-table': true,
-        }
-    }).then(response => response.text())
-        .then(text => {
-            document.querySelector(".search-table-div").innerHTML = text;
-            initializeRowClickEvents(changeEmployeeDetails);
-            highlightFirstRow();
-            window.history.pushState({}, '', url);
-        });
-}
-
-function refreshPaymentTable(page, isSearch) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('search', document.getElementById("search-bar-input").value);
-    url.searchParams.set('page', page);
-    // url.searchParams.set('searchby', document.getElementById("search-by-input").value);
-    // url.searchParams.set('orderby', document.getElementById("order-by-input").value);
-
-    fetch(url, {
-        headers: {
-            'x-refresh-table': true,
-        }
-    }).then(response => response.text())
-        .then(text => {
-            document.querySelector(".search-table-div").innerHTML = text;
-            initializeRowClickEvents(changePaymentDetails);
-            highlightFirstRow(changePaymentDetails);
-            window.history.pushState({}, '', url);
-        });
 }
 
 function changePage(func, page, pages) {
@@ -432,4 +358,92 @@ function highlightFirstRow(changeDetailsFunction = null) {
             changeDetailsFunction(firstRow.id);
         }
     }
+}
+
+/**
+ * Refreshes the order table.
+ * 
+ * @param {number} [page=1] - The page number to refresh.
+ * @param {boolean} [isSearch=false] - Whether this is a search action.
+ */
+async function refreshOrderTable(page = 1, isSearch = false) {
+    refreshTable({
+        resource: 'order',
+        page,
+        isSearch,
+        changeDetailsFunction: changeOrderDetails,
+        searchFields: [
+            { param: 'search', elementId: 'search-bar-input' },
+            { param: 'searchby', elementId: 'search-by-select' },
+            { param: 'orderby', elementId: 'order-by-select' }
+        ],
+        tableSelector: '.search-table-div',
+        paginationSelector: '.search-table-pagination-div'
+    });
+}
+
+/**
+ * Refreshes the client table.
+ * 
+ * @param {number} [page=1] - The page number to refresh.
+ * @param {boolean} [isSearch=false] - Whether this is a search action.
+ */
+async function refreshClientTable(page = 1, isSearch = false) {
+    refreshTable({
+        resource: 'client',
+        page,
+        isSearch,
+        changeDetailsFunction: changeClientDetails,
+        searchFields: [
+            { param: 'search', elementId: 'search-bar-input' },
+            { param: 'searchby', elementId: 'search-by-select' },
+            { param: 'orderby', elementId: 'order-by-select' }
+        ],
+        tableSelector: '.search-table-div',
+        paginationSelector: '.search-table-pagination-div'
+    });
+}
+
+/**
+ * Refreshes the employee table.
+ * 
+ * @param {number} [page=1] - The page number to refresh.
+ * @param {boolean} [isSearch=false] - Whether this is a search action.
+ */
+async function refreshEmployeeTable(page = 1, isSearch = false) {
+    refreshTable({
+        resource: 'employee',
+        page,
+        isSearch,
+        changeDetailsFunction: changeEmployeeDetails,
+        searchFields: [
+            { param: 'search', elementId: 'search-bar-input' },
+            { param: 'searchby', elementId: 'search-by-select' },
+            { param: 'orderby', elementId: 'order-by-select' }
+        ],
+        tableSelector: '.search-table-div',
+        paginationSelector: '.search-table-pagination-div'
+    });
+}
+
+/**
+ * Refreshes the payment table.
+ * 
+ * @param {number} [page=1] - The page number to refresh.
+ * @param {boolean} [isSearch=false] - Whether this is a search action.
+ */
+async function refreshPaymentTable(page = 1, isSearch = false) {
+    refreshTable({
+        resource: 'payment',
+        page,
+        isSearch,
+        changeDetailsFunction: changePaymentDetails,
+        searchFields: [
+            { param: 'search', elementId: 'search-bar-input' },
+            { param: 'searchby', elementId: 'search-by-select' },
+            { param: 'orderby', elementId: 'order-by-select' }
+        ],
+        tableSelector: '.search-table-div',
+        paginationSelector: '.search-table-pagination-div'
+    });
 }
