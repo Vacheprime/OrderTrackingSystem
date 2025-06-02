@@ -12,7 +12,7 @@
             <form method="POST" action="/payments" class="create-edit-form">
                 @csrf
                 <div class="details-div">
-                    <x-text-input-property labelText="Order ID" name="order-id" :value="$orderId"/>
+                    <x-text-input-property labelText="Order ID" name="order-id" :value="$orderId" :readonly="$orderId != ''"/>
                     <x-date-input-property labelText="Date" name="payment-date"/>
                     <x-text-input-property labelText="Amount" name="amount"/>
                     <x-select-input-property labelText="Type" name="type">
