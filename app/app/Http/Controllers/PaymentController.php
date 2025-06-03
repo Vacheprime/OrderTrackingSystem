@@ -8,6 +8,7 @@ use app\Doctrine\ORM\Entity\PaymentType;
 use app\Doctrine\ORM\Repository\PaymentRepository;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Http\Requests\PaymentIndexRequest;
+use App\Http\Requests\PaymentUpdateRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -234,32 +235,21 @@ class PaymentController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse {
-        $validatedData = $request->validate([
-            "payment-date-input" => "nullable|date|date_format:Y-m-d",
-            "amount" => "required|numeric",
-            "type-select" => "required",
-            "method" => "required|string",
-        ]);
+    public function update(PaymentUpdateRequest $request, Payment $payment): RedirectResponse {
+        // Get the validated data
+        $validatedData = $request->validated();
 
-        $validationErrors = $this->validatePaymentInputData($validatedData, false);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
-        $payment = $this->repository->find($id);
-
-        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
-        $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
-
+        // Update the payment with the validated data
         $payment->setAmount($validatedData["amount"]);
         $payment->setMethod($validatedData["method"]);
-        $payment->setPaymentDate($paymentDate);
-        $payment->setType($paymentType);
+        $payment->setPaymentDate($validatedData["payment-date-input"]);
+        $payment->setType($validatedData["type-select"]);
 
+        // Update the payment in the repository
         $this->repository->updatePayment($payment);
 
-        $messageHeader = "Edited Payment $id";
+        // Return a success message
+        $messageHeader = "Edited Payment {$payment->getPaymentId()}";
         $messageType= "edit-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
@@ -267,10 +257,12 @@ class PaymentController extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {
-        $payment = $this->repository->find($id);
+    public function destroy(Payment $payment): RedirectResponse {
+        // Delete the payment from the repository
         $this->repository->deletePayment($payment);
-        $messageHeader = "Edited Payment $id";
+
+        // Return a success message
+        $messageHeader = "Deleted Payment {$payment->getPaymentId()}";
         $messageType= "delete-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
