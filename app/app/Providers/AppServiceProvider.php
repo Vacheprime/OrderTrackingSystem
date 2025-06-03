@@ -5,6 +5,7 @@ namespace App\Providers;
 use app\Doctrine\ORM\Entity\Client;
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Payment;
+use app\Doctrine\ORM\Entity\Employee;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
         // Define model binding for the payment model
         Route::bind("payment", function (string $value) {
             return $this->findEntity(Payment::class, $value, "Payment not found.");
+        });
+
+        // Define model binding for the employee model
+        Route::bind("employee", function (string $value) {
+            return $this->findEntity(Employee::class, $value, "Employee not found.");
         });
     }
 
