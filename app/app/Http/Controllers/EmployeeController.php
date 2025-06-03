@@ -6,6 +6,7 @@ use app\Doctrine\ORM\Entity\Account;
 use app\Doctrine\ORM\Entity\Address;
 use app\Doctrine\ORM\Entity\Employee;
 use app\Doctrine\ORM\Repository\EmployeeRepository;
+use App\Http\Requests\EmployeeCreateRequest;
 use App\Http\Requests\EmployeeIndexRequest;
 use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
@@ -167,26 +168,12 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(EmployeeCreateRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            "initials"=> "required|string",
-            "first-name"=> "required|string",
-            "last-name" => "required|string",
-            "position"=> "required|string",
-            "email"=> "required|email",
-            "phone-number"=> "required|string",
-            "address-street"=> "required|string",
-            "address-apt-num"=> "required|numeric",
-            "postal-code"=> "required|string",
-            "area"=> "required|string",
-        ]);
+        // Get the validated data from the request
+        $validatedData = $request->validated();
 
-        $validationErrors = $this->validateEmployeeInputData($validatedData);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
+        // Create the employee's address
         $address = new Address(
             $validatedData["address-street"],
             $validatedData["address-apt-num"],
@@ -194,14 +181,16 @@ class EmployeeController extends Controller
             $validatedData["area"],
         );
 
+        // Create the employee's account
         $account = new Account(
             $validatedData["email"],
-            "asdasdAASDAD123123123!@!@!!@@!!@",
+            $validatedData["password"],
             false,
             false,
             false,
         );
 
+        // Create the employee
         $employee = new Employee(
             $validatedData["first-name"],
             $validatedData["last-name"],
@@ -212,8 +201,10 @@ class EmployeeController extends Controller
             $account,
         );
 
+        // Insert the employee into the database
         $this->repository->insertEmployee($employee);
 
+        // Return a success message
         $messageHeader = "Create Employee";
         $messageType= "create-message-header";
         return redirect("/employees")->with(compact("messageHeader", "messageType"));
@@ -276,9 +267,8 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(Employee $employee): View
     {
-        $employee = $this->repository->find($id);
         return view("employees.edit")->with(compact("employee"));
     }
 
