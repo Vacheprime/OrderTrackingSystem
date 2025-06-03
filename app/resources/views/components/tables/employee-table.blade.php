@@ -1,4 +1,4 @@
-@props(["employees" => $employees ?? []])
+@props(["employees" => $employees ?? [], "short" => false])
 
 <table class="search-table">
     <thead>

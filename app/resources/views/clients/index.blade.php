@@ -4,8 +4,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializeClientRowClickEvents();
-        highlightClientFirstRow();
+        initializeRowClickEvents(changeClientDetails);
+        highlightFirstRow(changeClientDetails);
     });
 </script>
 
@@ -21,20 +21,19 @@
                     <form class="search-form" action="" method="GET">
                         <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
                         <x-select-input-property labelText="Search By" name="search-by">
-                            <option value="client-id" selected>Area</option>
-                            <option value="first-name">First Name</option>
-                            <option value="last-name">Last Name</option>
-                            <option value="last-name">ClientID</option>
+                            <option value="area" selected>Area</option>
+                            <option value="name">Name</option>
+                            <option value="client-id">ClientID</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshClientTable()">Search</button>
+                    <button class="regular-button" onclick="refreshClientTable({{$page}}, true)">Search</button>
                 </div>
                 <div class="search-table-div">
                     <x-client-table :clients="$clients"/>
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeClientPage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshClientTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($clients))

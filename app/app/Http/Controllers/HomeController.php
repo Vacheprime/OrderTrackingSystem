@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Activity;
 use app\Doctrine\ORM\Repository\ActivityType;
-use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Repository\ActivityRepository;
-use app\Doctrine\ORM\Repository\OrderRepository;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
 use SortOrder;

@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 <script src="{{ asset('js/order.js') }}"></script>
 
+@php
+    $shouldDisplayClientInfo = ($client == "new");
+@endphp
+
 <x-layout title="Create Order">
     <h1 class="content-title">CREATING ORDER</h1>
     <div class="content-container">
@@ -12,11 +16,20 @@
                     <h2>Order Information</h2>
                     <div class="filler-div"></div>
                 </div>
-                <h3 id="order-details-h3">Order Details @isset($client)<button id="client-id-btn" type="button" onclick="togglePanel(true)">Create New Client?</button>@endisset</h3>
+                <h3 id="order-details-h3">
+                    Order Details
+                    @if(!isset($clientId))
+                        <button id="client-id-btn" type="button" onclick="showClientSidePanel()" @if($shouldDisplayClientInfo) style="display: none;" @endif>Create New Client?</button>
+                    @endif
+                </h3>
                 <div id="order-details-div" class="details-div">
-                    @isset($client)
-                        <x-text-input-property labelText="Client ID" name="client-id" :value="$clientId"/>
-                    @endisset
+
+                    <!-- Hidden input type used to determine whether the user is creating by client ID or with client information -->
+                    <input id="create-option-input" type="hidden" name="with-existing-client" value={{ !$shouldDisplayClientInfo ? "1" : "0" }}>
+
+                    <!-- Display only if creating by client ID -->
+                    <x-text-input-property labelText="Client ID" name="client-id" :display="!$shouldDisplayClientInfo" :value="$clientId" :readonly="isset($clientId)"/>
+                    
                     <x-text-input-property labelText="Employee ID" name="measured-by"/>
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"/>
                     <x-text-input-property labelText="Total Price" name="total-price"/>
@@ -50,11 +63,12 @@
                 </div>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Create</button>
-                    <a href="/orders" class="regular-button">Cancel</a>
+                    <a href="{{ isset($clientId) ? "/clients" : "/orders" }}" class="regular-button">Cancel</a>
                 </div>
             </div>
-            @if(isset($client) == null)
-                <x-client-panel/>
+            <!-- Display if creating with client info -->
+            @if(!isset($clientId))
+                <x-client-panel :display="$shouldDisplayClientInfo" />
             @endif
         </form>
     </div>

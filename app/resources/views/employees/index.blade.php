@@ -4,8 +4,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializeEmployeeRowClickEvents();
-        highlightEmployeeFirstRow();
+        initializeRowClickEvents(changeEmployeeDetails);
+        highlightFirstRow(changeEmployeeDetails);
     });
 </script>
 
@@ -22,15 +22,14 @@
                         <x-text-input-property labelText="Search" name="search-bar" :isLabel="false"/>
 
                         <x-select-input-property labelText="Search By" name="search-by">
-                            <option value="client-id">Employee ID</option>
-                            <option value="first-name">First Name</option>
-                            <option value="last-name">Last Name</option>
-                            <option value="last-name">Position</option>
+                            <option value="employee-id">Employee ID</option>
+                            <option value="name">Name</option>
+                            <option value="position">Position</option>
                         </x-select-input-property>
 
 
                     </form>
-                    <button class="regular-button" onclick="refreshEmployeeTable()">Search</button>
+                    <button class="regular-button" onclick="refreshEmployeeTable({{$page}}, true)">Search</button>
                     <a href="/employees/create">
                         <button class="regular-button">Create</button>
                     </a>
@@ -40,7 +39,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeEmployeePage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshEmployeeTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($employees))

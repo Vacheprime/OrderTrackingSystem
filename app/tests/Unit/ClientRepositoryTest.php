@@ -11,6 +11,7 @@ use Closure;
 use FetchesFromPaginator;
 
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertEqualsCanonicalizing;
 use function PHPUnit\Framework\assertTrue;
 
 require_once(dirname(__DIR__) . "/DoctrineSetup.php");
@@ -107,5 +108,20 @@ class ClientRepositoryTest extends TestCase
         $client = $this->repository->find(1);
         // Assert
         assertEquals("SOME OTHER FS", $client->getFirstName());
+    }
+
+    /**
+     * Test the searchByArea method.
+     */
+    public function testSearchByArea() {
+        $searchArea = "down";
+        $expectedIds = [1];
+
+        // Get the results
+        $results = $this->repository->searchByArea($searchArea)->retrieve();
+
+        $actualIds = array_map(fn($client) => $client->getClientId(), $results);
+
+        assertEqualsCanonicalizing($expectedIds, $actualIds);
     }
 }

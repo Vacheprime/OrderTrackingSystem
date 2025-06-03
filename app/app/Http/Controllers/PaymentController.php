@@ -6,11 +6,15 @@ use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Payment;
 use app\Doctrine\ORM\Entity\PaymentType;
 use app\Doctrine\ORM\Repository\PaymentRepository;
+use App\Http\Requests\PaymentCreateRequest;
+use App\Http\Requests\PaymentIndexRequest;
+use App\Http\Requests\PaymentUpdateRequest;
 use app\Utils\Utils;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use function Laravel\Prompts\alert;
@@ -28,42 +32,120 @@ class PaymentController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) {
+    public function index(PaymentIndexRequest $request) {
+        // Get the validated data
+        $validatedData = $request->validated();
+
+        // This should ideally be done through the route /payments/{id}
+        // and not with a header.
         if ($request->hasHeader("x-change-details")) {
-            $paymentId = $request->input("paymentId");
+            $paymentId = $validatedData["paymentId"];
             $payment = $this->repository->find($paymentId);
-            return json_encode(array(
-                "paymentId" => $payment->getPaymentId(),
-                "orderId" => $payment->getOrder()->getOrderId(),
-                "paymentDate" => $payment->getPaymentDate()->format("Y / m / d"),
-                "amount" => $payment->getAmount(),
-                "type" => $payment->getType(),
-                "method" => $payment->getMethod(),
-            ));
+            return $this->getPaymentInfoAsJson($payment);
         }
 
-        $page = $request->input('page', 1);
-        $search = $request->input('search', "");
-        $searchBy = $request->input('searchby', "order-id");
-        $orderBy = $request->input('orderby', "newest");
-        $pagination = $this->repository->retrievePaginated(10, 1);
-        $pages = $pagination->lastPage();
+        // Get the search parameters from validated data
+        $page = $validatedData['page'];
+        $search = $validatedData['search'];
+        $searchBy = $validatedData['searchby'];
+
+        // If no filters are applied.
+        if (strlen($search) == 0) {
+            $paginator = $this->repository->retrievePaginated(10, 1);
+            // Get the total number of pages
+            $pages = $paginator->lastPage();
+            // Get the paginator with the right page
+            $paginator = $this->repository->retrievePaginated(10, $page);
+
+            // Get the payments
+            $payments = $paginator->items();
+            
+            // Refresh the table if requested
+            if ($request->hasHeader("x-refresh-table")) {
+                return response(view('components.tables.payment-table')->with('payments', $payments),
+                    200, [
+                        "x-total-pages" => $pages,
+                        "x-is-empty" => $paginator->total() == 0
+                    ]);
+            }
+
+            // Return the view with payments
+            $messageHeader = Session::get("messageHeader");
+            $messageType = Session::get("messageType");
+            return view('payments.index')->with(compact("payments", "pages", "page", "messageHeader", "messageType"));
+        }
+
+        // Get the repository
+        $repository = $this->repository;
+
+        // Apply the search filters
+        $payment = null;
+        switch ($searchBy) {
+            case "order-id":
+                $orderId = intval($search);
+                $repository = $repository->withOrderId($orderId);
+                break;
+            case "payment-id":
+                $paymentId = intval($search);
+                $payment = $repository->find($paymentId);
+                break;
+        }
+
+        // Return the view if a single payment has been searched for
+        if ($payment != null) {
+            return response(
+                view("components.tables.payment-table")->with("payments", [$payment]),
+                200,
+                ["x-total-pages" => 1, "x-is-empty" => false]
+            );
+        }
+
+        // TODO: APPLY ORDERING
+
+        // Get the paginator
+        $paginator = $repository->retrievePaginated(10, 1);
+        // Get total of pages
+        $pages = $paginator->lastPage();
+
         if ($page <= 0) {
             $page = 1;
         }
         if ($page > $pages) {
             $page = $pages;
         }
-        $pagination = $this->repository->retrievePaginated(10, $page);
-        $payments = $pagination->items();
+
+        // Get to the right page
+        $paginator = $repository->retrievePaginated(10, $page);
+        $payments = $paginator->items();
 
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.payment-table')->with('payments', $payments);
+            return response(
+                view('components.tables.payment-table')->with('payments', $payments),
+                200,
+                [
+                    "x-total-pages" => $pages,
+                    "x-is-empty" => $paginator->total() == 0
+                ]
+            );
         }
 
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('payments.index')->with(compact("payments", "pages", "page","messageHeader", "messageType"));
+    }
+
+    /**
+     * Get the payment info as json.
+     */
+    public function getPaymentInfoAsJson(Payment $payment): string {
+        return json_encode(array(
+            "paymentId" => $payment->getPaymentId(),
+            "orderId" => $payment->getOrder()->getOrderId(),
+            "paymentDate" => $payment->getPaymentDate()->format("Y / m / d"),
+            "amount" => $payment->getAmount(),
+            "type" => $payment->getType(),
+            "method" => $payment->getMethod(),
+        ));
     }
 
     /**
@@ -77,39 +159,30 @@ class PaymentController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse {
-        $validatedData = $request->validate([
-            "order-id" => "required|integer|min:1",
-            "payment-date-input" => "nullable|date|date_format:Y-m-d",
-            "amount" => "required|numeric",
-            "type-select" => "required|string",
-            "method" => "required|string",
-        ]);
+    public function store(PaymentCreateRequest $request): RedirectResponse {
+        // Retrieve the validated data
+        $validatedData = $request->validated();
+        Log::info($validatedData);
 
-        $validationErrors = $this->validatePaymentInputData($validatedData, true);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
+        // Get the order repository
         $orderRepository = $this->entityManager->getRepository(Order::class);
 
-        $orderId = intval($validatedData["order-id"]);
-        $order = $orderRepository->find($orderId);
+        // Get the order
+        $order = $orderRepository->find($validatedData["order-id"]);
 
-        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
-        $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
-
-
+        // Create the payment
         $payment = new Payment(
             $validatedData["amount"],
-            $paymentType,
+            $validatedData["type-select"],
             $validatedData["method"],
-            $paymentDate,
+            $validatedData["payment-date-input"],
             $order,
         );
 
+        // Insert the payment into the repository
         $this->repository->insertPayment($payment);
 
+        // Return a success message
         $messageHeader = "Created Payment";
         $messageType= "create-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
@@ -155,40 +228,28 @@ class PaymentController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View {
-        $payment = $this->repository->find($id);
+    public function edit(Payment $payment): View {
         return view("payments.edit")->with("payment", $payment);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse {
-        $validatedData = $request->validate([
-            "payment-date-input" => "nullable|date|date_format:Y-m-d",
-            "amount" => "required|numeric",
-            "type-select" => "required",
-            "method" => "required|string",
-        ]);
+    public function update(PaymentUpdateRequest $request, Payment $payment): RedirectResponse {
+        // Get the validated data
+        $validatedData = $request->validated();
 
-        $validationErrors = $this->validatePaymentInputData($validatedData, false);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
-        $payment = $this->repository->find($id);
-
-        $paymentType = PaymentType::tryFrom(strtoupper($validatedData["type-select"]));
-        $paymentDate =  DateTime::createFromFormat("Y-m-d", $validatedData["payment-date-input"]);
-
+        // Update the payment with the validated data
         $payment->setAmount($validatedData["amount"]);
         $payment->setMethod($validatedData["method"]);
-        $payment->setPaymentDate($paymentDate);
-        $payment->setType($paymentType);
+        $payment->setPaymentDate($validatedData["payment-date-input"]);
+        $payment->setType($validatedData["type-select"]);
 
+        // Update the payment in the repository
         $this->repository->updatePayment($payment);
 
-        $messageHeader = "Edited Payment $id";
+        // Return a success message
+        $messageHeader = "Edited Payment {$payment->getPaymentId()}";
         $messageType= "edit-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }
@@ -196,10 +257,12 @@ class PaymentController extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {
-        $payment = $this->repository->find($id);
+    public function destroy(Payment $payment): RedirectResponse {
+        // Delete the payment from the repository
         $this->repository->deletePayment($payment);
-        $messageHeader = "Edited Payment $id";
+
+        // Return a success message
+        $messageHeader = "Deleted Payment {$payment->getPaymentId()}";
         $messageType= "delete-message-header";
         return redirect("/payments")->with(compact("messageHeader", "messageType"));
     }

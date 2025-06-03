@@ -4,8 +4,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializeOrderRowClickEvents();
-        highlightOrderFirstRow();
+        initializeRowClickEvents(changeOrderDetails);
+        highlightFirstRow(changeOrderDetails);
     });
 </script>
 
@@ -35,14 +35,14 @@
                         </x-select-input-property>
                     </form>
                     <button class="regular-button" onclick="refreshOrderTable({{$page}}, true)">Search</button>
-                    <a href="/orders/create" class="regular-button">Create</a>
+                    <a href="/orders/create?client=new" class="regular-button">Create</a>
                 </div>
                 <div class="search-table-div">
                     <x-order-table :orders="$orders"/>
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changeOrderPage({{$page}}, {{$totalPages}});</script>
+                <script>changePage(refreshOrderTable, {{$page}}, {{$totalPages}});</script>
             </div>
         </div>
         @if(!empty($orders))
@@ -59,10 +59,10 @@
                         <p><b>Reference Number:</b><span id="detail-reference-number">-</span></p>
                         <p><b>Invoice Number:</b><span id="detail-invoice-number">-</span></p>
                         <p><b>Total Price:</b><span id="detail-total-price">-</span></p>
-                        <p><b>Status:</b><span id="detail-status">-</span></p>
+                        <p><b>Status:</b><span id="detail-order-status">-</span></p>
                         <p><b>Fabrication Start Date:</b><span id="detail-fabrication-start-date">-</span></p>
                         <p><b>Installation Start Date:</b><span id="detail-installation-start-date">-</span></p>
-                        <p><b>Completed Date:</b><span id="detail-pick-up-date">-</span></p>
+                        <p><b>Completed Date:</b><span id="detail-order-completed-date">-</span></p>
                         <p><b>Material Name:</b><span id="detail-material-name">-</span></p>
                         <p><b>Slab Height:</b><span id="detail-slab-height">-</span></p>
                         <p><b>Slab Width:</b><span id="detail-slab-width">-</span></p>

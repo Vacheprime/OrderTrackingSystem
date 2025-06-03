@@ -34,7 +34,7 @@
             </td>
             <td>
                 <div class="order-table-td-div">
-                    {{$order->getFabricationStartDate() == null ? "null" : $order->getFabricationStartDate()->format("Y / m / d")}}
+                    {{$order->getFabricationStartDate() == null ? "No date specified." : $order->getFabricationStartDate()->format("Y / m / d")}}
                 </div>
             </td>
             @endif

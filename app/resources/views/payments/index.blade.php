@@ -4,8 +4,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        initializePaymentRowClickEvents();
-        highlightPaymentFirstRow();
+        initializeRowClickEvents(changePaymentDetails);
+        highlightFirstRow(changePaymentDetails);
     });
 </script>
 
@@ -26,7 +26,7 @@
                             <option value="order-id">Order ID</option>
                         </x-select-input-property>
                     </form>
-                    <button class="regular-button" onclick="refreshPaymentTable()">Search</button>
+                    <button class="regular-button" onclick="refreshPaymentTable({{$page}}, true)">Search</button>
                     <a href="/payments/create">
                         <button class="regular-button">Create</button>
                     </a>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="search-table-pagination-div">
-                <script>changePaymentPage({{$page}}, {{$pages}});</script>
+                <script>changePage(refreshPaymentTable, {{$page}}, {{$pages}});</script>
             </div>
         </div>
         @if(!empty($payments))
@@ -61,7 +61,7 @@
                     <form id="detail-delete-form" method="POST" action="">
                     @csrf
                     @method("DELETE")
-                    <button type="submit" id="detail-delete-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Delete</button>
+                    <button type="submit" id="detail-delete-btn" class="regular-button">Delete</button>
                     </form>
                     @endif
                 </div>
