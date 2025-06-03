@@ -68,17 +68,17 @@ class EmployeeIndexRequest extends FormRequest
         switch ($searchby) {
             case "employee-id":
                 if (!is_numeric($search) || intval($search) <= 0) {
-                    $validator->errors()->add("search", "Invalid employee ID.");
+                    $validator->errors()->add("search-bar", "Invalid employee ID.");
                 }
                 break;
             case "name":
                 if (!Utils::validateName($search)) {
-                    $validator->errors()->add("search", "The name is of invalid format.");
+                    $validator->errors()->add("search-bar", "The name is of invalid format.");
                 }
                 break;
             case "position":
                 if (!Utils::validatePosition($search)) {
-                    $validator->errors()->add("search", "The position is of invalid format.");
+                    $validator->errors()->add("search-bar", "The position is of invalid format.");
                 }
                 break;
         }
