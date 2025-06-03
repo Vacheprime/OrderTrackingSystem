@@ -61,7 +61,7 @@
                     <form id="detail-delete-form" method="POST" action="">
                     @csrf
                     @method("DELETE")
-                    <button type="submit" id="detail-delete-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Delete</button>
+                    <button type="submit" id="detail-delete-btn" class="regular-button">Delete</button>
                     </form>
                     @endif
                 </div>

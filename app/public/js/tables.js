@@ -95,6 +95,7 @@ function changeClientDetails(clientIdString) {
 function changePaymentDetails(paymentIdString) {
     changeSidebarDetails("paymentId", paymentIdString, "detail-", (payment) => {
         document.getElementById("detail-edit-btn").href = `/payments/${payment.paymentId}/edit`;
+        document.getElementById("detail-delete-form").action = `/payments/${payment.paymentId}`;
     });
 }
 
