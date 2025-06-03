@@ -8,6 +8,7 @@ use App\Rules\AddressFieldRules\ValidPostalCodeRule;
 use App\Rules\AddressFieldRules\ValidStreetRule;
 use App\Rules\EmployeeFieldRules\ValidEmailRule;
 use App\Rules\EmployeeFieldRules\ValidInitialsRule;
+use App\Rules\EmployeeFieldRules\ValidPasswordRule;
 use App\Rules\EmployeeFieldRules\ValidPositionRule;
 use App\Rules\PersonFieldRules\ValidNameRule;
 use App\Rules\PersonFieldRules\ValidPhoneNumberRule;
@@ -40,7 +41,15 @@ class EmployeeCreateRequest extends FormRequest
             "address-street" => [new ValidStreetRule],
             "address-apt-num" => [new ValidAppartmentNumberRule],
             "postal-code" => [new ValidPostalCodeRule],
-            "area" => [new ValidAreaRule]
+            "area" => [new ValidAreaRule],
+            "password" => [new ValidPasswordRule],
+            "confirm-password" => "same:password"
+        ];
+    }
+
+    public function messages() : array {
+        return [
+            "confirm-password.same" => "The passwords entered do not match.",
         ];
     }
 }
