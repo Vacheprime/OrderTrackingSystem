@@ -29,6 +29,8 @@ class PaymentCreateRequest extends FormRequest
         $validated["payment-date-input"] = DateTime::createFromFormat("Y-m-d", $validated["payment-date-input"]);
         // Convert payment type to enum
         $validated["type-select"] = PaymentType::from(strtoupper($validated["type-select"]));
+        // Convert the order id into an integer
+        $validated["order-id"] = intval($validated["order-id"]);
         return $validated;
     }
     
