@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
+use function PHPSTORM_META\map;
+
 class EmployeeController extends Controller
 {
 
@@ -43,21 +45,93 @@ class EmployeeController extends Controller
         $search = $validatedData["search"];
         $searchBy = $validatedData["searchby"];
         
-        $pagination = $this->repository->retrievePaginated(10, 1);
-        $pages = $pagination->lastPage();
+        // If no filters are applied.
+        if (strlen($search) == 0) {
+            // Get the paginator
+            $paginator = $this->repository->retrievePaginated(10, 1);
+            // Get the total number of pages
+            $pages = $paginator->lastPage();
+            // Get the paginator with the right page
+            $paginator = $this->repository->retrievePaginated(10, $page);
+
+            // Get the employees
+            $employees = $paginator->items();
+
+            // Refresh the table if requested
+            if ($request->hasHeader("x-refresh-table")) {
+                return response(view("components.tables.employee-table")->with("employees", $employees),
+                    200, [
+                        "x-total-pages" => $pages,
+                        "x-is-empty" => $paginator->total() == 0
+                    ]);
+            }
+
+            // Return the whole view with payments
+            $messageHeader = Session::get("messageHeader");
+            $messageType = Session::get("messageType");
+            return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
+        }
+
+        // Get the repository
+        $repository = $this->repository;
+
+        // Apply the search filters
+        $employee = null;
+        switch ($searchBy) {
+            case "employee-id":
+                $employeeId = intval($search);
+                $employee = $repository->find($employeeId);
+                break;
+            case "name":
+                $repository = $repository->searchByName($search);
+                break;
+            case "position":
+                $repository = $repository->searchByPosition($search);
+                break;
+        }
+
+        // Return the view if a single employee has been searched for.
+        if ($employee != null) {
+            return response(
+                view("components.tables.employee-table")->with("employees", [$employee]),
+                200,
+                ["x-total-pages" => 1, "x-is-empty" => false]
+            );
+        }
+
+        // TODO: APPLY ORDERING
+
+        // Get the paginator
+        $paginator = $repository->retrievePaginated(10, 1);
+        // Get the total of pages
+        $pages = $paginator->lastPage();
+
+        // Change the bounds of the page variable
         if ($page <= 0) {
             $page = 1;
         }
         if ($page > $pages) {
             $page = $pages;
         }
-        $pagination = $this->repository->retrievePaginated(10, $page);
-        $employees = $pagination->items();
 
+        // Get the paginator to the right page
+        $paginator = $repository->retrievePaginated(10, $page);
+        // Get the employees
+        $employees = $paginator->items();
+
+        // Refresh the table if requested
         if ($request->HasHeader("x-refresh-table")) {
-            return view('components.tables.employee-table')->with('employees', $employees);
+            return response(
+                view('components.tables.employee-table')->with('employees', $employees),
+                200,
+                [
+                    "x-total-pages" => $pages,
+                    "x-is-empty" => $paginator->total() == 0
+                ]
+            );
         }
 
+        // Return the full page with search params
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
