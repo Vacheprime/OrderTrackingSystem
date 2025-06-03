@@ -18,7 +18,6 @@
                     <x-text-input-property labelText="Initials" name="initials" :value="$employee->getInitials()"/>
                     <x-text-input-property labelText="First Name" name="first-name" :value="$employee->getFirstName()"/>
                     <x-text-input-property labelText="Last Name" name="last-name" :value="$employee->getLastName()"/>
-                    <x-text-input-property labelText="Email" name="email" :value="$employee->getAccount()->getEmail()"/>
                     <x-text-input-property labelText="Phone Number" name="phone-number"
                                            :value="$employee->getPhoneNumber()"/>
                     <x-text-input-property labelText="Position" name="position" :value="$employee->getPosition()"/>
@@ -50,6 +49,14 @@
                     <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="$employee->getAddress()->getArea()"/>
 
                 </div>
+                <h3>Account Details</h3>
+                <div id="account-details-div" class="details-div">
+                    <x-text-input-property labelText="Email" name="email" :value="$employee->getAccount()->getEmail()"/>
+                    <x-text-input-property labelText="Password" name="password" password="true"/>
+                    <x-text-input-property labelText="Confirm Password" name="confirm-password" password="true"/>
+                </div>
+                <p><i class="fa-solid fa-circle-info"></i> Leave the Password and Confirm Password fields empty if you do not wish to 
+                    update the employee's password.</p>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Save</button>
                     <a href="/employees" class="regular-button">Cancel</a>
