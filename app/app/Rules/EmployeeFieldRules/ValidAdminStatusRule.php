@@ -3,19 +3,10 @@
 namespace App\Rules\EmployeeFieldRules;
 
 use App\Rules\BaseValidationRule;
-use app\Utils\Utils;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidPasswordRule extends BaseValidationRule
+class ValidAdminStatusRule extends BaseValidationRule
 {
-    private bool $isRequired;
-
-    public function __construct(bool $isRequired = true)
-    {
-        $this->isRequired = $isRequired;
-    }
-
     /**
      * Run the validation rule.
      *
@@ -23,18 +14,15 @@ class ValidPasswordRule extends BaseValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!$this->isRequired && empty($value) || is_null($value)) {
-            return; // If not required and empty, skip validation
-        }
-
         // Execute preliminary validation
         if (!$this->executePreliminaryValidation($attribute, $value, $fail)) {
-            return; // fail fast
+            return; // fail-fast
         }
-        // Execute secondary validation (Business validation)
-        // Check if the password is valid
-        if (!Utils::validatePassword($value)) {
-            $fail("The password is of invalid format.");
+
+        // Check if admin status is disabled or enabled
+        $allowedValues = ["enabled", "disabled"];
+        if (!in_array(strtolower($value), $allowedValues)) {
+            $fail("The admin status must be either disabled or enabled.");
         }
     }
 
@@ -52,8 +40,8 @@ class ValidPasswordRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.required" => "The password is required.",
-            "$attribute.string" => "The password must be a string.",
+            "$attribute.required" => "The admin status is required.",
+            "$attribute.string" => "The admin status must be a string.",
         ];
     }
 }
