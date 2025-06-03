@@ -167,8 +167,7 @@ class PaymentController extends Controller {
         $orderRepository = $this->entityManager->getRepository(Order::class);
 
         // Get the order
-        $orderId = intval($validatedData["order-id"]);
-        $order = $orderRepository->find($orderId);
+        $order = $orderRepository->find($validatedData["order-id"]);
 
         // Create the payment
         $payment = new Payment(
