@@ -6,6 +6,7 @@ use app\Doctrine\ORM\Entity\Account;
 use app\Doctrine\ORM\Entity\Address;
 use app\Doctrine\ORM\Entity\Employee;
 use app\Doctrine\ORM\Repository\EmployeeRepository;
+use App\Http\Requests\EmployeeIndexRequest;
 use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
@@ -24,36 +25,24 @@ class EmployeeController extends Controller
         $this->repository = ($entityManager->getRepository(Employee::class));
     }
 
-
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(EmployeeIndexRequest $request)
     {
+        // Get the validated data
+        $validatedData = $request->validated();
+
         if ($request->hasHeader("x-change-details")) {
-            $employeeId = $request->input("employeeId");
+            $employeeId = intval($validatedData["employeeId"]);
             $employee = $this->repository->find($employeeId);
-            return json_encode(array(
-                "employeeId" => $employee->getEmployeeId(),
-                "initials"=> $employee->getInitials(),
-                "firstName"=> $employee->getFirstName(),
-                "lastName"=> $employee->getLastName(),
-                "position"=> $employee->getPosition(),
-                "email"=> $employee->getAccount()->getEmail(),
-                "phoneNumber"=> $employee->getPhoneNumber(),
-                "addressStreet"=> $employee->getAddress()->getStreetName(),
-                "addressAptNum"=> $employee->getAddress()->getAppartmentNumber(),
-                "postalCode"=> $employee->getAddress()->getPostalCode(),
-                "area"=> $employee->getAddress()->getArea(),
-                "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
-                "adminStatus"=> $employee->getAccount()->isAdmin(),
-            ));
+            return $this->getEmployeeInfoAsJson($employee);
         }
 
-        $page = $request->input('page', 1);
-        $search = $request->input('search', "");
-        $searchBy = $request->input('searchby', "order-id");
-        $orderBy = $request->input('orderby', "newest");
+        $page = $validatedData["page"];
+        $search = $validatedData["search"];
+        $searchBy = $validatedData["searchby"];
+        
         $pagination = $this->repository->retrievePaginated(10, 1);
         $pages = $pagination->lastPage();
         if ($page <= 0) {
@@ -72,6 +61,25 @@ class EmployeeController extends Controller
         $messageHeader = Session::get("messageHeader");
         $messageType = Session::get("messageType");
         return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
+    }
+
+    public function getEmployeeInfoAsJson(Employee $employee): string
+    {
+        return json_encode(array(
+            "employeeId" => $employee->getEmployeeId(),
+            "initials"=> $employee->getInitials(),
+            "firstName"=> $employee->getFirstName(),
+            "lastName"=> $employee->getLastName(),
+            "position"=> $employee->getPosition(),
+            "email"=> $employee->getAccount()->getEmail(),
+            "phoneNumber"=> $employee->getPhoneNumber(),
+            "addressStreet"=> $employee->getAddress()->getStreetName(),
+            "addressAptNum"=> $employee->getAddress()->getAppartmentNumber(),
+            "postalCode"=> $employee->getAddress()->getPostalCode(),
+            "area"=> $employee->getAddress()->getArea(),
+            "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
+            "adminStatus"=> $employee->getAccount()->isAdmin(),
+        ));
     }
 
     /**
@@ -219,7 +227,6 @@ class EmployeeController extends Controller
             "account-status-select"=>"nullable|string",
             "admin-status-select"=>"nullable|string",
         ]);
-        Log:info($validatedData);
 
         $validationErrors = $this->validateEmployeeInputData($validatedData);
         if (!empty($validationErrors)) {
