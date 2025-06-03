@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TrackingController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -46,7 +46,8 @@ Route::get('/home', [HomeController::class, "index"])->middleware(EnsureEmployee
 
 //Route::get('/settings', [UserController::class, "settings"]);
 
-Route::get('/account', [UserController::class, "account"])->middleware(EnsureEmployeeSession::class);
+Route::get('/account', [AccountController::class, "index"])->middleware(EnsureEmployeeSession::class);
+Route::post('/account', [AccountController::class, "update"])->middleware(EnsureEmployeeSession::class);
 
 // CRUD Orders, Clients, Payments, Employees
 Route::resource('orders', OrderController::class)->middleware(EnsureEmployeeSession::class);
