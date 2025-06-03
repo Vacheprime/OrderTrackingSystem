@@ -71,7 +71,7 @@ class LoginController extends Controller
 
         $employee = $em->getRepository(Employee::class)->findOneBy(['account.email' => $validateData['username']]);
 
-        if ($employee && $employee->getAccount()->isAccountEnabled()) {
+        if ($employee && !$employee->getAccount()->isAccountEnabled()) {
             return back()->withErrors(['password' => 'Disabled Account!']);
         }
 
