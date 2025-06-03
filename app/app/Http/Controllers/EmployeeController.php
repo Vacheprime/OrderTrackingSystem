@@ -8,6 +8,7 @@ use app\Doctrine\ORM\Entity\Employee;
 use app\Doctrine\ORM\Repository\EmployeeRepository;
 use App\Http\Requests\EmployeeCreateRequest;
 use App\Http\Requests\EmployeeIndexRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
@@ -275,61 +276,33 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(EmployeeUpdateRequest $request, Employee $employee): RedirectResponse
     {
-        $validatedData = $request->validate([
-            "initials"=> "required|string",
-            "first-name"=> "required|string",
-            "last-name" => "required|string",
-            "position"=> "required|string",
-            "email"=> "required|email",
-            "phone-number"=> "required|string",
-            "address-street"=> "required|string",
-            "address-apt-num"=> "required|numeric",
-            "postal-code"=> "required|string",
-            "area"=> "required|string",
-            "account-status-select"=>"nullable|string",
-            "admin-status-select"=>"nullable|string",
-        ]);
+        // Get the validated data
+        $validatedData = $request->validated();
 
-        $validationErrors = $this->validateEmployeeInputData($validatedData);
-        if (!empty($validationErrors)) {
-            return redirect()->back()->withErrors($validationErrors)->withInput();
-        }
-
-        $employee = $this->repository->find($id);
-
+        // Update the employee's address info
         $employee->getAddress()->setStreetName($validatedData["address-street"]);
         $employee->getAddress()->setAppartmentNumber($validatedData["address-apt-num"]);
         $employee->getAddress()->setPostalCode($validatedData["postal-code"]);
         $employee->getAddress()->setArea($validatedData["area"]);
 
-        if (strtolower($validatedData["admin-status-select"]) == "disabled") {
-            $adminStatus = false;
-        }
-        if (strtolower($validatedData["admin-status-select"]) == "enabled") {
-            $adminStatus = true;
-        }
-        if (strtolower($validatedData["account-status-select"]) == "disabled") {
-            $accountStatus = false;
-        }
-        if (strtolower($validatedData["account-status-select"]) == "enabled") {
-            $accountStatus = true;
-        }
-
+        // Update the employee's account info
         $employee->getAccount()->setEmail($validatedData["email"]);
-        $employee->getAccount()->setIsAdmin($adminStatus);
-        $employee->getAccount()->setAccountStatus($accountStatus);
+        $employee->getAccount()->setIsAdmin($validatedData["admin-status-select"]);
+        $employee->getAccount()->setAccountStatus($validatedData["account-status-select"]);
 
+        // Update the employee's personal information
         $employee->setFirstName($validatedData["first-name"]);
         $employee->setLastName($validatedData["last-name"]);
         $employee->setPhoneNumber($validatedData["phone-number"]);
         $employee->setInitials($validatedData["initials"]);
         $employee->setPosition($validatedData["position"]);
 
+        // Update the employee
         $this->repository->updateEmployee($employee);
 
-        $messageHeader = "Edit Employee $id";
+        $messageHeader = "Edit Employee {$employee->getEmployeeId()}";
         $messageType= "edit-message-header";
         return redirect("/employees")->with(compact("messageHeader", "messageType"));
     }
