@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace app\Doctrine\ORM\Repository;
 
 use app\Doctrine\ORM\Entity\Activity;
+use app\Doctrine\ORM\Entity\ActivityType;
 use BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,9 +93,4 @@ class ActivityRepository extends BaseRepository {
             return $qb;
         });
     }
-}
-
-enum ActivityType: string {
-    case VIEWED = "VIEWED";
-    case EDITED = "EDITED";
 }
