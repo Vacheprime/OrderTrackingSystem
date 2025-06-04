@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use app\Doctrine\ORM\Entity\Activity;
+use app\Doctrine\ORM\Entity\ActivityType;
 use app\Doctrine\ORM\Entity\Address;
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Client;
@@ -29,7 +31,7 @@ class OrderController extends Controller {
 
     public function __construct(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
-        $this->repository = ($entityManager->getRepository(Order::class));
+        $this->repository = $entityManager->getRepository(Order::class);
     }
 
     /**
@@ -52,6 +54,13 @@ class OrderController extends Controller {
                 $orderId = 1;
             }
             $order = $this->repository->find($orderId);
+
+            // Add employee activity
+            $this->addEmployeeActivity(
+                ActivityType::VIEWED,
+                $order
+            );
+
             // Return as json
             return $this->getOrderInfoAsJson($order);
         }
@@ -250,6 +259,12 @@ class OrderController extends Controller {
         // Insert the order into the database
         $this->repository->insertOrder($order);
 
+        // Add employee activity
+        $this->addEmployeeActivity(
+            ActivityType::EDITED,
+            $order
+        );
+
         // Redirect back to orders
         $messageHeader = "Created New Order";
         return redirect('/orders')->with(compact("messageHeader"));
@@ -316,6 +331,12 @@ class OrderController extends Controller {
 
         // Insert the order into the database
         $this->repository->insertOrder($order);
+
+        // Add employee activity
+        $this->addEmployeeActivity(
+            ActivityType::EDITED,
+            $order
+        );
 
         // Redirect back to orders
         $messageHeader = "Created New Order";
@@ -412,6 +433,13 @@ class OrderController extends Controller {
         }
         // Update
         $this->repository->updateOrder($order);
+
+        // Add employee activity
+        $this->addEmployeeActivity(
+            ActivityType::EDITED,
+            $order
+        );
+
         // Return to order pages
         $messageHeader = "Edited Order {$order->getOrderId()}";
         $messageType = "edit-message-header";
@@ -423,5 +451,35 @@ class OrderController extends Controller {
      */
     public function destroy(string $id) {
         //
+    }
+
+    private function addEmployeeActivity(ActivityType $activityType, Order $order): void {
+        // Get the authenticated user
+        $employeeInfo = session("employee");
+
+        // Fetch the employee entity using the ID from the session
+        $employee = $this->entityManager->find(Employee::class, $employeeInfo['employeeID']);
+
+        // Check whether an activity of the same type, status, and order exists
+        $activityRepository = $this->entityManager->getRepository(Activity::class);
+        $existingActivity = $activityRepository
+            ->filterByType($activityType)
+            ->withOrderId($order->getOrderId())
+            ->withEmployeeId($employee->getEmployeeId())
+            ->retrieve();
+        
+        if (count($existingActivity) > 0) {
+            // Activity already exists, update it
+            $activity = $existingActivity[0];
+            $activity->setLogDate(new DateTime());
+            $activityRepository->updateActivity($activity);
+            return;
+        }
+
+        // Create an activity record
+        $activity = new Activity($activityType, $order, $employee);
+
+        // Insert the activity into the database
+        $activityRepository->insertActivity($activity);
     }
 }

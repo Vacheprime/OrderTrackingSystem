@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Activity;
-use app\Doctrine\ORM\Repository\ActivityType;
+use app\Doctrine\ORM\Entity\Employee;
+use app\Doctrine\ORM\Entity\ActivityType;
 use app\Doctrine\ORM\Repository\ActivityRepository;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
@@ -31,20 +32,23 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request) {
-        // Get the employee and his ID
-        $id = 3; // Testing value while authentication is not completed.
-        $limit = 15;
+        // Get the authenticated user
+        $employeeInfo = $request->session()->get('employee');
+
+        // Fetch the employee entity using the ID from the session
+        $employee = $this->entityManager->find(Employee::class, $employeeInfo['employeeID']);
+        $limit = 15; // Total number of activity records to display
 
         // Fetch edited activities of the employee
         $editedActivities = $this->repository
-            ->withEmployeeId($id)
+            ->withEmployeeId($employee->getEmployeeId())
             ->filterByType(ActivityType::EDITED)
             ->sortByLogDate(SortOrder::DESCENDING)
             ->limit($limit)
             ->retrieve();
         // Fetch viewed activites of the employee
         $viewedActivites = $this->repository
-            ->withEmployeeId($id)
+            ->withEmployeeId($employee->getEmployeeId())
             ->filterByType(ActivityType::VIEWED)
             ->sortByLogDate(SortOrder::DESCENDING)
             ->limit($limit)

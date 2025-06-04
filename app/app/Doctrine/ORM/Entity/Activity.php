@@ -29,7 +29,7 @@ class Activity {
     #[Column(name:'activity_type', enumType: ActivityType::class)]
     private ActivityType $activityType;
 
-    #[Column(name:'log_date', type: Types::DATE_MUTABLE)]
+    #[Column(name:'log_date', type: Types::DATETIME_MUTABLE)]
     private DateTime $logDate;
 
     #[ManyToOne(targetEntity: Order::class, cascade: ["persist"])]
@@ -47,38 +47,31 @@ class Activity {
         $this->employee = $employee;
     }
 
-    public function getActivityId():int {
+    public function getActivityId(): ?int {
         return $this->activityId;
     }
 
-    public function getActivityType():ActivityType {
+    public function getActivityType(): ActivityType {
         return $this->activityType;
     }
 
-    public function setActivityType(ActivityType $activityType):void {
+    public function setActivityType(ActivityType $activityType): void {
         $this->activityType = $activityType;
     }
 
-    public function getLogDate():DateTime {
+    public function getLogDate(): DateTime {
         return $this->logDate;
     }
 
-    public function getOrder():Order {
+    public function setLogDate(DateTime $logDate): void {
+        $this->logDate = $logDate;
+    }
+
+    public function getOrder(): Order {
         return $this->order;
     }
 
-    public function getEmployee():Employee {
+    public function getEmployee(): Employee {
         return $this->employee;
     }
-}
-
-/**
- * Enum Activity
- * 
- * Represents the action performed on an order,
- * such as viewing or editing
- */
-enum ActivityType: string {
-    case VIEWED = "VIEWED";
-    case EDITED = "EDITED";
 }
