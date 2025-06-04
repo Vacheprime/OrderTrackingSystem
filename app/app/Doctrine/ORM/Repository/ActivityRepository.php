@@ -4,10 +4,12 @@ declare(strict_types = 1);
 
 namespace app\Doctrine\ORM\Repository;
 
+use app\Doctrine\ORM\Entity\Activity;
 use BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use InvalidArgumentException;
 use SortOrder;
 
 require_once("BaseRepository.php");
@@ -32,6 +34,28 @@ class ActivityRepository extends BaseRepository {
                 $expr->eq("a.activityType", ":type")
             )->setParameter(":type", $type->value);
         });
+    }
+
+    /**
+     * Inserts a new Activity entity into the database.
+     *
+     * Persists the provided Activity object if it does not already exist in the database.
+     * Throws an InvalidArgumentException if the Activity already has an ID (i.e., is already persisted).
+     *
+     * @param Activity $activity The Activity entity to insert.
+     * @throws InvalidArgumentException If the activity already exists in the database.
+     * @return void
+     */
+    public function insertActivity(Activity $activity) {
+        if ($activity->getActivityId() !== null) {
+            throw new InvalidArgumentException("The activity provided is already in the database.");
+        }
+        // Get the entity manager
+        $em = $this->getEntityManager();
+        // Persist the activity
+        $em->persist($activity);
+        // Apply the changes to the database
+        $em->flush();
     }
 
     /**
