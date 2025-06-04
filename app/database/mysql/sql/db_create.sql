@@ -95,3 +95,14 @@ CREATE TABLE activity (
     CONSTRAINT activity_order_id FOREIGN KEY (order_id) REFERENCES `order`(order_id),
     CONSTRAINT activity_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
 );
+
+-- Turn on the event scheduler
+SET GLOBAL event_scheduler = ON;
+
+-- Create Event for clearing recent activities older than 3 days
+CREATE EVENT clear_old_activity
+ON SCHEDULE EVERY 1 DAY
+ON COMPLETION PRESERVE
+COMMENT 'Clears employee\' recent activity older than 3 days. Executed daily.'
+DO
+	DELETE FROM activity WHERE log_date < (CURRENT_DATE - INTERVAL 3 DAY);
