@@ -47,7 +47,7 @@ Route::get('/home', [HomeController::class, "index"])->middleware(EnsureEmployee
 //Route::get('/settings', [UserController::class, "settings"]);
 
 Route::get('/account', [AccountController::class, "index"])->middleware(EnsureEmployeeSession::class);
-Route::post('/account', [AccountController::class, "update"])->middleware(EnsureEmployeeSession::class);
+Route::put('/account', [AccountController::class, "update"])->middleware(EnsureEmployeeSession::class);
 
 // CRUD Orders, Clients, Payments, Employees
 Route::resource('orders', OrderController::class)->middleware(EnsureEmployeeSession::class);
