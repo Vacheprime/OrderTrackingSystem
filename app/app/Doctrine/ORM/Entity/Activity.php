@@ -47,27 +47,27 @@ class Activity {
         $this->employee = $employee;
     }
 
-    public function getActivityId():int {
+    public function getActivityId(): ?int {
         return $this->activityId;
     }
 
-    public function getActivityType():ActivityType {
+    public function getActivityType(): ActivityType {
         return $this->activityType;
     }
 
-    public function setActivityType(ActivityType $activityType):void {
+    public function setActivityType(ActivityType $activityType): void {
         $this->activityType = $activityType;
     }
 
-    public function getLogDate():DateTime {
+    public function getLogDate(): DateTime {
         return $this->logDate;
     }
 
-    public function getOrder():Order {
+    public function getOrder(): Order {
         return $this->order;
     }
 
-    public function getEmployee():Employee {
+    public function getEmployee(): Employee {
         return $this->employee;
     }
 }
