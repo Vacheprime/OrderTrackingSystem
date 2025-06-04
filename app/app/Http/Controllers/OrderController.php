@@ -460,11 +460,26 @@ class OrderController extends Controller {
         // Fetch the employee entity using the ID from the session
         $employee = $this->entityManager->find(Employee::class, $employeeInfo['employeeID']);
 
+        // Check whether an activity of the same type, status, and order exists
+        $activityRepository = $this->entityManager->getRepository(Activity::class);
+        $existingActivity = $activityRepository
+            ->filterByType($activityType)
+            ->withOrderId($order->getOrderId())
+            ->withEmployeeId($employee->getEmployeeId())
+            ->retrieve();
+        
+        if (count($existingActivity) > 0) {
+            // Activity already exists, update it
+            $activity = $existingActivity[0];
+            $activity->setLogDate(new DateTime());
+            $activityRepository->updateActivity($activity);
+            return;
+        }
+
         // Create an activity record
         $activity = new Activity($activityType, $order, $employee);
 
         // Insert the activity into the database
-        $activityRepository = $this->entityManager->getRepository(Activity::class);
         $activityRepository->insertActivity($activity);
     }
 }
