@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Activity;
 use app\Doctrine\ORM\Entity\Employee;
-use app\Doctrine\ORM\Repository\ActivityType;
+use app\Doctrine\ORM\Entity\ActivityType;
 use app\Doctrine\ORM\Repository\ActivityRepository;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Request;
