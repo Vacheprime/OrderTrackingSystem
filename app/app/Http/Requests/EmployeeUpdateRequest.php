@@ -26,6 +26,15 @@ class EmployeeUpdateRequest extends FormRequest
         return true; // Managed by middleware
     }
 
+    protected function prepareForValidation(): void
+    {
+        // Add default values for optional fields
+        $this->mergeIfMissing([
+            "password" => "",
+            "confirm-password" => ""
+        ]);
+    }
+
     public function validated($key = null, $default = null) {
         $validatedData = parent::validated($key, $default);
 

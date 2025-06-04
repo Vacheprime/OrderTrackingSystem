@@ -211,52 +211,6 @@ class EmployeeController extends Controller
         return redirect("/employees")->with(compact("messageHeader", "messageType"));
     }
 
-    public function validateEmployeeInputData(array $data): array {
-        $errors = [];
-
-        if (!Utils::validateInitials($data["initials"])) {
-            $errors["initials"] = "The Initials aren't formatted well.";
-        }
-
-        if (!Utils::validateName($data["first-name"])) {
-            $errors["first-name"] = "This is not a name.";
-        }
-
-        if (!Utils::validateName($data["last-name"])) {
-            $errors["last-name"] = "This is not a name.";
-        }
-
-        if (!Utils::validatePosition($data["position"])) {
-            $errors["position"] = "This is not a possible position";
-        }
-
-        if (!Utils::validateEmail($data["email"])) {
-            $errors["email"] = "The Email isn't formatted correctly.";
-        }
-
-        if (!Utils::validatePhoneNumber($data["phone-number"])) {
-            $errors["phone-number"] = "The Phone Number isn't formatted correctly.";
-        }
-
-        if (!Utils::validateStreetName($data["address-street"])) {
-            $errors["address-street"] = "This is not a possible street name";
-        }
-
-        if (!Utils::validateAptNumber($data["address-apt-num"])) {
-            $errors["address-apt-num"] = "This is not a possible apartment number.";
-        }
-
-        if (!Utils::validatePostalCode($data["postal-code"])) {
-            $errors["postal-code"] = "This is not a possible postal code.";
-        }
-
-        if (!Utils::validateArea($data["area"])) {
-            $errors["area"] = "This is not a possible area.";
-        }
-
-        return $errors;
-    }
-
     /**
      * Display the specified resource.
      */
@@ -298,6 +252,11 @@ class EmployeeController extends Controller
         $employee->setPhoneNumber($validatedData["phone-number"]);
         $employee->setInitials($validatedData["initials"]);
         $employee->setPosition($validatedData["position"]);
+
+        // If the password is set, update it
+        if ($request->filled("password")) {
+            $employee->getAccount()->setPassword($validatedData["password"]);
+        }
 
         // Update the employee
         $this->repository->updateEmployee($employee);
