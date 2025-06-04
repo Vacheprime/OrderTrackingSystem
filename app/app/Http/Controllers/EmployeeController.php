@@ -254,7 +254,7 @@ class EmployeeController extends Controller
         $employee->setPosition($validatedData["position"]);
 
         // If the password is set, update it
-        if (strlen($validatedData["password"]) > 0) {
+        if ($request->filled("password")) {
             $employee->getAccount()->setPassword($validatedData["password"]);
         }
 
