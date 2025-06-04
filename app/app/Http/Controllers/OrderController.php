@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use app\Doctrine\ORM\Entity\Activity;
+use app\Doctrine\ORM\Entity\ActivityType;
 use app\Doctrine\ORM\Entity\Address;
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Client;
@@ -29,7 +31,7 @@ class OrderController extends Controller {
 
     public function __construct(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
-        $this->repository = ($entityManager->getRepository(Order::class));
+        $this->repository = $entityManager->getRepository(Order::class);
     }
 
     /**
@@ -52,6 +54,20 @@ class OrderController extends Controller {
                 $orderId = 1;
             }
             $order = $this->repository->find($orderId);
+
+            // Get the authenticated user
+            $employeeInfo = $request->session()->get('employee');
+
+            // Fetch the employee entity using the ID from the session
+            $employee = $this->entityManager->find(Employee::class, $employeeInfo['employeeID']);
+
+            // Add the order as a recently viewed order
+            $activity = new Activity(ActivityType::VIEWED, $order, $employee);
+
+            // Insert the activity into the database
+            $activityRepository = $this->entityManager->getRepository(Activity::class);
+            $activityRepository->insertActivity($activity);
+
             // Return as json
             return $this->getOrderInfoAsJson($order);
         }
