@@ -29,7 +29,7 @@ class Activity {
     #[Column(name:'activity_type', enumType: ActivityType::class)]
     private ActivityType $activityType;
 
-    #[Column(name:'log_date', type: Types::DATE_MUTABLE)]
+    #[Column(name:'log_date', type: Types::DATETIME_MUTABLE)]
     private DateTime $logDate;
 
     #[ManyToOne(targetEntity: Order::class, cascade: ["persist"])]
@@ -61,6 +61,10 @@ class Activity {
 
     public function getLogDate(): DateTime {
         return $this->logDate;
+    }
+
+    public function setLogDate(DateTime $logDate): void {
+        $this->logDate = $logDate;
     }
 
     public function getOrder(): Order {
