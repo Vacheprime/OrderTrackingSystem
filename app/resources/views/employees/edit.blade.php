@@ -21,7 +21,9 @@
                     <x-text-input-property labelText="Phone Number" name="phone-number"
                                            :value="$employee->getPhoneNumber()"/>
                     <x-text-input-property labelText="Position" name="position" :value="$employee->getPosition()"/>
-                    <x-select-input-property labelText="Account Status" name="account-status">
+
+
+                    <x-select-input-property labelText="Account Status" name="account-status" :disabled="$employee->getEmployeeId() == $currentEmployeeId">
                         <option value="disabled" {{$employee->getAccount()->isAccountEnabled() ? "" : "selected"}}>
                             Disabled
                         </option>
@@ -29,7 +31,7 @@
                             Enabled
                         </option>
                     </x-select-input-property>
-                    <x-select-input-property labelText="Admin" name="admin-status">
+                    <x-select-input-property labelText="Admin" name="admin-status" :disabled="$employee->getEmployeeId() == $currentEmployeeId">
                         <option value="disabled" {{$employee->getAccount()->isAdmin() ? "" : "selected"}}>
                             Disabled
                         </option>
@@ -37,6 +39,12 @@
                             Enabled
                         </option>
                     </x-select-input-property>
+
+                    {{-- Add hidden forms for submitting the values for admin status and account status if those are disabled --}}
+                    @if($employee->getEmployeeId() == $currentEmployeeId)
+                        <input type="hidden" name="admin-status-select" value="{{$employee->getAccount()->isAdmin() ? 'enabled' : 'disabled'}}">
+                        <input type="hidden" name="account-status-select" value="{{$employee->getAccount()->isAccountEnabled() ? 'enabled' : 'disabled'}}">
+                    @endif
                 </div>
                 <h3>Address Details</h3>
                 <div id="address-details-div" class="details-div">
