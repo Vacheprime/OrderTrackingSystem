@@ -6,10 +6,11 @@ use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Log;
 
 class ValidPasswordRule extends BaseValidationRule
 {
-    private bool $isRequired;
+    private bool $isRequired = true;
 
     public function __construct(bool $isRequired = true)
     {
@@ -23,7 +24,8 @@ class ValidPasswordRule extends BaseValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!$this->isRequired && empty($value) || is_null($value)) {
+        Log::info("VALIDATING");
+        if (!$this->isRequired && (empty($value) || is_null($value))) {
             return; // If not required and empty, skip validation
         }
 
