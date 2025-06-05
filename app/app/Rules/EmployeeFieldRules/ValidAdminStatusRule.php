@@ -4,6 +4,7 @@ namespace App\Rules\EmployeeFieldRules;
 
 use App\Rules\BaseValidationRule;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class ValidAdminStatusRule extends BaseValidationRule
 {
