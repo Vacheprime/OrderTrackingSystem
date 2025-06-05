@@ -90,4 +90,19 @@ class EmployeeRepository extends BaseRepository {
             )->setParameter(":target", $searchTarget);
         });
     }
+
+    /**
+     * Filter employees by their email.
+     * 
+     * @param string $email The email of the employee.
+     * @return self A clone of the EmployeeRepository with the filter applied.
+     */
+    public function withEmail(string $email) {
+        return $this->filter(function (QueryBuilder $qb) use ($email) {
+            $expr = $qb->expr();
+            $qb->where(
+                $expr->eq("e.account.email", ":email")
+            )->setParameter(":email", strtolower($email));
+        });
+    }
 }

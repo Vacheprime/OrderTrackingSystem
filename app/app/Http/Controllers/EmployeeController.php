@@ -9,14 +9,10 @@ use app\Doctrine\ORM\Repository\EmployeeRepository;
 use App\Http\Requests\EmployeeCreateRequest;
 use App\Http\Requests\EmployeeIndexRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
-use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
-
-use function PHPSTORM_META\map;
 
 class EmployeeController extends Controller
 {
