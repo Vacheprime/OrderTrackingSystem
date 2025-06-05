@@ -6,10 +6,12 @@ use app\Doctrine\ORM\Entity\Employee;
 use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 
 class ValidEmailRule extends BaseValidationRule
 {
+
     /**
      * Run the validation rule.
      *
@@ -26,6 +28,16 @@ class ValidEmailRule extends BaseValidationRule
         // Check if the email is valid
         if (!Utils::validateEmail($value)) {
             $fail("The email is of invalid format.");
+        }
+
+        // Get the request
+        $request = Request::instance();
+        // Get the employee to edit
+        $employeeToEdit = $request->route("employee");
+
+        // Ignore the check if the email is the same as the current employee being edited
+        if (!is_null($employeeToEdit) && strtolower($value) == strtolower($employeeToEdit->getAccount()->getEmail())) {
+            return;
         }
 
         // Check if email was already used
