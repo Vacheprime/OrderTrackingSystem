@@ -12,6 +12,7 @@ use App\Rules\EmployeeFieldRules\ValidPasswordRule;
 use App\Rules\EmployeeFieldRules\ValidPositionRule;
 use App\Rules\PersonFieldRules\ValidNameRule;
 use App\Rules\PersonFieldRules\ValidPhoneNumberRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeeCreateRequest extends FormRequest

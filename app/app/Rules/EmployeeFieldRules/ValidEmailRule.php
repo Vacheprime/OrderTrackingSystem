@@ -2,6 +2,7 @@
 
 namespace App\Rules\EmployeeFieldRules;
 
+use app\Doctrine\ORM\Entity\Employee;
 use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
@@ -25,6 +26,12 @@ class ValidEmailRule extends BaseValidationRule
         // Check if the email is valid
         if (!Utils::validateEmail($value)) {
             $fail("The email is of invalid format.");
+        }
+
+        // Check if email was already used
+        $employeeRepository = app("em")->getRepository(Employee::class);
+        if ($employeeRepository->withEmail($value)->countFromCurrentQuery() > 0) {
+            $fail("The email is already in use.");
         }
     }
 
