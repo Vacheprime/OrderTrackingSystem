@@ -23,6 +23,12 @@ async function changeSidebarDetails(resourceId, resourceIdString, prefix = "deta
     });
     // Check if the response is ok
     if (!response.ok) {
+        if (response.status === 401) {
+            // Get the redirect URL from the response body
+            const body = await response.json();
+            const redirectUrl = body.redirectTo;
+            window.location.href = redirectUrl;
+        }
         return; // TODO: Handle error with error page?
     }
     // Get the JSON response
@@ -173,6 +179,14 @@ async function refreshTable({
                     input.parentElement.innerHTML += `<p class="error-input">${firstError}</p>`;
                 }
             });
+            return;
+        }
+        // Handle unauthorized access (401)
+        if (response.status === 401) {
+            // Get the redirect URL from the response body
+            const body = JSON.parse(text);
+            const redirectUrl = body.redirectTo;
+            window.location.href = redirectUrl;
             return;
         }
 
