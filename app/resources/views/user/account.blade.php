@@ -14,21 +14,21 @@
                 @method('PUT')
                 <div id="employee-information" class="details-div">
                     <h3>Employee Information</h3>
-                    <x-text-input-property labelText="Initials" name="initials" :value="$employee->getInitials()"/>
-                    <x-text-input-property labelText="First name" name="first-name" :value="$employee->getFirstName()"/>
-                    <x-text-input-property labelText="Last name" name="last-name" :value="$employee->getLastName()"/>
-                    <x-text-input-property labelText="Phone number" name="phone-number" :value="$employee->getPhoneNumber()"/>
+                    <x-text-input-property labelText="Initials" name="initials" :value="old('initials', $employee->getInitials())"/>
+                    <x-text-input-property labelText="First name" name="first-name" :value="old('first-name', $employee->getFirstName())"/>
+                    <x-text-input-property labelText="Last name" name="last-name" :value="old('last-name', $employee->getLastName())"/>
+                    <x-text-input-property labelText="Phone number" name="phone-number" :value="old('phone-number', $employee->getPhoneNumber())"/>
                 </div>
                 <div id="address-information" class="details-div">
                     <h3>Address Information</h3>
-                    <x-text-input-property labelText="Street" name="street" :value="$employee->getAddress()->getStreetName()"/>
-                    <x-text-input-property labelText="Apartment Number" name="apartment-number" :value="$employee->getAddress()->getAppartmentNumber()"/>
-                    <x-text-input-property labelText="Postal code" name="postal-code" :value="$employee->getAddress()->getPostalCode()"/>
-                    <x-text-input-property labelText="Area" name="area" :value="$employee->getAddress()->getArea()"/>
+                    <x-text-input-property labelText="Street" name="street" :value="old('street', $employee->getAddress()->getStreetName())"/>
+                    <x-text-input-property labelText="Apartment Number" name="apartment-number" :value="old('apartment-number', $employee->getAddress()->getAppartmentNumber())"/>
+                    <x-text-input-property labelText="Postal code" name="postal-code" :value="old('postal-code', $employee->getAddress()->getPostalCode())"/>
+                    <x-text-input-property labelText="Area" name="area" :value="old('area', $employee->getAddress()->getArea())"/>
                 </div>
                 <div id="account-information" class="details-div">
                     <h3>Account Information</h3>
-                    <x-text-input-property labelText="Email" name="email" :value="$employee->getAccount()->getEmail()"/>
+                    <x-text-input-property labelText="Email" name="email" :value="old('email', $employee->getAccount()->getEmail())"/>
                     <x-text-input-property labelText="New Password" name="password" type="password"/>
                     <x-text-input-property labelText="Confirm Password" name="confirm-password" type="password"/>
                 </div>
