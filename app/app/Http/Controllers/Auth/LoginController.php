@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Doctrine\ORM\Entity\Employee;
+use app\Doctrine\ORM\Repository\EmployeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Http\Controllers\Controller;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -33,16 +34,18 @@ class LoginController extends Controller
      *
      * @var string
      */
-     protected $redirectTo = '/home';
+    protected $redirectTo = '/home';
+
+    private EmployeeRepository $employeeRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(EntityManager $entityManager)
     {
-        
+        $this->employeeRepository = $entityManager->getRepository(Employee::class);
     }
 
     /**
@@ -165,11 +168,17 @@ class LoginController extends Controller
         ? session()->get('user_requesting_new_password') 
         : session()->get('employee')['employeeID'];
 
-        $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]);
+        $employee = $this->employeeRepository->find($employeeId);
         $totp = TOTP::create($employee->getAccount()->getSecret());
 
         if (!$totp->verify($validateData['verification-code'])) {
             return back()->withErrors(['verification-code' => 'Invalid verification code!']);
+        }
+
+        // Indicate that the user has successfully set up 2FA
+        if (!$employee->getAccount()->hasSetUp2fa()) {
+            $employee->getAccount()->setHasSetUp2fa(true);
+            $this->employeeRepository->updateEmployee($employee);
         }
 
         if (!$employee->getAccount()->hasSetUp2fa() || session()->has('user_requesting_new_password')) {
