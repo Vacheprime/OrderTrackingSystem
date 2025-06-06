@@ -10,6 +10,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Middleware\EnsureAdminSession;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\EnsureUser2FASetup;
 use App\Http\Middleware\EnsureSessionExists;
@@ -56,7 +57,7 @@ Route::resource('clients', ClientController::class)->middleware(EnsureEmployeeSe
 
 Route::resource('payments', PaymentController::class)->middleware(EnsureEmployeeSession::class);
 
-Route::resource('employees', EmployeeController::class)->middleware(EnsureEmployeeSession::class);
+Route::resource('employees', EmployeeController::class)->middleware(EnsureAdminSession::class);
 
 Auth::routes();
 
