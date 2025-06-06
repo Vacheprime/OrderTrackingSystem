@@ -220,7 +220,8 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee): View
     {
-        return view("employees.edit")->with(compact("employee"));
+        $currentEmployeeId = session("employee")["employeeID"];
+        return view("employees.edit")->with(compact("employee", "currentEmployeeId"));
     }
 
     /**
@@ -231,6 +232,9 @@ class EmployeeController extends Controller
         // Get the validated data
         $validatedData = $request->validated();
 
+        // Get the ID of the employee currently logged in
+        $currentEmployeeId = $request->session()->get("employee")["employeeID"];
+
         // Update the employee's address info
         $employee->getAddress()->setStreetName($validatedData["address-street"]);
         $employee->getAddress()->setAppartmentNumber($validatedData["address-apt-num"]);
@@ -239,8 +243,12 @@ class EmployeeController extends Controller
 
         // Update the employee's account info
         $employee->getAccount()->setEmail($validatedData["email"]);
-        $employee->getAccount()->setIsAdmin($validatedData["admin-status-select"]);
-        $employee->getAccount()->setAccountStatus($validatedData["account-status-select"]);
+
+        // Prevent the current employee from changing their own admin status or account status
+        if ($currentEmployeeId != $employee->getEmployeeId()) {
+            $employee->getAccount()->setIsAdmin($validatedData["admin-status-select"]);
+            $employee->getAccount()->setAccountStatus($validatedData["account-status-select"]);
+        }
 
         // Update the employee's personal information
         $employee->setFirstName($validatedData["first-name"]);
