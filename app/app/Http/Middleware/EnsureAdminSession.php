@@ -28,6 +28,10 @@ class EnsureAdminSession
     {
         // Check if the session has an 'employee' key
         if (!session()->has('employee')) {
+            // Send a 401 error response if the content requested is json or is a refresh
+            if ($request->expectsJson() || $request->hasHeader("x-refresh-table") || $request->hasHeader("x-change-details")) {
+                return response()->json(['error' => 'Unauthorized', 'redirectTo' => "/"], 401);
+            }
             return redirect('/');
         }
 
