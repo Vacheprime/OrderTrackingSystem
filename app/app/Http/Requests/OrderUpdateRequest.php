@@ -82,7 +82,8 @@ class OrderUpdateRequest extends FormRequest
         $estInstallDate = DateTime::createFromFormat("Y-m-d", $value);
         if ($estInstallDate != false && !Utils::validateDateInFuture($estInstallDate)) {
             // Pass the validation if the value stays the same
-            if ($estInstallDate->format("Y-m-d") == $order->getEstimatedInstallDate()->format("Y-m-d")) {
+            $currentEstimatedDate = $order->getEstimatedInstallDate();
+            if ($currentEstimatedDate !== null && $estInstallDate->format("Y-m-d") == $currentEstimatedDate->format("Y-m-d")) {
                 return;
             }
             // Notify of error
