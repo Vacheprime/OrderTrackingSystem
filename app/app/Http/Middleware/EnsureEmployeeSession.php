@@ -16,6 +16,11 @@ class EnsureEmployeeSession
     public function handle(Request $request, Closure $next): Response
     {
         if (!session()->has('employee')) {
+            // Send a 401 error response if the content requested is json or is a refresh
+            if ($request->expectsJson() || $request->hasHeader("x-refresh-table") || $request->hasHeader("x-change-details")) {
+                return response()->json(['error' => 'Unauthorized', 'redirectTo' => "/"], 401);
+            }
+
             return redirect('/');
         }
 
