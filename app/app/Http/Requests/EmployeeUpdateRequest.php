@@ -64,12 +64,17 @@ class EmployeeUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Get the employee being edited
+        $employeeToEdit = $this->route("employee");
+        // Get the email to ignore for validation
+        $emailToIgnore = $employeeToEdit->getAccount()->getEmail();
+
         return [
             "initials" => [new ValidInitialsRule],
             "first-name" => [new ValidNameRule],
             "last-name" => [new ValidNameRule],
             "position" => [new ValidPositionRule],
-            "email" => [new ValidEmailRule],
+            "email" => [new ValidEmailRule($emailToIgnore)],
             "phone-number" => [new ValidPhoneNumberRule],
             "address-street" => [new ValidStreetRule],
             "address-apt-num" => [new ValidAppartmentNumberRule],

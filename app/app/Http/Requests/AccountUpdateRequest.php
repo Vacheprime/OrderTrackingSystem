@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use app\Doctrine\ORM\Entity\Employee;
 use App\Rules\AddressFieldRules\ValidAppartmentNumberRule;
 use App\Rules\AddressFieldRules\ValidAreaRule;
 use App\Rules\AddressFieldRules\ValidPostalCodeRule;
@@ -30,11 +31,17 @@ class AccountUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Get the current employee which is being updated
+        $employeeId = $this->session()->get("employee")["employeeID"];
+        $employeeToEdit = app("em")->find(Employee::class, $employeeId);
+        // Get the email to ignore for validation
+        $emailToIgnore = $employeeToEdit->getAccount()->getEmail();
+
         return [
             "initials" => [new ValidInitialsRule],
             "first-name" => [new ValidNameRule],
             "last-name" => [new ValidNameRule],
-            "email" => [new ValidEmailRule],
+            "email" => [new ValidEmailRule($emailToIgnore)],
             "phone-number" => [new ValidPhoneNumberRule],
             "street" => [new ValidStreetRule],
             "apartment-number" => [new ValidAppartmentNumberRule],

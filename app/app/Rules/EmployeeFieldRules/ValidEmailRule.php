@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Request;
 
 class ValidEmailRule extends BaseValidationRule
 {
+    private ?string $emailToIgnore;
+
+    public function __construct(?string $emailToIgnore = null)
+    {
+        $this->emailToIgnore = strtolower($emailToIgnore);
+    }
 
     /**
      * Run the validation rule.
@@ -30,13 +36,8 @@ class ValidEmailRule extends BaseValidationRule
             $fail("The email is of invalid format.");
         }
 
-        // Get the request
-        $request = Request::instance();
-        // Get the employee to edit
-        $employeeToEdit = $request->route("employee");
-
         // Ignore the check if the email is the same as the current employee being edited
-        if (!is_null($employeeToEdit) && strtolower($value) == strtolower($employeeToEdit->getAccount()->getEmail())) {
+        if (!is_null($this->emailToIgnore) && strtolower($value) == $this->emailToIgnore) {
             return;
         }
 
