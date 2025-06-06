@@ -37,7 +37,7 @@ class EmployeeCreateRequest extends FormRequest
             "first-name" => [new ValidNameRule],
             "last-name" => [new ValidNameRule],
             "position" => [new ValidPositionRule],
-            "email" => [new ValidEmailRule],
+            "email" => [new ValidEmailRule(null)],
             "phone-number" => [new ValidPhoneNumberRule],
             "address-street" => [new ValidStreetRule],
             "address-apt-num" => [new ValidAppartmentNumberRule],
