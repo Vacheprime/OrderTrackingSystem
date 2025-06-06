@@ -13,14 +13,14 @@
                @csrf
                @method("PUT")
                <div class="details-div">
-                   <x-text-input-property labelText="First Name" name="first-name" :value="$client->getFirstName()"/>
-                   <x-text-input-property labelText="Last Name" name="last-name" :value="$client->getLastName()"/>
-                   <x-text-input-property labelText="Street" name="street" :value="$client->getAddress()->getStreetName()"/>
-                   <x-text-input-property labelText="Apartment Number" name="apartment-number" :value="$client->getAddress()->getAppartmentNumber()"/>
-                   <x-text-input-property labelText="Reference Number" name="reference-number" :value="$client->getClientReference()"/>
-                   <x-text-input-property labelText="Phone Number" name="phone-number" :value="$client->getPhoneNumber()"/>
-                   <x-text-input-property labelText="Postal Code" name="postal-code" :value="$client->getAddress()->getPostalCode()"/>
-                   <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="$client->getAddress()->getArea()"/>
+                   <x-text-input-property labelText="First Name" name="first-name" :value="old('first-name', $client->getFirstName())"/>
+                   <x-text-input-property labelText="Last Name" name="last-name" :value="old('last-name', $client->getLastName())"/>
+                   <x-text-input-property labelText="Street" name="street" :value="old('street', $client->getAddress()->getStreetName())"/>
+                   <x-text-input-property labelText="Apartment Number" name="apartment-number" :value="old('apartment-number', $client->getAddress()->getAppartmentNumber())"/>
+                   <x-text-input-property labelText="Reference Number" name="reference-number" :value="old('reference-number', $client->getClientReference())"/>
+                   <x-text-input-property labelText="Phone Number" name="phone-number" :value="old('phone-number', $client->getPhoneNumber())"/>
+                   <x-text-input-property labelText="Postal Code" name="postal-code" :value="old('postal-code', $client->getAddress()->getPostalCode())"/>
+                   <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="old('area', $client->getAddress()->getArea())"/>
                </div>
                <div class="action-input-div">
                    <button class="regular-button" type="submit">Save</button>

@@ -13,13 +13,13 @@
                 @csrf
                 @method("PUT")
                 <div class="details-div">
-                    <x-date-input-property labelText="Date" name="payment-date" :value="$payment->getPaymentDate()->format('Y-m-d')"/>
-                    <x-text-input-property labelText="Amount" name="amount" :value="$payment->getAmount()"/>
+                    <x-date-input-property labelText="Date" name="payment-date" :value="old('payment-date-input', $payment->getPaymentDate()->format('Y-m-d'))"/>
+                    <x-text-input-property labelText="Amount" name="amount" :value="old('amount', $payment->getAmount())"/>
                     <x-select-input-property labelText="Type" name="type">
-                        <option value="DEPOSIT" {{$payment->getType() == \app\Doctrine\ORM\Entity\PaymentType::DEPOSIT ? "selected" : ""}}>DEPOSIT</option>
-                        <option value="INSTALLMENT" {{$payment->getType() == \app\Doctrine\ORM\Entity\PaymentType::INSTALLMENT ? "selected" : ""}}>INSTALLMENT</option>
+                        <option value="DEPOSIT" {{ old('type', $payment->getType()) == \app\Doctrine\ORM\Entity\PaymentType::DEPOSIT ? "selected" : "" }}>DEPOSIT</option>
+                        <option value="INSTALLMENT" {{ old('type', $payment->getType()) == \app\Doctrine\ORM\Entity\PaymentType::INSTALLMENT ? "selected" : "" }}>INSTALLMENT</option>
                     </x-select-input-property>
-                    <x-text-input-property labelText="Method" name="method" :value="$payment->getMethod()"/>
+                    <x-text-input-property labelText="Method" name="method" :value="old('method', $payment->getMethod())"/>
                 </div>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Save</button>

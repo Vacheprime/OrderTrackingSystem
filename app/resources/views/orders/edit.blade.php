@@ -14,31 +14,31 @@
                 <h3>Order Details</h3>
                 <div id="order-details-div" class="details-div">
                     <x-text-input-property labelText="Invoice Number" name="invoice-number"
-                                           :value="$order->getInvoiceNumber()"/>
-                    <x-text-input-property labelText="Total Price" name="total-price" :value="$order->getPrice()"/>
+                                           :value="old('invoice-number', $order->getInvoiceNumber())"/>
+                    <x-text-input-property labelText="Total Price" name="total-price" :value="old('total-price', $order->getPrice())"/>
                     <x-select-input-property labelText="Status" name="order-status">
                         <option
-                            value="measuring" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::MEASURING ? "selected" : "" }}>
+                            value="measuring" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::MEASURING->value ? "selected" : "" }}>
                             Measuring
                         </option>
                         <option
-                            value="ordering_material" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::ORDERING_MATERIAL ? "selected" : "" }}>
+                            value="ordering_material" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::ORDERING_MATERIAL->value ? "selected" : "" }}>
                             Ordering material
                         </option>
                         <option
-                            value="fabricating" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::FABRICATING ? "selected" : "" }}>
+                            value="fabricating" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::FABRICATING->value ? "selected" : "" }}>
                             Fabricating
                         </option>
                         <option
-                            value="ready_to_handover" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::READY_TO_HANDOVER ? "selected" : "" }}>
-                            Ready for handover
+                            value="ready_to_handover" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::READY_TO_HANDOVER->value ? "selected" : "" }}>
+                            Ready to handover
                         </option>
                         <option
-                            value="installed" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::INSTALLED ? "selected" : "" }}>
+                            value="installed" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::INSTALLED->value ? "selected" : "" }}>
                             Installed
                         </option>
                         <option
-                            value="picked_up" {{$order->getStatus() == \app\Doctrine\ORM\Entity\Status::PICKED_UP ? "selected" : "" }}>
+                            value="picked_up" {{ strtoupper(old('order-status-select', $order->getStatus()->value)) == \app\Doctrine\ORM\Entity\Status::PICKED_UP->value ? "selected" : "" }}>
                             Picked up
                         </option>
                     </x-select-input-property>
@@ -49,29 +49,29 @@
                 <h3>Date Details</h3>
                 <div id="date-details-div" class="details-div">
                     <x-date-input-property labelText="Fabrication Start Date" name="fabrication-start-date"
-                                           :value="$order->getFabricationStartDate() == null ? '' : $order->getFabricationStartDate()->format('Y-m-d')"/>
+                                           :value="old('fabrication-start-date-input', $order->getFabricationStartDate() == null ? '' : $order->getFabricationStartDate()->format('Y-m-d'))"/>
                     <x-date-input-property labelText="Estimated Installation Date" name="estimated-installation-date"
-                                           :value="$order->getEstimatedInstallDate() == null ? '' : $order->getEstimatedInstallDate()->format('Y-m-d')"/>
+                                           :value="old('estimated-installation-date-input', $order->getEstimatedInstallDate() == null ? '' : $order->getEstimatedInstallDate()->format('Y-m-d'))"/>
                 </div>
 
                 <h3>Product Details</h3>
                 <div id="product-details-div" class="details-div">
                     <x-text-input-property labelText="Material Name" name="material-name"
-                                           :value="$order->getProduct()->getMaterialName()"/>
+                                           :value="old('material-name', $order->getProduct()->getMaterialName())"/>
                     <x-text-input-property labelText="Slab Height" name="slab-height"
-                                           :value="$order->getProduct()->getSlabHeight()"/>
+                                           :value="old('slab-height', $order->getProduct()->getSlabHeight())"/>
                     <x-text-input-property labelText="Slab Width" name="slab-width"
-                                           :value="$order->getProduct()->getSlabWidth()"/>
+                                           :value="old('slab-width', $order->getProduct()->getSlabWidth())"/>
                     <x-text-input-property labelText="Slab Thickness" name="slab-thickness"
-                                           :value="$order->getProduct()->getSlabThickness()"/>
+                                           :value="old('slab-thickness', $order->getProduct()->getSlabThickness())"/>
                     <x-text-input-property labelText="Slab Square Footage" name="slab-square-footage"
-                                           :value="$order->getProduct()->getSlabSquareFootage()"/>
+                                           :value="old('slab-square-footage', $order->getProduct()->getSlabSquareFootage())"/>
                     <x-text-input-property labelText="Sink Type" name="sink-type"
-                                           :value="$order->getProduct()->getSinkType()"/>
+                                           :value="old('sink-type', $order->getProduct()->getSinkType())"/>
                     <x-area-input-property labelText="Product Description" name="product-description"
-                                           :value="$order->getProduct()->getProductDescription()"/>
+                                           :value="old('product-description', $order->getProduct()->getProductDescription())"/>
                     <x-area-input-property labelText="Product Notes" name="product-notes"
-                                           :value="$order->getProduct()->getProductNotes()"/>
+                                           :value="old('product-notes', $order->getProduct()->getProductNotes())"/>
                 </div>
                 <div class="action-input-div">
                     <button class="regular-button" type="submit">Update</button>
