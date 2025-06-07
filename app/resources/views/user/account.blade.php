@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="{{ asset('css/account.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href=" {{ asset('css/confirmation.css') }}">
+<script src="{{ asset('js/confirmation.js') }}"></script>
 
 <x-layout title="Account">
     <h1 class="content-title">ACCOUNT</h1>
-    @isset($messageHeader)
-        <p id="{{$messageType}}" class="message-header">{{$messageHeader}}<button onclick="document.getElementById('{{$messageType}}').remove()">x</button></p>
+    @isset($notificationMessage)
+        <x-notification :message="$notificationMessage" :type="$messageType"/>
     @endisset
     <div class="content-container">
         <div id="account-content" class="main-content">
@@ -35,7 +37,9 @@
                 <p><i class="fa-solid fa-circle-info"></i> Leave the Password and Confirm Password fields empty if you do not wish to 
                     update the employee's password.</p>
                 <div class="action-input-div">
-                    <button type="submit" class="regular-button">Apply changes</button>
+                    <button type="button" class="regular-button" onclick="withConfirmation('Confirm changes to your account information?', () => {
+                        document.getElementById('account-form').submit();
+                    })">Apply changes</button>
                 </div>
             </form>  
             </div>   
