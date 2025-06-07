@@ -20,9 +20,9 @@ class AccountController extends Controller
         $employee = $em->find(Employee::class, $employeeInfo['employeeID']);
 
 
-        $messageHeader = Session::get('messageHeader');
+        $notificationMessage = Session::get('notificationMessage');
         $messageType = Session::get('messageType');
-        return view("user.account")->with(compact("employee", "messageHeader", "messageType"));
+        return view("user.account")->with(compact("employee", "notificationMessage", "messageType"));
     }
 
 
@@ -58,9 +58,9 @@ class AccountController extends Controller
             $employeeRepository->updateEmployee($employee);
             Log::info('Employee account updated successfully', ['id' => $employeeInfo['employeeID']]);
 
-            $messageHeader = "Account Updated";
-            $messageType = "edit-message-header";
-            return redirect("/account")->with(compact("messageHeader", "messageType"));
+            $notificationMessage = "Account Updated";
+            $messageType = "success";
+            return redirect("/account")->with(compact("notificationMessage", "messageType"));
         } catch (\Exception $e) {
             Log::error('Error updating employee account', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors(['error' => 'Failed to update account.']);
