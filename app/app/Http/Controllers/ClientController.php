@@ -221,7 +221,7 @@ class ClientController extends Controller
         $this->repository->updateClient($client);
         
         // Redirect with confirmation
-        $notificationMessage = "Client Edited";
+        $notificationMessage = "Edited client with ID {$client->getClientId()}";
         $messageType= "success";
         return redirect("/clients")->with(compact("notificationMessage", "messageType"));
     }
