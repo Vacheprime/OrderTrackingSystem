@@ -1,0 +1,92 @@
+/** Reset dialog styles **/
+dialog.notification {
+    transform: translate(-50%, 0); /* Center horizontally */
+    left: 50%; /* Position at 50% from left edge */
+    right: auto; /* Reset right positioning */
+    margin-right: 0; /* Reset any right margins */
+    margin-left: 0; /* Reset any left margins */
+    animation: slideup 0.3s ease-out forwards;
+}
+
+/** 
+ * Animation for sliding up the notification dialog
+ * Starts from below and slides up into view
+ */
+@keyframes slideup {
+    from {
+        transform: translate(-50%, 100%); /* Start from below */
+        opacity: 0; /* Start invisible */
+    }
+    to {
+        transform: translate(-50%, 0); /* End at original position */
+        opacity: 1; /* Fade in */
+    }
+}
+
+/* Add a class for the close animation */
+dialog.notification.closing {
+    animation: slideDown 0.3s ease-in forwards;
+}
+
+/** 
+ * Animation for sliding down the notification dialog
+ * Starts from its position and slides down out of view
+ */
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+    }
+}
+
+/* Styles for the notification dialog */
+dialog.notification {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    position: fixed;
+    bottom: 2rem; /* Position from bottom instead of top */
+    top: auto; /* Reset top positioning */
+    z-index: 1000;
+}
+
+/** Styles for the notification content */
+.notification-body {
+    width: fit-content;
+}
+
+/** Styles for the container of the notification */
+.notification-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+/** Styles for the notification types */
+.notification.info {
+    border-left: 4px solid #3498db;
+}
+
+.notification.success {
+    border-left: 4px solid #2ecc71;
+}
+
+.notification.error {
+    border-left: 4px solid #e74c3c;
+}
+
+/** Styles for the close button */
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
