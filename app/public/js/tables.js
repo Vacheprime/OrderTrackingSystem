@@ -58,7 +58,8 @@ function updateDetailsFromJson(json, prefix = "detail-") {
 
         // Update the element based on its type
         if (element.tagName === 'IMG') {
-            element.src = value;
+            console.log(value);
+            element.src = "plans/" + value;
         } else if ('value' in element) {
             element.value = value;
         } else {

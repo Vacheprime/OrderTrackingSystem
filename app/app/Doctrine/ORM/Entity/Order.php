@@ -138,6 +138,10 @@ class Order implements JsonSerializable {
     }
 
     public function jsonSerialize(): array {
+        // Get the plan image path and extract just the filename
+        $planImagePath = $this->product->getPlanImagePath();
+        $fabricationPlanImage = $planImagePath ? basename($planImagePath) : "-";
+        
         return [
             "orderId" => $this->orderId,
             "clientId" => $this->client->getClientId(),
@@ -155,7 +159,7 @@ class Order implements JsonSerializable {
             "slabThickness" => $this->product->getSlabThickness() ?? "-",
             "slabSquareFootage" => $this->product->getSlabSquareFootage() ?? "-",
             "sinkType" => $this->product->getSinkType() ?? "-",
-            "fabricationPlanImage" => $this->product->getPlanImagePath() ?? "-",
+            "fabricationPlanImage" => $fabricationPlanImage,
             "productDescription" => $this->product->getProductDescription() ?? "-",
             "productNotes" => $this->product->getProductNotes() ?? "-",
         ];
