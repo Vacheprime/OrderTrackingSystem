@@ -57,9 +57,19 @@ function updateDetailsFromJson(json, prefix = "detail-") {
         if (!element) return;
 
         // Update the element based on its type
-        if (element.tagName === 'IMG') {
-            console.log(value);
-            element.src = "plans/" + value;
+        if (element.id === 'detail-fabrication-plan-image') {
+            // Disable the link if the value is empty
+            if (value === "-") {
+                element.innerText = "No fabrication plan";
+                element.classList.add("disabled-image");
+                return;
+            }
+            // Reenable the link if the value is not empty
+            element.classList.remove("disabled-image");
+            // Set the link text
+            element.innerText = "View Plan";
+            // Set the href to the fabrication plan URL
+            element.href = "plans/" + value;
         } else if ('value' in element) {
             element.value = value;
         } else {
