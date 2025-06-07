@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Middleware\EnsureAdminSession;
@@ -49,6 +50,9 @@ Route::get('/home', [HomeController::class, "index"])->middleware(EnsureEmployee
 
 Route::get('/account', [AccountController::class, "index"])->middleware(EnsureEmployeeSession::class);
 Route::put('/account', [AccountController::class, "update"])->middleware(EnsureEmployeeSession::class);
+
+// Fabrication Plan Images
+Route::get('/plans/{imageName}', [ImageController::class, 'show'])->middleware(EnsureEmployeeSession::class);
 
 // CRUD Orders, Clients, Payments, Employees
 Route::resource('orders', OrderController::class)->middleware(EnsureEmployeeSession::class);
