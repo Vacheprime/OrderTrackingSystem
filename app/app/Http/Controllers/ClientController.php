@@ -70,9 +70,9 @@ class ClientController extends Controller
             }
 
             // Return the page
-            $messageHeader = Session::get("messageHeader");
+            $notificationMessage = Session::get("notificationMessage");
             $messageType = Session::get("messageType");
-            return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
+            return view('clients.index')->with(compact("clients", "pages", "page", "notificationMessage", "messageType"));
         }
 
         // Apply filters
@@ -130,10 +130,9 @@ class ClientController extends Controller
             );
         }
 
-        // Return whole index page
-        $messageHeader = Session::get("messageHeader");
+        $notificationMessage = Session::get("notificationMessage");
         $messageType = Session::get("messageType");
-        return view('clients.index')->with(compact("clients", "pages", "page", "messageHeader", "messageType"));
+        return view('clients.index')->with(compact("clients", "pages", "page", "notificationMessage", "messageType"));
     }
 
     private function getClientInfoAsJson(Client $client): string {
@@ -161,23 +160,24 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $validateData = $request->validate([
-            "first-name"=> "required",
-            "last-name"=> "required",
-            "reference-number"=> "required",
-            "phone-number"=> "required",
-            "address"=> "required",
-            "postal-code"=> "required",
-            "city"=> "required",
-            "province"=> "required",
-            "area"=> "required",
-        ]);
+        /** TO BE REMOVED */
+        // $validateData = $request->validate([
+        //     "first-name"=> "required",
+        //     "last-name"=> "required",
+        //     "reference-number"=> "required",
+        //     "phone-number"=> "required",
+        //     "address"=> "required",
+        //     "postal-code"=> "required",
+        //     "city"=> "required",
+        //     "province"=> "required",
+        //     "area"=> "required",
+        // ]);
 
-        $messageHeader = "Created Client";
-        $messageType= "create-message-header";
-        return redirect("/clients")->with(compact("messageHeader", "messageType"));
+        // $notificationMessage = "Client Created";
+        // $messageType = "success";
+        // return redirect("/clients")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
@@ -221,9 +221,9 @@ class ClientController extends Controller
         $this->repository->updateClient($client);
         
         // Redirect with confirmation
-        $messageHeader = "Edit Client";
-        $messageType= "edit-message-header";
-        return redirect("/clients")->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Client Edited";
+        $messageType= "success";
+        return redirect("/clients")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
