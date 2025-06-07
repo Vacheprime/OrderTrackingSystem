@@ -20,6 +20,13 @@ class ImageController extends Controller
             abort(404, 'Image not found.');
         }
 
-        return response()->file($path);
+        // Define cache control headers to prevent caching
+        $cacheControlHeaders = [
+            "Cache-Control" => "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma" => "no-cache",
+            "Expires" => "0",
+        ];
+
+        return response()->file($path, $cacheControlHeaders);
     }
 }
