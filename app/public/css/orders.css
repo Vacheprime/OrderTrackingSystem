@@ -303,3 +303,11 @@
 .status.picked_up {
     color: green;
 }
+
+.disabled-image {
+    pointer-events: none; /* Prevents clicking */
+    opacity: 0.6; /* Visual indication */
+    cursor: not-allowed; /* Changes cursor */
+    text-decoration: none; /* Removes underline */
+    color: #666; /* Grey text */
+}
