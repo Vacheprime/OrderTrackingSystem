@@ -65,9 +65,9 @@ class EmployeeController extends Controller
             }
 
             // Return the whole view with payments
-            $messageHeader = Session::get("messageHeader");
+            $notificationMessage = Session::get("notificationMessage");
             $messageType = Session::get("messageType");
-            return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
+            return view('employees.index')->with(compact("employees", "pages", "page", "notificationMessage", "messageType"));
         }
 
         // Get the repository
@@ -130,9 +130,9 @@ class EmployeeController extends Controller
         }
 
         // Return the full page with search params
-        $messageHeader = Session::get("messageHeader");
+        $notificationMessage = Session::get("notificationMessage");
         $messageType = Session::get("messageType");
-        return view('employees.index')->with(compact("employees", "pages", "page", "messageHeader", "messageType"));
+        return view('employees.index')->with(compact("employees", "pages", "page", "notificationMessage", "messageType"));
     }
 
     public function getEmployeeInfoAsJson(Employee $employee): string
@@ -202,9 +202,9 @@ class EmployeeController extends Controller
         $this->repository->insertEmployee($employee);
 
         // Return a success message
-        $messageHeader = "Create Employee";
-        $messageType= "create-message-header";
-        return redirect("/employees")->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Employee created";
+        $messageType= "success";
+        return redirect("/employees")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
@@ -265,9 +265,9 @@ class EmployeeController extends Controller
         // Update the employee
         $this->repository->updateEmployee($employee);
 
-        $messageHeader = "Edit Employee {$employee->getEmployeeId()}";
-        $messageType= "edit-message-header";
-        return redirect("/employees")->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Updated Employee with ID {$employee->getEmployeeId()}";
+        $messageType = "success";
+        return redirect("/employees")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
