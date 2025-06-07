@@ -1,8 +1,11 @@
 <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
+<link rel="stylesheet" href=" {{ asset('css/confirmation.css') }}">
+<script src="{{ asset('js/confirmation.js') }}"></script>
+
 <x-layout title="Edit Order">
     <h1 class="content-title">Edit ORDER</h1>
     <div class="content-container">
-        <form method="POST" action="{{route('orders.update', $order->getOrderId())}}" class="create-edit-form" enctype="multipart/form-data">
+        <form id="edit-order-form" method="POST" action="{{route('orders.update', $order->getOrderId())}}" class="create-edit-form" enctype="multipart/form-data">
             @csrf
             @method("PUT")
             <div id="orders-create-content" class="main-content">
@@ -74,7 +77,9 @@
                                            :value="old('product-notes', $order->getProduct()->getProductNotes())"/>
                 </div>
                 <div class="action-input-div">
-                    <button class="regular-button" type="submit">Update</button>
+                    <button class="regular-button" type="button" onclick="withConfirmation('Confirm changes to this order?', () => {
+                        document.getElementById('edit-order-form').submit();
+                    })">Update</button>
                     <a href="/orders" class="regular-button">Cancel</a>
                 </div>
             </div>

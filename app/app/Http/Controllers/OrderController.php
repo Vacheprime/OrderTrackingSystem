@@ -152,9 +152,9 @@ class OrderController extends Controller {
         }
 
         // Return the full orders page
-        $messageHeader = Session::get("messageHeader");
+        $notificationMessage = Session::get("notificationMessage");
         $messageType = Session::get("messageType");
-        return view('orders.index')->with(compact("orders", "totalPages", "page", "messageHeader", "messageType"));
+        return view('orders.index')->with(compact("orders", "totalPages", "page", "notificationMessage", "messageType"));
     }
 
     public function getOrderInfoAsJson(Order $order): string {
@@ -266,8 +266,9 @@ class OrderController extends Controller {
         );
 
         // Redirect back to orders
-        $messageHeader = "Created New Order";
-        return redirect('/orders')->with(compact("messageHeader"));
+        $notificationMessage = "Created New Order";
+        $messageType = "success";
+        return redirect('/orders')->with(compact("notificationMessage", "messageType"));
     }
 
     public function storeWithClientId(CreateOrderRequest $request): RedirectResponse {
@@ -339,9 +340,9 @@ class OrderController extends Controller {
         );
 
         // Redirect back to orders
-        $messageHeader = "Created New Order";
-        $messageType = "create-message-header";
-        return redirect('/orders')->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Created New Order";
+        $messageType = "success";
+        return redirect('/orders')->with(compact("notificationMessage", "messageType"));
     }
 
     /**
@@ -441,9 +442,9 @@ class OrderController extends Controller {
         );
 
         // Return to order pages
-        $messageHeader = "Edited Order {$order->getOrderId()}";
-        $messageType = "edit-message-header";
-        return redirect('/orders')->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Edited Order with ID {$order->getOrderId()}";
+        $messageType = "success";
+        return redirect('/orders')->with(compact("notificationMessage", "messageType"));
     }
 
     /**

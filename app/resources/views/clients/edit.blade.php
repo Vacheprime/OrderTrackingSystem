@@ -1,5 +1,8 @@
 <link rel="stylesheet" href="{{ asset('css/clients.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" href=" {{ asset('css/confirmation.css') }}">
+<script src="{{ asset('js/confirmation.js') }}"></script>
+
 <x-layout title="Edit Client">
     <h1 class="content-title">EDIT CLIENT</h1>
    <div class="content-container">
@@ -23,7 +26,9 @@
                    <x-text-input-property labelText="Area (Neighborhood)" name="area" :value="old('area', $client->getAddress()->getArea())"/>
                </div>
                <div class="action-input-div">
-                   <button class="regular-button" type="submit">Save</button>
+                   <button class="regular-button" type="button" onclick="withConfirmation('Confirm changes to this client?', () => {
+                        document.getElementById('create-edit-form').submit();
+                   })">Save</button>
                    <a href="/clients" class="regular-button">Cancel</a>
                </div>
            </form>

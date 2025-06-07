@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{ asset('css/employees.css') }}">
+<link rel="stylesheet" href="{{ asset('css/confirmation.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="{{ asset('js/confirmation.js') }}"></script>
 
 <x-layout title="Edit Employee">
     <h1 class="content-title">EDIT EMPLOYEE</h1>
@@ -10,7 +12,7 @@
                 <h2>Employee Information</h2>
                 <div class="filler-div"></div>
             </div>
-            <form action="{{route("employees.update", $employee->getEmployeeId())}}" method="POST" class="create-edit-form">
+            <form id="employee-edit-form" action="{{route("employees.update", $employee->getEmployeeId())}}" method="POST" class="create-edit-form">
                 @csrf
                 @method("PUT")
                 <h3>Employee Details</h3>
@@ -65,7 +67,9 @@
                 <p><i class="fa-solid fa-circle-info"></i> Leave the Password and Confirm Password fields empty if you do not wish to 
                     update the employee's password.</p>
                 <div class="action-input-div">
-                    <button class="regular-button" type="submit">Save</button>
+                    <button class="regular-button" type="button" onclick="withConfirmation('Confirm changes to this employee?', () => {
+                        document.getElementById('employee-edit-form').submit();
+                    })">Save</button>
                     <a href="/employees" class="regular-button">Cancel</a>
                 </div>
             </form>

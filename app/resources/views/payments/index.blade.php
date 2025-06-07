@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="{{ asset('css/payments.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" href="{{ asset('css/confirmation.css') }}">
 <script src="{{ asset('js/tables.js') }}"></script>
+<script src="{{ asset('js/confirmation.js') }}"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -11,8 +13,8 @@
 
 <x-layout title="Payment Management">
     <h1 class="content-title">PAYMENT MANAGEMENT</h1>
-    @isset($messageHeader)
-        <p id="{{$messageType}}" class="message-header">{{$messageHeader}}<button onclick="document.getElementById('{{$messageType}}').remove()">x</button></p>
+    @isset($notificationMessage)
+        <x-notification :message="$notificationMessage" :type="$messageType"/>
     @endisset
     <div class="content-container">
         <div id="payments-content" class="main-content">
@@ -59,9 +61,12 @@
                     <a id="detail-edit-btn" {{-- HREF is ADDED Dynamically --}} class="regular-button">Edit</a>
                     @if(session()->has('employee') && session()->get('employee')['isEmployeeAdmin'])
                     <form id="detail-delete-form" method="POST" action="">
-                    @csrf
-                    @method("DELETE")
-                    <button type="submit" id="detail-delete-btn" class="regular-button">Delete</button>
+                        @csrf
+                        @method("DELETE")
+                        <button type="button" id="detail-delete-btn" class="regular-button" onclick="withConfirmation('Are you sure you want to delete the payment?', () => {
+                            const form = document.getElementById('detail-delete-form');
+                            form.submit();
+                        })">Delete</button>
                     </form>
                     @endif
                 </div>

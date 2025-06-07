@@ -70,9 +70,9 @@ class PaymentController extends Controller {
             }
 
             // Return the view with payments
-            $messageHeader = Session::get("messageHeader");
+            $notificationMessage = Session::get("notificationMessage");
             $messageType = Session::get("messageType");
-            return view('payments.index')->with(compact("payments", "pages", "page", "messageHeader", "messageType"));
+            return view('payments.index')->with(compact("payments", "pages", "page", "notificationMessage", "messageType"));
         }
 
         // Get the repository
@@ -129,9 +129,9 @@ class PaymentController extends Controller {
             );
         }
 
-        $messageHeader = Session::get("messageHeader");
+        $notificationMessage = Session::get("notificationMessage");
         $messageType = Session::get("messageType");
-        return view('payments.index')->with(compact("payments", "pages", "page","messageHeader", "messageType"));
+        return view('payments.index')->with(compact("payments", "pages", "page", "notificationMessage", "messageType"));
     }
 
     /**
@@ -183,39 +183,9 @@ class PaymentController extends Controller {
         $this->repository->insertPayment($payment);
 
         // Return a success message
-        $messageHeader = "Created Payment";
-        $messageType= "create-message-header";
-        return redirect("/payments")->with(compact("messageHeader", "messageType"));
-    }
-
-    public function validatePaymentInputData(array $data, bool $isCreate): array {
-        $errors = [];
-
-        if ($isCreate) {
-            $orderRepository = $this->entityManager->getRepository(Order::class);
-            $orderId = intval($data["order-id"]);
-            if ($orderRepository->find($orderId) === null) {
-                $errors["order-id"] = "The order ID does not match an existing order";
-            }
-        }
-
-        $paymentDate = DateTime::createFromFormat("Y-m-d", $data["payment-date-input"]);
-        if ($paymentDate != false && !Utils::validateDateInPastOrNow($paymentDate)) {
-            $errors["payment-date-input"] = "The payment date must be in the past or present.";
-        }
-
-        if (!Utils::validatePositiveAmount($data["amount"])) {
-            $errors["amount"] = "The amount cannot be a negative number.";
-        }
-
-        if (PaymentType::tryFrom(strtoupper($data["type-select"])) === null) {
-            $errors["type-select"] = "The payment type is not one of the accepted values";
-        }
-
-        if (!Utils::validatePaymentMethod($data["method"])) {
-            $errors["method"] = "The method is not well formatted.";
-        }
-        return $errors;
+        $notificationMessage = "Payment Created";
+        $messageType= "success";
+        return redirect("/payments")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
@@ -249,21 +219,24 @@ class PaymentController extends Controller {
         $this->repository->updatePayment($payment);
 
         // Return a success message
-        $messageHeader = "Edited Payment {$payment->getPaymentId()}";
-        $messageType= "edit-message-header";
-        return redirect("/payments")->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Edited Payment with ID {$payment->getPaymentId()}";
+        $messageType= "success";
+        return redirect("/payments")->with(compact("notificationMessage", "messageType"));
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Payment $payment): RedirectResponse {
+        // Save the payment ID for the notification
+        $paymentId = $payment->getPaymentId();
+
         // Delete the payment from the repository
         $this->repository->deletePayment($payment);
 
         // Return a success message
-        $messageHeader = "Deleted Payment {$payment->getPaymentId()}";
-        $messageType= "delete-message-header";
-        return redirect("/payments")->with(compact("messageHeader", "messageType"));
+        $notificationMessage = "Deleted Payment with ID {$paymentId}";
+        $messageType= "error";
+        return redirect("/payments")->with(compact("notificationMessage", "messageType"));
     }
 }
