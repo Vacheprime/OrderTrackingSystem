@@ -10,7 +10,7 @@
     <div class="content-container">
         <form method="POST" action="/orders" class="create-edit-form" enctype="multipart/form-data">
             @csrf
-            <div id="orders-create-content" class="main-content">
+            <div id="orders-create-content" class="main-content scrollable-bar">
                 <div class="create-edit-header">
                     <a href="{{$clientId == "" ? "/orders" : "/clients"}}" class="regular-button">Go Back</a>
                     <h2>Order Information</h2>
