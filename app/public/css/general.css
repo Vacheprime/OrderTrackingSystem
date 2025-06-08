@@ -95,25 +95,48 @@ main {
 
     background-color: #fff;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     scroll-behavior: smooth;
 }
 
-.side-content ::-webkit-scrollbar {
+/* Define the styles for the scrollbar on elements that are scrollable */
+.scrollable-bar::-webkit-scrollbar {
     width: 8px;
 }
 
-.side-content ::-webkit-scrollbar-track {
+.scrollable-bar::-webkit-scrollbar-track {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    background-color: #eee;
+}
+
+.scrollable-bar::-webkit-scrollbar-thumb {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    background-color: #9d8b75;
+}
+
+.scrollable-bar::-webkit-scrollbar-thumb:hover {
+    background-color: #dfd8cd;
+}
+
+
+.side-content-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.side-content-scrollable::-webkit-scrollbar-track {
     /*border-top: solid 6px #807160;*/
     /*border-bottom: solid 6px #807160;*/
     background-color: #eee;
 }
 
-.side-content ::-webkit-scrollbar-thumb {
+.side-content-scrollable::-webkit-scrollbar-thumb {
     margin: -6px 0;
     background-color: #9d8b75;
 }
 
-.side-content ::-webkit-scrollbar-thumb:hover {
+.side-content-scrollable::-webkit-scrollbar-thumb:hover {
     background-color: #dfd8cd;
 }
 
