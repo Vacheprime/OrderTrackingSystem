@@ -110,7 +110,7 @@ class Utils {
      * 
      * The format for an appartment number is a string ranging from 1 to 15 characters
      * inclusively. Accepted characters are any uppercase or lowercase letter in any
-     * language, digits, dashes, forward slashes, and periods. The appartment number
+     * language, digits, dashes, forward slashes, periods, and spaces. The appartment number
      * cannot start or end with whitespace characters.
      * 
      * 
@@ -119,7 +119,7 @@ class Utils {
      */
     public static function validateAptNumber(string $aptNumber): bool {
         if (self::hasInvalidSpaces($aptNumber)) return false;
-        return preg_match('/^[\p{L}\d\-\/\.]{1,15}$/u', $aptNumber) === 1;
+        return preg_match('/^[\p{L}\d\-\/\. ]{1,15}$/u', $aptNumber) === 1;
     }
 
     /**
@@ -130,14 +130,16 @@ class Utils {
      * It is of the format: ZDL DLD
      * where Z is one of the following letters: 
      * A B C E G H J K L M N P R S T V X Y
-     * D is a digit, and L is an uppercase letter A-Z.
+     * D is a digit, and L is a letter from A-Z.
+     * 
+     * The postal code is case insensitive.
      * 
      * @param string $postalCode The postal code to validate.
      * @return bool A boolean indicating whether the postal code is valid.
      */
     public static function validatePostalCode(string $postalCode): bool {
         if (self::hasInvalidSpaces($postalCode)) return false;
-        return preg_match('/^[ABCEGHJKLMNPRSTVXY]\d[A-Z] \d[A-Z]\d$/', $postalCode) === 1;
+        return preg_match('/^[ABCEGHJKLMNPRSTVXY]\d[A-Z] \d[A-Z]\d$/i', $postalCode) === 1;
     }
 
     /**
@@ -243,14 +245,14 @@ class Utils {
     /**
      * Checks whether a phone number is of valid format.
      * 
-     * The format for a phone number is a string of 17 characters.
-     * It has the format +D (DDD) DDD-DDDD where D is a digit.
+     * The format for a phone number is a string of 17 characters maximum.
+     * It accepts digits, spaces, parentheses, dashes, and plus signs.
      * 
      * @param string $phoneNumber The phone number to validate.
      * @return bool A boolean indicating whether the phone number is valid.
      */
     public static function validatePhoneNumber(string $phoneNumber): bool {
-        return preg_match('/^\+\d \(\d{3}\) \d{3}-\d{4}$/', $phoneNumber) === 1;
+        return preg_match('/^[\(\)\-\d\+ ]{1,17}$/', $phoneNumber) === 1;
     }
 
     /**
@@ -300,7 +302,7 @@ class Utils {
      * @return bool A boolean indicating whether the invoice number is valid.
      */
     public static function validateInvoiceNumber(string $invoiceNumber): bool {
-        return preg_match('/^[a-zA-Z\d]{1,100}$/', $invoiceNumber) === 1;
+        return preg_match('/^[a-zA-Z\d\-\+ ]{1,100}$/', $invoiceNumber) === 1;
     }
 
     // ### OrderProduct Validation Functions ###
