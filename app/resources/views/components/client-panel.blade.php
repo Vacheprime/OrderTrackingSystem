@@ -1,7 +1,7 @@
 @props(['display' => true])
 <script src="{{ asset('js/order.js') }}"></script>
 
-<div id="orders-create-side-content" class="side-content" @if(!$display) style="display: none;" @endif>
+<div id="orders-create-side-content" class="side-content scrollable-bar" @if(!$display) style="display: none;" @endif>
     <div class="create-edit-header">
         <h2>Client Information</h2>
     </div>
