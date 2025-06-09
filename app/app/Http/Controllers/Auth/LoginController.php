@@ -158,6 +158,14 @@ class LoginController extends Controller
      * Fetches the /resources/views/login/codeverification.blade.php
      */
     public function code2fa() {
+        $employeeSessionInfo = session()->get('employee');
+        $employeeId = $employeeSessionInfo["employeeID"];
+        $employee = $this->employeeRepository->find($employeeId);
+        
+        if ($employee->getAccount()->hasSetUp2fa() && $employeeSessionInfo["2fa_setup"]) {
+            return redirect('/home');
+        }
+
         return view("login.codeverification");
     }
 
