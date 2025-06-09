@@ -246,7 +246,7 @@ class LoginController extends Controller
             return back()->withErrors(['contact-method' => 'User does not exist! Provide valid credentials!']);
         }
 
-        if ($employee && $employee->getAccount()->isAccountEnabled()) {
+        if ($employee && !$employee->getAccount()->isAccountEnabled()) {
            return back()->withErrors(['contact-method' => 'Account Disabled!']);
         }
 
