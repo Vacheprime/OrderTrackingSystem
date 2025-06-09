@@ -115,6 +115,14 @@ class LoginController extends Controller
     }
 
     /**
+     * GET => '/logout'
+     * Redirects to '/' function
+     */
+    public function logoutIndex() {
+        return redirect('/');
+    }
+
+    /**
      * GET => '/qr2fa'
      * Fetches the /resources/views/login/qrverification.blade.php
      */

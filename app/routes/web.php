@@ -33,6 +33,7 @@ Route::get('/tracking/display', [TrackingController::class, "display"]);
 Route::get('/login', [LoginController::class, "login"]);
 Route::post('/login', [LoginController::class, "auth"]);
 Route::post('/logout', [LoginController::class, "logout"]);
+Route::get('/logout', [LoginController::class, "logoutIndex"]);
 
 Route::get('/qr2fa', [LoginController::class, "qr2fa"])->middleware(EnsureUser2FASetup::class);
 Route::post('/qr2fa', [LoginController::class, "authQR"]);
