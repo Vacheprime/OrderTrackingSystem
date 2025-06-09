@@ -110,7 +110,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 
     /**
@@ -121,7 +121,7 @@ class LoginController extends Controller
         $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => session()->get('employee')['employeeID']]);
 
         if (!$employee) {
-            return redirect('/');
+            return redirect('/login');
         }
 
         $secret = $employee->getAccount()->getSecret();
@@ -309,6 +309,6 @@ class LoginController extends Controller
                 $em->getRepository(Employee::class)->updateEmployee($employee);
             }
         }
-        return redirect("/");
+        return redirect("/login");
     }
 }
