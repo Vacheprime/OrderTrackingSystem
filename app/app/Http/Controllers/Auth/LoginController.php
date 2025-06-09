@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use OTPHP\TOTP;
 use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -104,6 +105,7 @@ class LoginController extends Controller
      * Logs out the user and destroy any cookies
      */
     public function logout(Request $request) {
+        Log::info("Before forget");
         session()->forget('employee');
 
         $request->session()->invalidate();

@@ -19,26 +19,6 @@
     </div>
 </header>
 
-<!-- <header>
-    <img class="crownGraniteLogo" src="{{ asset('images/logo.png') }}" alt="Crown Granite Logo">
-    <div>
-        <select class="selectLanguage">
-            <option value="en">En</option>
-            <option value="fr">Fr</option>
-        </select>
-        @if($logout)
-        <form id="logout-form" action="/logout" method="POST">
-            @csrf
-            <button type="submit" class="regular-button">Logout</button>
-        </form>
-        @endif
-    </div>
-</header> -->
-
-
-
-
-
 <script>
     function switchLanguage(dropdown) {
         const lang = dropdown.value;
