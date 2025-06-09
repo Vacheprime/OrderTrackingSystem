@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use OTPHP\TOTP;
 use app\Utils\Utils;
 use Doctrine\ORM\EntityManager;
@@ -49,7 +48,7 @@ class LoginController extends Controller
     }
 
     /**
-     * GET => '/'
+     * GET => '/login'
      * Fetches the /resources/views/login/index.blade.php
      */
     public function login(EntityManagerInterface $em) {
@@ -62,7 +61,7 @@ class LoginController extends Controller
     }
 
     /**
-     * POST => '/'
+     * POST => '/login'
      * ["username", "password", "rememberLogin"]
      * Authenticates the login information
      */
@@ -110,7 +109,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 
     /**
@@ -121,7 +120,7 @@ class LoginController extends Controller
         $employee = $em->getRepository(Employee::class)->findOneBy(['employeeId' => session()->get('employee')['employeeID']]);
 
         if (!$employee) {
-            return redirect('/');
+            return redirect('/login');
         }
 
         $secret = $employee->getAccount()->getSecret();
@@ -309,6 +308,6 @@ class LoginController extends Controller
                 $em->getRepository(Employee::class)->updateEmployee($employee);
             }
         }
-        return redirect("/");
+        return redirect("/login");
     }
 }

@@ -3,7 +3,7 @@
 <x-login-layout title="Login">
     <div id="login-content" class="main-content">
         <h1>Login</h1>
-        <form class="login-form" action="/" method="POST">
+        <form class="login-form" action="/login" method="POST">
             @csrf
             <x-text-input-property labelText="Username" name="username"/>
             <x-text-input-property labelText="Password" name="password" :password="true"/>
