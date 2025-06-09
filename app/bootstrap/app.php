@@ -3,7 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\EnsureValid2FAUser;
+use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // $middleware->append(EnsureValid2FAUser::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        
+        $exceptions->render(function (HttpException $e, Request $request) {
+            if ($e->getStatusCode() === 419) {
+                return redirect("/login");
+            }
+        });
     })->create();
+
