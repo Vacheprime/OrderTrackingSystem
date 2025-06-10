@@ -9,7 +9,6 @@
         <div id="home-content" class="main-content">
             <div class="home-header">
                 <h2>Recently Viewed</h2>
-                <a href="" class="regular-button">View Table</a>
             </div>
             <div class="table-content">
                 <div class="search-table-div">
@@ -20,7 +19,6 @@
         <div id="home-side-content" class="main-content">
             <div class="home-header">
                 <h2>Recently Changed</h2>
-                <a href="" class="regular-button">View Table</a>
             </div>
             <div class="table-content">
                 <div class="search-table-div">
