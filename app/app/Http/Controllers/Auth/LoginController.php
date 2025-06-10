@@ -160,10 +160,14 @@ class LoginController extends Controller
      * Fetches the /resources/views/login/codeverification.blade.php
      */
     public function code2fa() {
+        // Check if the user is requesting a new password then pass
+        if (session()->has('user_requesting_new_password')) {
+            return view("login.codeverification");
+        }
+        // Get the current employee
         $employeeSessionInfo = session()->get('employee');
         $employeeId = $employeeSessionInfo["employeeID"];
         $employee = $this->employeeRepository->find($employeeId);
-        
         if ($employee->getAccount()->hasSetUp2fa() && $employeeSessionInfo["2fa_setup"]) {
             return redirect('/home');
         }
