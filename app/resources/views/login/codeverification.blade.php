@@ -2,7 +2,7 @@
 
 <x-login-layout title="Verifying">
     <div id="code-verification-content" class="main-content">
-        <h1 id="code-header">2FA</h1>
+        <h1 id="code-header">Two-Factor Authentication</h1>
         <!-- Container that holds the input and its overlay -->
         <form id="code-input-form" method="POST" action="/code2fa">
             <div id="code-input-container">
@@ -23,7 +23,6 @@
                     @error('verification-code')
                     <p class="error-input">{{$message}}</p>
                     @enderror
-                    <a href="" class="resendCode">Resend code?</a>
                 </div>
             </div>
             <button class="regular-button">Verify</button>
