@@ -26,7 +26,7 @@
                 <div class="order-table-td-div">{{$order->getMeasuredBy()->getInitials()}}</div>
             </td>
             <td class="status {{ strtolower($order->getStatus()->value) }}">
-                <div class="order-table-td-div">{{$order->getStatus()->value}}</div>
+                <div class="order-table-td-div">{{ucwords(strtolower(str_replace("_", " ", $order->getStatus()->value)))}}</div>
             </td>
             @if(!$short)
             <td>
