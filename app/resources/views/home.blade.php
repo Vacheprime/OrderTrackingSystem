@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" href="{{ asset('css/orders.css') }}">
 
 <x-layout title="Home">
     <!-- This Blade component refers to layout.blade.php. It's used to define reusable layout structure-->

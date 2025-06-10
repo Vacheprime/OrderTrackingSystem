@@ -148,7 +148,7 @@ class Order implements JsonSerializable {
             "measuredBy" => $this->measuredBy->getEmployeeId(),
             "referenceNumber" => $this->referenceNumber,
             "invoiceNumber" => $this->invoiceNumber ?? "No invoice associated.",
-            "totalPrice" => $this->price,
+            "totalPrice" => $this->price . " $",
             "orderStatus" => $this->status,
             "fabricationStartDate" => $this->fabricationStartDate == null ? "-" : $this->fabricationStartDate->format("Y / m / d"),
             "installationStartDate" => $this->estimatedInstallDate == null ? "-" : $this->estimatedInstallDate->format("Y / m / d"),

@@ -142,9 +142,9 @@ class PaymentController extends Controller {
             "paymentId" => $payment->getPaymentId(),
             "orderId" => $payment->getOrder()->getOrderId(),
             "paymentDate" => $payment->getPaymentDate()->format("Y / m / d"),
-            "amount" => $payment->getAmount(),
-            "type" => $payment->getType(),
-            "method" => $payment->getMethod(),
+            "amount" => $payment->getAmount() . " $",
+            "type" => ucwords(strtolower($payment->getType()->value)),
+            "method" => ucwords(strtolower($payment->getMethod())),
         ));
     }
 
