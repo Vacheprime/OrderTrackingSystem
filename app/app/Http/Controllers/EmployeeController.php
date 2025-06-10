@@ -149,8 +149,8 @@ class EmployeeController extends Controller
             "addressAptNum"=> $employee->getAddress()->getAppartmentNumber(),
             "postalCode"=> $employee->getAddress()->getPostalCode(),
             "area"=> $employee->getAddress()->getArea(),
-            "accountStatus"=> $employee->getAccount()->isAccountEnabled(),
-            "adminStatus"=> $employee->getAccount()->isAdmin(),
+            "accountStatus"=> $employee->getAccount()->isAccountEnabled() ? "Enabled" : "Disabled",
+            "adminStatus"=> $employee->getAccount()->isAdmin() ? "Admin" : "Employee",
         ));
     }
 
