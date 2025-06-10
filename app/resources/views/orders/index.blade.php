@@ -70,8 +70,8 @@
                         <p><b>Slab Square Footage:</b><span id="detail-slab-square-footage">-</span></p>
                         <p><b>Sink Type:</b><span id="detail-sink-type">-</span></p>
                         <p><b>Fabrication Plan Image:</b><a id="detail-fabrication-plan-image" target="_blank" href="">Plan Image</a></p>
-                        <p><b>Product Description:</b><x-area-input-property name="detail-product-description" labelText="Product Description" :isLabel="false"/></p>
-                        <p><b>Product Notes:</b><x-area-input-property name="detail-product-notes" labelText="Product Notes" :isLabel="false"/></p>
+                        <p><b>Product Description:</b><x-area-input-property name="detail-product-description" labelText="Product Description" :isLabel="false" :readonly="true"/></p>
+                        <p><b>Product Notes:</b><x-area-input-property name="detail-product-notes" labelText="Product Notes" :isLabel="false" :readonly="true"/></p>
                     </div>
                 </div>
                 <div class="side-content-details-options">
