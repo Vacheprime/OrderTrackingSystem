@@ -54,7 +54,9 @@ class LoginController extends Controller
      */
     public function login(EntityManagerInterface $em) {
         session()->forget('user_requesting_new_password');
-        if (session()->has('employee') && session()->get('employee')['2fa_setup'] == true) {
+        Log::info(session()->get("employee"));
+        $employeeInfo = session()->get('employee');
+        if (session()->has('employee') && $employeeInfo['2fa_setup']) {
             return redirect('/home');
         }
 

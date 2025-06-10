@@ -27,7 +27,7 @@ class EnsureAdminSession
     public function handle(Request $request, Closure $next): Response
     {
         // Check if the session has an 'employee' key
-        if (!session()->has('employee')) {
+        if (!session()->has('employee') || !session()->get('employee')['2fa_setup']) {
             // Send a 401 error response if the content requested is json or is a refresh
             if ($request->expectsJson() || $request->hasHeader("x-refresh-table") || $request->hasHeader("x-change-details")) {
                 return response()->json(['error' => 'Unauthorized', 'redirectTo' => "/"], 401);

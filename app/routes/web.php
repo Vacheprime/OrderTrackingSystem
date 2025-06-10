@@ -18,7 +18,7 @@ use App\Http\Middleware\EnsureEmployeeSession;
 
 // Route for base URL
 Route::get('/', function () {
-    if (session()->has('employee')) {
+    if (session()->has('employee') && session()->get('employee')['2fa_setup']) {
         return redirect('/home');
     }
     return redirect('/login');
