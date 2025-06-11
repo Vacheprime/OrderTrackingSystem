@@ -4,20 +4,16 @@ namespace App\Http\Controllers;
 
 use app\Doctrine\ORM\Entity\Order;
 use app\Doctrine\ORM\Entity\Payment;
-use app\Doctrine\ORM\Entity\PaymentType;
 use app\Doctrine\ORM\Repository\PaymentRepository;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Http\Requests\PaymentIndexRequest;
 use App\Http\Requests\PaymentUpdateRequest;
-use app\Utils\Utils;
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
-use function Laravel\Prompts\alert;
 
 class PaymentController extends Controller {
 

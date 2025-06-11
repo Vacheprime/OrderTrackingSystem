@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\PaymentFieldRules;
 
+use app\Doctrine\ORM\Entity\PaymentType;
 use Closure;
 use App\Rules\BaseValidationRule;
-use app\Utils\Utils;
 
-class ValidPaymentMethodRule extends BaseValidationRule
+class ValidPaymentTypeRule extends BaseValidationRule
 {
     /**
      * Run the validation rule.
@@ -20,9 +20,11 @@ class ValidPaymentMethodRule extends BaseValidationRule
             return; // fail fast
         }
 
-        // Validate the payment method using Utils::validatePaymentMethod
-        if (!Utils::validatePaymentMethod($value)) {
-            $fail("The payment method is not valid.");
+        // Validate the payment type
+        $paymentType = PaymentType::tryFrom(strtoupper($value));
+        if ($paymentType === null) {
+            $fail("The payment type is not valid.");
+            return;
         }
     }
 
@@ -40,8 +42,8 @@ class ValidPaymentMethodRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.required" => "The payment method is required.",
-            "$attribute.string" => "The payment method must be a valid string.",
+            "$attribute.required" => "The payment type is required.",
+            "$attribute.string" => "The payment type must be a valid string.",
         ];
     }
 }
