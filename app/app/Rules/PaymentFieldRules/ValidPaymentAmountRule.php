@@ -22,7 +22,7 @@ class ValidPaymentAmountRule extends BaseValidationRule
 
         // Validate the payment amount using Utils::validatePositiveAmount
         if (!Utils::validatePositiveAmount($value)) {
-            $fail("The payment amount must be a positive number greater than zero.");
+            $fail("The payment amount must be a positive number greater than zero and can contain at most 8 digits before the decimal and at most 2 decimals (e.g., 12345678.91).");
         }
     }
 
