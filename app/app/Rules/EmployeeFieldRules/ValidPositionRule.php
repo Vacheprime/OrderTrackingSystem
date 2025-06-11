@@ -24,7 +24,7 @@ class ValidPositionRule extends BaseValidationRule
         // Execute secondary validation (Business validation)
         // Check if the position is valid
         if (!Utils::validatePosition($value)) {
-            $fail("The position is of invalid format.");
+            $fail("The position must be 25 characters or less and can contain letters, digits, apostrophes, dashes, and spaces.");
         }
     }
 
