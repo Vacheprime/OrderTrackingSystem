@@ -4,8 +4,6 @@ namespace App\Rules\EmployeeFieldRules;
 
 use App\Rules\BaseValidationRule;
 use Closure;
-use Illuminate\Support\Facades\Log;
-
 class ValidAdminStatusRule extends BaseValidationRule
 {
     /**
@@ -23,7 +21,7 @@ class ValidAdminStatusRule extends BaseValidationRule
         // Check if admin status is disabled or enabled
         $allowedValues = ["enabled", "disabled"];
         if (!in_array(strtolower($value), $allowedValues)) {
-            $fail("The admin status must be either disabled or enabled.");
+            $fail("The admin status must be either 'disabled' or 'enabled'.");
         }
     }
 
