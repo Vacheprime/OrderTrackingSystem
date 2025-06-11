@@ -22,7 +22,7 @@ class ValidPaymentMethodRule extends BaseValidationRule
 
         // Validate the payment method using Utils::validatePaymentMethod
         if (!Utils::validatePaymentMethod($value)) {
-            $fail("The payment method is not valid.");
+            $fail("The payment method must be 50 characters or less and contain letters, dashes, apostrophes, or spaces.");
         }
     }
 
