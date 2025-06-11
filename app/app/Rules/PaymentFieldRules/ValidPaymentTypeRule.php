@@ -23,7 +23,7 @@ class ValidPaymentTypeRule extends BaseValidationRule
         // Validate the payment type
         $paymentType = PaymentType::tryFrom(strtoupper($value));
         if ($paymentType === null) {
-            $fail("The payment type is not valid.");
+            $fail("The payment type must be 'deposit' or 'installment'.");
             return;
         }
     }
