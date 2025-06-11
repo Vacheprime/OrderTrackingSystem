@@ -295,7 +295,7 @@ class Utils {
      * Checks whether an invoice number is valid.
      * 
      * The format for an invoice number is a string ranging from
-     * 1 to 100 characters inclusively. Accepted characters are uppercase
+     * 1 to 100 characters i nclusively. Accepted characters are uppercase
      * and lowercase English letters and digits.
      * 
      * @param string $invoiceNumber The invoice number to validate.

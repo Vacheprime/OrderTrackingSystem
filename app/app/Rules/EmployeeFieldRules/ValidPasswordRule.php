@@ -5,8 +5,6 @@ namespace App\Rules\EmployeeFieldRules;
 use App\Rules\BaseValidationRule;
 use app\Utils\Utils;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Log;
 
 class ValidPasswordRule extends BaseValidationRule
 {
@@ -24,7 +22,6 @@ class ValidPasswordRule extends BaseValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        Log::info("VALIDATING");
         if (!$this->isRequired && (empty($value) || is_null($value))) {
             return; // If not required and empty, skip validation
         }
@@ -36,7 +33,7 @@ class ValidPasswordRule extends BaseValidationRule
         // Execute secondary validation (Business validation)
         // Check if the password is valid
         if (!Utils::validatePassword($value)) {
-            $fail("The password is of invalid format.");
+            $fail("The password must range from 12 to 100 characters and contain an uppercase and lowercase letter, a digit, and a special character.");
         }
     }
 
