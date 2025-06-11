@@ -23,7 +23,7 @@ class ValidInvoiceNumberRule extends BaseValidationRule
 
         // Execute secondary validation
         if ($value !== null && !Utils::validateInvoiceNumber($value)) {
-            $fail("The invoice number is of invalid format!");
+            $fail("The invoice number must be 100 characters or less and can contain letters, digits, dashes, plus signs, and spaces.");
         }
     }
 
