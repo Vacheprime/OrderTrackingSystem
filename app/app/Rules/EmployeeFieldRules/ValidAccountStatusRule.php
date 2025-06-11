@@ -22,7 +22,7 @@ class ValidAccountStatusRule extends BaseValidationRule
         // Check if admin status is disabled or enabled
         $allowedValues = ["enabled", "disabled"];
         if (!in_array(strtolower($value), $allowedValues)) {
-            $fail("The admin status must be either disabled or enabled.");
+            $fail("The admin status must be either 'disabled' or 'enabled'.");
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\PaymentFieldRules;
 
 use Closure;
 use App\Rules\BaseValidationRule;

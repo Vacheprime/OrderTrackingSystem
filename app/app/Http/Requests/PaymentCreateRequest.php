@@ -5,9 +5,9 @@ namespace App\Http\Requests;
 use app\Doctrine\ORM\Entity\PaymentType;
 use App\Rules\OrderFieldRules\ValidOrderIdRule;
 use App\Rules\PaymentFieldRules\ValidPaymentAmountRule;
-use App\Rules\ValidPaymentDateRule;
-use App\Rules\ValidPaymentMethodRule;
-use App\Rules\ValidPaymentTypeRule;
+use App\Rules\PaymentFieldRules\ValidPaymentDateRule;
+use App\Rules\PaymentFieldRules\ValidPaymentMethodRule;
+use App\Rules\PaymentFieldRules\ValidPaymentTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use DateTime;
 

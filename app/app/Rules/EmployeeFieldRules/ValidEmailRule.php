@@ -33,7 +33,7 @@ class ValidEmailRule extends BaseValidationRule
         // Execute secondary validation (Business validation)
         // Check if the email is valid
         if (!Utils::validateEmail($value)) {
-            $fail("The email is of invalid format.");
+            $fail("The email must be 75 characters or less and must be a valid.");
         }
 
         // Ignore the check if the email is the same as the current employee being edited

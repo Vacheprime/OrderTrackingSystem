@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\PaymentFieldRules;
 
-use app\Doctrine\ORM\Entity\Payment;
 use app\Doctrine\ORM\Entity\PaymentType;
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Validation\Rules\Enum;
+use App\Rules\BaseValidationRule;
 
 class ValidPaymentTypeRule extends BaseValidationRule
 {
@@ -25,7 +23,7 @@ class ValidPaymentTypeRule extends BaseValidationRule
         // Validate the payment type
         $paymentType = PaymentType::tryFrom(strtoupper($value));
         if ($paymentType === null) {
-            $fail("The payment type is not valid.");
+            $fail("The payment type must be 'deposit' or 'installment'.");
             return;
         }
     }

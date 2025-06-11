@@ -22,7 +22,7 @@ class ValidPostalCodeRule extends BaseValidationRule
         }
 
         if (!Utils::validatePostalCode($value)) {
-            $fail("The postal code is of invalid format.");
+            $fail("The postal code must be of the format LDL DLD where L is a letter and D is a digit. The first letter must be valid according to the Canadian postal code system.");
         }
     }
 

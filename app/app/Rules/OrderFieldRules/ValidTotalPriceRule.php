@@ -23,7 +23,7 @@ class ValidTotalPriceRule extends BaseValidationRule
 
         // Validate the price
         if (!Utils::validatePositiveAmount($value)) {
-            $fail("The total price must be a positive number.");
+            $fail("The total price must be a positive number greater than zero and can contain at most 8 digits before the decimal and at most 2 decimals (e.g., 12345678.91).");
         }
     }
 

@@ -23,7 +23,7 @@ class ValidStreetRule extends BaseValidationRule
         }
         
         if (!Utils::validateStreetName($value)) {
-            $fail("The street name is of invalid format.");
+            $fail("The street name must be 75 characters or less and can contain letters, digits, spaces, periods, dashes, and quotes.");
         }
     }
 

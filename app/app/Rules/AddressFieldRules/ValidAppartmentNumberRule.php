@@ -22,7 +22,7 @@ class ValidAppartmentNumberRule extends BaseValidationRule
         }
 
         if ($value !== null && !Utils::validateAptNumber($value)) {
-            $fail("The appartment number is of invalid format.");
+            $fail("The apartment number must be 15 characters or less, and can only contain letters, spaces, numbers, and the following characters: - . /");
         }
     }
 
@@ -40,7 +40,7 @@ class ValidAppartmentNumberRule extends BaseValidationRule
      */
     protected function getErrorMessages(string $attribute): array {
         return [
-            "$attribute.string" => "The appartment number must be text."
+            "$attribute.string" => "The apartment number must be text."
         ];
     }
 }

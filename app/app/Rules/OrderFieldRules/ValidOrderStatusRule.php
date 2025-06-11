@@ -23,7 +23,7 @@ class ValidOrderStatusRule extends BaseValidationRule
 
         // Validate order status
         if (Status::tryFrom(strtoupper($value)) === null) {
-            $fail("The order status is not one of the accepted values.");
+            $fail("The order status must be 'measuring', 'ordering_material', 'fabricating', 'ready_to_handover', 'installed', or 'picked_up'.");
         }
     }
 

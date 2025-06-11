@@ -172,7 +172,7 @@ class Utils {
      */
     public static function validateClientReference(string $reference): bool {
         if (self::hasInvalidSpaces($reference)) return false;
-        return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $reference) === 1;
+        return preg_match('/^[\p{L}\d\'\- ]{1,100}$/u', $reference) === 1;
     }
 
     // ### Employee Validation Functions ###
@@ -296,7 +296,7 @@ class Utils {
      * 
      * The format for an invoice number is a string ranging from
      * 1 to 100 characters inclusively. Accepted characters are uppercase
-     * and lowercase English letters and digits.
+     * and lowercase English letters, digits, dashes, spaces, and plus signs.
      * 
      * @param string $invoiceNumber The invoice number to validate.
      * @return bool A boolean indicating whether the invoice number is valid.

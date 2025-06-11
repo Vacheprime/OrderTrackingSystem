@@ -22,7 +22,7 @@ class ValidPhoneNumberRule extends BaseValidationRule
         }
         
         if ($value !== null && !Utils::validatePhoneNumber($value)) {
-            $fail("The phone number is of invalid format.");
+            $fail("The phone number must be 17 characters or less and can contain digits, spaces, parentheses, dashes, and plus signs.");
         }
     }
 

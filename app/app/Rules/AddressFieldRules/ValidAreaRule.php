@@ -22,7 +22,7 @@ class ValidAreaRule extends BaseValidationRule
         }
 
         if (!Utils::validateArea($value)) {
-            $fail("The area is of invalid format.");
+            $fail("The area must be 50 characters or less and contain letters, dashes, spaces, periods, or quotes.");
         }
     }
 

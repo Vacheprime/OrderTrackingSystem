@@ -24,7 +24,7 @@ class ValidInitialsRule extends BaseValidationRule
         // Execute secondary validation (Business validation)
         // Check if the initials are valid
         if (!Utils::validateInitials($value)) {
-            $fail("The initials are of invalid format.");
+            $fail("The initials must be 10 characters or less and contain only letters, periods, and spaces.");
         }
     }
 

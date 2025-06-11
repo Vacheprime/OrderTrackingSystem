@@ -23,7 +23,7 @@ class ValidMaterialNameRule extends BaseValidationRule
 
         // Validate the material name
         if ($value !== null && !Utils::validateMaterial($value)) {
-            $fail("The material name is of invalid format.");
+            $fail("The material name must be 100 characters or less and can contain letters, digits, apostrophes, dashes, and spaces.");
         }
     }
 
