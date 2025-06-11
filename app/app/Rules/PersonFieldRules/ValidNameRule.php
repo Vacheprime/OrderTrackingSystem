@@ -23,7 +23,7 @@ class ValidNameRule extends BaseValidationRule
         }
 
         if (!Utils::validateName($value)) {
-            $fail("The name is of invalid format.");
+            $fail("The name must be 50 characters or less and can contain letters, apostrophes, dashes, and spaces.");
         }
     }
 
