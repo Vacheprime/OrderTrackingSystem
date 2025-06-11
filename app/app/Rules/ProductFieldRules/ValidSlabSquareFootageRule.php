@@ -23,7 +23,7 @@ class ValidSlabSquareFootageRule extends BaseValidationRule
         
         // Validate the slab square footage
         if ($value !== null && !Utils::validateSlabSquareFootage($value)) {
-            $fail("The slab square footage is of invalid format.");
+            $fail("The slab square footage must be a positive number with at most 6 digits before the decimal point and at most 2 decimal places (e.g., 123456.78).");
         }
     }
 
