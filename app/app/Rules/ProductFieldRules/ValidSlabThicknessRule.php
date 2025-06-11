@@ -23,7 +23,7 @@ class ValidSlabThicknessRule extends BaseValidationRule
 
         // Validate slab thickness
         if ($value !== null && !Utils::validateSlabThickness($value)) {
-            $fail("The slab thickness must be a positive number.");
+            $fail("The slab thickness must be a positive number which contains at most 2 digits before the decimal and at most 2 decimal digits.");
         }
     }
 

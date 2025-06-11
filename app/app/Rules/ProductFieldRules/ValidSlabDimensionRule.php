@@ -23,7 +23,7 @@ class ValidSlabDimensionRule extends BaseValidationRule
 
         // Validate the slab height
         if ($value !== null && !Utils::validateSlabDimension($value)) {
-            $fail("The slab dimension must be a positive number.");
+            $fail("The slab dimension must be a positive number which contains at most 4 digits before the decimal and at most 2 decimal digits (e.g., 1234.56).");
         }
     }
 
