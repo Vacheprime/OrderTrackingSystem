@@ -172,7 +172,7 @@ class Utils {
      */
     public static function validateClientReference(string $reference): bool {
         if (self::hasInvalidSpaces($reference)) return false;
-        return preg_match('/[\p{L}\d\'\- ]{1,100}/u', $reference) === 1;
+        return preg_match('/^[\p{L}\d\'\- ]{1,100}$/u', $reference) === 1;
     }
 
     // ### Employee Validation Functions ###
