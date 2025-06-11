@@ -22,7 +22,7 @@ class ValidReferenceNumberRule extends BaseValidationRule
         }
         
         if ($value !== null && !Utils::validateClientReference($value)) {
-            $fail("The reference number is of invalid format.");
+            $fail("The reference number must be 100 characters or less and can contain letters, digits, apostrophes, dashes, and spaces.");
         }
     }
 
